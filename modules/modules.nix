@@ -5,5 +5,6 @@
     ./desktops/hyprland.nix
     ./localization.nix
     ./dev.nix
+    ./school.nix
   ];
 }
