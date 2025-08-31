@@ -32,6 +32,8 @@
         size = "12px";
       };
     };
+
+    clock.format="%a %b %d  %H:%M";
   };
 
   wayland.windowManager.hyprland = {
