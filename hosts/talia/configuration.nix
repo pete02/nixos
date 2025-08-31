@@ -44,6 +44,13 @@
     ];
   };
 
+  home-manager = {
+    extraSpecialArgs = {inherit inputs;};
+    users= {
+      "pete" = import ./../../home/home.nix;
+    };
+  };
+ 
   programs.firefox.enable = true;
 
   environment.systemPackages = with pkgs; [
