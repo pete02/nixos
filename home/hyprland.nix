@@ -1,9 +1,43 @@
 {pkgs, lib, config, ...}:
 {
+  programs.hyprpanel = {
+    enable = true;
+    settings = {
+      layout = {
+        bar.layouts = {
+          "0" = {
+            left = [ "dashboard" "workspaces" ];
+            middle = [ "media" ];
+            right = [ "volume" "systray" "notifications" ];
+          };
+        };
+      };
+
+      bar.launcher.autoDetectIcon = true;
+      bar.workspaces.show_icons = true;
+
+      menus.clock = {
+        time = {
+          military = true;
+          hideSeconds = true;
+        };
+        weather.unit = "metric";
+      };
+
+      menus.dashboard.directories.enabled = false;
+      theme.bar.transparent = true;
+
+      theme.font = {
+        name = "CaskaydiaCove NF";
+        size = "16px";
+      };
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-      exec-once = ''${pkgs.waybar}/bin/waybar'';
+      exec-once = ''${pkgs.hyprpanel}/bin/hyprpanel'';
       monitor=[
         "eDP-1,preferred,auto,auto"
         "HDMI-A-1,preferred,auto,auto"
@@ -60,8 +94,7 @@
       "$mod, V, killactive"
       "$mod, left, movefocus, l"
       "$mod, right, movefocus, r"
-      "$mod, up, movefocus, u"
-      "$mod, down, movefocus, d"
+      "$mod, up, fullscreenstate, 1"
       "$mod, mouse_down, workspace, e+1"
       "$mod, mouse_up, workspace, e-1"
       ];

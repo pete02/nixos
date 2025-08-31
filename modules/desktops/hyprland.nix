@@ -12,15 +12,15 @@
   config = lib.mkIf config.hyprland.enable {
     programs.hyprland.enable = true;
     programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-
     environment.systemPackages = with pkgs; [
       kitty
-      waybar
-      (waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      }))
+      #waybar
+      #(waybar.overrideAttrs (oldAttrs: {
+      #  mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+      #}))
       dunst
       libnotify
+      hyprpanel
       swww
       rofi-wayland
     ];
