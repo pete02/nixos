@@ -11,9 +11,11 @@
   };
   config = lib.mkIf config.hyprland.enable {
 
-    programs.hyprland.enable = true;
-    programs.hyprland.xwayland = true;
-    programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    programs.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    };
     environment.systemPackages = with pkgs; [
       kitty
       #waybar
@@ -27,7 +29,7 @@
       rofi-wayland
     ];
 
-    fonts.packages = with pkgs;[ nerd-fonts.arimo ];
+    fonts.packages = with pkgs; [ nerd-fonts.arimo ];
 
     xdg.portal.enable = true;
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
@@ -48,8 +50,7 @@
           command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
           user = "pete";
         };
-      }
-      ;
+      };
     };
   };
 
