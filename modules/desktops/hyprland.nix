@@ -43,12 +43,33 @@
       jack.enable = true;
     };
     services.upower.enable = true;
+
+    users.users.greeter = {
+      isSystemUser = true;
+      description = "Greeter user for greetd";
+      home = "/var/lib/greetd";
+    };
+
+    systemd.services."hyprland-greeter" = {
+      description = "Hyprland for greetd";
+      after = [ "systemd-user-sessions.service" "seatd.service" ];
+      wants = [ "seatd.service" ];
+      serviceConfig = {
+        ExecStart = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland";
+        User = "greeter";   # we’ll make a dedicated user
+        PAMName = "login";
+        Environment = "XDG_SESSION_TYPE=wayland";
+        Restart = "always";
+      };
+      wantedBy = [ "graphical.target" ];
+    };
+
     services.greetd = {
       enable = true;
       settings = {
         default_session = {
           command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
-          user = "pete";
+          user = "greeter";
         };
       };
     };
