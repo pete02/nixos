@@ -1,11 +1,13 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 {
   imports = [
     ./hardware-configuration.nix
     ./../../modules/modules.nix
+    inputs.home-manager.nixosModules.default
   ];
 
   nix.settings.experimental-features = [
@@ -15,6 +17,7 @@
   nixpkgs.config.allowUnfree = true;
 
 
+ 
   system.autoUpgrade = {
     enable = true;
     dates = "weekly";
