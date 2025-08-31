@@ -12,12 +12,12 @@
               right = [ "volume" "network" "battery" "systray" "notifications" ];
             };
           };
-        clock.format="%a %b %d  %H:%M";
         };
       };
 
       bar.launcher.autoDetectIcon = true;
       bar.workspaces.show_icons = true;
+      bar.clock.format="%a %b %d  %H:%M";
 
       menus.clock = {
         time = {
