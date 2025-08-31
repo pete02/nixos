@@ -4,12 +4,15 @@
     enable = true;
     settings = {
       layout = {
-        bar.layouts = {
-          "0" = {
-            left = [ "dashboard" "workspaces" ];
-            middle = [ "media" ];
-            right = [ "volume" "network" "battery" "systray" "notifications" ];
+        bar={
+          layouts = {
+            "0" = {
+              left = [ "dashboard" "workspaces" ];
+              middle = [ "media" ];
+              right = [ "volume" "network" "battery" "systray" "notifications" ];
+            };
           };
+        clock.format="%a %b %d  %H:%M";
         };
       };
 
@@ -33,7 +36,7 @@
       };
     };
 
-    clock.format="%a %b %d  %H:%M";
+    
   };
 
   wayland.windowManager.hyprland = {
