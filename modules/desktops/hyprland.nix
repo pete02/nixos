@@ -10,7 +10,9 @@
     hyprland.enable = lib.mkEnableOption "enables hyprland";
   };
   config = lib.mkIf config.hyprland.enable {
+
     programs.hyprland.enable = true;
+    programs.hyprland.xwayland = true;
     programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
     environment.systemPackages = with pkgs; [
       kitty

@@ -60,6 +60,7 @@
     wget
     git
     brave
+    kdePackages.dolphin
   ];
 
   system.stateVersion = "25.05";

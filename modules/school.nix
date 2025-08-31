@@ -11,7 +11,7 @@
   config = lib.mkIf config.school.enable {
     environment.systemPackages = with pkgs; [
       obsidian
-      maxima
+      wineWowPackages.waylandFull
     ];
   };
 }
