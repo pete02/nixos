@@ -31,14 +31,15 @@
   nix.settings.auto-optimise-store = true;
 
   networking.hostName = "talia";
-  networking.wireless.enable = true;
+  networking.wireless.enable = false;
+  networking.networkmanager.enable = true;
 
   hyprland.enable = true;
   dev.enable = true;
 
   users.users.pete = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "networkmanager" ];
     packages = with pkgs; [
       tree
     ];

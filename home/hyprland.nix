@@ -8,7 +8,7 @@
           "0" = {
             left = [ "dashboard" "workspaces" ];
             middle = [ "media" ];
-            right = [ "volume" "systray" "notifications" ];
+            right = [ "volume" "network" "battery" "systray" "notifications" ];
           };
         };
       };
@@ -29,7 +29,7 @@
 
       theme.font = {
         name = "CaskaydiaCove NF";
-        size = "16px";
+        size = "12px";
       };
     };
   };
