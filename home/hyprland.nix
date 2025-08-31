@@ -1,4 +1,4 @@
-{pkgs, lib, config, ...}:
+{pkgs, ...}:
 {
   programs.hyprpanel = {
     enable = true;
@@ -45,7 +45,7 @@
 
       general={
         gaps_in = "5";
-        gaps_out = "20";
+        gaps_out = "5";
         resize_on_border = false;
         allow_tearing = false;
         layout = "dwindle";
