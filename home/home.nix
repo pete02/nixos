@@ -1,9 +1,9 @@
-{ ... }:
+{pkgs,lib, ... }:
 
 {
   home.username = "pete";
   home.homeDirectory = "/home/pete";
-
+  
   home.stateVersion = "25.05"; # Please read the comment before changing.
   imports=[
     ./hyprland.nix    
@@ -11,6 +11,15 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.obsidian(
+      lib.hiPrio(
+        pkgs.runCommand "obisidan-desktop-modify" { } ''
+          mkdir -p $out/share/applications
+          substitute ${pkgs.obsidian}/share/applications/obsidian.desktop $out/share/applications/obsidian.desktop \
+            --replace-fail "Exec=obsidian %u" "Exec=obsidian --ozone-platform=wayland"
+        ''
+      )
+    )
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
