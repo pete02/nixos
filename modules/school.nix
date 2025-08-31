@@ -13,5 +13,14 @@
       obsidian
       wineWowPackages.waylandFull
     ];
+
+    nixpkgs.overlays = [
+      (self: super: {
+        obsidian = super.obsidian.override {
+          commandLineArgs = "--ozone-platform=wayland";
+        };
+      })
+    ]
+    ;
   };
 }
