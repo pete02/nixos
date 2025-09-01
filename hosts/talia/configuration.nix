@@ -16,7 +16,6 @@
   ];
   nixpkgs.config.allowUnfree = true;
 
-
   system.autoUpgrade = {
     enable = true;
     dates = "weekly";
@@ -54,6 +53,11 @@
     };
   };
  
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs;[
+
+  ];
+  
   programs.firefox.enable = true;
 
   environment.systemPackages = with pkgs; [
