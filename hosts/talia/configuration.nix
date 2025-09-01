@@ -36,6 +36,7 @@
   dev.enable = true;
   school.enable = true;
   powersave.enable = true;
+  fhs.enable = true;
 
   users.users.pete = {
     isNormalUser = true;

@@ -102,6 +102,7 @@
       "$mod, up, fullscreenstate, 1"
       "$mod, mouse_down, workspace, e+1"
       "$mod, mouse_up, workspace, e-1"
+      "$mod, V, togglefloating"
       ];
       bindel=[
         ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"

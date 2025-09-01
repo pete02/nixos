@@ -1,8 +1,10 @@
 { config, pkgs, lib, ... }:
-
 {
-
-  environment.systemPackages = with pkgs; [
+  options={
+    fhs.enable = lib.mkEnableOption "enable fhs";
+  };
+  config = lib.mkIf config.fhs.enable{
+    environment.systemPackages = with pkgs; [
 
     # Create an FHS environment using the command `fhs`, enabling the execution of non-NixOS packages in NixOS!
     (let base = pkgs.appimageTools.defaultFhsEnvArgs; in
@@ -20,6 +22,5 @@
       extraOutputsToInstall = ["dev"];
     }))
   ];
-
-  # ......omit many configurations
+  };
 }
