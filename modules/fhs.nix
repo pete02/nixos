@@ -14,7 +14,10 @@
         # pkgs.appimageTools provides basic packages required by most software.
         (base.targetPkgs pkgs) ++ (with pkgs; [
           pkg-config
-          ncurses
+          ncurses'
+          glibc
+          lsb_release
+          lsb
         ]
       );
       profile = "export FHS=1";

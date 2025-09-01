@@ -53,11 +53,6 @@
       "pete" = import ./../../home/home.nix;
     };
   };
- 
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs;[
-
-  ];
   
   programs.firefox.enable = true;
 
