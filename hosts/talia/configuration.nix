@@ -36,6 +36,7 @@
   hyprland.enable = true;
   dev.enable = true;
   school.enable = true;
+  powersave.enable = true;
 
   users.users.pete = {
     isNormalUser = true;
