@@ -6,6 +6,6 @@
     ./localization.nix
     ./dev.nix
     ./school.nix
-    ./powermanagement.nix
+    ./batterymanagement.nix
   ];
 }
