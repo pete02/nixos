@@ -7,6 +7,5 @@
     ./dev.nix
     ./school.nix
     ./batterymanagement.nix
-    ./fhs.nix
   ];
 }
