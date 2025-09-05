@@ -60,6 +60,7 @@
     wget
     git
     zip
+    unzip
     brave
     kdePackages.dolphin
   ];
