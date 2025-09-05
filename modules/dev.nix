@@ -14,6 +14,9 @@
       vscode
       pkgs.nixd
       nixfmt-rfc-style
+      docker
+      docker-compose
+      deno
     ];
 
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];

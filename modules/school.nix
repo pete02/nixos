@@ -20,6 +20,7 @@
 
     environment.systemPackages = with pkgs; [
       obsidian
+      wineWow64Packages.waylandFull
     ];
   };
 }
