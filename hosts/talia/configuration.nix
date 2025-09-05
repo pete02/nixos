@@ -59,6 +59,7 @@
     vim
     wget
     git
+    zip
     brave
     kdePackages.dolphin
   ];
