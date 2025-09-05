@@ -10,12 +10,17 @@
     dev.enable = lib.mkEnableOption "enables dev tools";
   };
   config = lib.mkIf config.dev.enable {
+    virtualisation.docker.enable = true;
+    virtualisation.docker.storageDriver = "btrfs";
+    virtualisation.docker.rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+    
     environment.systemPackages = with pkgs; [
       vscode
       pkgs.nixd
       nixfmt-rfc-style
-      docker
-      docker-compose
       deno
     ];
 
