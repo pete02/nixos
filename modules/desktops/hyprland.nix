@@ -66,7 +66,7 @@
         default_session = {
           # Run Hyprland first, then launch gtkgreet inside it
           command = ''
-            ${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland.conf \
+            ${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland-greetd.conf \
               -- ${pkgs.greetd.gtkgreet}/bin/gtkgreet -l -s
           '';
           user = "greeter";
