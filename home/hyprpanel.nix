@@ -1,7 +1,7 @@
 { ... }:
 {
   programs.hyprpanel = {
-    enabled = true;
+    enable = true;
     settings = {
       layout = {
         bar = {
