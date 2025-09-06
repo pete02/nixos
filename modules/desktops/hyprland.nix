@@ -28,6 +28,8 @@
       gtkgreet
       swww
       rofi-wayland
+      cage
+      gtkgreet
       regreet
     ];
 
@@ -60,11 +62,15 @@
           user = "pete";
         };
         initial_session = {
-          command = "${lib.getExe config.programs.hyprland.package} --config /etc/greetd/hyprland-greetd.conf";
+          command = "${pkgs.cage}/bin/cage -s -- ${pkgs.gtkgreet}/bin/gtkgreet";
           user = "greeter";
         };
       };
     };
+
+    environment.etc."greetd/environments".text = ''
+      dbus-run-session -- ${lib.getExe config.programs.hyprland.package}
+    '';
   };
 
 }
