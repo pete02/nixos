@@ -85,12 +85,6 @@
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # lazy-start firewall
-  systemd.services.firewall = {
-    enable = true;
-    wantedBy = [ ];
-    serviceConfig.Type = "idle";
-  };
-
   systemd.timers.firewall-start = {
     description = "Start firewall after boot";
     wantedBy = [ "timers.target" ];
