@@ -25,7 +25,7 @@
       #}))
       dunst
       libnotify
-
+      gtkgreet
       swww
       rofi-wayland
     ];
@@ -54,12 +54,22 @@
       serviceConfig.Environment = "XDG_RUNTIME_DIR=/run/user/${toString config.users.users.pete.uid}";
     };
 
+    users.users.greeter = {
+      isSystemUser = true;
+      createHome = true;
+      description = "Greeter user for greetd/gtkgreet";
+    };
+
     services.greetd = {
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd=echo 'login complete'";
-          user = "pete";
+          # Run Hyprland first, then launch gtkgreet inside it
+          command = ''
+            ${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland.conf \
+              -- ${pkgs.greetd.gtkgreet}/bin/gtkgreet -l -s
+          '';
+          user = "greeter";
         };
       };
     };
