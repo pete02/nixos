@@ -29,9 +29,6 @@
     "mem_sleep_default=deep"
   ];
 
-  boot.fsck.enable = true;
-  boot.fsck.parallel = true;
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -39,6 +36,7 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/0df107ff-ef24-48ea-af89-6a43e7ac6d73";
     fsType = "btrfs";
+    fsPassNo = 1;
     options = [
       "subvol=root"
       "compress=zstd"
