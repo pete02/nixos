@@ -29,6 +29,9 @@
     "mem_sleep_default=deep"
   ];
 
+  boot.fsck.enable = true;
+  boot.fsck.parallel = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -83,4 +86,19 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  # lazy-start firewall
+  systemd.services.firewall = {
+    enable = true;
+    wantedBy = [ ];
+    serviceConfig.Type = "idle";
+  };
+
+  systemd.timers.firewall-start = {
+    description = "Start firewall after boot";
+    wantedBy = [ "timers.target" ];
+    timerConfig.OnBootSec = "5s";
+    timerConfig.Unit = "firewall.service";
+  };
+
 }
