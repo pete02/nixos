@@ -9,7 +9,6 @@
     enable = true;
     settings = {
       exec-once = [
-        ''${pkgs.hyprpanel}/bin/hyprpanel''
         ''${pkgs.swaylock}/bin/swaylock -f''
       ];
       monitor = [
