@@ -28,6 +28,7 @@
       gtkgreet
       swww
       rofi-wayland
+      regreet
     ];
 
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
@@ -45,15 +46,6 @@
     };
     services.upower.enable = true;
 
-    systemd.user.services.hyprland = {
-      description = "Start huprland session Compositor";
-      after = [ "graphical.target" ];
-      wantedBy = [ "default.target" ];
-      serviceConfig.ExecStart = "${pkgs.hyprland}/bin/Hyprland";
-      serviceConfig.Restart = "on-failure";
-      serviceConfig.Environment = "XDG_RUNTIME_DIR=/run/user/${toString config.users.users.pete.uid}";
-    };
-
     users.users.greeter = {
       isSystemUser = true;
       createHome = true;
@@ -64,11 +56,11 @@
       enable = true;
       settings = {
         default_session = {
-          # Run Hyprland first, then launch gtkgreet inside it
-          command = ''
-            ${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland-greetd.conf \
-              -- ${pkgs.greetd.gtkgreet}/bin/gtkgreet -l -s
-          '';
+          command = "${lib.getExe config.programs.hyprland.package}";
+          user = "pete";
+        };
+        initial_session = {
+          command = "${lib.getExe config.programs.hyprland.package} --config /etc/greetd/hyprland-greetd.conf";
           user = "greeter";
         };
       };
