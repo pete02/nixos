@@ -8,6 +8,7 @@
 {
   options = {
     hyprland.enable = lib.mkEnableOption "enables hyprland";
+    hyprpanel.enable = lib.mkEnableOption "enables hyprland";
   };
   config = lib.mkIf config.hyprland.enable {
 
@@ -24,7 +25,7 @@
       #}))
       dunst
       libnotify
-      hyprpanel
+
       swww
       rofi-wayland
     ];
