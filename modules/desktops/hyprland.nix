@@ -58,7 +58,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --socket $XDG_RUNTIME_DIR/wayland-0 --remember --cmd=echo 'login complete'";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd=echo 'login complete'";
           user = "pete";
         };
       };
