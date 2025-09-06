@@ -71,6 +71,13 @@
     environment.etc."greetd/environments".text = ''
       dbus-run-session -- ${lib.getExe config.programs.hyprland.package}
     '';
+
+    environment.etc."pamd/greetd".text = ''
+      auth       required   pam_unix.so
+      account    required   pam_unix.so
+      session    required   pam_unix.so
+      password   required   pam_unix.so
+    '';
   };
 
 }
