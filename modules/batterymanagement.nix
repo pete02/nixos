@@ -1,9 +1,10 @@
-{pkgs,lib,...}:{
-  options={
-    powersave.enable= lib.mkEnableOption "Enable power saving";
+{ pkgs, lib, ... }:
+{
+  options = {
+    powersave.enable = lib.mkEnableOption "Enable power saving";
   };
   config = {
-    environment.systemPackages = with pkgs;[
+    environment.systemPackages = with pkgs; [
       tlp
     ];
 

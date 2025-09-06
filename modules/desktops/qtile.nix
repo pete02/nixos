@@ -14,7 +14,7 @@
       windowManager.qtile.enable = true;
       xkb.layout = "fi";
     };
-    environment.systemPackages= with pkgs; [
+    environment.systemPackages = with pkgs; [
       kitty
     ];
   };

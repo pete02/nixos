@@ -3,10 +3,10 @@
 {
   home.username = "pete";
   home.homeDirectory = "/home/pete";
-  
+
   home.stateVersion = "25.05"; # Please read the comment before changing.
-  imports=[
-    ./hyprland.nix    
+  imports = [
+    ./hyprland.nix
   ];
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -30,7 +30,7 @@
 
   home.sessionVariables = {
     # EDITOR = "emacs";
-    QT_QPA_PLATFORM="wayland brave";
+    QT_QPA_PLATFORM = "wayland brave";
   };
 
   programs.home-manager.enable = true;

@@ -26,33 +26,38 @@
     dates = "daily";
     options = "--delete-older-than 10d";
   };
-  nix.settings.auto-optimise-store = true;
 
-  networking.hostName = "talia";
-  networking.wireless.enable = false;
-  networking.networkmanager.enable = true;
+  nix.settings.auto-optimise-store = true;
 
   hyprland.enable = true;
   dev.enable = true;
   school.enable = true;
   powersave.enable = true;
 
+  networking.hostName = "talia";
+  networking.wireless.enable = false;
+  networking.networkmanager.enable = true;
+
   users.users.pete = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "docker"
+    ];
     packages = with pkgs; [
       tree
     ];
   };
 
   home-manager = {
-    useGlobalPkgs=true;
-    extraSpecialArgs = {inherit inputs;};
-    users= {
+    useGlobalPkgs = true;
+    extraSpecialArgs = { inherit inputs; };
+    users = {
       "pete" = import ./../../home/home.nix;
     };
   };
-  
+
   programs.firefox.enable = true;
 
   environment.systemPackages = with pkgs; [
