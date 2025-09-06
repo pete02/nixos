@@ -28,9 +28,7 @@
       gtkgreet
       swww
       rofi-wayland
-      cage
-      gtkgreet
-      regreet
+      swaylock
     ];
 
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
@@ -54,30 +52,5 @@
       description = "Greeter user for greetd/gtkgreet";
     };
 
-    services.greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${lib.getExe config.programs.hyprland.package}";
-          user = "pete";
-        };
-        initial_session = {
-          command = "${pkgs.cage}/bin/cage -s -- ${pkgs.gtkgreet}/bin/gtkgreet";
-          user = "greeter";
-        };
-      };
-    };
-
-    environment.etc."greetd/environments".text = ''
-      dbus-run-session -- ${lib.getExe config.programs.hyprland.package}
-    '';
-
-    environment.etc."pamd/greetd".text = ''
-      auth       required   pam_unix.so
-      account    required   pam_unix.so
-      session    required   pam_unix.so
-      password   required   pam_unix.so
-    '';
   };
-
 }
