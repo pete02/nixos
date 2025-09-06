@@ -8,7 +8,7 @@
   wayland.windowManager.hyprland = lib.mkIf osConfig.hyprland.enable {
     enable = true;
     settings = {
-      exec-once = ''${pkgs.hyprpanel}/bin/hyprpanel && swaylock -f'';
+      exec-once = "${pkgs.hyprpanel}/bin/hyprpanel && ${pkgs.swaylock}/bin/swaylock -f";
       monitor = [
         "eDP-1,preferred,auto,auto"
         "HDMI-A-1,preferred,auto,auto"
