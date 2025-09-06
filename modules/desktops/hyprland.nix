@@ -45,11 +45,20 @@
     };
     services.upower.enable = true;
 
+    systemd.user.services.hyprland = {
+      description = "Start huprland session Compositor";
+      after = [ "graphical.target" ];
+      wantedBy = [ "default.target" ];
+      serviceConfig.ExecStart = "${pkgs.hyprland}/bin/Hyprland";
+      serviceConfig.Restart = "on-failure";
+      serviceConfig.Environment = "XDG_RUNTIME_DIR=/run/user/${toString config.users.users.pete.uid}";
+    };
+
     services.greetd = {
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd=Hyprland";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --socket $XDG_RUNTIME_DIR/wayland-0 --remember --cmd=echo 'login complete'";
           user = "pete";
         };
       };
