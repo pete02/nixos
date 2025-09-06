@@ -1,51 +1,8 @@
 { pkgs, ... }:
 {
-  programs.hyprpanel = {
-    enable = true;
-    settings = {
-      layout = {
-        bar = {
-          layouts = {
-            "0" = {
-              left = [
-                "dashboard"
-                "workspaces"
-              ];
-              middle = [ "media" ];
-              right = [
-                "volume"
-                "network"
-                "battery"
-                "systray"
-                "notifications"
-              ];
-            };
-          };
-        };
-      };
-
-      bar.launcher.autoDetectIcon = true;
-      bar.workspaces.show_icons = true;
-      bar.clock.format = "%a %b %d  %H:%M";
-
-      menus.clock = {
-        time = {
-          military = true;
-          hideSeconds = true;
-        };
-        weather.unit = "metric";
-      };
-
-      menus.dashboard.directories.enabled = false;
-      theme.bar.transparent = true;
-
-      theme.font = {
-        name = "CaskaydiaCove NF";
-        size = "12px";
-      };
-    };
-
-  };
+  imports = [
+    ./hyprland.nix
+  ];
 
   wayland.windowManager.hyprland = {
     enable = true;
