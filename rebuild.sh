@@ -2,9 +2,9 @@
 set -euo pipefail
 HOSTNAME=$(hostname)
 
-nixfmt . &>/dev/null  || ( mixfmt . ; echo "formatting failed!" && exit 1)
+treefmt . &>/dev/null  || ( mixfmt . ; echo "formatting failed!" && exit 1)
 
-git add .
+git add /etc/nixos/.
 
 # Shows your changes
 git diff -U0 '*.nix'
