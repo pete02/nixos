@@ -1,10 +1,11 @@
-{ pkgs, ... }:
 {
-  imports = [
-    ./hyprpanel.nix
-  ];
-
-  wayland.windowManager.hyprland = {
+  pkgs,
+  lib,
+  osConfig,
+  ...
+}:
+{
+  wayland.windowManager.hyprland = lib.mkIf osConfig.hyprland.enable {
     enable = true;
     settings = {
       exec-once = ''${pkgs.hyprpanel}/bin/hyprpanel'';

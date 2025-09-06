@@ -9,7 +9,7 @@ git add /etc/nixos/.
 # Shows your changes
 git diff -U0 '*.nix'
 
-git commit -m "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
+git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
 
 
 echo "Rebuilding system for $HOSTNAME..."

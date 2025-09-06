@@ -6,6 +6,7 @@
   home.stateVersion = "25.05";
   imports = [
     ./hyprland.nix
+    ./hyprpanel.nix
   ];
 
   home.sessionVariables = {

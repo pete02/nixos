@@ -46,7 +46,6 @@
       "docker"
     ];
   };
-
   home-manager = {
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs; };
