@@ -45,12 +45,5 @@
       jack.enable = true;
     };
     services.upower.enable = true;
-
-    users.users.greeter = {
-      isSystemUser = true;
-      createHome = true;
-      description = "Greeter user for greetd/gtkgreet";
-    };
-
   };
 }
