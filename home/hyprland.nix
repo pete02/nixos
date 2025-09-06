@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
-    ./hyprland.nix
+    ./hyprpanel.nix
   ];
 
   wayland.windowManager.hyprland = {
