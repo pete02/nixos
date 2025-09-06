@@ -45,9 +45,6 @@
       "networkmanager"
       "docker"
     ];
-    packages = with pkgs; [
-      tree
-    ];
   };
 
   home-manager = {
@@ -68,6 +65,7 @@
     unzip
     brave
     kdePackages.dolphin
+    tree
   ];
 
   system.stateVersion = "25.05";
