@@ -22,5 +22,11 @@
       extraGroups = [ "podman" ];
     };
 
+    environment.systemPackages = with pkgs; [
+      podman
+      podman-compose
+
+    ];
+
   };
 }
