@@ -88,7 +88,7 @@
   systemd.timers.firewall-start = {
     description = "Start firewall after boot";
     wantedBy = [ "timers.target" ];
-    timerConfig.OnBootSec = "5s";
+    timerConfig.OnBootSec = "10s";
     timerConfig.Unit = "firewall.service";
   };
 

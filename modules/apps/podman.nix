@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 {
@@ -17,8 +18,15 @@
       };
     };
 
-    users.users.myuser = {
-      isNormalUser = true;
+    virtualisation.containers.storage.settings = {
+      storage = {
+        driver = "btrfs";
+        graphroot = "/var/lib/containers/storage";
+        runroot = "/run/containers/storage";
+      };
+    };
+
+    users.users.pete = {
       extraGroups = [ "podman" ];
     };
 

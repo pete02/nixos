@@ -44,7 +44,6 @@
     extraGroups = [
       "wheel"
       "networkmanager"
-      "docker"
     ];
   };
   home-manager = {
