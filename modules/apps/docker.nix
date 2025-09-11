@@ -9,7 +9,7 @@
   };
   config = lib.mkIf config.docker.enable {
     virtualisation.docker = {
-      enable = false;
+      enable = true;
 
       rootless = {
         enable = true;
