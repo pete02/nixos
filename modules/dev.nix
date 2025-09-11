@@ -15,9 +15,8 @@
       pkgs.nixd
       nixfmt-tree
     ];
-    podman.enable = false;
-    virtualisation.docker.enable = true;
-    virtualisation.docker.storageDriver = "btrfs";
+    docker.enable = true;
+
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 }
