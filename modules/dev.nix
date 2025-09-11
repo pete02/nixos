@@ -13,6 +13,7 @@
     environment.systemPackages = with pkgs; [
       nixd
       nixfmt-tree
+      netstat
     ];
     docker.enable = true;
 
