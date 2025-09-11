@@ -7,7 +7,7 @@
   options = {
     docker.enable = lib.mkEnableOption "enables dev tools";
   };
-  config = lib.mkIf config.podman.enable {
+  config = lib.mkIf config.docker.enable {
     virtualisation.docker.enable = true;
     virtualisation.docker.storageDriver = "btrfs";
 
