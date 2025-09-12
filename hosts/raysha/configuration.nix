@@ -31,27 +31,14 @@
 
   hyprland.enable = true;
   dev.enable = true;
-  school.enable = true;
-  powersave.enable = true;
 
-  networking.hostName = "talia";
-  networking.wireless.enable = false;
-  networking.networkmanager.enable = true;
-  systemd.services.NetworkManager-wait-online.enable = false;
+  networking.hostName = "raysha";
 
   users.users.pete = {
     isNormalUser = true;
     extraGroups = [
       "wheel"
-      "networkmanager"
     ];
-  };
-  home-manager = {
-    useGlobalPkgs = true;
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      "pete" = import ./../../home/home.nix;
-    };
   };
 
   programs.firefox.enable = true;
