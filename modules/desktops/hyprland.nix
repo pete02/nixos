@@ -31,14 +31,6 @@
       swaylock
     ];
 
-    nixpkgs.overlays = [
-      (final: prev: {
-        hyprland-qt-support = prev.hyprland-qt-support.overrideAttrs (old: {
-          nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.qt6.wrapQtAppsHook ];
-        });
-      })
-    ];
-
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
 
     xdg.portal.enable = true;
