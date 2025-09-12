@@ -11,10 +11,10 @@
       exec-once = [
         ''${pkgs.swaylock}/bin/swaylock -f''
       ];
-      monitor = [
-        "eDP-1,1920x1080,0x0,1"
-        "HDMI-A-1,preferred,1920x0,1"
-      ];
+      #monitor = [
+      #  "eDP-1,1920x1080,0x0,1"
+      #  "HDMI-A-1,preferred,1920x0,1"
+      #];
 
       general = {
         gaps_in = "5";

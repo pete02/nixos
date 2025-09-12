@@ -5,7 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = ""; # don’t override its nixpkgs
     };
     home-manager = {
       url = "github:nix-community/home-manager";

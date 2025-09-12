@@ -40,6 +40,13 @@
       "wheel"
     ];
   };
+  home-manager = {
+    useGlobalPkgs = true;
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "pete" = import ./../../home/home.nix;
+    };
+  };
 
   programs.firefox.enable = true;
 
