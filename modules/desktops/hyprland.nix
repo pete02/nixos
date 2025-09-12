@@ -31,11 +31,6 @@
       swaylock
     ];
 
-    nativeBuildInputs = [
-      pkgs.qt6.qtbase
-      pkgs.qt6.wrapQtAppsHook
-    ];
-
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
 
     xdg.portal.enable = true;
