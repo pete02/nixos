@@ -43,7 +43,6 @@
     kdePackages.dolphin
     tree
     lshw
-    xrandr
   ];
 
   system.stateVersion = "25.05";
