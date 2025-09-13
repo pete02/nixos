@@ -7,10 +7,10 @@
 }:
 {
   options = {
-    hyprland.enable = lib.mkEnableOption "enables hyprland";
-    hyprpanel.enable = lib.mkEnableOption "enables hyprland";
+    enable.hyprland = lib.mkEnableOption "enables hyprland";
+    enable.hyprpanel = lib.mkEnableOption "enables hyprland";
   };
-  config = lib.mkIf config.hyprland.enable {
+  config = lib.mkIf config.enable.hyprland {
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;

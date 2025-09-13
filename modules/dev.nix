@@ -7,9 +7,9 @@
 }:
 {
   options = {
-    dev.enable = lib.mkEnableOption "enables dev tools";
+    enable.dev = lib.mkEnableOption "enables dev tools";
   };
-  config = lib.mkIf config.dev.enable {
+  config = lib.mkIf config.enable.dev {
     environment.systemPackages = with pkgs; [
       vscode
       pkgs.nixd

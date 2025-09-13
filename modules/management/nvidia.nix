@@ -6,9 +6,9 @@
 }:
 {
   options = {
-    nvidia.enable = lib.mkEnableOption "enables nvida GPUS";
+    enable.nvidia = lib.mkEnableOption "enables nvida GPUS";
   };
-  config = lib.mkIf config.nvidia.enable {
+  config = lib.mkIf config.enable.nvidia {
     hardware.graphics = {
       enable = true;
     };

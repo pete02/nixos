@@ -5,7 +5,7 @@
   ...
 }:
 {
-  wayland.windowManager.hyprland = lib.mkIf osConfig.hyprland.enable {
+  wayland.windowManager.hyprland = lib.mkIf osConfig.enable.hyprland {
     enable = true;
     settings = {
 

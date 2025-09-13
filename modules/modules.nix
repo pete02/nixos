@@ -11,5 +11,6 @@
     ./management/nixos-management.nix
     ./management/nvidia.nix
     ./management/user.nix
+    ./gaming.nix
   ];
 }

@@ -10,10 +10,13 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  hyprland.enable = true;
-  hyprpanel.enable = true;
-  dev.enable = true;
-  nvidia.enable = true;
+  enable = {
+    dev = true;
+    hyprland = true;
+    hyprpanel = true;
+    nvidia = true;
+    gaming = true;
+  };
 
   networking.hostName = "raysha";
 
