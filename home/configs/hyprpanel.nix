@@ -13,7 +13,8 @@
             middle = [ "media" ];
             right = [
               "volume"
-              "network"
+              "netstat"
+              "clock"
               "systray"
               "notifications"
 
