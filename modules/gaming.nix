@@ -17,7 +17,7 @@
     };
 
     programs.steam.enable = true;
-    programs.steam.gamescopeSesion.enable = true;
+    programs.steam.gamescopeSession.enable = true;
     environment.systemPackages = with pkgs; [
       mangohud
       protonup
