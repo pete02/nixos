@@ -19,7 +19,7 @@
     settings = {
       monitor = [
         "desc:Dell Inc. Dell AW3423DW,3440x1440@175,0x0,1"
-        "DP-1,1920x1080,0x3440,1"
+        "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,3440x0,1"
       ];
       misc = {
         force_default_wallpaper = 2;
