@@ -8,49 +8,10 @@
   modulesPath,
   ...
 }:
-let
-  mdadmconfigfile = ''
-    ARRAY /dev/md0 metadata=1.2 UUID=8a67d8ca:4673ed91:8321e81c:499d8f01
-  '';
-in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
-
-  boot.swraid = {
-    enable = true;
-    mdadmConf = mdadmconfigfile;
-  };
-
-  boot.initrd.availableKernelModules = [
-    "nvme"
-    "xhci_pci"
-    "ahci"
-    "usbhid"
-    "sd_mod"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [
-    "nvidia"
-    "nvidia_modeset"
-    "nvidia_uvm"
-    "nvidia_drm"
-  ];
-  boot.kernelParams = [
-    "drm.edid_firmware=DP-2:/boot/edid/monitor.bin"
-    "nvidia-drm.modeset=1"
-    "nvidia.NVreg_UseVBiosModeset=1"
-    "nvidia.NVreg_RegistryDwords=EnablePrimaryDisplay=1"
-    "video=3440x1440@175"
-  ];
-  boot.blacklistedKernelModules = [ "amdgpu" ];
-  boot.extraModulePackages = [ ];
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-    timeout = 1;
-  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/7aee1b9f-2f62-4073-8bf1-a011be8cf215";
@@ -80,14 +41,6 @@ in
     ];
   };
 
-  fileSystems."/gaming" = {
-    device = "/dev/disk/by-uuid/c046ab68-dc7b-486f-90de-0d95ac17aadf";
-    fsType = "btrfs";
-    options = [
-      "compress=zstd"
-    ];
-  };
-
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/2C75-F9EE";
     fsType = "vfat";
@@ -111,12 +64,4 @@ in
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  systemd.services."systemd-networkd-wait-online".enable = lib.mkForce false;
-
-  systemd.timers.firewall-start = {
-    description = "Start firewall after boot";
-    wantedBy = [ "timers.target" ];
-    timerConfig.OnBootSec = "10s";
-    timerConfig.Unit = "firewall.service";
-  };
 }
