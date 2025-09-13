@@ -15,7 +15,7 @@
 
   programs.home-manager.enable = true;
 
-  wayland.windowManager.hyprland = lib.mkIf osConfig.hyprland.enable {
+  wayland.windowManager.hyprland = lib.mkIf osConfig.enable.hyprland {
     settings = {
       monitor = [
         "desc:Dell Inc. Dell AW3423DW,3440x1440@175,0x0,1"
