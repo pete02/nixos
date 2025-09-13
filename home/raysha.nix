@@ -18,8 +18,8 @@
   wayland.windowManager.hyprland = lib.mkIf osConfig.hyprland.enable {
     settings = {
       monitor = [
-        "DP-5,3440x1440@175,0x0,1"
-        "DP-4,1920x1080,3440x0,1"
+        "serial:#GjMYMxgwAAFt,3440x1440@175,0x0,1,primary"
+        "serial:38144035,1920x1080,3440x0,1"
       ];
       misc = {
         force_default_wallpaper = 2;
