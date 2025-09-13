@@ -45,7 +45,6 @@ in
     tree
     lshw
     mdadm
-    xrandr
   ];
   system.stateVersion = "25.05";
 
