@@ -2,7 +2,6 @@
   lib,
   osConfig,
   pkgs,
-  extraSettings ? { },
   ...
 }:
 
@@ -64,7 +63,7 @@ let
     };
   };
 
-  mergedConfig = lib.recursiveUpdate baseConfig extraSettings;
+  mergedConfig = lib.recursiveUpdate baseConfig (config.programs.hyprpanel.extraSettings or { });
 in
 {
   programs.hyprpanel = lib.mkIf osConfig.hyprpanel.enable {
