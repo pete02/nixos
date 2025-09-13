@@ -27,14 +27,9 @@
     };
   };
 
-  programs.hyprpanel.extraSettings = lib.mkIf osConfig.hyprpanel.enable {
-    layout.bar.layouts."*".right = [
-      "volume"
-      "systray"
-      "notifications"
-      "battery"
-      "network"
-    ];
-  };
+  programs.hyprpanel.settings.layout.bar.layouts.right = lib.mkIf osConfig.hyprpanel.enable [
+    "battery"
+    "network"
+  ];
 
 }

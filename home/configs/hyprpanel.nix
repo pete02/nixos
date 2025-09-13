@@ -1,74 +1,46 @@
+{ lib, osConfig, ... }:
 {
-  lib,
-  osConfig,
-  pkgs,
-  extraSettings ? { },
-  ...
-}:
-
-let
-  baseConfig = {
-    bar = {
-      clock = {
-        format = "%a %b %d  %H:%M";
-      };
-      launcher = {
-        autoDetectIcon = true;
-      };
-      workspaces = {
-        show_icons = true;
-      };
-    };
-    layout = {
-      bar = {
-        layouts = {
-          "*" = {
-            left = [
-              "dashboard"
-              "workspaces"
-            ];
-            middle = [ "media" ];
-            right = [
-              "volume"
-              "systray"
-              "notifications"
-            ];
+  programs.hyprpanel = lib.mkIf osConfig.hyprpanel.enable {
+    enable = true;
+    settings = {
+      layout = {
+        bar = {
+          layouts = {
+            "*" = {
+              left = [
+                "dashboard"
+                "workspaces"
+              ];
+              middle = [ "media" ];
+              right = [
+                "volume"
+                "systray"
+                "notifications"
+              ];
+            };
           };
         };
       };
-    };
-    menus = {
-      clock = {
+
+      bar.launcher.autoDetectIcon = true;
+      bar.workspaces.show_icons = true;
+      bar.clock.format = "%a %b %d  %H:%M";
+
+      menus.clock = {
         time = {
-          hideSeconds = true;
           military = true;
+          hideSeconds = true;
         };
-        weather = {
-          unit = "metric";
-        };
+        weather.unit = "metric";
       };
-      dashboard = {
-        directories = {
-          enabled = false;
-        };
-      };
-    };
-    theme = {
-      bar = {
-        transparent = true;
-      };
-      font = {
+
+      menus.dashboard.directories.enabled = false;
+      theme.bar.transparent = true;
+
+      theme.font = {
         name = "CaskaydiaCove NF";
         size = "12px";
       };
     };
-  };
-
-  mergedConfig = lib.recursiveUpdate baseConfig extraSettings;
-in
-{
-  programs.hyprpanel = lib.mkIf osConfig.hyprpanel.enable {
-    enable = true;
-    xdg.configFile."hyprpanel/config.json".text = builtins.toJSON mergedConfig;
   };
 }
