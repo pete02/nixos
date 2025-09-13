@@ -3,12 +3,13 @@
   imports = [
     ./desktops/qtile.nix
     ./desktops/hyprland.nix
-    ./localization.nix
+    ./management/localization.nix
     ./dev.nix
     ./school.nix
-    ./batterymanagement.nix
+    ./management/batterymanagement.nix
     ./apps/apps.nix
-    ./nixos-management.nix
-    ./nvidia.nix
+    ./management/nixos-management.nix
+    ./management/nvidia.nix
+    ./management/user.nix
   ];
 }

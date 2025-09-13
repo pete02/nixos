@@ -3,7 +3,7 @@
   options = {
     powersave.enable = lib.mkEnableOption "Enable power saving";
   };
-  config = {
+  config = lib.mkIf config.powersave.enable {
     environment.systemPackages = with pkgs; [
       tlp
     ];

@@ -16,20 +16,7 @@
   nvidia.enable = true;
 
   networking.hostName = "raysha";
-
-  users.users.pete = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-    ];
-  };
-  home-manager = {
-    useGlobalPkgs = true;
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      "pete" = import ./../../home/raysha.nix;
-    };
-  };
+  username = "pete";
 
   programs.firefox.enable = true;
 
