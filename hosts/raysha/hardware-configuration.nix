@@ -30,7 +30,7 @@
   ];
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
-
+    "nvidia.NVreg_UseVBiosModeset=1"
   ];
   boot.blacklistedKernelModules = [ "amdgpu" ];
   boot.extraModulePackages = [ ];
