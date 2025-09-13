@@ -6,19 +6,7 @@
       layout = {
         bar = {
           layouts = {
-            "0" = {
-              left = [
-                "dashboard"
-                "workspaces"
-              ];
-              middle = [ "media" ];
-              right = [
-                "volume"
-                "systray"
-                "notifications"
-              ];
-            };
-            "1" = {
+            "" = {
               left = [
                 "dashboard"
                 "workspaces"
