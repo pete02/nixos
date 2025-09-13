@@ -6,7 +6,7 @@
       layout = {
         bar = {
           layouts = {
-            "" = {
+            "*" = {
               left = [
                 "dashboard"
                 "workspaces"

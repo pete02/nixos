@@ -16,6 +16,10 @@
   nvidia.enable = true;
 
   networking.hostName = "raysha";
+  networking.useNetworkd = true;
+  services.resolved.enable = true;
+  networking.dhcpcd.enable = false;
+
   username = "pete";
 
   programs.firefox.enable = true;
