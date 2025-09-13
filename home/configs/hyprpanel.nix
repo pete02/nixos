@@ -67,6 +67,6 @@ let
   mergedConfig = lib.recursiveUpdate baseConfig (config.programs.hyprpanel.extraSettings or { });
 in
 {
-  programs.hyprpanel = lib.mkIf osConfig.hyprpanel.enable { enable = true; };
+
   home.file.".config/hyprpanel/config.json".text = builtins.toJSON mergedConfig;
 }
