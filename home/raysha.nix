@@ -18,8 +18,8 @@
   wayland.windowManager.hyprland = lib.mkIf osConfig.hyprland.enable {
     settings = {
       monitor = [
-        "desc:Dell Inc. Dell AW3423DW,preferred,auto,1"
-        "DP-1,preferred,auto,1"
+        "desc:Dell Inc. Dell AW3423DW,3440x1440@154,0x0,1,primary"
+        "DP-1,1920x1080,0x3440,1"
       ];
       misc = {
         force_default_wallpaper = 2;
