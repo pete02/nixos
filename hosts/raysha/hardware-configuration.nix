@@ -31,7 +31,7 @@
   boot.blacklistedKernelModules = [ "amdgpu" ];
   boot.extraModulePackages = [ ];
   boot.loader = {
-    systemd-boot.enabe = true;
+    systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
     timeout = 1;
   };
