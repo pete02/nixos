@@ -31,6 +31,11 @@
     };
 
     systemd.services.docker.enable = false;
-    systemd.services.docker.socket.enable = true;
+    systemd.timers.docker-start = {
+      description = "Start docker after boot";
+      wantedBy = [ "timers.target" ];
+      timerConfig.OnBootSec = "10s";
+      timerConfig.Unit = "docker.service";
+    };
   };
 }
