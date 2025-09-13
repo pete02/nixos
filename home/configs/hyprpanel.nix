@@ -3,21 +3,19 @@
   programs.hyprpanel = lib.mkIf osConfig.hyprpanel.enable {
     enable = true;
     settings = {
-      layout = {
-        bar = {
-          layouts = {
-            "*" = {
-              left = [
-                "dashboard"
-                "workspaces"
-              ];
-              middle = [ "media" ];
-              right = [
-                "volume"
-                "systray"
-                "notifications"
-              ];
-            };
+      bar = {
+        layouts = {
+          "*" = {
+            left = [
+              "dashboard"
+              "workspaces"
+            ];
+            middle = [ "media" ];
+            right = [
+              "volume"
+              "systray"
+              "notifications"
+            ];
           };
         };
       };
