@@ -2,7 +2,7 @@
 set -euo pipefail
 HOSTNAME=$(hostname)
 
-treefmt . &>/dev/null  || ( mixfmt . ; echo "formatting failed!" && exit 1)
+treefmt . &>/dev/null  || ( treefmt . ; echo "formatting failed!" && exit 1)
 
 git add /etc/nixos/.
 

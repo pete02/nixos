@@ -10,34 +10,15 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  nixpkgs.config.allowUnfree = true;
-
-  system.autoUpgrade = {
-    enable = true;
-    dates = "weekly";
-  };
-
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 10d";
-  };
-
-  nix.settings.auto-optimise-store = true;
-
   hyprland.enable = true;
+  hyprpanel.enable = true;
   dev.enable = true;
   school.enable = true;
+
   powersave.enable = true;
+  wireless.enable = true;
 
   networking.hostName = "talia";
-  networking.wireless.enable = false;
-  networking.networkmanager.enable = true;
-  systemd.services.NetworkManager-wait-online.enable = false;
 
   users.users.pete = {
     isNormalUser = true;
@@ -50,7 +31,7 @@
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "pete" = import ./../../home/home.nix;
+      "pete" = import ./../../home/talia.nix;
     };
   };
 

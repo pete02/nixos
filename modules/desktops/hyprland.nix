@@ -18,10 +18,6 @@
     };
     environment.systemPackages = with pkgs; [
       kitty
-      #waybar
-      #(waybar.overrideAttrs (oldAttrs: {
-      #  mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      #}))
       dunst
       libnotify
       gtkgreet

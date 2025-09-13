@@ -8,5 +8,7 @@
     ./school.nix
     ./batterymanagement.nix
     ./apps/apps.nix
+    ./nixos-management.nix
+    ./nvidia.nix
   ];
 }

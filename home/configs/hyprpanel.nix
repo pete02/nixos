@@ -1,6 +1,6 @@
-{ ... }:
+{ lib, osConfig, ... }:
 {
-  programs.hyprpanel = {
+  programs.hyprpanel = lib.mkIf osConfig.hyprpanel.enable {
     enable = true;
     settings = {
       layout = {
@@ -14,8 +14,6 @@
               middle = [ "media" ];
               right = [
                 "volume"
-                "network"
-                "battery"
                 "systray"
                 "notifications"
               ];

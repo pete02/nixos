@@ -5,12 +5,11 @@
 
   home.stateVersion = "25.05";
   imports = [
-    ./hyprland.nix
-    ./hyprpanel.nix
+    ./configs/hyprland.nix
+    ./configs/hyprpanel.nix
   ];
 
   home.sessionVariables = {
-    # EDITOR = "emacs";
     QT_QPA_PLATFORM = "wayland brave";
   };
 
