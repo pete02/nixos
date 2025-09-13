@@ -8,11 +8,20 @@
   modulesPath,
   ...
 }:
-
+let
+  mdadmconfigfile = ''
+    ARRAY /dev/md0 metadata=1.2 UUID=8a67d8ca:4673ed91:8321e81c:499d8f01
+  '';
+in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
+
+  boot.swraid = {
+    enable = true;
+    mdadmConf = mdadmconfigfile;
+  };
 
   boot.initrd.availableKernelModules = [
     "nvme"
