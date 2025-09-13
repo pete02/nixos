@@ -29,5 +29,8 @@
     users.users.pete = {
       extraGroups = [ "docker" ];
     };
+
+    systemd.services.docker.enable = false;
+    systemd.services.docker.socket.enable = true;
   };
 }
