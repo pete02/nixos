@@ -10,15 +10,18 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  hyprland.enable = true;
-  hyprpanel.enable = true;
-  dev.enable = true;
-  school.enable = true;
+  enable = {
+    dev = true;
+    hyprland = true;
+    hyprpanel = true;
+    school = true;
+  };
 
   powersave.enable = true;
   wireless.enable = true;
 
   networking.hostName = "talia";
+  username = "pete";
 
   users.users.pete = {
     isNormalUser = true;

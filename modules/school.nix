@@ -6,9 +6,9 @@
 }:
 {
   options = {
-    school.enable = lib.mkEnableOption "enables school tools";
+    enable.school = lib.mkEnableOption "enables school tools";
   };
-  config = lib.mkIf config.school.enable {
+  config = lib.mkIf config.enable.school {
 
     nixpkgs.overlays = [
       (self: super: {

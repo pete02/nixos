@@ -24,7 +24,7 @@ in
       useGlobalPkgs = true;
       extraSpecialArgs = { inherit inputs; };
       users = {
-        "pete" = import ./../../home/raysha.nix;
+        "pete" = import ./../../home/${cof.networking.hostName}.nix;
       };
     };
   };
