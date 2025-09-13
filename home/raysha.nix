@@ -19,7 +19,7 @@
     settings = {
       monitor = [
         "desc:Dell Inc. Dell AW3423DW #GjMYMxgwAAFt,preferred,auto,1"
-        "DP-1,1920x1080,3440x0,1"
+        "DP-1,preferred,auto,1"
       ];
       misc = {
         force_default_wallpaper = 2;
