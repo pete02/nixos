@@ -71,6 +71,14 @@
     ];
   };
 
+  fileSystems."/gaming" = {
+    device = "/dev/disk/by-uuid/c046ab68-dc7b-486f-90de-0d95ac17aadf";
+    fsType = "btrfs";
+    options = [
+      "compress=zstd"
+    ];
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/2C75-F9EE";
     fsType = "vfat";

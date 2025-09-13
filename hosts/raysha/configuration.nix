@@ -38,6 +38,7 @@
     kdePackages.dolphin
     tree
     lshw
+    mdadm
   ];
 
   system.stateVersion = "25.05";
