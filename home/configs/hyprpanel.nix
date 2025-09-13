@@ -69,6 +69,6 @@ in
 {
   programs.hyprpanel = lib.mkIf osConfig.hyprpanel.enable {
     enable = true;
-    xdg.configFile."hyprpanel/config.json".text = builtins.toJSON mergedConfig;
+    home.file."hyprpanel/config.json".text = builtins.toJSON mergedConfig;
   };
 }
