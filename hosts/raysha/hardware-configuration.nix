@@ -30,9 +30,11 @@
   ];
   boot.blacklistedKernelModules = [ "amdgpu" ];
   boot.extraModulePackages = [ ];
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.LoaderConfigTimeout = 1;
+  boot.loader = {
+    systemd-boot.enabe = true;
+    efi.canTouchEfiVariables = true;
+    timeout = 1;
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/7aee1b9f-2f62-4073-8bf1-a011be8cf215";
