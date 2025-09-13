@@ -6,16 +6,18 @@
       layout = {
         bar = {
           layouts = {
-            left = [
-              "dashboard"
-              "workspaces"
-            ];
-            middle = [ "media" ];
-            right = [
-              "volume"
-              "systray"
-              "notifications"
-            ];
+            "*" = {
+              left = [
+                "dashboard"
+                "workspaces"
+              ];
+              middle = [ "media" ];
+              right = [
+                "volume"
+                "systray"
+                "notifications"
+              ];
+            };
           };
         };
       };
