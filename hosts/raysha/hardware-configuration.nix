@@ -84,7 +84,7 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  systemd.services."systemd-networkd-wait-online".enable = false;
+  systemd.services."systemd-networkd-wait-online".enable = lib.mkForce false;
 
   systemd.timers.firewall-start = {
     description = "Start firewall after boot";
