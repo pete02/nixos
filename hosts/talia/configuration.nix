@@ -15,28 +15,11 @@
     hyprland = true;
     hyprpanel = true;
     school = true;
+    powersave = true;
+    wireless = true;
   };
-
-  powersave.enable = true;
-  wireless.enable = true;
-
   networking.hostName = "talia";
   username = "pete";
-
-  users.users.pete = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-    ];
-  };
-  home-manager = {
-    useGlobalPkgs = true;
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      "pete" = import ./../../home/talia.nix;
-    };
-  };
 
   programs.firefox.enable = true;
 

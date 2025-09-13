@@ -12,5 +12,6 @@
     ./management/nvidia.nix
     ./management/user.nix
     ./gaming.nix
+    ./management/wireless.nix
   ];
 }
