@@ -13,8 +13,10 @@
             middle = [ "media" ];
             right = [
               "volume"
+              "network"
               "systray"
               "notifications"
+
             ];
           };
         };
