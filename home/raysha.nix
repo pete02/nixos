@@ -18,7 +18,7 @@
   wayland.windowManager.hyprland = lib.mkIf osConfig.hyprland.enable {
     settings = {
       monitor = [
-        "serial:#GjMYMxgwAAFt,3440x1440@175,0x0,1,primary"
+        "serial:#GjMYMxgwAAFt,3440x1440@175,0x0,1"
         "serial:38144035,1920x1080,3440x0,1"
       ];
       misc = {
