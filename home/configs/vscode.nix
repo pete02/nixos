@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   programs.vscode.profiles.default = {
-
+    enable = true;
     userSettings = {
       "nix.serverPath" = "nixd";
       "nix.enableLanguageServer" = true;
