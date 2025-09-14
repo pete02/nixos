@@ -12,7 +12,7 @@
         ];
       };
     };
-    extensions = with pkgs.vscode-extensions; [
+    extensions = with pkgs.vscode-utils.extensionsFromVscodeMarketplace; [
       {
         name = "Nix IDE";
         publisher = "Noortheen";
