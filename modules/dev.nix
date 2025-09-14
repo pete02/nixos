@@ -12,7 +12,6 @@
   config = lib.mkIf config.enable.dev {
     environment.systemPackages = with pkgs; [
       nixd
-      vscode-fhs
       nixfmt-tree
     ];
     docker.enable = true;
