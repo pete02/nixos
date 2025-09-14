@@ -11,7 +11,6 @@
   };
   config = lib.mkIf config.enable.dev {
     environment.systemPackages = with pkgs; [
-      vscode-fhs
       nixd
       nixfmt-tree
     ];
