@@ -18,6 +18,11 @@
       nixpkgsStable,
       ...
     }@inputs:
+    let
+      overlay = final: prev: {
+        vulkan-tools = nixpkgsStable.vulkan-tools;
+      };
+    in
     {
       nixosConfigurations.talia = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -30,17 +35,12 @@
 
       nixosConfigurations.raysha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
         modules = [
           ./hosts/raysha/configuration.nix
           inputs.home-manager.nixosModules.default
         ];
         nixpkgs.overlays = [
-          (final: prev: {
-            vulkan-tools = nixpkgsStable.vulkan-tools;
-          })
+          overlay
         ];
       };
 
