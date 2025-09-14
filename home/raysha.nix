@@ -17,6 +17,7 @@
   programs.home-manager.enable = true;
 
   wayland.windowManager.hyprland = lib.mkIf osConfig.enable.hyprland {
+    importantPrefixes = [ "output" ];
     settings = {
       exec-once = "sleep 5 && xrandr --output DP-2 --primary";
       monitor = [
