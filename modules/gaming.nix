@@ -25,12 +25,14 @@
       enable = true;
       capSysNice = true;
     };
-    environment.systemPackages = with pkgs; [
-      mangohud
-      glxinfo
-      vulkan-tools
-      protonup
-    ];
+    environment.systemPackages =
+      with pkgs;
+      [
+        mangohud
+        glxinfo
+        protonup
+      ]
+      ++ inputs.nixpkgsStable.vulkan-tools;
     programs.gamemode.enable = true;
   };
 }
