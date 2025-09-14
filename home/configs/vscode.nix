@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.vscode = {
     enable = true;
@@ -12,5 +12,11 @@
         ];
       };
     };
+    extensions = with pkgs.vscode-extensions; [
+      {
+        name = "Nix IDE";
+        publisher = "Noortheen";
+      }
+    ];
   };
 }

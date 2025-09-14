@@ -1,4 +1,9 @@
-{ ... }:
+{
+  lib,
+  pkgs,
+  osConfig,
+  ...
+}:
 {
   home.username = "pete";
   home.homeDirectory = "/home/pete";
@@ -7,6 +12,7 @@
   imports = [
     ./configs/hyprland.nix
     ./configs/hyprpanel.nix
+    ./configs/vscode.nix
   ];
 
   home.sessionVariables = {
