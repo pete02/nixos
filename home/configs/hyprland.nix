@@ -8,6 +8,10 @@
     enable = true;
     settings = {
 
+      xwayland = {
+        force_zero_scaling = true;
+      };
+
       general = {
         gaps_in = "5";
         gaps_out = "5";
