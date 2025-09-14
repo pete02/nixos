@@ -25,9 +25,12 @@
           };
         });
       };
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        overlays = [ overlay ];
+      };
     in
     {
-
       nixosConfigurations.talia = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
@@ -39,8 +42,10 @@
 
       nixosConfigurations.raysha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        nixpkgs.overlays = [ overlay ];
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs;
+        };
         modules = [
           ./hosts/raysha/configuration.nix
           inputs.home-manager.nixosModules.default
