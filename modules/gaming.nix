@@ -35,9 +35,12 @@ in
         mangohud
         glxinfo
         protonup
-        gamescope-wsi
       ]
-      ++ [ stablePkgs.vulkan-tools ];
+      ++ [
+        stablePkgs.vulkan-tools
+        stablePkgs.gamescope
+        stablePkgs.gamescope-wsi
+      ];
     programs.gamemode.enable = true;
   };
 }
