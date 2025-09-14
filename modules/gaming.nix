@@ -4,6 +4,9 @@
   pkgs,
   ...
 }:
+let
+  conf = config;
+in
 {
   options = {
     enable.gaming = lib.mkEnableOption "enables gaming tools";
@@ -16,5 +19,9 @@
       protonup
     ];
     programs.gamemode.enable = true;
+
+    users.users.${conf.username}.extraGroups = [
+      "wheel"
+    ];
   };
 }
