@@ -21,7 +21,7 @@
             repo = "gamescope";
             rev = "refs/tags/${version}";
             fetchSubmodules = true;
-            hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+            hash = "sha256-eKAOlmU0wc1DViZkUSrPFVjypa/kGfe+1+0lkXbaVJI=";
           };
         });
       };
