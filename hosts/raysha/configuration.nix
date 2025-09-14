@@ -26,6 +26,7 @@
   networking.dhcpcd.enable = false;
   programs.nix-ld.enable = true;
   username = "pete";
+  allowUnfree = true;
 
   programs.firefox.enable = true;
 
