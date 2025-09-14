@@ -20,6 +20,9 @@
       enable = true;
       gamescopeSession.enable = true;
     };
+    hardware.opengl = {
+      enable = true;
+    };
 
     programs.gamescope = {
       enable = true;
@@ -27,6 +30,7 @@
     };
     environment.systemPackages = with pkgs; [
       mangohud
+      vulkan-tools
       protonup
     ];
     programs.gamemode.enable = true;
