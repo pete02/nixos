@@ -13,12 +13,6 @@ in
     enable.gaming = lib.mkEnableOption "enables gaming tools";
   };
   config = lib.mkIf config.enable.gaming {
-    hardware.graphics = {
-      extraPackages = [ pkgs.gamescope-wsi ];
-      extraPackages32 = [ pkgs.pkgsi686Linux.gamescope-wsi ];
-      enable = true;
-      enable32Bit = true;
-    };
 
     programs.steam = {
       enable = true;
