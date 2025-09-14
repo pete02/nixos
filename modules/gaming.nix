@@ -21,7 +21,7 @@ in
     programs.gamemode.enable = true;
 
     users.users.${conf.username}.extraGroups = [
-      "wheel"
+      "video"
     ];
   };
 }
