@@ -9,7 +9,8 @@
     enable.nvidia = lib.mkEnableOption "enables nvida GPUS";
   };
   config = lib.mkIf config.enable.nvidia {
-    hardware.graphics = {
+
+    hardware.opengl = {
       enable = true;
       enable32Bit = true;
     };

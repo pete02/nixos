@@ -20,9 +20,6 @@
       enable = true;
       gamescopeSession.enable = true;
     };
-    hardware.opengl = {
-      enable = true;
-    };
 
     programs.gamescope = {
       enable = true;
