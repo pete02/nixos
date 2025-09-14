@@ -11,7 +11,26 @@
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      inputs,
+      ...
+    }:
+    let
+      overlay = final: prev: {
+        gamescope = prev.gamescope.overrideAttrs (oldAttrs: rec {
+          version = "3.16.17";
+          src = prev.fetchFromGitHub {
+            owner = "ValveSoftware";
+            repo = "gamescope";
+            rev = "refs/tags/${version}";
+            fetchSubmodules = true;
+            hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+          };
+        });
+      };
+    in
     {
 
       nixosConfigurations.talia = nixpkgs.lib.nixosSystem {
@@ -26,6 +45,7 @@
       nixosConfigurations.raysha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
+        nixpkgs.overlays = [ overlay ];
         modules = [
           ./hosts/raysha/configuration.nix
           inputs.home-manager.nixosModules.default
