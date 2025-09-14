@@ -11,12 +11,7 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      inputs,
-      ...
-    }:
+    { self, nixpkgs, ... }@inputs:
     let
       overlay = final: prev: {
         gamescope = prev.gamescope.overrideAttrs (oldAttrs: rec {
