@@ -19,8 +19,7 @@
       kitty
       dunst
       libnotify
-      gtkgreet
-      swww
+      xorg.xrandr
       rofi-wayland
       swaylock
     ];
