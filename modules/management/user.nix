@@ -18,6 +18,7 @@ in
       isNormalUser = true;
       extraGroups = [
         "wheel"
+        "seatgroup"
       ];
     };
     home-manager = {

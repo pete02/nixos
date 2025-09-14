@@ -26,6 +26,7 @@
   boot.kernelParams = [
     "drm.edid_firmware=DP-2:/boot/edid/monitor.bin"
     "nvidia-drm.modeset=1"
+    "nvidia_drm.modeset=1"
     "nvidia.NVreg_UseVBiosModeset=1"
     "nvidia.NVreg_RegistryDwords=EnablePrimaryDisplay=1"
     "video=3440x1440@175"
