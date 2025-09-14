@@ -28,6 +28,7 @@
       pkgs = import nixpkgs {
         system = "x86_64-linux";
         overlays = [ overlay ];
+        config.allowUnfree = true;
       };
     in
     {
