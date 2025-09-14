@@ -7,6 +7,7 @@
   imports = [
     ./configs/hyprland.nix
     ./configs/hyprpanel.nix
+    ./configs/vscode.nix
   ];
 
   home.sessionVariables = {
