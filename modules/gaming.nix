@@ -21,7 +21,7 @@ in
 
     programs.gamescope = {
       enable = true;
-      capSysNice = false;
+      capSysNice = true;
     };
     environment.systemPackages =
       with pkgs;
