@@ -19,8 +19,13 @@
   wayland.windowManager.hyprland = lib.mkIf osConfig.enable.hyprland {
     settings = {
       exec-once = "sleep 5 && xrandr --output DP-2 --primary";
+      experimental = {
+        hdr = true;
+        xx_color_management_v4 = true;
+        wide_color_gamut = true;
+      };
       monitor = [
-        "desc:Dell Inc. Dell AW3423DW,3440x1440@175,0x0,1,bitdepth,primary"
+        "desc:Dell Inc. Dell AW3423DW,3440x1440@175,0x0,1,bitdepth,primary,bitdepth,10"
         "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,3440x0,1"
       ];
       misc = {
