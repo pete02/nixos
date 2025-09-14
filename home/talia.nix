@@ -33,7 +33,7 @@
     };
   };
 
-  programs.hyprpanel.settings.layout.bar.layouts.right = lib.mkIf osConfig.enable.hyprpanel [
+  programs.hyprpanel.settings.bar.layouts.right = lib.mkIf osConfig.enable.hyprpanel [
     "battery"
     "network"
   ];
