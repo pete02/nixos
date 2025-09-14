@@ -5,16 +5,13 @@
   ...
 }:
 let
-  gamescope-pkg = pkgs.gamescope.overrideAttrs {
-    version = "3.14.22";
-    src = pkgs.fetchFromGitHub {
-      owner = "ValveSoftware";
-      repo = "gamescope";
-      rev = "refs/tags/3.14.22";
-      fetchSubmodules = true;
-      hash = "sha256-/muitEE3LCU6Xnjbpczb/zy2JRvUbBPT5L13T/v3MvE=";
-    };
-  };
+  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+    export __NV_PRIME_RENDER_OFFLOAD=1
+    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    export __VK_LAYER_NV_optimus=NVIDIA_only
+    exec "$@"
+  '';
 in
 {
   options = {
@@ -25,21 +22,8 @@ in
     programs.gamescope.enable = true;
     environment.systemPackages = with pkgs; [
       mangohud
+      nvidia-offload
       protonup
-    ];
-    nixpkgs.overlays = [
-      (_: prev: {
-        gamescope = prev.gamescope.overrideAttrs (_: rec {
-          version = "3.14.29";
-          src = prev.fetchFromGitHub {
-            owner = "ValveSoftware";
-            repo = "gamescope";
-            rev = "refs/tags/${version}";
-            fetchSubmodules = true;
-            hash = "sha256-q3HEbFqUeNczKYUlou+quxawCTjpM5JNLrML84tZVYE=";
-          };
-        });
-      })
     ];
     programs.gamemode.enable = true;
   };
