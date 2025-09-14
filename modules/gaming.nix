@@ -36,5 +36,6 @@ in
         stablePkgs.gamescope-wsi
       ];
     programs.gamemode.enable = true;
+    services.seatd.enable = true;
   };
 }
