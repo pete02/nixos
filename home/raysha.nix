@@ -20,9 +20,12 @@
     settings = {
       exec-once = "sleep 5 && xrandr --output DP-2 --primary";
       monitor = [
-        "desc:Dell Inc. Dell AW3423DW,3440x1440@175,0x0,1,bitdepth,primary, bitdepth, 10, cm, hdr"
         "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,3440x0,1"
       ];
+      monitorV2 = {
+        output = "desc:Dell Inc. Dell AW3423DW,3440x1440@175,0x0,1,primary";
+
+      };
       misc = {
         force_default_wallpaper = 2;
       };
