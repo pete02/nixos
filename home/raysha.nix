@@ -23,8 +23,10 @@
         "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,3440x0,1"
       ];
       monitorV2 = {
-        output = "desc:Dell Inc. Dell AW3423DW,3440x1440@175,0x0,1,primary";
-
+        desc = "Dell Inc. Dell AW3423DW";
+        mode = "3440x1440@175";
+        position = "0x0";
+        scale = "1";
       };
       misc = {
         force_default_wallpaper = 2;
