@@ -13,10 +13,7 @@
       };
     };
     extensions = with pkgs.vscode-utils.extensionsFromVscodeMarketplace; [
-      {
-        name = "Nix IDE";
-        publisher = "Noortheen";
-      }
+      jnoortheen.nix-ide
     ];
   };
 }
