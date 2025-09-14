@@ -26,6 +26,10 @@
       misc = {
         force_default_wallpaper = 2;
       };
+
+      debug = {
+        full_cm_proto = true;
+      };
     };
   };
 }
