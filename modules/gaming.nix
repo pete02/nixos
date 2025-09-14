@@ -21,27 +21,25 @@ in
     enable.gaming = lib.mkEnableOption "enables gaming tools";
   };
   config = lib.mkIf config.enable.gaming {
-    programs.steam = {
-      enable = true;
-      extraCompatPackages = with pkgs; [
-        vkd3d-proton
-        vkd3d
-        dxvk_2
-        proton-ge-bin
-        freetype
-        openjdk21_headless
-        wineWowPackages.waylandFull
-        gamescope-wsi
-        vulkan-loader
-      ];
-    };
-    programs.gamescope = {
-      enable = true;
-      package = gamescope-pkg;
-    };
+    programs.steam.enable = true;
+    programs.gamescope.enable = true;
     environment.systemPackages = with pkgs; [
       mangohud
       protonup
+    ];
+    nixpkgs.overlays = [
+      (_: prev: {
+        gamescope = prev.gamescope.overrideAttrs (_: rec {
+          version = "3.14.29";
+          src = prev.fetchFromGitHub {
+            owner = "ValveSoftware";
+            repo = "gamescope";
+            rev = "refs/tags/${version}";
+            fetchSubmodules = true;
+            hash = "sha256-q3HEbFqUeNczKYUlou+quxawCTjpM5JNLrML84tZVYE=";
+          };
+        });
+      })
     ];
     programs.gamemode.enable = true;
   };
