@@ -29,6 +29,21 @@
       mangohud
       protonup
     ];
+
+    nixpkgs.overlays = [
+      (_: prev: {
+        gamescope = prev.gamescope.overrideAttrs (_: rec {
+          version = "3.16.17";
+          src = prev.fetchFromGitHub {
+            owner = "ValveSoftware";
+            repo = "gamescope";
+            rev = "refs/tags/${version}";
+            fetchSubmodules = true;
+            hash = "sha256-q3HEbFqUeNczKYUlou+quxawCTjpM5JNLrML84tZVYE=";
+          };
+        });
+      })
+    ];
     programs.gamemode.enable = true;
   };
 }
