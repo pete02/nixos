@@ -19,9 +19,5 @@ in
       protonup
     ];
     programs.gamemode.enable = true;
-
-    users.users.${conf.username}.extraGroups = [
-      "video"
-    ];
   };
 }
