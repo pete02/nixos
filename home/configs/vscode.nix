@@ -12,7 +12,7 @@
         ];
       };
     };
-    extensions = with pkgs.vscode-utils.extensionsFromVscodeMarketplace; [
+    extensions = with pkgs.vscode-extensions; [
       jnoortheen.nix-ide
     ];
   };
