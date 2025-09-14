@@ -16,31 +16,26 @@
       self,
       nixpkgs,
       nixpkgsStable,
-      home-manager,
       ...
-    }:
-    let
-      overlay = final: prev: {
-        vulkan-tools = nixpkgsStable.vulkan-tools;
-      };
-    in
+    }@inputs:
     {
       nixosConfigurations.talia = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/talia/configuration.nix
-          home-manager.nixosModules.default
+          inputs.home-manager.nixosModules.default
         ];
       };
 
       nixosConfigurations.raysha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+        };
         modules = [
           ./hosts/raysha/configuration.nix
-          home-manager.nixosModules.default
-        ];
-        nixpkgs.overlays = [
-          overlay
+          inputs.home-manager.nixosModules.default
         ];
       };
 
