@@ -24,7 +24,7 @@
   networking.useNetworkd = true;
   services.resolved.enable = true;
   networking.dhcpcd.enable = false;
-
+  programs.nix-ld.enable = true;
   username = "pete";
 
   programs.firefox.enable = true;
