@@ -20,6 +20,7 @@ in
   };
   config = lib.mkIf config.enable.gaming {
     programs.steam.enable = true;
+    programs.gamescope.enable = true;
     nixpkgs.overlays = [
       (_: prev: {
         gamescope = prev.gamescope.overrideAttrs (_: rec {
