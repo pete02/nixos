@@ -21,6 +21,17 @@
 
   networking.hostName = "raysha";
 
+  environment.sessionVariables = {
+    GDK_BACKEND = "wayland,x11";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    #SDL_VIDEODRIVER = "x11";
+    CLUTTER_BACKEND = "wayland";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
+    XDG_SESSION_DESKTOP = "Hyprland";
+    WLR_NO_HARDWARE_CURSORS = "1";
+  };
+
   networking.useNetworkd = true;
   services.resolved.enable = true;
   networking.dhcpcd.enable = false;
@@ -39,6 +50,7 @@
     kdePackages.dolphin
     tree
     lshw
+    ffmpeg
     mdadm
   ];
   system.stateVersion = "25.05";
