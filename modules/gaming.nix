@@ -23,18 +23,29 @@ in
       enable = true;
       capSysNice = true;
     };
-    environment.systemPackages =
-      with pkgs;
-      [
-        mangohud
-        glxinfo
-        protonup
-      ]
-      ++ [
-        stablePkgs.vulkan-tools
-        stablePkgs.gamescope
-        stablePkgs.gamescope-wsi
-      ];
+    environment.systemPackages = with pkgs; [
+      mangohud
+      glxinfo
+      protonup
+    ];
+
+    nixpkgs.config.packageOverrides = pkgs: {
+      steam = pkgs.steam.override {
+        extraPkgs =
+          pkgs: with pkgs; [
+            xorg.libXcursor
+            xorg.libXi
+            xorg.libXinerama
+            xorg.libXScrnSaver
+            libpng
+            libpulseaudio
+            libvorbis
+            stdenv.cc.cc.lib
+            libkrb5
+            keyutils
+          ];
+      };
+    };
     programs.gamemode.enable = true;
     services.seatd.enable = true;
   };
