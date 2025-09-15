@@ -2,12 +2,8 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
-let
-  stablePkgs = import inputs.nixpkgsStable { system = "x86_64-linux"; };
-in
 {
   options = {
     enable.gaming = lib.mkEnableOption "enables gaming tools";
