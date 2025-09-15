@@ -13,5 +13,6 @@
     ./management/user.nix
     ./gaming.nix
     ./management/wireless.nix
+    ./management/bluetooth.nix
   ];
 }

@@ -18,6 +18,7 @@
     school = true;
     powersave = true;
     wireless = true;
+    bluetooth = true;
   };
   networking.hostName = "talia";
   username = "pete";
