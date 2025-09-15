@@ -11,7 +11,14 @@
   ];
 
   home.sessionVariables = {
-
+    GDK_BACKEND = "wayland,x11";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    #SDL_VIDEODRIVER = "x11";
+    CLUTTER_BACKEND = "wayland";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
+    XDG_SESSION_DESKTOP = "Hyprland";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   programs.home-manager.enable = true;
@@ -20,14 +27,7 @@
     importantPrefixes = [ "output" ];
     settings = {
       environment = {
-        GDK_BACKEND = "wayland,x11";
-        QT_QPA_PLATFORM = "wayland;xcb";
-        #SDL_VIDEODRIVER = "x11";
-        CLUTTER_BACKEND = "wayland";
-        XDG_CURRENT_DESKTOP = "Hyprland";
-        XDG_SESSION_TYPE = "wayland";
-        XDG_SESSION_DESKTOP = "Hyprland";
-        WLR_NO_HARDWARE_CURSORS = "1";
+
       };
       exec-once = "sleep 5 && xrandr --output DP-2 --primary";
       monitor = [
