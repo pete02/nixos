@@ -33,8 +33,20 @@
   };
 
   networking.useNetworkd = true;
+  networking.enableIPv6 = true;
   services.resolved.enable = true;
   networking.dhcpcd.enable = false;
+
+  systemd.network.networks."10-wired" = {
+    matchConfig.Name = "enp12s0"; # replace with your NIC name
+    networkConfig.DHCP = "yes";
+    dhcpConfig = {
+      ClientIdentifier = "mac";
+      UseDomains = "true";
+      CriticalConnection = "true";
+    };
+  };
+
   programs.nix-ld.enable = true;
   username = "pete";
 
