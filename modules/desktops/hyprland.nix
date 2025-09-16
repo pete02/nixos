@@ -20,7 +20,7 @@
       libnotify
       xorg.xrandr
       playerctl
-      rofi-wayland
+      rofi
       swaylock
     ];
 
