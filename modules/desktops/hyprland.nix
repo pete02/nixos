@@ -19,6 +19,7 @@
       dunst
       libnotify
       xorg.xrandr
+      playerctl
       rofi-wayland
       swaylock
     ];
