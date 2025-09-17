@@ -65,7 +65,7 @@
         "$mod, right, movefocus, r"
         "$mod, up, fullscreenstate, 1"
         "$mod, mouse_down, workspace, e+1"
-        "$mod, p, exec, grim -g \"$(slupr)\" - | convert --shave 1x1 PNG:- | wl-copy"
+        "$mod, p, exec, export SCREENSHOT=~/screenshots/\"$(date '+%Y-%m-%d_%H-%M-%S').png\" && grim -g \"$(slurp)\" - | magick - -shave 1x1 PNG:- > \"$SCREENSHOT\" && cat \"$SCREENSHOT\" | wl-copy"
         "$mod, mouse_up, workspace, e-1"
         "$mod, V, togglefloating"
       ];
