@@ -21,6 +21,7 @@
       xorg.xrandr
       grim
       slurp
+      imagemagick
       wl-clipboard
       playerctl
       rofi

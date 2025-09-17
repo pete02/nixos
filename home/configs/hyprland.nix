@@ -65,6 +65,7 @@
         "$mod, right, movefocus, r"
         "$mod, up, fullscreenstate, 1"
         "$mod, mouse_down, workspace, e+1"
+        "$mod p, exec, grim -g \"$(slupr)\" - | convert --shave 1x1 PNG:- | wl-copy"
         "$mod, mouse_up, workspace, e-1"
         "$mod, V, togglefloating"
       ];
