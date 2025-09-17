@@ -23,6 +23,7 @@
       slurp
       imagemagick
       wl-clipboard
+      feh
       playerctl
       rofi
       swaylock
