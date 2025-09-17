@@ -19,6 +19,9 @@
       dunst
       libnotify
       xorg.xrandr
+      grim
+      slurp
+      wl-clipboard
       playerctl
       rofi
       swaylock
