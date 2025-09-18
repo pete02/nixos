@@ -22,7 +22,7 @@ let
 
 
     echo "Rebuilding system for $HOSTNAME..."
-    ehco "Please insert password for nixos-rebuild"
+    echo "Please insert password for nixos-rebuild"
     if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME"; then
         echo "Rebuild successful"
         git push
