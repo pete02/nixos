@@ -40,8 +40,7 @@
 
         if [ "$changed" -eq 1 ]; then
           sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)
-          DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u pete)/bus" \
-            notify-send "NixOS" "System configuration updated and rebuilt."
+          notify-send "NixOS" "System configuration updated and rebuilt."
         fi
       ''}";
     };
