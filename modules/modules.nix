@@ -14,5 +14,6 @@
     ./gaming.nix
     ./management/wireless.nix
     ./management/bluetooth.nix
+    ./razer.nix
   ];
 }
