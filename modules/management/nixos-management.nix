@@ -17,12 +17,11 @@
 
   nix.settings.auto-optimise-store = true;
 
-  systemd.services.update-nixos-config = {
+  systemd.user.services.update-nixos-config = {
     description = "Auto-update NixOS config + flakes at boot";
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "simple";
-      Userr = "pete";
       Environment = ''
         PATH=/run/current-system/sw/bin:/run/current-system/profile/bin:/usr/bin:/bin
       '';
@@ -51,8 +50,7 @@
         fi
 
         if [ "$changed" -eq 1 ]; then
-          sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)
-          notify-send "NixOS" "System configuration updated and rebuilt."
+          notify-send "NixOS" "System configuration updated and  ready to be rebuilt."
         fi
       ''}";
     };
