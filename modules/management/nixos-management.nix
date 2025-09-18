@@ -1,5 +1,5 @@
 {
-  ...
+  pkgs,...
 }:
 {
   nix.settings.experimental-features = [
@@ -20,4 +20,5 @@
   };
 
   nix.settings.auto-optimise-store = true;
+
 }
