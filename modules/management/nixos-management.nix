@@ -17,14 +17,16 @@
 
   nix.settings.auto-optimise-store = true;
 
-  systemd.user.services.update-nixos-config = {
+  systemd.services.update-nixos-config = {
     description = "Auto-update NixOS config + flakes at boot";
-    wantedBy = [ "default.target" ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.writeShellScript "sync-nixos-config" ''
-        set -e
-        echo "started git sync"
+      Environment = ''
+        PATH=/run/current-system/sw/bin:/run/current-system/profile/bin:/usr/bin:/bin
+      '';
+      ExecStart = "${pkgs.writeShellScript "update-nixos-config" ''
+        set -ex
         until ping -c1 github.com >/dev/null 2>&1; do
           sleep 10
         done
@@ -33,25 +35,25 @@
         changed=0
 
         # Git pull as user
-        if ! pete git pull --ff-only | grep -q "Already up to date"; then
+        echo "start fetching"
+        if ! sudo -u pete git pull --ff-only | grep -q "Already up to date"; then
           changed=1
         fi
         echo "fetched from git"
         # Flake update as user
-        nix flake update
+        sudo -u pete nix flake update
         if ! sudo -u pete git diff --quiet flake.lock; then
-          git add flake.lock
-          git commit -m "Auto-update flake inputs"
-          push origin master
+          sudo -u pete git add flake.lock
+          sudo -u pete git commit -m "Auto-update flake inputs"
+          sudo -u pete git push origin master
           changed=1
         fi
 
         if [ "$changed" -eq 1 ]; then
-          sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)
-          DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u pete)/bus" \
+          nixos-rebuild switch --flake /etc/nixos#$(hostname)
+          sudo -u pete DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u pete)/bus" \
             notify-send "NixOS" "System configuration updated and rebuilt."
         fi
-        echo "ended git sync"
       ''}";
     };
   };
