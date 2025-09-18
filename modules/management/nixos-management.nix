@@ -19,8 +19,6 @@
 
   systemd.services.update-nixos-config = {
     description = "Auto-update NixOS config + flakes at boot";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "simple";
