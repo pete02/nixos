@@ -54,7 +54,7 @@ in
   nix.settings.auto-optimise-store = true;
   systemd.user.services.update-nixos-config = {
     description = "Auto-update NixOS config + flakes at boot";
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = [ "default.target" ];
     serviceConfig = {
       Type = "simple";
       Environment = ''
