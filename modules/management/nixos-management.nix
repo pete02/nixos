@@ -22,8 +22,9 @@
     wantedBy = [ "default.target" ];
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.writeShellScript "update-nixos-config" ''
+      ExecStart = "${pkgs.writeShellScript "sync-nixos-config" ''
         set -e
+        echo "started git sync"
         until ping -c1 github.com >/dev/null 2>&1; do
           sleep 10
         done
@@ -50,6 +51,7 @@
           DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u pete)/bus" \
             notify-send "NixOS" "System configuration updated and rebuilt."
         fi
+        echo "ended git sync"
       ''}";
     };
   };
