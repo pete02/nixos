@@ -44,7 +44,7 @@
           nixos-rebuild switch --flake /etc/nixos#$(HOSTNAME)
           sudo -u pete DISPLAY=:0 \
             DBUS_SESSION_BUS_ADDRESS="unix:path=/run/userid -u pete)/bus" \
-            notify-send "NixOS" "System configuration updated and rebuilt."
+            ${pkgs.libnotify}/bin/notify-sendnotify-send "NixOS" "System configuration updated and rebuilt."
         fi
       '';
     };
