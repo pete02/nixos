@@ -2,8 +2,11 @@
 set -euo pipefail
 HOSTNAME=$(hostname)
 
-treefmt . &>/dev/null  || ( treefmt . ; echo "formatting failed!" && exit 1)
-
+if ! treefmt /etc/nixos/. &>/dev/null; then
+    echo "treefmt failed, running for output:"
+    treefmt /etc/nixos/.
+    exit 1
+fi
 git add /etc/nixos/.
 
 # Shows your changes
