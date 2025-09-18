@@ -60,7 +60,7 @@
         "$mod, SPACE, exec, rofi -show drun -show-icons"
         "$mod, C, killactive"
         "$mod, M, exit"
-        "$mod, V, killactive"
+        "$mod, V, togglefloating"
         "$mod, left, movefocus, l"
         "$mod, right, movefocus, r"
         "$mod, up, fullscreenstate, 1"
