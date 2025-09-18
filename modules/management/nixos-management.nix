@@ -21,14 +21,18 @@
     description = "Auto-update NixOS config + flakes at boot";
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = ["multi-user.target"];
     serviceConfig = {
-      Type = "oneshot";
+      Type = "simple";
       Environment = ''
         PATH=/run/current-system/sw/bin:/run/current-system/profile/bin:/usr/bin:/bin
       '';
       ExecStart = "${pkgs.writeShellScript "update-nixos-config" ''
         set -e
+        until ping -c1 github.com >/dev/null 2>&1; do
+          sleep 10
+        done
+
         cd /etc/nixos
         changed=0
 
