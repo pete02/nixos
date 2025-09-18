@@ -1,4 +1,9 @@
-{ lib, osConfig, ... }:
+{
+  lib,
+  osConfig,
+  pkgs,
+  ...
+}:
 {
   home.username = "pete";
   home.homeDirectory = "/home/pete";
@@ -40,7 +45,7 @@
 
         if [ "$changed" -eq 1 ]; then
           sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)
-          notify-send "NixOS" "System configuration updated and rebuilt."
+            notify-send "NixOS" "System configuration updated and rebuilt."
         fi
       ''}";
     };
