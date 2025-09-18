@@ -49,6 +49,7 @@ in
 
   environment.systemPackages = [
     pkgs.nixfmt-tree
+    pkgs.libnotify
     rebuild-script
   ];
 

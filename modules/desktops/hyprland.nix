@@ -17,7 +17,6 @@
     environment.systemPackages = with pkgs; [
       kitty
       dunst
-      libnotify
       xorg.xrandr
       grim
       slurp
