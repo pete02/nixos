@@ -36,6 +36,7 @@
   programs.hyprpanel.settings.bar.layouts."*".right = lib.mkIf osConfig.enable.hyprpanel [
     "network"
     "bluetooth"
+    "battery"
   ];
 
 }
