@@ -12,6 +12,7 @@
             ];
             middle = [ "media" ];
             right = [
+
               "netstat"
               "clock"
               "systray"

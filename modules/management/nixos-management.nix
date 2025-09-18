@@ -3,7 +3,7 @@
   ...
 }:
 let
-  rebuild-script = pkgs.writeShellScriptBin "rebuild.sh" ''
+  rebuild-script = pkgs.writeShellScriptBin "rebuild" ''
     set -euo pipefail
     HOSTNAME=$(hostname)
 
@@ -44,6 +44,7 @@ in
   };
 
   environment.systemPackages = [
+    pkgs.nixfmt-tree
     rebuild-script
   ];
 

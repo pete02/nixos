@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
+cd /etc/nixos
 set -euo pipefail
 HOSTNAME=$(hostname)
 
-if ! treefmt /etc/nixos/. &>/dev/null; then
+if ! treefmt --no-cache --tree-root /etc/nixos &>/dev/null; then
     echo "treefmt failed, running for output:"
-    treefmt /etc/nixos/.
+    treefmt --no-cache --tree-root  /etc/nixos
     exit 1
 fi
 git add /etc/nixos/.

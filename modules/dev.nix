@@ -12,7 +12,6 @@
   config = lib.mkIf config.enable.dev {
     environment.systemPackages = with pkgs; [
       nixd
-      nixfmt-tree
     ];
 
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
