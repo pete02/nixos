@@ -2,7 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     openrazer-daemon
-    polychormatic
+    polychromatic
   ];
 
   users.users.${config.username} = {
