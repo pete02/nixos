@@ -19,4 +19,4 @@ if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME"; then
 else
     echo "Rebuild failed, not pushing."
     exit 1
-fi    
+fi
