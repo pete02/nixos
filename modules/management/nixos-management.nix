@@ -24,7 +24,6 @@
       buildInputs = [
         pkgs.git
         pkgs.nix
-        pkgs.notify-send
       ];
 
       installPhase = ''
