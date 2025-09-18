@@ -18,7 +18,7 @@
   environment.systemPackages = [
     pkgs.writeScriptBin
     "rebuild"
-    (builtins.readFile "./rebuild.sh")
+    (builtins.readFile "/etc/nixos/rebuild.sh")
   ];
 
   nix.settings.auto-optimise-store = true;
