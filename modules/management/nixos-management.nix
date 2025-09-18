@@ -36,7 +36,7 @@
         if ! pete git pull --ff-only | grep -q "Already up to date"; then
           changed=1
         fi
-
+        echo "fetched from git"
         # Flake update as user
         nix flake update
         if ! sudo -u pete git diff --quiet flake.lock; then
