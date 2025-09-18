@@ -22,9 +22,6 @@
     wantedBy = [ "default.target" ];
     serviceConfig = {
       Type = "simple";
-      Environment = ''
-        PATH=/run/current-system/sw/bin:/run/current-system/profile/bin:/usr/bin:/bin
-      '';
       ExecStart = "${pkgs.writeShellScript "update-nixos-config" ''
         set -e
         until ping -c1 github.com >/dev/null 2>&1; do
