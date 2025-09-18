@@ -15,52 +15,13 @@
     options = "--delete-older-than 10d";
   };
 
-  nix.settings.auto-optimise-store = true;
-  environment.systemPackages = with pkgs; [
-    # other packages...
-    (pkgs.stdenv.mkDerivation {
-      name = "rebuild-command";
-      src = null;
-      buildInputs = [
-        pkgs.git
-        pkgs.nix
-      ];
-
-      installPhase = ''
-                mkdir -p $out/bin
-                cat > $out/bin/rebuild <<'EOF'
-        #!/usr/bin/env bash
-        set -euo pipefail
-        HOSTNAME=$(hostname)
-
-        if ! treefmt /etc/nixos/. &>/dev/null; then
-            echo "treefmt failed, running for output:"
-            treefmt /etc/nixos/.
-            exit 1
-        fi
-        git add /etc/nixos/.
-
-        # Shows your changes
-        git diff -U0 '*.nix'
-
-        git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
-
-
-        echo "Rebuilding system for $HOSTNAME..."
-        if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME"; then
-            echo "Rebuild successful"
-            git push
-        else
-            echo "Rebuild failed, not pushing."
-            exit 1
-        fi
-        EOF
-
-                chmod +x $out/bin/rebuild
-      '';
-    })
+  environment.systemPackages = [
+    pkgs.writeScriptBin
+    "rebuild"
+    (builtins.readFile "./rebuild.sh")
   ];
 
+  nix.settings.auto-optimise-store = true;
   systemd.user.services.update-nixos-config = {
     description = "Auto-update NixOS config + flakes at boot";
     wantedBy = [ "multi-user.target" ];
