@@ -20,7 +20,6 @@
   systemd.user.services.update-nixos-config = {
     description = "Auto-update NixOS config + flakes at boot";
     wantedBy = [ "default.target" ];
-    User = "pete";
     serviceConfig = {
       Type = "simple";
       Environment = ''
