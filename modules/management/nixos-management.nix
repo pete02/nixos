@@ -69,12 +69,13 @@ in
         done
 
         cd /etc/nixos
-        changed=0
+        flaked=0
+        pulled=0
 
         # Git pull as user
         echo "start fetching"
         if ! git pull --ff-only | grep -q "Already up to date"; then
-          changed=1
+          pulled=1
         fi
         echo "fetched from git"
         # Flake update as user
@@ -83,11 +84,18 @@ in
           git add flake.lock
           git commit -m "Auto-update flake inputs"
           git push origin master
-          changed=1
+          flaked=1
         fi
 
-        if [ "$changed" -eq 1 ]; then
-          notify-send "NixOS" "System configuration updated and  ready to be rebuilt."
+        if [ "$pulled" -eq 1 ] || [ "$flaked" -eq 1 ]; then
+          msg="System ready for rebuild:"
+          if [ "$pulled" -eq 1 ]; then
+              msg="$msg \n- configuration pulled"
+          fi
+          if [ "$flaked" -eq 1 ]; then
+              msg="$msg \n- flake updated"
+          fi
+          notify-send "NixOS" "$msg"
         fi
       ''}";
     };
