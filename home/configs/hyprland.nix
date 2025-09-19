@@ -61,8 +61,6 @@
         "$mod, C, killactive"
         "$mod, M, exit"
         "$mod, V, togglefloating"
-        "$mod, left, movetoworkspace, 2"
-        "$mod, right, movetoworkspace, 1"
         "$mod, up, fullscreenstate, 1"
         "$mod, mouse_down, workspace, e+1"
         "$mod, p, exec, export SCREENSHOT=~/screenshots/\"$(date '+%Y-%m-%d_%H-%M-%S').png\" && grim -g \"$(slurp)\" - | magick - -shave 1x1 PNG:- > \"$SCREENSHOT\" && cat \"$SCREENSHOT\" | wl-copy"

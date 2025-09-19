@@ -30,6 +30,11 @@
         "eDP-1,1920x1080,0x0,1"
         "HDMI-A-1,preferred,1920x0,1"
       ];
+
+      bind = [
+        "$mod, left, movetoworkspace, 1"
+        "$mod, right, movetoworkspace, 2"
+      ];
     };
   };
 

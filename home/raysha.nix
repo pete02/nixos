@@ -37,6 +37,11 @@
         force_default_wallpaper = 2;
       };
 
+      bind = [
+        "$mod, left, movetoworkspace, 2"
+        "$mod, right, movetoworkspace, 1"
+      ];
+
       debug = {
         full_cm_proto = true;
       };
