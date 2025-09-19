@@ -13,7 +13,7 @@
     environment.systemPackages = with pkgs; [
       nixd
     ];
-
+    docker.enable = true;
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   };
 }
