@@ -30,7 +30,7 @@
       extraGroups = [ "docker" ];
     };
 
-    systemd.services.docker.enable = true;
+    systemd.services.docker.enable = false;
 
   };
 }
