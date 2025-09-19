@@ -12,7 +12,7 @@
       enable = true;
 
       rootless = {
-        enable = true;
+        enable = false;
         setSocketVariable = true;
         # Optionally customize rootless Docker daemon settings
         daemon.settings = {
@@ -30,7 +30,7 @@
       extraGroups = [ "docker" ];
     };
 
-    systemd.services.docker.enable = false;
+    systemd.services.docker.enable = true;
 
   };
 }
