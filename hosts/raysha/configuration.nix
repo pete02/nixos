@@ -18,12 +18,7 @@
     nvidia = true;
     gaming = true;
   };
-  nix.settings = {
-    trusted-users = [
-      "root"
-      "pete"
-    ];
-  };
+
   networking.hostName = "raysha";
 
   environment.sessionVariables = {
