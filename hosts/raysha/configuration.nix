@@ -18,7 +18,16 @@
     nvidia = true;
     gaming = true;
   };
+  nix.settings = {
+    use-sandbox = false;
+    show-trace = true;
+    trusted-users = [
+      "root"
+      "pete"
+    ];
 
+    sandbox-paths = [ "/bin/sh=${pkgs.busybox-sandbox-shell.out}/bin/busybox" ];
+  };
   networking.hostName = "raysha";
 
   environment.sessionVariables = {
