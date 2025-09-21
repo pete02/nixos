@@ -51,6 +51,7 @@ in
   environment.systemPackages = [
     pkgs.nixfmt-tree
     pkgs.libnotify
+    pkgs.nvd
     rebuild-script
   ];
 

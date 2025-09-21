@@ -19,7 +19,6 @@ git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No 
 echo "Rebuilding system for $HOSTNAME..."
 if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME"; then
     echo "Rebuild successful"
-    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2)
     git push
 else
     echo "Rebuild failed, not pushing."
