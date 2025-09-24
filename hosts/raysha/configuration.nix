@@ -50,7 +50,7 @@
   programs.nix-ld.enable = true;
   username = "pete";
 
-  programs.firefox.enable = true;
+  programs.firefox.enable = false;
 
   environment.systemPackages = with pkgs; [
     vim
