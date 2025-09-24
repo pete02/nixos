@@ -53,6 +53,7 @@ in
     pkgs.libnotify
     pkgs.nvd
     pkgs.vulnix
+    pkgs.neofetch
     rebuild-script
   ];
 
