@@ -52,6 +52,7 @@ in
     pkgs.nixfmt-tree
     pkgs.libnotify
     pkgs.nvd
+    pkgs.vulnix
     rebuild-script
   ];
 
