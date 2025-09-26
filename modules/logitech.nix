@@ -10,10 +10,10 @@
   };
   config = {
     environment.systemPackages = [
-      pkgs.piper
-      pkgs.libratbag
+      pkgs.solaar
+      pkgs.logitech-udev-rules
     ];
     hardware.logitech.wireless.enable = true;
-    services.ratbagd.enable = true;
+
   };
 }
