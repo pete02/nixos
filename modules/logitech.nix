@@ -9,18 +9,32 @@
     enable.logitech = lib.mkEnableOption "Enable Solaar (logitech hub alternative)";
   };
   config = {
-    virtualisation.libvirtd.enable = true;
-    virtualisation.libvirtd.qemu = true;
+    programs.dconf.enable = true;
 
-    # Install QEMU and virt-manager for GUI
+    users.users.pete.extraGroups = [ "libvirtd" ];
+
     environment.systemPackages = with pkgs; [
-      qemu
       virt-manager
-      ovmf # UEFI firmware for Windows VMs
-      spice-vdagent
+      virt-viewer
+      spice
+      spice-gtk
+      spice-protocol
+      win-virtio
+      win-spice
+      gnome.adwaita-icon-theme
     ];
 
-    # Enable user to access libvirt
-    users.groups.libvirt.members = [ "pete" ];
+    virtualisation = {
+      libvirtd = {
+        enable = true;
+        qemu = {
+          swtpm.enable = true;
+          ovmf.enable = true;
+          ovmf.packages = [ pkgs.OVMFFull.fd ];
+        };
+      };
+      spiceUSBRedirection.enable = true;
+    };
+    services.spice-vdagentd.enable = true;
   };
 }
