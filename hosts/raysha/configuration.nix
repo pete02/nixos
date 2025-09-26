@@ -17,7 +17,7 @@
     hyprpanel = true;
     nvidia = true;
     gaming = true;
-    logitech = true;
+    logitech = false;
   };
 
   networking.hostName = "raysha";
