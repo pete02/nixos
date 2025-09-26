@@ -24,6 +24,7 @@
       wineWow64Packages.waylandFull
       glxinfo
       protonup
+      lutris
     ];
 
     nixpkgs.config.packageOverrides = pkgs: {
