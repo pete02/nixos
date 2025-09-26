@@ -15,5 +15,6 @@
     ./management/wireless.nix
     ./management/bluetooth.nix
     ./razer.nix
+    ./logitech.nix
   ];
 }
