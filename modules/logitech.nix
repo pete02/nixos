@@ -14,5 +14,6 @@
       pkgs.libratbag
     ];
     hardware.logitech.wireless.enable = true;
+    services.ratbagd.enable = true;
   };
 }
