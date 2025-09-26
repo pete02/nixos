@@ -37,7 +37,7 @@
             libpulseaudio
             libvorbis
             stdenv.cc.cc.lib
-            wineWow64Packages.waylandFull
+            wineWow64Packages.stable
             libkrb5
             keyutils
           ];
