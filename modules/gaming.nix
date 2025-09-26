@@ -21,6 +21,7 @@
     };
     environment.systemPackages = with pkgs; [
       mangohud
+      wineWow64Packages.waylandFull
       glxinfo
       protonup
     ];
@@ -37,7 +38,6 @@
             libpulseaudio
             libvorbis
             stdenv.cc.cc.lib
-            wineWow64Packages.stable
             libkrb5
             keyutils
           ];
