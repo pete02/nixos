@@ -42,12 +42,6 @@ in
   ];
   nixpkgs.config.allowUnfree = true;
 
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 7d";
-  };
-
   environment.systemPackages = [
     pkgs.nixfmt-tree
     pkgs.libnotify
@@ -57,51 +51,13 @@ in
     rebuild-script
   ];
 
-  nix.settings.auto-optimise-store = true;
-  systemd.user.services.update-nixos-config = {
-    description = "Auto-update NixOS config + flakes at boot";
-    wantedBy = [ "default.target" ];
-    serviceConfig = {
-      Type = "simple";
-      Environment = ''
-        PATH=/run/current-system/sw/bin:/run/current-system/profile/bin:/usr/bin:/bin
-      '';
-      ExecStart = "${pkgs.writeShellScript "update-nixos-config" ''
-        set -ex
-        until ping -c1 github.com >/dev/null 2>&1; do
-          sleep 10
-        done
-
-        cd /etc/nixos
-        flaked=0
-        pulled=0
-
-        # Git pull as user
-        echo "start fetching"
-        if ! git pull --ff-only | grep -q "Already up to date"; then
-          pulled=1
-        fi
-        echo "fetched from git"
-        # Flake update as user
-        nix flake update
-        if ! git diff --quiet flake.lock; then
-          git add flake.lock
-          git commit -m "Auto-update flake inputs"
-          git push origin master
-          flaked=1
-        fi
-
-        if [ "$pulled" -eq 1 ] || [ "$flaked" -eq 1 ]; then
-          msg="System ready for rebuild:"
-          if [ "$pulled" -eq 1 ]; then
-              msg="$msg \n- configuration pulled"
-          fi
-          if [ "$flaked" -eq 1 ]; then
-              msg="$msg \n- flake updated"
-          fi
-          notify-send "NixOS" "$msg"
-        fi
-      ''}";
-    };
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 7d";
   };
+
+  nix.settings.auto-optimise-store = true;
+  services.cleaner.enable = true;
+  services.autoupdater.enable = true;
 }
