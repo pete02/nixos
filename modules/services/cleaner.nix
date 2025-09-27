@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib;
@@ -24,9 +25,8 @@ in
         "shutdown.target"
       ];
       serviceConfig = {
-        User = "pete";
         Type = "oneshot";
-        ExecStart = "/run/current-system/sw/bin/rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*";
+        ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*'";
       };
     };
   };
