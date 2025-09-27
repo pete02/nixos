@@ -9,7 +9,8 @@
     enable.logitech = lib.mkEnableOption "Enable Solaar (logitech hub alternative)";
   };
   config = lib.mkIf config.enable.logitech {
-    enable.virtualisation = true;
+    config.enable.virtual = true;
+
     environment.systemPackages = with pkgs; [
       logiops
       piper
