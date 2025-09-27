@@ -23,6 +23,7 @@
       imagemagick
       wl-clipboard
       feh
+      vlc
       playerctl
       rofi
       swaylock
