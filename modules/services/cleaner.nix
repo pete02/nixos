@@ -26,7 +26,7 @@ in
       serviceConfig = {
         User = "pete";
         Type = "oneshot";
-        ExecStart = "/usr/bin/rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*";
+        ExecStart = "/run/current-system/sw/bin/rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*";
       };
     };
   };
