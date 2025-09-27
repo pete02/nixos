@@ -10,7 +10,11 @@
   };
   config = lib.mkIf config.enable.logitech {
     config.enable.virtualisation = true;
-    environment.systemPackages = [ pkgs.logiops ];
+    environment.systemPackages = with pkgs; [
+      logiops
+      piper
+      libratbag
+    ];
 
     hardware.logitech.wireless.enable = true;
   };
