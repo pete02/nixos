@@ -19,7 +19,6 @@ in
   config = mkIf cleanercfg.enable {
     systemd.services.cleaner = {
       description = "Clean Downloads and Trash at shutdown";
-      after = "network.target";
       wantedBy = [
         "multi-user.target"
       ];
