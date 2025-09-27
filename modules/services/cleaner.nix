@@ -19,7 +19,7 @@ in
   config = mkIf cleanercfg.enable {
     systemd.services.cleaner = {
       description = "Clean Downloads and Trash at shutdown";
-      wantedBy = [
+      before = [
         "halt.target"
         "reboot.target"
         "shutdown.target"
