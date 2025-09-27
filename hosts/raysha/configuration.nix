@@ -18,6 +18,7 @@
     nvidia = true;
     gaming = true;
     logitech = true;
+    books = true;
   };
 
   networking.hostName = "raysha";

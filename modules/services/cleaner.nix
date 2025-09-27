@@ -25,7 +25,14 @@ in
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        ExecStop = "${pkgs.runtimeShell} -c 'rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*'";
+        ExecStop = "${pkgs.runtimeShell} -c ''
+          rm -rf /home/pete/Downloads/* 
+          /home/pete/.local/share/Trash/*
+          /home/pete/.cache/thumbnails/* \
+          /home/pete/.cache/vlc/* \
+          /home/pete/.cache/mpv/*
+          /home/pete/.cache/pip
+          ''";
       };
     };
   };
