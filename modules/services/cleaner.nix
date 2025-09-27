@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib;
@@ -27,7 +26,7 @@ in
       serviceConfig = {
         User = "pete";
         Type = "oneshot";
-        ExecStart = "/usr/bin/rm -rf /home/*/Downloads/* /home/*/.local/share/Trash/*";
+        ExecStart = "/usr/bin/rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*";
       };
     };
   };
