@@ -60,6 +60,7 @@
     git
     zip
     unzip
+    unrar
     brave
     kdePackages.dolphin
     tree
