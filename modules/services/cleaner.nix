@@ -22,8 +22,8 @@ in
       wantedBy = [
         "multi-user.target"
       ];
-      Before = "umount.target";
-      Requires = "local-fs.target";
+      Before = [ "umount.target" ];
+      Requires = [ "local-fs.target" ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
