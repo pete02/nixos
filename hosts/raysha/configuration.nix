@@ -66,6 +66,7 @@
     tree
     lshw
     ffmpeg
+    kcalc
     mdadm
   ];
   system.stateVersion = "25.05";
