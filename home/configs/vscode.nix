@@ -11,9 +11,17 @@
           "treefmt"
         ];
       };
+      "terminal.integrated.profiles.linux" = {
+        "nix-bash" = {
+          "path" = "${pkgs.bash}/bin/bash";
+        };
+      };
+      "terminal.integrated.defaultProfile.linux" = "nix-bash";
     };
     profiles.default.extensions = with pkgs.vscode-extensions; [
       jnoortheen.nix-ide
+      arrterian.nix-env-selector
+
     ];
   };
 }
