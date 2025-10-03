@@ -27,7 +27,6 @@ in
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-        ExecStart = "/bin/true";
         ExecStop = "${pkgs.runtimeShell} -c ''
           rm -rf /home/pete/Downloads/* 
           /home/pete/.local/share/Trash/*
