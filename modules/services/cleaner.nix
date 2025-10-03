@@ -23,7 +23,9 @@ in
       before = [ "shutdown.target" ]; # run at shutdown
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*'";
+        ExecStart = "${pkgs.runtimeShell} -c ''
+        rm -rf /home/pete/Downloads/* \
+         /home/pete/.local/share/Trash/*''";
       };
     };
   };
