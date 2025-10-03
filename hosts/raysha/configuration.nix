@@ -66,7 +66,7 @@
     tree
     lshw
     ffmpeg
-    kcalc
+    kdePackages.kcalc
     mdadm
   ];
   system.stateVersion = "25.05";
