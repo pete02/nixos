@@ -22,9 +22,12 @@ in
       wantedBy = [
         "multi-user.target"
       ];
+      Before = "umount.target";
+      Requires = "local-fs.target";
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
+        ExecStart = "/bin/true";
         ExecStop = "${pkgs.runtimeShell} -c ''
           rm -rf /home/pete/Downloads/* 
           /home/pete/.local/share/Trash/*
