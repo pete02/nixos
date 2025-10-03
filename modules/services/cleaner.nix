@@ -19,22 +19,18 @@ in
   config = mkIf cleanercfg.enable {
     systemd.services.cleaner = {
       description = "Clean Downloads and Trash at shutdown";
-      wantedBy = [
-        "multi-user.target"
-      ];
-      before = [ "umount.target" ];
-      requires = [ "local-fs.target" ];
+      wantedBy = [ "multi-user.target" ];
+      before = [ "shutdown.target" ]; # run at shutdown
       serviceConfig = {
         Type = "oneshot";
-        RemainAfterExit = true;
-        ExecStop = "${pkgs.runtimeShell} -c ''
-          rm -rf /home/pete/Downloads/* 
-          /home/pete/.local/share/Trash/*
-          /home/pete/.cache/thumbnails/* \
-          /home/pete/.cache/vlc/* \
-          /home/pete/.cache/mpv/*
-          /home/pete/.cache/pip
-          ''";
+        ExecStart = "${pkgs.runtimeShell} -c ''
+      rm -rf /home/pete/Downloads/* \
+             /home/pete/.local/share/Trash/* \
+             /home/pete/.cache/thumbnails/* \
+             /home/pete/.cache/vlc/* \
+             /home/pete/.cache/mpv/* \
+             /home/pete/.cache/pip
+    ''";
       };
     };
   };
