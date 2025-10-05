@@ -14,7 +14,7 @@ with lib;
     };
   };
   config = mkIf config.services.enable.gitops {
-    systemd.services.check-nixos-updates = {
+    systemd.services.gitops = {
       description = "Check remote NixOS config repo for updates";
       serviceConfig = {
         Type = "oneshot";
@@ -38,7 +38,7 @@ with lib;
     };
 
 
-    systemd.timers.autoupdater = {
+    systemd.timers.gitops = {
       description = "Timer for auto-updating NixOS from git";
       wantedBy = [ "timers.target" ];
       timerConfig = {
