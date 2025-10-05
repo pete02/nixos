@@ -29,14 +29,14 @@ with lib;
           if [ "$LOCAL" != "$REMOTE" ]; then
             echo "Remote has updates, triggering autoupdater"
             systemctl --user start update-nixos-config.service
-          else;
+          else
             echo "Local in sync"
           fi
         '';
       };
     };
 
-    
+
     systemd.timers.autoupdater = {
       description = "Timer for auto-updating NixOS from git";
       wantedBy = [ "timers.target" ];
