@@ -20,7 +20,7 @@ with lib;{
     };
     services.fail2ban.enable = true;
   users.users.${config.username}.openssh.authorizedKeys.keys = [
-    "ssh-rsa AAAAB3Nz....6OWM= user" # content of authorized_keys file
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcUoZ1iRFqNMy/cf3aVsvEmnwysuK8CAm1dHi6DbskN pete"
     # note: ssh-copy-id will add user@your-machine after the public key
     # but we can remove the "@your-machine" part
   ];
