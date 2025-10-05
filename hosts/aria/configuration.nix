@@ -77,7 +77,10 @@
     nvidia=true;
     
   };
-  services.enable.ssh=true;
+  services.enable={
+    ssh=true;
+    gitops = true;
+  };
   # programs.firefox.enable = true;
   username="pete";
   # List packages installed in system profile.

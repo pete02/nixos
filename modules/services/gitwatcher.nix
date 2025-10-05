@@ -29,6 +29,8 @@ with lib;
           if [ "$LOCAL" != "$REMOTE" ]; then
             echo "Remote has updates, triggering autoupdater"
             systemctl --user start update-nixos-config.service
+          else;
+            echo "Local in sync"
           fi
         '';
       };
