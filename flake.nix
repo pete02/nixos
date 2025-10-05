@@ -27,7 +27,13 @@
           inputs.home-manager.nixosModules.default
         ];
       };
-
+      nixosConfigurations.aria = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/aria/configuration.nix
+        ];
+      };
       nixosConfigurations.raysha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
