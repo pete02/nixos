@@ -20,6 +20,7 @@ with lib;
         Type = "oneshot";
         ExecStart = pkgs.writeShellScript "check-nixos-updates" ''
           set -e
+          export GIT_SSH_COMMAND="ssh -i /etc/ssh/id_server -o IdentitiesOnly=yes" 
           cd /etc/nixos
           git fetch origin master
           LOCAL=$(git rev-parse @)
