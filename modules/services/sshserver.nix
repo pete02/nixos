@@ -1,13 +1,13 @@
-{lib,...}:
+{lib, config, ...}:
 with lib;{
     options={
-        services.ssh.enable = mkOption {
+        services.enable.ssh = mkOption {
         type = types.bool;
         default = false;
         description = "Whether to enable ssh";
         };
     };
-    config= mkIf services.ssh.enable{
+    config= mkIf config.services.ssh.enable{
     services.openssh = {
         enable = true;
         ports = [ 22 ];

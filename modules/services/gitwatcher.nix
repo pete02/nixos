@@ -5,18 +5,15 @@
   ...
 }:
 with lib;
-let
-  gitopscfg = config.services.gitops;
-in
 {
   options = {
-    services.gitops.enable = mkOption {
+    services.enable.gitops = mkOption {
       type = types.bool;
       default = false;
       description = "Whether to enable autoupdater";
     };
   };
-  config = mkIf gitopscfg.enable {
+  config = mkIf config.services.enable.gitops {
     systemd.user.services.check-nixos-updates = {
       description = "Check remote NixOS config repo for updates";
       serviceConfig = {
