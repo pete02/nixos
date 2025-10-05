@@ -29,7 +29,7 @@ in
           REMOTE=$(git rev-parse @{u})
           BASE=$(git merge-base @ @{u})
 
-          if [ "$LOCAL" != "$REMOTE" ] && [ "$LOCAL" = "$BASE" ]; then
+          if [ "$LOCAL" != "$REMOTE" ]; then
             echo "Remote has updates, triggering autoupdater"
             systemctl --user start update-nixos-config.service
           fi
