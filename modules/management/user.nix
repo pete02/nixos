@@ -12,8 +12,8 @@ in
     type = lib.types.str;
     description = "The username of the main user";
   };
-
-  config = {
+  options.enable.user = lib.mkEnableOption "enables user";
+  config = lib.mkIf config.enable.user{
     users.users.${cof.username} = {
       isNormalUser = true;
       extraGroups = [
@@ -21,12 +21,5 @@ in
         "seat"
       ];
     };
-    home-manager = {
-      useGlobalPkgs = true;
-      extraSpecialArgs = { inherit inputs; };
-      users = {
-        "${cof.username}" = import ./../../home/${cof.networking.hostName}.nix;
       };
-    };
-  };
 }
