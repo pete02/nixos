@@ -14,7 +14,7 @@ with lib;
     };
   };
   config = mkIf config.services.enable.gitops {
-    systemd.user.services.check-nixos-updates = {
+    systemd.services.check-nixos-updates = {
       description = "Check remote NixOS config repo for updates";
       serviceConfig = {
         Type = "oneshot";
