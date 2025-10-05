@@ -36,5 +36,17 @@ with lib;
       };
     };
 
+    
+    systemd.timers.autoupdater = {
+      description = "Timer for auto-updating NixOS from git";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "5m";
+        OnUnitActiveSec = "1h";
+        RandomizedDelaySec = "10m";
+        Persistent = true;
+      };
+    };
+
   };
 }
