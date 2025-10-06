@@ -19,6 +19,7 @@
       ...
     }@inputs:
     {
+      nixpkgs.config.allowUnfree = true;
       nixosConfigurations.talia = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };

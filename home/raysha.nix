@@ -9,7 +9,12 @@
   ];
 
   programs.home-manager.enable = true;
-
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = (_: true);
+    };
+  };
   wayland.windowManager.hyprland = lib.mkIf osConfig.enable.hyprland {
     importantPrefixes = [ "output" ];
     settings = {

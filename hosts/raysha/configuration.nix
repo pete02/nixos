@@ -10,7 +10,7 @@
     ./../../modules
     inputs.home-manager.nixosModules.default
   ];
-
+  nixpkgs.config.allowUnfree = true;
   enable = {
     dev = true;
     hyprland = true;
@@ -23,7 +23,7 @@
   };
 
   networking.hostName = "raysha";
-  nixpkgs.config.allowUnfree = true;
+
   environment.sessionVariables = {
     GDK_BACKEND = "wayland,x11";
     QT_QPA_PLATFORM = "wayland;xcb";
