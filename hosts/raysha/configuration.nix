@@ -52,6 +52,7 @@
 
   programs.nix-ld.enable = true;
   username = "pete";
+  home-manager.users.pete = import ./home/rayha.nix;
 
   programs.firefox.enable = false;
 
