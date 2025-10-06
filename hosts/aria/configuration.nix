@@ -35,6 +35,7 @@
   enable = {
     nvidia = true;
     docker = true;
+    routersamba = true;
   };
   services.enable = {
     ssh = true;
