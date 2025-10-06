@@ -14,7 +14,7 @@
     ];
     environment.systemPackages = [ pkgs.cifs-utils ];
     fileSystems."/mnt/share" = {
-      device = "//192.168.88.1/usb1-part1/pub/";
+      device = "//192.168.88.1/home/";
       fsType = "cifs";
       options =
         let
