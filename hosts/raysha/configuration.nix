@@ -20,6 +20,7 @@
     logitech = true;
     books = true;
     user = true;
+    routersamba = true;
   };
 
   networking.hostName = "raysha";
