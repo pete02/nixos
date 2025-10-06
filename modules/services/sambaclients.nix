@@ -10,7 +10,7 @@
   config = lib.mkIf config.enable.routersamba {
     # For mount.cifs, required unless domain name resolution is not needed.
     systemd.tmpfiles.rules = [
-      "d /mnt/router 0755 root root -"
+      "d /mnt/router 0755 pete pete -"
     ];
     environment.systemPackages = [ pkgs.cifs-utils ];
     fileSystems."/mnt/router" = {
@@ -22,8 +22,9 @@
           automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
           creds = "credentials=/etc/smb/smb-secrets";
           vers = "vers=3.0";
+          uidguid = "uid=1000,gid=1000";
         in
-        [ "${automount_opts},${creds},${vers}" ];
+        [ "${automount_opts},${creds},${vers},${uidguid}" ];
     };
   };
 }
