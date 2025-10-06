@@ -39,7 +39,6 @@ with lib;
       };
     };
 
-
     systemd.timers.gitops = {
       description = "Timer for auto-updating NixOS from git";
       wantedBy = [ "timers.target" ];

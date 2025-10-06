@@ -2,15 +2,21 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, nixpgks, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  nixpgks,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./boot.nix
-      ./../../modules
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./boot.nix
+    ./../../modules
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -41,15 +47,15 @@
   };
 
   enable = {
-    nvidia=true;
-    
+    nvidia = true;
+
   };
-  services.enable={
-    ssh=true;
+  services.enable = {
+    ssh = true;
     gitops = true;
   };
   # programs.firefox.enable = true;
-  username="pete";
+  username = "pete";
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
@@ -58,7 +64,6 @@
     git
     lshw
   ];
-
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -80,4 +85,3 @@
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
-
