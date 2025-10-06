@@ -10,9 +10,7 @@
 
   home.stateVersion = "25.05";
   imports = [
-    ./configs/hyprland.nix
-    ./configs/hyprpanel.nix
-    ./configs/vscode.nix
+    ./configs
   ];
 
   home.sessionVariables = {
