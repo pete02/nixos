@@ -1,9 +1,9 @@
-{ }:
+{ config, pkgs, ... }:
 {
   programs.ssh = {
     enable = true;
     matchBlocks = {
-      "servu" = {
+      servu = {
         hostname = "example.com";
         user = "pete";
         identityFile = "~/.ssh/id_server";
