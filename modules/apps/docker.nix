@@ -5,9 +5,9 @@
 }:
 {
   options = {
-    docker.enable = lib.mkEnableOption "enables dev tools";
+    enable.docker = lib.mkEnableOption "enables dev tools";
   };
-  config = lib.mkIf config.docker.enable {
+  config = lib.mkIf config.enable.docker {
     virtualisation.docker = {
       enable = true;
     };

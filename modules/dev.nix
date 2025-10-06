@@ -13,7 +13,7 @@
     environment.systemPackages = with pkgs; [
       nixd
     ];
-    docker.enable = true;
+    enable.docker = true;
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     nix.settings = {
       trusted-users = [
