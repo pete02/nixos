@@ -19,6 +19,7 @@
     gaming = true;
     logitech = true;
     books = true;
+    user = true;
   };
 
   networking.hostName = "raysha";
