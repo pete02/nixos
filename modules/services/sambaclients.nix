@@ -10,10 +10,10 @@
   config = lib.mkIf config.enable.routersamba {
     # For mount.cifs, required unless domain name resolution is not needed.
     systemd.tmpfiles.rules = [
-      "d /mnt/share 0755 root root -"
+      "d /mnt/router 0755 root root -"
     ];
     environment.systemPackages = [ pkgs.cifs-utils ];
-    fileSystems."/mnt/share" = {
+    fileSystems."/mnt/router" = {
       device = "//192.168.88.1/home/";
       fsType = "cifs";
       options =
