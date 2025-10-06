@@ -10,7 +10,7 @@
     ./boot.nix
     inputs.home-manager.nixosModules.default
   ];
-
+  nixpkgs.config.allowUnfree = true;
   enable = {
     dev = true;
     hyprland = true;

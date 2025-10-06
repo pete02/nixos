@@ -23,7 +23,7 @@
   };
 
   networking.hostName = "raysha";
-
+  nixpkgs.config.allowUnfree = true;
   environment.sessionVariables = {
     GDK_BACKEND = "wayland,x11";
     QT_QPA_PLATFORM = "wayland;xcb";
