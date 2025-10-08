@@ -30,6 +30,20 @@
           in
           [ "${automount_opts},${creds},${vers},${uidguid}" ];
       };
+
+      "/mnt/server" = lib.mkIf config.smb.router {
+        device = "//192.168.88.252/private/";
+        fsType = "cifs";
+        options =
+          let
+            # this line prevents hanging on network split
+            automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+            creds = "credentials=/etc/smb/serversecret";
+            vers = "vers=3.0";
+            uidguid = "uid=1000,gid=1000";
+          in
+          [ "${automount_opts},${creds},${vers},${uidguid}" ];
+      };
     };
   };
 }
