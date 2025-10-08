@@ -44,11 +44,9 @@ let
 in
 {
   options.smbShares = lib.mkOption {
-    type = lib.types.attrsOf (lib.types.attrsOf lib.types.any);
+    type = lib.types.attrsOf (lib.types.attrsOf (lib.types.orNull lib.types.str));
     default = { };
-    description = "Define SMB shares";
   };
-
   config = lib.mkIf (lib.hasAttr "smbShares" config) {
 
     # Create tmpfiles for all mount points
