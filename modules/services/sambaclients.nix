@@ -17,7 +17,7 @@
     ];
     environment.systemPackages = [ pkgs.cifs-utils ];
     fileSystems = {
-      "/mnt/router" = config.smb.router {
+      "/mnt/router" = lib.mkIf config.smb.router {
         device = "//192.168.88.1/home/";
         fsType = "cifs";
         options =
