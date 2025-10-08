@@ -2,7 +2,12 @@
   pkgs,
   ...
 }:
-
+let
+    update-script = pkgs.writeShellScriptBin "update" ''
+    sudo systemctl start gitops.service
+    sudo systemctl status gitops.service
+  '';
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -42,10 +47,7 @@
     gitops = true;
   };
   username = "pete";
-  update-script = pkgs.writeShellScriptBin "update" ''
-    sudo systemctl start gitops.service
-    sudo systemctl status gitops.service
-  '';
+
 
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -57,18 +59,30 @@
 
 
 
+
   services.samba = {
-    
+    enable = true;
+    securityType = "user";
+    openFirewall = true;
     settings = {
-      "tm_share" = {
-          "path" = "/mnt/Shares/tm_share";
-          "valid users" = "username";
-          "public" = "no";
-          "writeable" = "yes";
-          "force user" = "username";
-          "fruit:aapl" = "yes";
-          "fruit:time machine" = "yes";
-          "vfs objects" = "catia fruit streams_xattr";
+      global = {
+        "workgroup" = "WORKGROUP";
+        "server string" = "smbnix";
+        "netbios name" = "smbnix";
+        "hosts allow" = "192.168.0. 127.0.0.1 localhost";
+        "hosts deny" = "0.0.0.0/0";
+        "guest account" = "nobody";
+        "map to guest" = "bad user";
+      };
+      "private" = {
+        "path" = "/mnt/Private";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "username";
+        "force group" = "groupname";
       };
     };
   };
