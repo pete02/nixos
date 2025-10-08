@@ -21,7 +21,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   networking.hostName = "aria";
   time.timeZone = "Europe/Helsinki";
-
+  environment.variables.TERM = "xterm-256color";
   users.users.pete = {
     isNormalUser = true;
     createHome = true;
