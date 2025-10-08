@@ -49,23 +49,7 @@
     lshw
   ];
 
-  services.samba = {
-    enable = true;
-    securityType = "user";
-    openFirewall = true;
-    settings = {
-      "public" = {
-        "path" = "/mnt/Public";
-        "browseable" = "yes";
-        "read only" = "no";
-        "guest ok" = "yes";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "username";
-        "force group" = "groupname";
-      };
-    };
-  };
+
 
   system.stateVersion = "25.05"; # Did you read the comment?
 
