@@ -34,13 +34,9 @@ in
     ];
   };
 
-  smbShares = {
-    router = {
-      path = "/mnt/router";
-      device = "//192.168.88.1/home";
-      secret = "/etc/smb/routersecret";
-      enable = true;
-    };
+  smb = {
+    enable = true;
+    router = true;
   };
 
   enable = {
