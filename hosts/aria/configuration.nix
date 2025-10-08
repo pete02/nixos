@@ -87,6 +87,23 @@ in
     };
   };
 
+
+  systemd.services.serverbackup = {
+    description = "Daily backup of Serversetup/data to router samba";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = ''
+        rsync -avz --delete /home/pete/Serversetup/data/ /mnt/router/serverbackups/
+      '';
+    };
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+    };
+  };
+
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
