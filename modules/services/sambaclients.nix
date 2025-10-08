@@ -12,7 +12,7 @@ in
   options.services.routersamba = {
     enable = lib.mkEnableOption "Enable router samba shares";
     shares = lib.mkOption {
-      type = with lib.types; listOf (attrsOf (any));
+      type = with lib.types; listOf (attrsOf (lib.any));
       default = [ ];
       description = ''
         List of SMB/CIFS shares to set up. Each mount should be an attribute set with:
