@@ -4,54 +4,32 @@
   config,
   ...
 }:
-
-let
-  cfg = config.services.routersamba;
-in
 {
-  options.services.routersamba = {
-    enable = lib.mkEnableOption "Enable router samba shares";
-
-    shares = lib.mkOption {
-      type = with lib.types; listOf attrs;
-      default = [ ];
-      description = ''
-        List of SMB/CIFS shares to set up. Each mount should be an attribute set with:
-          - path: mount point
-          - device: SMB device string (e.g., //192.168.88.1/share)
-          - options (optional): list of mount options
-          - credentials (optional): path to credentials file
-      '';
-    };
+  options.smb = {
+    emable = lib.mkEnableOption "enables samba client";
+    router = lib.mkEnableOption "enables router samba";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf {
+    # For mount.cifs, required unless domain name resolution is not needed.
+    systemd.tmpfiles.rules = [
+      "d /mnt/router 0755 pete pete -"
+    ];
     environment.systemPackages = [ pkgs.cifs-utils ];
-
-    systemd.tmpfiles.rules = lib.concatMap (mount: [ "d ${mount.path} 0755 pete pete -" ]) cfg.shares;
-
-    fileSystems = lib.attrsets.foldl' (
-      acc: mount:
-      acc
-      // {
-        ${mount.path} = {
-          device = mount.device;
-          fsType = "cifs";
-          options =
-            (mount.options or [
-              "x-systemd.automount"
-              "noauto"
-              "x-systemd.idle-timeout=60"
-              "x-systemd.device-timeout=5s"
-              "x-systemd.mount-timeout=5s"
-              "vers=3.0"
-              "uid=1000"
-              "gid=1000"
-            ]
-            )
-            ++ lib.optionalString (mount.credentials != null) ("credentials=" + mount.credentials);
-        };
-      }
-    ) { } cfg.shares;
+    fileSystems = {
+      "/mnt/router" = config.enable.routersamba {
+        device = "//192.168.88.1/home/";
+        fsType = "cifs";
+        options =
+          let
+            # this line prevents hanging on network split
+            automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+            creds = "credentials=/etc/smb/routersecrets";
+            vers = "vers=3.0";
+            uidguid = "uid=1000,gid=1000";
+          in
+          [ "${automount_opts},${creds},${vers},${uidguid}" ];
+      };
+    };
   };
 }
