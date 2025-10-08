@@ -16,15 +16,17 @@
     fileSystems."/mnt/router" = {
       device = "//192.168.88.1/home/";
       fsType = "cifs";
-      options =
-        let
-          # this line prevents hanging on network split
-          automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-          creds = "credentials=/etc/smb/smb-secrets";
-          vers = "vers=3.0";
-          uidguid = "uid=1000,gid=1000";
-        in
-        [ "${automount_opts},${creds},${vers},${uidguid}" ];
+      options = [
+        "x-systemd.automount"
+        "noauto"
+        "x-systemd.idle-timeout=60"
+        "x-systemd.device-timeout=5s"
+        "x-systemd.mount-timeout=5s"
+        "credentials=/etc/smb/smb-secrets"
+        "vers=3.0"
+        "uid=1000"
+        "gid=1000"
+      ];
     };
   };
 }
