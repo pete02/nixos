@@ -51,6 +51,15 @@
     };
   };
 
+  smbShares = {
+    router = {
+      path = "/mnt/router";
+      device = "//192.168.88.1/home";
+      secret = "/etc/smb/routersecret";
+      enable = true;
+    };
+  };
+
   programs.nix-ld.enable = true;
   username = "pete";
   home-manager.users.pete = import ./../../home/raysha.nix;

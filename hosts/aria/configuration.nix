@@ -3,7 +3,7 @@
   ...
 }:
 let
-    update-script = pkgs.writeShellScriptBin "update" ''
+  update-script = pkgs.writeShellScriptBin "update" ''
     sudo systemctl start gitops.service
     sudo systemctl status gitops.service
   '';
@@ -19,16 +19,15 @@ in
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "aria"; # Define your hostname.
-
-  # Set your time zone.
+  networking.hostName = "aria";
   time.timeZone = "Europe/Helsinki";
+
   nixpkgs.config.allowUnfree = true;
+
   users.users.pete = {
     isNormalUser = true;
     createHome = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcUoZ1iRFqNMy/cf3aVsvEmnwysuK8CAm1dHi6DbskN pete"
     ];
@@ -37,28 +36,35 @@ in
     ];
   };
 
+  smbShares = {
+    router = {
+      path = "/mnt/router";
+      device = "//192.168.88.1/home";
+      secret = "/etc/smb/routersecret";
+      enable = true;
+    };
+  };
+
   enable = {
     nvidia = true;
     docker = true;
     routersamba = true;
   };
+
   services.enable = {
     ssh = true;
     gitops = true;
   };
+
   username = "pete";
 
-
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
     update-script
     git
     lshw
   ];
-
-
-
 
   services.samba = {
     enable = true;
