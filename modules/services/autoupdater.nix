@@ -42,7 +42,7 @@ in
           fi
           echo "fetched from git"
           # Flake update as user
-          nix flake update
+          nix flake update --update-input nixpkgs --update-input home-manager
           if ! git diff --quiet flake.lock; then
             git add flake.lock
             git commit -m "Auto-update flake inputs"

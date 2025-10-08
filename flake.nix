@@ -3,7 +3,6 @@
   description = "A very basic flake";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgsStable.url = "github:nixos/nixpkgs/nixos-25.05";
     hyprland.url = "github:hyprwm/Hyprland";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -15,7 +14,6 @@
     {
       self,
       nixpkgs,
-      nixpkgsStable,
       ...
     }@inputs:
     {

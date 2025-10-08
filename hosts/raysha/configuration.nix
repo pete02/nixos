@@ -57,6 +57,11 @@
 
   programs.firefox.enable = true;
 
+  smb = {
+    enable = true;
+    router = true;
+  };
+
   environment.systemPackages = with pkgs; [
     vim
     wget
