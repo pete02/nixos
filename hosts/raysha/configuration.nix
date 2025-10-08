@@ -60,6 +60,7 @@
   smb = {
     enable = true;
     router = true;
+    server = true;
   };
 
   environment.systemPackages = with pkgs; [

@@ -8,6 +8,7 @@
   options.smb = {
     enable = lib.mkEnableOption "enables samba client";
     router = lib.mkEnableOption "enables router samba";
+    server = lib.mkEnableOption "enables router samba";
   };
 
   config = lib.mkIf config.smb.enable {
@@ -31,7 +32,7 @@
           [ "${automount_opts},${creds},${vers},${uidguid}" ];
       };
 
-      "/mnt/server" = lib.mkIf config.smb.router {
+      "/mnt/server" = lib.mkIf config.smb.server {
         device = "//192.168.88.252/private/";
         fsType = "cifs";
         options =
