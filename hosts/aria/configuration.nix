@@ -49,7 +49,20 @@
     lshw
   ];
 
-
+  services.samba = {
+    settings = {
+      "tm_share" = {
+          "path" = "/mnt/Shares/tm_share";
+          "valid users" = "username";
+          "public" = "no";
+          "writeable" = "yes";
+          "force user" = "username";
+          "fruit:aapl" = "yes";
+          "fruit:time machine" = "yes";
+          "vfs objects" = "catia fruit streams_xattr";
+      };
+    };
+  };
 
   system.stateVersion = "25.05"; # Did you read the comment?
 
