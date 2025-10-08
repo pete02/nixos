@@ -49,11 +49,6 @@
     };
   };
 
-  smb = {
-    enable = true;
-    router = true;
-  };
-
   programs.nix-ld.enable = true;
   username = "pete";
   home-manager.users.pete = import ./../../home/raysha.nix;
