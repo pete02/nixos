@@ -49,13 +49,15 @@
     };
   };
 
-  smbShares = {
-    router = {
-      path = "/mnt/router";
-      device = "//192.168.88.1/home";
-      secret = "/etc/smb/routersecret";
-      enable = true;
-    };
+  services.routersamba = {
+    enable = true;
+    shares = [
+      {
+        path = "/mnt/router";
+        device = "//192.168.88.1/home";
+        credentials = "/etc/smb/routersecret";
+      }
+    ];
   };
 
   programs.nix-ld.enable = true;
