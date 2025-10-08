@@ -66,6 +66,7 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
+    gimp
     git
     zip
     unzip
