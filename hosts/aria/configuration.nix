@@ -75,14 +75,14 @@ in
         "map to guest" = "bad user";
       };
       "private" = {
-        "path" = "/mnt/Private";
+        "path" = "/mnt/private";
         "browseable" = "yes";
         "read only" = "no";
         "guest ok" = "no";
         "create mask" = "0644";
         "directory mask" = "0755";
-        "force user" = "username";
-        "force group" = "groupname";
+        "force user" = "pete ";
+        "force group" = "users";
       };
     };
   };
