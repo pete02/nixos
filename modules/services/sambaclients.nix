@@ -10,14 +10,14 @@
     router = lib.mkEnableOption "enables router samba";
   };
 
-  config = lib.mkIf {
+  config = lib.mkIf config.smb.enable {
     # For mount.cifs, required unless domain name resolution is not needed.
     systemd.tmpfiles.rules = [
       "d /mnt/router 0755 pete pete -"
     ];
     environment.systemPackages = [ pkgs.cifs-utils ];
     fileSystems = {
-      "/mnt/router" = config.enable.routersamba {
+      "/mnt/router" = config.smb.router {
         device = "//192.168.88.1/home/";
         fsType = "cifs";
         options =
