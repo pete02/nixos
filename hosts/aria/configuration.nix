@@ -94,7 +94,7 @@ in
     serviceConfig = {
       Type = "oneshot";
       ExecStart = ''
-        ${pkgs.rsync} -avz --delete /home/pete/Serversetup/data/ /mnt/router/serverbackups/
+        ${pkgs.rsync}/bin/rsync -avz --delete /home/pete/Serversetup/data/ /mnt/router/serverbackups/
       '';
     };
   };
