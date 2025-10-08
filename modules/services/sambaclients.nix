@@ -10,13 +10,13 @@ let
 in
 {
   options.services.routersamba = {
-    enable = lib.mkEnableOption "Enable router samba shares";
+    enable = lib.mkEnableOption "Enable router samba mounts";
 
-    shares = lib.mkOption {
+    mounts = lib.mkOption {
       type = with lib.types; listOf attrs;
       default = [ ];
       description = ''
-        List of SMB/CIFS shares to set up. Each mount should be an attribute set with:
+        List of SMB/CIFS mounts to set up. Each mount should be an attribute set with:
           - path: mount point
           - device: SMB device string (e.g., //192.168.88.1/share)
           - options (optional): list of mount options
@@ -28,31 +28,30 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.cifs-utils ];
 
-    systemd.tmpfiles.rules = lib.concatMap (mount: [ "d ${mount.path} 0755 pete pete -" ]) cfg.shares;
+    systemd.tmpfiles.rules = lib.concatMap (mount: [ "d ${mount.path} 0755 pete pete -" ]) cfg.mounts;
 
-    fileSystems = lib.recursiveUpdate config.fileSystems (
-      lib.listToAttrs (
-        map (mount: {
-          name = mount.path;
-          value = {
-            device = mount.device;
-            fsType = "cifs";
-            options =
-              (mount.options or [
-                "x-systemd.automount"
-                "noauto"
-                "x-systemd.idle-timeout=60"
-                "x-systemd.device-timeout=5s"
-                "x-systemd.mount-timeout=5s"
-                "vers=3.0"
-                "uid=1000"
-                "gid=1000"
-              ]
-              )
-              ++ lib.optionalString (mount.credentials != null) ("credentials=" + mount.credentials);
-          };
-        }) cfg.shares
-      )
-    );
+    fileSystems = lib.attrsets.foldl' (
+      acc: mount:
+      acc
+      // {
+        ${mount.path} = {
+          device = mount.device;
+          fsType = "cifs";
+          options =
+            (mount.options or [
+              "x-systemd.automount"
+              "noauto"
+              "x-systemd.idle-timeout=60"
+              "x-systemd.device-timeout=5s"
+              "x-systemd.mount-timeout=5s"
+              "vers=3.0"
+              "uid=1000"
+              "gid=1000"
+            ]
+            )
+            ++ lib.optionalString (mount.credentials != null) ("credentials=" + mount.credentials);
+        };
+      }
+    ) { } cfg.mounts;
   };
 }
