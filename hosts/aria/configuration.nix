@@ -87,7 +87,6 @@ in
     };
   };
 
-
   systemd.services.serverbackup = {
     description = "Daily backup of Serversetup/data to router samba";
     after = [ "network.target" ];
@@ -98,9 +97,15 @@ in
         rsync -avz --delete /home/pete/Serversetup/data/ /mnt/router/serverbackups/
       '';
     };
+  };
+
+  systemd.timers.serverbackup = {
+    description = "Timer for auto-updating NixOS from git";
+    wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "daily";
-      Persistent = true;
+      OnCalendar = "daily"; # runs once per day
+      Persistent = true; # ensures missed runs are executed at next boot
+      RandomizedDelaySec = "30m"; # randomizes start within 30 minutes for load balancing
     };
   };
 
