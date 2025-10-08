@@ -53,7 +53,7 @@
   username = "pete";
   home-manager.users.pete = import ./../../home/raysha.nix;
 
-  programs.firefox.enable = false;
+  programs.firefox.enable = true;
 
   environment.systemPackages = with pkgs; [
     vim
