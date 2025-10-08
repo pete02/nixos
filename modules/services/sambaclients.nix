@@ -6,7 +6,7 @@
 }:
 {
   options.smb = {
-    emable = lib.mkEnableOption "enables samba client";
+    enable = lib.mkEnableOption "enables samba client";
     router = lib.mkEnableOption "enables router samba";
   };
 
