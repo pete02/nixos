@@ -44,7 +44,7 @@ let
 in
 {
   options.smbShares = lib.mkOption {
-    type = lib.types.attrsOf (lib.types.attrsOf (lib.types.orNull lib.types.str));
+    type = lib.types.attrsOf (lib.types.attrsOf (lib.types.str));
     default = { };
   };
   config = lib.mkIf (lib.hasAttr "smbShares" config) {
