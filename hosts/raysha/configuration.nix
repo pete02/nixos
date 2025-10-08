@@ -1,7 +1,6 @@
 {
   pkgs,
   inputs,
-  nixpkgsStable,
   ...
 }:
 {
@@ -56,22 +55,21 @@
 
   programs.firefox.enable = false;
 
-  environment.systemPackages = [
-    pkgs.vim
-    pkgs.wget
-    pkgs.git
-    pkgs.zip
-    pkgs.unzip
-    pkgs.unrar
-    pkgs.kdePackages.dolphin
-    pkgs.kdePackages.kcalc
-    pkgs.tree
-    pkgs.lshw
-    pkgs.ffmpeg
-    nixpkgsStable.brave
-    pkgs.mdadm
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    git
+    zip
+    unzip
+    unrar
+    brave
+    kdePackages.dolphin
+    kdePackages.kcalc
+    tree
+    lshw
+    ffmpeg
+    mdadm
   ];
-
   system.stateVersion = "25.05";
 
 }
