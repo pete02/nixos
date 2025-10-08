@@ -66,33 +66,41 @@ in
     ) (builtins.attrNames config.smbShares);
 
     # Create fileSystems for all enabled shares
-    fileSystems = lib.foldl' (
-      fs: acc:
-      let
-        share = config.smbShares.${fs};
-      in
-      if share.enable then
-        acc
-        // {
-          "${share.path}" = {
-            device = share.device;
-            fsType = "cifs";
-            options = [
-              "x-systemd.automount"
-              "noauto"
-              "x-systemd.idle-timeout=60"
-              "x-systemd.device-timeout=5s"
-              "x-systemd.mount-timeout=5s"
-              "credentials=${share.secret}"
-              "vers=3.0"
-              "uid=${share.uid}"
-              "gid=${share.gid}"
-            ];
-            neededForBoot = false;
-          };
-        }
-      else
-        acc
-    ) { } (builtins.attrNames config.smbShares);
+    fileSystems =
+      lib.foldl'
+        (
+          fs: acc:
+          let
+            share = config.smbShares.${fs};
+          in
+          if share.enable then
+            acc
+            // {
+              "${share.path}" = {
+                device = share.device;
+                fsType = "cifs";
+                options = [
+                  "x-systemd.automount"
+                  "noauto"
+                  "x-systemd.idle-timeout=60"
+                  "x-systemd.device-timeout=5s"
+                  "x-systemd.mount-timeout=5s"
+                  "credentials=${share.secret}"
+                  "vers=3.0"
+                  "uid=${share.uid}"
+                  "gid=${share.gid}"
+                ];
+                neededForBoot = false;
+              };
+            }
+          else
+            acc
+        )
+        { }
+        (
+          builtins.filter (fs: lib.hasAttr "path" config.smbShares.${fs}) (
+            builtins.attrNames config.smbShares
+          )
+        );
   };
 }
