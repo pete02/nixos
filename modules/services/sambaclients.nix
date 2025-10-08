@@ -44,12 +44,7 @@ let
 in
 {
   options.smbShares = lib.mkOption {
-    type = lib.types.attrsOf (
-      lib.types.submodule {
-        options = mkShareOptions "share";
-        config = { };
-      }
-    );
+    type = lib.types.attrsOf (lib.types.attrsOf lib.types.any);
     default = { };
     description = "Define SMB shares";
   };
