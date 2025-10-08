@@ -56,6 +56,7 @@ in
     wget
     update-script
     git
+    rsync
     lshw
   ];
 
