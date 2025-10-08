@@ -10,7 +10,7 @@
     ./../../modules
     inputs.home-manager.nixosModules.default
   ];
-  nixpkgs.config.allowUnfree = true;
+
   enable = {
     dev = true;
     hyprland = true;
@@ -20,7 +20,6 @@
     logitech = true;
     books = true;
     user = true;
-    routersamba = true;
   };
 
   networking.hostName = "raysha";
@@ -28,7 +27,6 @@
   environment.sessionVariables = {
     GDK_BACKEND = "wayland,x11";
     QT_QPA_PLATFORM = "wayland;xcb";
-    #SDL_VIDEODRIVER = "x11";
     CLUTTER_BACKEND = "wayland";
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
@@ -75,10 +73,10 @@
     unrar
     brave
     kdePackages.dolphin
+    kdePackages.kcalc
     tree
     lshw
     ffmpeg
-    kdePackages.kcalc
     mdadm
   ];
   system.stateVersion = "25.05";

@@ -22,8 +22,6 @@ in
   networking.hostName = "aria";
   time.timeZone = "Europe/Helsinki";
 
-  nixpkgs.config.allowUnfree = true;
-
   users.users.pete = {
     isNormalUser = true;
     createHome = true;
