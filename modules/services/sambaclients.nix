@@ -2,7 +2,11 @@
 
 let
   mkShareOptions = name: {
-    enable = lib.mkEnableOption "Enable this SMB share";
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true; # or false if you prefer
+      description = "Enable this SMB share";
+    };
 
     path = lib.mkOption {
       type = lib.types.str;
