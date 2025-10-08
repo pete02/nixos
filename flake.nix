@@ -30,7 +30,10 @@
       };
       nixosConfigurations.aria = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+          inherit nixpkgsStable;
+        };
         modules = [
           ./hosts/aria/configuration.nix
         ];
