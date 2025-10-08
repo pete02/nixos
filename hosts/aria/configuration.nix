@@ -42,14 +42,23 @@
     gitops = true;
   };
   username = "pete";
+  update-script = pkgs.writeShellScriptBin "update" ''
+    sudo systemctl start gitops.service
+    sudo systemctl status gitops.service
+  '';
+
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    update-script
     git
     lshw
   ];
 
+
+
   services.samba = {
+    
     settings = {
       "tm_share" = {
           "path" = "/mnt/Shares/tm_share";
