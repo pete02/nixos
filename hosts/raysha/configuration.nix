@@ -73,6 +73,7 @@
     unrar
     brave
     kdePackages.dolphin
+    htop
     kdePackages.kcalc
     tree
     lshw
