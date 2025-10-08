@@ -10,13 +10,13 @@ let
 in
 {
   options.services.routersamba = {
-    enable = lib.mkEnableOption "Enable router samba mounts";
+    enable = lib.mkEnableOption "Enable router samba shares";
 
-    mounts = lib.mkOption {
+    shares = lib.mkOption {
       type = with lib.types; listOf attrs;
       default = [ ];
       description = ''
-        List of SMB/CIFS mounts to set up. Each mount should be an attribute set with:
+        List of SMB/CIFS shares to set up. Each mount should be an attribute set with:
           - path: mount point
           - device: SMB device string (e.g., //192.168.88.1/share)
           - options (optional): list of mount options
@@ -28,7 +28,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.cifs-utils ];
 
-    systemd.tmpfiles.rules = lib.concatMap (mount: [ "d ${mount.path} 0755 pete pete -" ]) cfg.mounts;
+    systemd.tmpfiles.rules = lib.concatMap (mount: [ "d ${mount.path} 0755 pete pete -" ]) cfg.shares;
 
     fileSystems = lib.attrsets.foldl' (
       acc: mount:
@@ -52,6 +52,6 @@ in
             ++ lib.optionalString (mount.credentials != null) ("credentials=" + mount.credentials);
         };
       }
-    ) { } cfg.mounts;
+    ) { } cfg.shares;
   };
 }
