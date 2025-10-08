@@ -54,7 +54,7 @@
   home-manager.users.pete = import ./../../home/raysha.nix;
 
   programs.firefox.enable = true;
-
+  programs.brave.enable = true;
   environment.systemPackages = with pkgs; [
     vim
     wget
@@ -62,7 +62,6 @@
     zip
     unzip
     unrar
-    brave
     kdePackages.dolphin
     kdePackages.kcalc
     tree
