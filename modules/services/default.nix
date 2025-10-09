@@ -6,5 +6,6 @@
     ./gitwatcher.nix
     ./sshserver.nix
     ./sambaclients.nix
+    ./wireguard-client.nix
   ];
 }
