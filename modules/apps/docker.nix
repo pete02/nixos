@@ -10,6 +10,7 @@
   config = lib.mkIf config.enable.docker {
     virtualisation.docker = {
       enable = true;
+      enableNvidia = true;
     };
 
     users.users.pete = {
