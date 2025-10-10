@@ -2,7 +2,7 @@
 {
   programs.ssh = {
     enable = true;
-    enableDefaultConfig = false;
+    enableDefaultConfig = true;
     configFile = "/home/pete/.ssh/config";
     matchBlocks = {
       servu = {
