@@ -1,12 +1,6 @@
 { pkgs, ... }:
 {
   programs.vscode = {
-    nixpkgs = {
-      config = {
-        allowUnfree = true;
-        allowUnfreePredicate = (_: true);
-      };
-    };
 
     profiles.default.userSettings = {
       "nix.serverPath" = "nixd";
