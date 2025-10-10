@@ -50,7 +50,7 @@
               --exclude '.pytest_cache/' \
               --exclude '.git/' \
               --exclude '.cargo/' \
-              --exclude 'dist/' 
+              --exclude 'dist/' \
           --delete /home/pete/code /mnt/server/desktopsync
           ${pkgs.rsync}/bin/rsync -a \
               --exclude 'node_modules/' \
@@ -60,7 +60,7 @@
               --exclude '.pytest_cache/' \
               --exclude '.git/' \
               --exclude '.cargo/' \
-              --exclude 'dist/' 
+              --exclude 'dist/' \
            --delete /home/pete/vaults /mnt/server/desktopsync
         '';
       };
