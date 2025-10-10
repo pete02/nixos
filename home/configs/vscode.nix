@@ -8,7 +8,6 @@
       };
     };
 
-    enable = true;
     profiles.default.userSettings = {
       "nix.serverPath" = "nixd";
       "nix.enableLanguageServer" = true;
