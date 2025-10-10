@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   options = {
     enable.wireguardclient = lib.mkEnableOption "enables wireguard client";
@@ -7,7 +12,7 @@
     networking.firewall.allowedUDPPorts = [ 51820 ];
 
     networking.useNetworkd = true;
-
+    environment.systemPackages = [ pkgs.wireguard-tools ];
     systemd.network = {
       enable = true;
 
