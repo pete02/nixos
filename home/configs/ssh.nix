@@ -3,6 +3,7 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
+    configFile = "/home/pete/.ssh/config";
     matchBlocks = {
       servu = {
         hostname = "192.168.88.252";
