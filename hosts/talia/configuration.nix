@@ -29,7 +29,7 @@
 
   smb = {
     enable = true;
-    router = true;
+    router = false;
     server = true;
   };
 
