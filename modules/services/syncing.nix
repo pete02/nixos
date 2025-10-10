@@ -26,8 +26,8 @@
         User = config.username;
         Type = "oneshot";
         ExecStart = ''
-          ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/code ~/code
-          ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/vaults ~/vaults
+          ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/code /home/pete/code
+          ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/vaults /home/pete/vaults
         '';
       };
     };
@@ -42,8 +42,8 @@
         Type = "oneshot";
         ExecStart = ''
           [ -d /mnt/server ] || exit 0
-          ${pkgs.rsync}/bin/rsync -a --delete ~/code /mnt/server/desktopsync/code
-          ${pkgs.rsync}/bin/rsync -a --delete ~/vaults /mnt/server/desktopsync/vaults
+          ${pkgs.rsync}/bin/rsync -a --delete /home/pete/code /mnt/server/desktopsync/code
+          ${pkgs.rsync}/bin/rsync -a --delete /home/pete/vaults /mnt/server/desktopsync/vaults
         '';
       };
     };
