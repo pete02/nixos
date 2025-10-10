@@ -13,7 +13,7 @@ with lib;
       enable = true;
       ports = [ 22 ];
       settings = {
-        PasswordAuthentication = true;
+        PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
         AllowUsers = [ "pete" ];
