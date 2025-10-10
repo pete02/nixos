@@ -22,8 +22,11 @@
     user = true;
     wireguardclient = true;
   };
+
   networking.hostName = "talia";
   username = "pete";
+  home-manager.users.pete = import ./../../home/talia.nix;
+
   smb = {
     enable = true;
     router = true;
