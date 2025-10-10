@@ -19,6 +19,8 @@ in
   config = mkIf updaterrcfg.enable {
     systemd.user.services.update-nixos-config = {
       description = "Auto-update NixOS config + flakes at boot";
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
       wantedBy = [ "default.target" ];
       serviceConfig = {
         Type = "simple";

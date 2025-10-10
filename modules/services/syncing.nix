@@ -1,0 +1,52 @@
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
+  options = {
+    enable.sync = lib.mkEnableOption "enables sync between desktops";
+  };
+  config = lib.mkIf config.enable.sync {
+    environment.systemPackages = [ pkgs.rsync ];
+    systemd.services.syncrestore = {
+      description = "Restores desktop files.";
+      after = [
+        "network-online.target"
+        "mnt-server.mount"
+      ];
+      wants = [
+        "network-online.target"
+        "mnt-server.mount"
+      ];
+      wantedBy = [ "multi-user.target" ];
+
+      serviceConfig = {
+        User = config.username;
+        Type = "oneshot";
+        ExecStart = ''
+          ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/code ~/code
+          ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/vaults ~/vaults
+        '';
+      };
+    };
+
+    systemd.services.sync = {
+      description = "sync desktop files.";
+      wantedBy = [ "multi-user.target" ];
+      before = [ "shutdown.target" ];
+
+      serviceConfig = {
+        User = config.username;
+        Type = "oneshot";
+        ExecStart = ''
+          [ -d /mnt/server ] || exit 0
+          ${pkgs.rsync}/bin/rsync -a --delete ~/code /mnt/server/desktopsync/code
+          ${pkgs.rsync}/bin/rsync -a --delete ~/vaults /mnt/server/desktopsync/vaults
+        '';
+      };
+    };
+
+  };
+}
