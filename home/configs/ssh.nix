@@ -10,6 +10,12 @@
         identityFile = "~/.ssh/id_server";
         port = 22;
       };
+      nixosrepo = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_nixos_sync";
+        IdentitiesOnly = "yes";
+      };
     };
   };
 }

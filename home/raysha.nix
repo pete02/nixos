@@ -15,6 +15,7 @@
       allowUnfreePredicate = (_: true);
     };
   };
+
   wayland.windowManager.hyprland = lib.mkIf osConfig.enable.hyprland {
     importantPrefixes = [ "output" ];
     settings = {
