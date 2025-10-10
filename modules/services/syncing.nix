@@ -29,7 +29,8 @@
           ${pkgs.bash}/bin/bash -c "
                     ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/code /home/pete/code
                     ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/vaults /home/pete/vaults
-                  "'';
+                  "
+        '';
       };
     };
 
@@ -43,10 +44,11 @@
         Type = "oneshot";
         ExecStart = ''
           ${pkgs.bash}/bin/bash -c "
-                    [ -d /mnt/server ] || exit 0
+                    [ -d /mnt/server/desktopsync ] || exit 0
                     ${pkgs.rsync}/bin/rsync -a --delete /home/pete/code /mnt/server/desktopsync/code
                     ${pkgs.rsync}/bin/rsync -a --delete /home/pete/vaults /mnt/server/desktopsync/vaults
-                  "'';
+                  "
+        '';
       };
     };
 
