@@ -12,6 +12,7 @@
   config = lib.mkIf config.enable.dev {
     environment.systemPackages = with pkgs; [
       nixd
+      vscode
     ];
     enable.docker = true;
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
