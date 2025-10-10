@@ -14,7 +14,6 @@
         hostname = "github.com";
         user = "git";
         identityFile = "~/.ssh/id_nixos_sync";
-        IdentitiesOnly = "yes";
       };
     };
   };
