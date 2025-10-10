@@ -42,8 +42,26 @@
         Type = "oneshot";
         ExecStart = pkgs.writeShellScript "desktop-sync" ''
           [ -d /mnt/server/desktopsync ] || exit 0
-          ${pkgs.rsync}/bin/rsync -a --delete /home/pete/code /mnt/server/desktopsync/code
-          ${pkgs.rsync}/bin/rsync -a --delete /home/pete/vaults /mnt/server/desktopsync/vaults
+          ${pkgs.rsync}/bin/rsync -a \ 
+              --exclude 'node_modules/' \
+              --exclude 'target/' \
+              --exclude '.venv/' \
+              --exclude '.mypy_cache/' \
+              --exclude '.pytest_cache/' \
+              --exclude '.git/' \
+              --exclude '.cargo/' \
+              --exclude 'dist/' 
+          --delete /home/pete/code /mnt/server/desktopsync
+          ${pkgs.rsync}/bin/rsync -a \
+              --exclude 'node_modules/' \
+              --exclude 'target/' \
+              --exclude '.venv/' \
+              --exclude '.mypy_cache/' \
+              --exclude '.pytest_cache/' \
+              --exclude '.git/' \
+              --exclude '.cargo/' \
+              --exclude 'dist/' 
+           --delete /home/pete/vaults /mnt/server/desktopsync
         '';
       };
     };
