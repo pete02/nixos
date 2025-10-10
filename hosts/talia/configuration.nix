@@ -24,6 +24,11 @@
   };
   networking.hostName = "talia";
   username = "pete";
+  smb = {
+    enable = true;
+    router = true;
+    server = true;
+  };
 
   programs.firefox.enable = true;
 
