@@ -20,7 +20,7 @@
     wireless = true;
     bluetooth = true;
     user = true;
-    wireguardclient = false;
+    wireguardclient = true;
   };
   networking.hostName = "talia";
   username = "pete";
