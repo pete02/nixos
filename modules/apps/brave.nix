@@ -1,14 +1,13 @@
 {
   lib,
+  pkgs,
   config,
-  nixpkgs,
   ...
 }:
 
 let
-  # Import nixpkgs with your overlay already applied
-  pkgs-with-brave = import nixpkgs {
-    system = "x86_64-linux";
+  pkgs-with-brave = import pkgs.path {
+    system = pkgs.system;
     overlays = [
       (self: super: {
         brave = super.brave.overrideAttrs (oldAttrs: {
