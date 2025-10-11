@@ -5,20 +5,24 @@
   nixpkgs,
   ...
 }:
+let
+  braveOverlay = (
+    self: super: {
+      brave = super.brave.overrideAttrs (oldAttrs: {
+        postInstall = (oldAttrs.postInstall or "") + ''
+          substituteInPlace $out/share/applications/brave-browser.desktop \
+            --replace "/bin/brave" "/bin/brave --ozone-platform=x11"
+        '';
+      });
+    }
+  );
+in
 {
-  options.enable.brave = lib.mkEnableOption "enables brave";
-  config = lib.mkIf config.enable.brave {
-    environment.systemPackages = [ pkgs.brave ];
-    nixpkgs.overlays = [
-      (self: super: {
-        brave = super.brave.overrideAttrs (oldAttrs: {
-          postInstall = (oldAttrs.postInstall or "") + ''
-            substituteInPlace $out/share/applications/brave-browser.desktop \
-              --replace "/bin/brave" "/bin/brave --ozone-platform=x11"
-          '';
-        });
-      })
-    ];
+  options.enable.brave = lib.mkEnableOption "Enable Brave browser";
 
+  config = lib.mkIf config.enable.brave {
+    nixpkgs.overlays = [ braveOverlay ];
+
+    environment.systemPackages = with pkgs; [ brave ];
   };
 }
