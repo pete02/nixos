@@ -19,8 +19,7 @@
     gaming = true;
     logitech = true;
     books = true;
-    sync = true;
-    docker-nvidia = true;
+    sync = false;
     user = true;
   };
 
