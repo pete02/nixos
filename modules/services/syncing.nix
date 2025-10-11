@@ -26,8 +26,8 @@
         User = config.username;
         Type = "oneshot";
         ExecStart = pkgs.writeShellScript "desktop-syncrestore" ''
-          ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/code /home/pete/code
-          ${pkgs.rsync}/bin/rsync -au /mnt/server/desktopsync/vaults /home/pete/vaults
+          ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/code /home/pete/code
+          ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/vaults /home/pete/vaults
         '';
       };
     };
