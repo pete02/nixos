@@ -22,6 +22,7 @@
     bluetooth = true;
     user = true;
     wireguardclient = true;
+    brave = true;
   };
 
   networking.hostName = "talia";
@@ -42,7 +43,6 @@
     git
     zip
     unzip
-    brave
     kdePackages.dolphin
     tree
   ];
