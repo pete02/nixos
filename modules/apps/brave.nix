@@ -23,6 +23,8 @@ in
   config = lib.mkIf config.enable.brave {
     nixpkgs.overlays = [ braveOverlay ];
 
-    environment.systemPackages = with pkgs; [ brave ];
+    environment.systemPackages = [
+      nixpkgs.pkgs.brave
+    ];
   };
 }
