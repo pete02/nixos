@@ -42,7 +42,7 @@
         Type = "oneshot";
         ExecStart = pkgs.writeShellScript "desktop-sync" ''
           [ -d /mnt/server/desktopsync ] || exit 0
-          ${pkgs.rsync}/bin/rsync -a \ 
+          ${pkgs.rsync}/bin/rsync -a \
               --exclude 'node_modules/' \
               --exclude 'target/' \
               --exclude '.venv/' \
