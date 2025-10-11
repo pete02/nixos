@@ -46,6 +46,7 @@
               --exclude 'node_modules/' \
               --exclude 'target/' \
               --exclude '.venv/' \
+              --exclude '.nix-venv/' \
               --exclude '.mypy_cache/' \
               --exclude '.pytest_cache/' \
               --exclude '.git/' \
@@ -56,6 +57,7 @@
               --exclude 'node_modules/' \
               --exclude 'target/' \
               --exclude '.venv/' \
+              --exclude '.nix-venv/' \
               --exclude '.mypy_cache/' \
               --exclude '.pytest_cache/' \
               --exclude '.git/' \
