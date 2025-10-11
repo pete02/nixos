@@ -43,7 +43,6 @@ in
   enable = {
     nvidia = true;
     docker = true;
-    docker-nvidia = true;
   };
 
   services.enable = {
