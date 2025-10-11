@@ -22,6 +22,7 @@
     sync = true;
     user = true;
     brave = true;
+    docker-nvidia = true;
   };
 
   networking.hostName = "raysha";
