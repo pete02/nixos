@@ -11,7 +11,7 @@
     nixpkgs.overlays = [
       (self: super: {
         brave = super.brave.override {
-          commandLineArgs = "--ozone-platform=wayland";
+          commandLineArgs = "--ozone-platform=x11";
         };
       })
     ];
