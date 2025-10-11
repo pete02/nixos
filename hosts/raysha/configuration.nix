@@ -21,6 +21,7 @@
     books = true;
     sync = false;
     user = true;
+    brave = true;
   };
 
   networking.hostName = "raysha";
@@ -72,7 +73,7 @@
     zip
     unzip
     unrar
-    brave
+
     kdePackages.dolphin
     htop
     kdePackages.kcalc
