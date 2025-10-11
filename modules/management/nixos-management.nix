@@ -47,6 +47,7 @@ in
     pkgs.libnotify
     pkgs.nvd
     pkgs.vulnix
+    pkgs.lm_sensors
     pkgs.neofetch
     rebuild-script
   ];
