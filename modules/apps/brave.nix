@@ -24,7 +24,7 @@ in
     nixpkgs.overlays = [ braveOverlay ];
 
     environment.systemPackages = [
-      nixpkgs.pkgs.brave
+      config.nixpkgs.pkgs.brave
     ];
   };
 }
