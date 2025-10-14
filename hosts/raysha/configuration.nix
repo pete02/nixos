@@ -19,7 +19,7 @@
     gaming = true;
     logitech = true;
     books = true;
-    sync = true;
+    sync = false;
     user = true;
     brave = true;
   };

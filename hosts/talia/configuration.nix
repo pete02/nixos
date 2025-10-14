@@ -16,7 +16,7 @@
     hyprland = true;
     hyprpanel = true;
     school = true;
-    sync = true;
+    sync = false;
     powersave = true;
     wireless = true;
     bluetooth = true;
