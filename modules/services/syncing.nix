@@ -27,7 +27,6 @@
         Type = "oneshot";
         ExecStart = pkgs.writeShellScript "desktop-syncrestore" ''
           ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/code /home/pete
-          ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/vaults /home/pete
         '';
       };
     };
@@ -55,18 +54,18 @@
               --exclude 'dist/' \
               --info=progress2 \
           --delete /home/pete/code/ /mnt/server/desktopsync
-          ${pkgs.rsync}/bin/rsync -a \
-              --exclude 'node_modules/' \
-              --exclude 'target/' \
-              --exclude '.venv/' \
-              --exclude '.nix-venv/' \
-              --exclude '.mypy_cache/' \
-              --exclude '.pytest_cache/' \
-              --exclude '.git/' \
-              --exclude '.cargo/' \
-              --exclude 'dist/' \
-              --info=progress2 \
-           --delete /home/pete/vaults /mnt/server/desktopsync
+          # ${pkgs.rsync}/bin/rsync -a \
+          #     --exclude 'node_modules/' \
+          #     --exclude 'target/' \
+          #     --exclude '.venv/' \
+          #     --exclude '.nix-venv/' \
+          #     --exclude '.mypy_cache/' \
+          #     --exclude '.pytest_cache/' \
+          #     --exclude '.git/' \
+          #     --exclude '.cargo/' \
+          #     --exclude 'dist/' \
+          #     --info=progress2 \
+          #  --delete /home/pete/vaults /mnt/server/desktopsync
         '';
       };
     };
