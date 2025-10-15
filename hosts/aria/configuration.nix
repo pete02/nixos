@@ -37,7 +37,7 @@ in
 
   smb = {
     enable = true;
-    router = true;
+    router = false;
   };
 
   enable = {
@@ -100,15 +100,15 @@ in
     };
   };
 
-  systemd.timers.serverbackup = {
-    description = "Timer for auto-updating NixOS from git";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "daily"; # runs once per day
-      Persistent = true; # ensures missed runs are executed at next boot
-      RandomizedDelaySec = "30m"; # randomizes start within 30 minutes for load balancing
-    };
-  };
+  # systemd.timers.serverbackup = {
+  #   description = "Timer for auto-updating NixOS from git";
+  #   wantedBy = [ "timers.target" ];
+  #   timerConfig = {
+  #     OnCalendar = "daily"; # runs once per day
+  #     Persistent = true; # ensures missed runs are executed at next boot
+  #     RandomizedDelaySec = "30m"; # randomizes start within 30 minutes for load balancing
+  #   };
+  # };
 
   system.stateVersion = "25.05"; # Did you read the comment?
 
