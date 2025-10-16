@@ -7,7 +7,7 @@
     "nvidia_drm"
     "kvm-amd"
   ];
-
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "ahci"
