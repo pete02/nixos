@@ -4,20 +4,23 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     # Your private repo
-    myconfig.url = "github:pete+2/nixos";
+    myconfig.url = "github:pete02/nixos";
     myconfig.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, myconfig }: {
     nixosConfigurations.installIso = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+    system = "x86_64-linux";
       modules = [
         # Base minimal installer module
         ({ modulesPath, pkgs, ... }: {
-          imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
-
+          imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix") ];
+          nix.settings.experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
           environment.etc."git-source".source = myconfig.outPath;
-
+          boot.supportedFilesystems = [ "bcachefs" ];
           # Optional: Add your install script
           environment.systemPackages = [
             pkgs.git
@@ -65,15 +68,15 @@ parted -s /dev/$SSD mkpart primary 512MiB 100%
 
 # --- Step 5: Format EFI partition ---
 echo "[*] Formatting EFI partition..."
-mkfs.fat -F 32 -n boot /dev/${SSD}p1
+mkfs.fat -F 32 -n boot /dev/$${SSD}p1
 
 # --- Step 6: Create bcachefs filesystem ---
 echo "[*] Creating bcachefs filesystem..."
-mkfs.bcachefs -L nixos /dev/${SSD}p2 /dev/${HDD}1
+mkfs.bcachefs -L nixos /dev/$${SSD}p2 /dev/$${HDD}1
 
 # --- Step 7: Mount filesystems ---
 echo "[*] Mounting filesystems..."
-mount /dev/${SSD}p2 /mnt
+mount /dev/$${SSD}p2 /mnt
 mkdir -p /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
