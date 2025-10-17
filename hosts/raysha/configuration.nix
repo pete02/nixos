@@ -38,6 +38,12 @@
     NIXOS_OZONE_WL = "0";
   };
 
+  programs.direnv = {
+    enable = true;
+    # nix-direnv is used by default when direnv is enabled
+    nix-direnv.enable = true;
+  };
+
   networking.useNetworkd = true;
   networking.enableIPv6 = true;
   services.resolved.enable = true;
