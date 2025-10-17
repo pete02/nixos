@@ -5,6 +5,5 @@
     ./hyprpanel.nix
     ./vscode.nix
     ./ssh.nix
-    ./direnv.nix
   ];
 }
