@@ -51,7 +51,7 @@
               --exclude '.git/' \
               --exclude '.cargo/' \
               --exclude '*.mp4' \
-              --exclude '/.*/'
+              --exclude '/.*/' \
               --exclude 'dist/' \
               --info=progress2 \
           --delete /home/pete/code /mnt/server/desktopsync
