@@ -55,7 +55,7 @@
       };
 
       "$mod" = "$SUPER";
-      splash = false;
+
       bind = [
         "$mod, SPACE, exec, rofi -show drun -show-icons"
         "$mod, C, killactive"
