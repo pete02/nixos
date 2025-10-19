@@ -38,6 +38,7 @@
       bind = [
         "$mod, left, movetoworkspace, 2"
         "$mod, right, movetoworkspace, 1"
+        "$mod, n, /home/pete/Wallpapers/switch.sh"
       ];
 
       debug = {
