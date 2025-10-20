@@ -5,7 +5,7 @@
     enableDefaultConfig = false;
     matchBlocks = {
       servu = {
-        hostname = "192.168.88.252";
+        hostname = "192.168.88.244";
         user = "pete";
         identityFile = "~/.ssh/id_server";
         port = 22;
