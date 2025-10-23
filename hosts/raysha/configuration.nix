@@ -18,7 +18,7 @@
     nvidia = true;
     gaming = true;
     logitech = true;
-    books = true;
+    books = false;
     sync = true;
     user = true;
     brave = true;
