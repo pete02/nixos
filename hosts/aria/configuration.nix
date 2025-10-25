@@ -37,7 +37,7 @@ in
 
   smb = {
     enable = true;
-    router = false;
+    router = true;
   };
 
   enable = {
