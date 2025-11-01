@@ -22,7 +22,7 @@
     environment.systemPackages = with pkgs; [
       mangohud
       wineWow64Packages.waylandFull
-      glxinfo
+      mesa-demos
       protonup
       heroic
     ];
