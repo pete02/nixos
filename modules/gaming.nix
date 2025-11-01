@@ -23,7 +23,7 @@
       mangohud
       wineWow64Packages.waylandFull
       mesa-demos
-      protonup
+      protonup-ng
       heroic
     ];
 
