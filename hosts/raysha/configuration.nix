@@ -87,6 +87,7 @@
     lshw
     ffmpeg
     mdadm
+    calibre
   ];
   system.stateVersion = "25.05";
 
