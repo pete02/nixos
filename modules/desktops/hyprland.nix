@@ -32,7 +32,7 @@
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
 
     xdg.portal.enable = true;
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtx ];
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
     security.rtkit.enable = true;
     services.pipewire = {
