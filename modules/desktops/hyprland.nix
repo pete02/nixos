@@ -22,6 +22,7 @@
       slurp
       imagemagick
       wl-clipboard
+      mako
       feh
       vlc
       playerctl
