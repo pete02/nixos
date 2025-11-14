@@ -53,7 +53,10 @@
       input = {
         kb_layout = "fi";
       };
-
+      ecosystem = {
+        no_update_news = true;
+        no_donation_nag = true;
+      };
       "$mod" = "$SUPER";
 
       bind = [
