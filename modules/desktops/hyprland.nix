@@ -22,7 +22,6 @@
       slurp
       imagemagick
       wl-clipboard
-      mako
       feh
       vlc
       playerctl
@@ -33,7 +32,7 @@
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
 
     xdg.portal.enable = true;
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtx ];
 
     security.rtkit.enable = true;
     services.pipewire = {
