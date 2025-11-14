@@ -43,7 +43,7 @@
       jack.enable = true;
     };
     services.upower.enable = true;
-    services.dunst.enable = true;
+
     services.greetd = {
       enable = true;
       settings = {

@@ -16,7 +16,7 @@
       environment = {
 
       };
-      exec-once = "sleep 5 && xrandr --output DP-2 --primary";
+      exec-once = "sleep 5 && xrandr --output DP-2 --primary && dunst";
       monitor = [
         "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,3440x0,1"
       ];
