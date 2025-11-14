@@ -31,8 +31,8 @@
 
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
 
-    xdg.portal.enable = false;
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+    xdg.portal.enable = true;
+    #xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
 
     security.rtkit.enable = true;
     services.pipewire = {
