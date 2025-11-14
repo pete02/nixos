@@ -32,7 +32,7 @@
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
 
     xdg.portal.enable = true;
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
 
     security.rtkit.enable = true;
     services.pipewire = {
@@ -43,7 +43,7 @@
       jack.enable = true;
     };
     services.upower.enable = true;
-
+    services.dunst.enable = true;
     services.greetd = {
       enable = true;
       settings = {
