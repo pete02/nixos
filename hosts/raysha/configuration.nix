@@ -42,9 +42,7 @@
     enable = true;
     # nix-direnv is used by default when direnv is enabled
     nix-direnv.enable = true;
-    extraConfig = ''
-      export DIRENV_LOG_FORMAT=""
-    '';
+    silent = true;
   };
 
   networking.useNetworkd = true;
