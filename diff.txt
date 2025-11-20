@@ -1,74 +1,73 @@
-<<< /nix/var/nix/profiles/system-272-link
->>> /nix/var/nix/profiles/system-273-link
+<<< /nix/var/nix/profiles/system-273-link
+>>> /nix/var/nix/profiles/system-274-link
 Version changes:
-[U.]  #01  attica                    6.19.0 -> 6.20.0
-[U.]  #02  baloo                     6.19.0 -> 6.20.0
-[U*]  #03  brave                     1.84.135 -> 1.84.139
-[U.]  #04  breeze-icons              6.19.0 -> 6.20.0
-[U*]  #05  calibre                   8.13.0 -> 8.14.0
-[U.]  #06  dart-sass                 1.93.3 -> 1.94.0
-[U.]  #07  electron                  37.9.0 -> 37.10.0
-[U.]  #08  electron-unwrapped        37.9.0 -> 37.10.0
-[U.]  #09  fzf                       0.66.1 -> 0.67.0
-[U.]  #10  hyprlang                  0.6.4 -> 0.6.5
-[U.]  #11  hyprpanel                 0-unstable-2025-09-11 -> 0-unstable-2025-11-07
-[U.]  #12  hyprutils                 0.10.1 -> 0.10.2
-[U.]  #13  initrd-linux              6.17.7 -> 6.17.8
-[U.]  #14  karchive                  6.19.0 -> 6.20.0
-[U.]  #15  kauth                     6.19.0 -> 6.20.0
-[U.]  #16  kbookmarks                6.19.0 -> 6.20.0
-[U.]  #17  kcmutils                  6.19.0 -> 6.20.0
-[U.]  #18  kcodecs                   6.19.0 -> 6.20.0
-[U.]  #19  kcolorscheme              6.19.0 -> 6.20.0
-[U.]  #20  kcompletion               6.19.0 -> 6.20.0
-[U.]  #21  kconfig                   6.19.0 -> 6.20.0
-[U.]  #22  kconfigwidgets            6.19.0 -> 6.20.0
-[U.]  #23  kcoreaddons               6.19.0 -> 6.20.0
-[U.]  #24  kcrash                    6.19.0 -> 6.20.0
-[U.]  #25  kdbusaddons               6.19.0 -> 6.20.0
-[U.]  #26  kdnssd                    6.19.0 -> 6.20.0
-[U.]  #27  kdoctools                 6.19.0 -> 6.20.0
-[U.]  #28  kfilemetadata             6.19.0 -> 6.20.0
-[U.]  #29  kglobalaccel              6.19.0 -> 6.20.0
-[U.]  #30  kguiaddons                6.19.0 -> 6.20.0
-[U.]  #31  ki18n                     6.19.0 -> 6.20.0
-[U.]  #32  kiconthemes               6.19.0 -> 6.20.0
-[U.]  #33  kidletime                 6.19.0 -> 6.20.0
-[U.]  #34  kio                       6.19.1 -> 6.20.0
-[U.]  #35  kirigami                  6.19.0 -> 6.20.0
-[U.]  #36  kitemviews                6.19.0 -> 6.20.0
-[U.]  #37  kjobwidgets               6.19.0 -> 6.20.0
-[U.]  #38  knewstuff                 6.19.0 -> 6.20.0
-[U.]  #39  knotifications            6.19.0 -> 6.20.0
-[U.]  #40  kpackage                  6.19.0 -> 6.20.0
-[U.]  #41  kparts                    6.19.0 -> 6.20.0
-[U.]  #42  kservice                  6.19.0 -> 6.20.0
-[U.]  #43  ktextwidgets              6.19.0 -> 6.20.0
-[U.]  #44  kuserfeedback             6.19.0 -> 6.20.0
-[U.]  #45  kwallet                   6.19.0 -> 6.20.0
-[U.]  #46  kwidgetsaddons            6.19.0 -> 6.20.0
-[U.]  #47  kwindowsystem             6.19.0 -> 6.20.0
-[U.]  #48  kxmlgui                   6.19.0 -> 6.20.0
-[U.]  #49  libblockdev               3.3.0 -> 3.4.0
-[C.]  #50  libdisplay-info           0.3.0 -> 0.3.0 x2
-[U.]  #51  libtraceevent             1.8.4 -> 1.8.5
-[C.]  #52  libxkbcommon              1.11.0 x2 -> 1.11.0 x2, 1.11.0-dev
-[U.]  #53  linux                     6.17.7, 6.17.7-modules x2, 6.17.7-modules-shrunk -> 6.17.8, 6.17.8-modules x2, 6.17.8-modules-shrunk
-[U.]  #54  mesa                      25.2.6 x2 -> 25.3.0 x2
-[U.]  #55  nixos-system-raysha       25.11.20251112.c5ae371 -> 25.11.20251117.89c2b23
-[U.]  #56  nvidia-container-toolkit  1.17.9, 1.17.9-tools -> 1.18.0, 1.18.0-tools
-[U*]  #57  nvidia-x11                580.105.08-6.17.7, 580.105.08-6.17.7-bin, 580.105.08-6.17.7-firmware, 580.105.08-6.17.7-lib32 -> 580.105.08-6.17.8, 580.105.08-6.17.8-bin, 580.105.08-6.17.8-firmware, 580.105.08-6.17.8-lib32
-[U.]  #58  qqc2-desktop-style        6.19.0 -> 6.20.0
-[U.]  #59  solid                     6.19.0 -> 6.20.0
-[U.]  #60  sonnet                    6.19.0 -> 6.20.0
-[U.]  #61  syndication               6.19.0 -> 6.20.0
-[U.]  #62  syntax-highlighting       6.19.0 -> 6.20.0
-[U*]  #63  vscode                    1.105.1 -> 1.106.0
+[D.]  #01  attica                    6.20.0 -> 6.19.0
+[D.]  #02  baloo                     6.20.0 -> 6.19.0
+[D*]  #03  brave                     1.84.139 -> 1.84.135
+[D.]  #04  breeze-icons              6.20.0 -> 6.19.0
+[D*]  #05  calibre                   8.14.0 -> 8.13.0
+[D.]  #06  dart-sass                 1.94.0 -> 1.93.3
+[D.]  #07  electron                  37.10.0 -> 37.9.0
+[D.]  #08  electron-unwrapped        37.10.0 -> 37.9.0
+[D.]  #09  fzf                       0.67.0 -> 0.66.1
+[D.]  #10  hyprlang                  0.6.5 -> 0.6.4
+[D.]  #11  hyprpanel                 0-unstable-2025-11-07 -> 0-unstable-2025-09-11
+[D.]  #12  hyprutils                 0.10.2 -> 0.10.1
+[D.]  #13  initrd-linux              6.17.8 -> 6.17.7
+[D.]  #14  karchive                  6.20.0 -> 6.19.0
+[D.]  #15  kauth                     6.20.0 -> 6.19.0
+[D.]  #16  kbookmarks                6.20.0 -> 6.19.0
+[D.]  #17  kcmutils                  6.20.0 -> 6.19.0
+[D.]  #18  kcodecs                   6.20.0 -> 6.19.0
+[D.]  #19  kcolorscheme              6.20.0 -> 6.19.0
+[D.]  #20  kcompletion               6.20.0 -> 6.19.0
+[D.]  #21  kconfig                   6.20.0 -> 6.19.0
+[D.]  #22  kconfigwidgets            6.20.0 -> 6.19.0
+[D.]  #23  kcoreaddons               6.20.0 -> 6.19.0
+[D.]  #24  kcrash                    6.20.0 -> 6.19.0
+[D.]  #25  kdbusaddons               6.20.0 -> 6.19.0
+[D.]  #26  kdnssd                    6.20.0 -> 6.19.0
+[D.]  #27  kdoctools                 6.20.0 -> 6.19.0
+[D.]  #28  kfilemetadata             6.20.0 -> 6.19.0
+[D.]  #29  kglobalaccel              6.20.0 -> 6.19.0
+[D.]  #30  kguiaddons                6.20.0 -> 6.19.0
+[D.]  #31  ki18n                     6.20.0 -> 6.19.0
+[D.]  #32  kiconthemes               6.20.0 -> 6.19.0
+[D.]  #33  kidletime                 6.20.0 -> 6.19.0
+[D.]  #34  kio                       6.20.0 -> 6.19.1
+[D.]  #35  kirigami                  6.20.0 -> 6.19.0
+[D.]  #36  kitemviews                6.20.0 -> 6.19.0
+[D.]  #37  kjobwidgets               6.20.0 -> 6.19.0
+[D.]  #38  knewstuff                 6.20.0 -> 6.19.0
+[D.]  #39  knotifications            6.20.0 -> 6.19.0
+[D.]  #40  kpackage                  6.20.0 -> 6.19.0
+[D.]  #41  kparts                    6.20.0 -> 6.19.0
+[D.]  #42  kservice                  6.20.0 -> 6.19.0
+[D.]  #43  ktextwidgets              6.20.0 -> 6.19.0
+[D.]  #44  kuserfeedback             6.20.0 -> 6.19.0
+[D.]  #45  kwallet                   6.20.0 -> 6.19.0
+[D.]  #46  kwidgetsaddons            6.20.0 -> 6.19.0
+[D.]  #47  kwindowsystem             6.20.0 -> 6.19.0
+[D.]  #48  kxmlgui                   6.20.0 -> 6.19.0
+[D.]  #49  libblockdev               3.4.0 -> 3.3.0
+[C.]  #50  libdisplay-info           0.3.0 x2 -> 0.3.0
+[D.]  #51  libtraceevent             1.8.5 -> 1.8.4
+[C.]  #52  libxkbcommon              1.11.0 x2, 1.11.0-dev -> 1.11.0 x2
+[D.]  #53  linux                     6.17.8, 6.17.8-modules x2, 6.17.8-modules-shrunk -> 6.17.7, 6.17.7-modules x2, 6.17.7-modules-shrunk
+[D.]  #54  mesa                      25.3.0 x2 -> 25.2.6 x2
+[D.]  #55  nixos-system-raysha       25.11.20251117.89c2b23 -> 25.11.20251112.c5ae371
+[D.]  #56  nvidia-container-toolkit  1.18.0, 1.18.0-tools -> 1.17.9, 1.17.9-tools
+[D*]  #57  nvidia-x11                580.105.08-6.17.8, 580.105.08-6.17.8-bin, 580.105.08-6.17.8-firmware, 580.105.08-6.17.8-lib32 -> 580.105.08-6.17.7, 580.105.08-6.17.7-bin, 580.105.08-6.17.7-firmware, 580.105.08-6.17.7-lib32
+[D.]  #58  qqc2-desktop-style        6.20.0 -> 6.19.0
+[D.]  #59  solid                     6.20.0 -> 6.19.0
+[D.]  #60  sonnet                    6.20.0 -> 6.19.0
+[D.]  #61  syndication               6.20.0 -> 6.19.0
+[D.]  #62  syntax-highlighting       6.20.0 -> 6.19.0
+[D*]  #63  vscode                    1.106.0 -> 1.105.1
 Added packages:
-[A.]  #1  opencl-headers           2025.07.22
-[A.]  #2  wait-for-nvidia-devices  <none>
-[A.]  #3  wayland-scanner          1.24.0
+[A.]  #1  phonon  4.12.0
 Removed packages:
-[R.]  #1  phonon  4.12.0
-Closure size: 2134 -> 2138 (192 paths added, 188 paths removed, delta +4, disk usage +29.5MiB).
--
+[R.]  #1  opencl-headers           2025.07.22
+[R.]  #2  wait-for-nvidia-devices  <none>
+[R.]  #3  wayland-scanner          1.24.0
+Closure size: 2138 -> 2134 (189 paths added, 193 paths removed, delta -4, disk usage -29.5MiB).

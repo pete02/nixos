@@ -21,6 +21,8 @@ if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME"; then
     echo "Rebuild successful"
     nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > diff.txt
     cat diff.txt
+    git add diff.txt
+    git commit --amend --no-edit
     git push
 else
     echo "Rebuild failed, not pushing."
