@@ -43,6 +43,7 @@
 
       debug = {
         full_cm_proto = true;
+        disable_logs = false;
       };
     };
   };

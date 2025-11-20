@@ -19,7 +19,6 @@
         allow_tearing = false;
         layout = "dwindle";
       };
-      debug.disable_logs = false;
       decoration = {
         rounding = "10";
         rounding_power = "2";
