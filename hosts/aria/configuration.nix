@@ -36,7 +36,6 @@ in
     ];
   };
 
-
   environment.systemPackages = with pkgs; [
     vim
     wget
@@ -45,7 +44,6 @@ in
     rsync
     lshw
   ];
-
 
   smb = {
     enable = true;
@@ -63,7 +61,6 @@ in
   };
 
   username = "pete";
-  
 
   services.samba = {
     enable = true;
