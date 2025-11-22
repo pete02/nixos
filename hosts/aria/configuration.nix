@@ -22,6 +22,7 @@ in
   networking.hostName = "aria";
   time.timeZone = "Europe/Helsinki";
   environment.variables.TERM = "xterm-256color";
+
   users.users.pete = {
     isNormalUser = true;
     createHome = true;
@@ -34,6 +35,17 @@ in
       tree
     ];
   };
+
+
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    update-script
+    git
+    rsync
+    lshw
+  ];
+
 
   smb = {
     enable = true;
@@ -51,15 +63,11 @@ in
   };
 
   username = "pete";
+  hardware.sensors = {
+    enable = true;
+  };
+  services.fancontrol.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    update-script
-    git
-    rsync
-    lshw
-  ];
 
   services.samba = {
     enable = true;
@@ -100,16 +108,6 @@ in
     };
   };
 
-  # systemd.timers.serverbackup = {
-  #   description = "Timer for auto-updating NixOS from git";
-  #   wantedBy = [ "timers.target" ];
-  #   timerConfig = {
-  #     OnCalendar = "daily"; # runs once per day
-  #     Persistent = true; # ensures missed runs are executed at next boot
-  #     RandomizedDelaySec = "30m"; # randomizes start within 30 minutes for load balancing
-  #   };
-  # };
-
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.05";
 
 }
