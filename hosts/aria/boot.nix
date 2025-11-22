@@ -4,6 +4,7 @@
     "nvidia"
     "nvidia_modeset"
     "nvidia_uvm"
+    "nct6775"
     "nvidia_drm"
     "kvm-amd"
   ];
