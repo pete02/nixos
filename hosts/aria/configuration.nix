@@ -63,7 +63,7 @@ in
   };
 
   username = "pete";
-  hardware.fancontrol.enable = true;
+  
 
   services.samba = {
     enable = true;
