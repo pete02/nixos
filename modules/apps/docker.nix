@@ -12,7 +12,6 @@
   config = lib.mkIf config.enable.docker {
     virtualisation.docker = {
       enable = true;
-      package = pkgs.docker_25;
     };
 
     users.users.pete = {
