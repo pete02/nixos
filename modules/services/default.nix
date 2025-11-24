@@ -8,5 +8,6 @@
     ./sambaclients.nix
     ./syncing.nix
     ./wireguard-client.nix
+    ./gpucooler.nix
   ];
 }
