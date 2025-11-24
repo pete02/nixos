@@ -15,9 +15,6 @@ let
         if [ "$temp" -lt 40 ]; then temp=40; fi
         if [ "$temp" -gt 80 ]; then temp=80; fi
 
-        # Scale to 0–100%
-        percent=$(( (temp - 40) * 100 / 40 ))
-
         # Scale to 0–255 PWM
         if [ "$temp" -le 55 ]; then
             speed=40      # very quiet fixed speed
