@@ -40,6 +40,7 @@ in
         ExecStart = "${gpuFanScript}/bin/gpu-fan-control";
         Restart = "always";
         RestartSec = 1;
+        Environment = "PATH=/run/current-system/sw/bin/nvidia-smi";
       };
     };
   };
