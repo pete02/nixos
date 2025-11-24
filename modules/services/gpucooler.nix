@@ -7,7 +7,7 @@ let
       #!/bin/bash
 
       while true; do
-        temp=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
+        temp=$(/run/current-system/sw/bin/nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
         # Clamp temperature to 40–80°C
         if [ "$temp" -lt 40 ]; then temp=40; fi
@@ -40,7 +40,6 @@ in
         ExecStart = "${gpuFanScript}/bin/gpu-fan-control";
         Restart = "always";
         RestartSec = 1;
-        Environment = "PATH=/run/current-system/sw/bin/nvidia-smi";
       };
     };
   };
