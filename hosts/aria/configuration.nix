@@ -58,7 +58,7 @@ in
   services.enable = {
     ssh = true;
     gitops = true;
-    gpufan=true;
+    gpufan = true;
   };
 
   username = "pete";
