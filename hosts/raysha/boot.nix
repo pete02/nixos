@@ -39,5 +39,6 @@
     efi.canTouchEfiVariables = true;
     timeout = 1;
   };
+  boot.swraid.enable = true;
 
 }

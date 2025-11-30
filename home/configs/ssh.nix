@@ -10,10 +10,10 @@
         identityFile = "~/.ssh/id_server";
         port = 22;
       };
-      my-nixos-repo = {
+      github.com = {
         hostname = "github.com";
         user = "git";
-        identityFile = "~/.ssh/id_nixos_sync";
+        identityFile = "~/.ssh/github_id";
       };
     };
   };

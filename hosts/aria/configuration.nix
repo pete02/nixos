@@ -28,7 +28,7 @@ in
     createHome = true;
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINcUoZ1iRFqNMy/cf3aVsvEmnwysuK8CAm1dHi6DbskN pete"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKdej5cPrmoBbFQVPcj2pFJhScGdfdZJ2dXnaF3fxXJl server@raysha"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADLIKC7KG2TgvOeEaK5LRKgyTE4tFupPZ1k08nJ1grQ talia"
     ];
     packages = with pkgs; [
