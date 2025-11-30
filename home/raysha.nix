@@ -38,7 +38,7 @@
       bind = [
         "$mod, left, movetoworkspace, 2"
         "$mod, right, movetoworkspace, 1"
-        "$mod, n,exec, /home/pete/Wallpapers/switch.sh"
+        "$mod, n,exec, /home/pete/wallpapers/switch.sh"
       ];
 
       debug = {
