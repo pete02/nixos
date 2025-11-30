@@ -24,7 +24,7 @@
       wineWow64Packages.waylandFull
       mesa-demos
       protonup-ng
-      heroic
+      lutris
     ];
 
     nixpkgs.config.packageOverrides = pkgs: {
