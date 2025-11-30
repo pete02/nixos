@@ -18,8 +18,8 @@
     nvidia = true;
     gaming = true;
     logitech = true;
-    books = false;
-    sync = true;
+    books = true;
+    sync = false;
     user = true;
     brave = true;
   };
