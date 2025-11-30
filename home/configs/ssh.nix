@@ -10,7 +10,7 @@
         identityFile = "~/.ssh/id_server";
         port = 22;
       };
-      github.com = {
+      "github.com" = {
         hostname = "github.com";
         user = "git";
         identityFile = "~/.ssh/github_id";
