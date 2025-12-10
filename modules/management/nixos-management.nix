@@ -27,6 +27,8 @@ let
         echo "Rebuild successful"
         nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > /etc/nixos/diff.txt
         cat /etc/nixos/diff.txt
+        git add /etc/nixos/diff.txt
+        git commit --amend --no-edit
         git push
     else
         echo "Rebuild failed, not pushing."
