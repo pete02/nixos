@@ -1,27 +1,60 @@
-<<< /nix/var/nix/profiles/system-10-link
->>> /nix/var/nix/profiles/system-11-link
+<<< /nix/var/nix/profiles/system-11-link
+>>> /nix/var/nix/profiles/system-12-link
 Version changes:
-[U.]  #01  SDL_compat               1.2.70 x2 -> 1.2.72 x2
-[U.]  #02  baloo-widgets            25.08.3 -> 25.12.0
-[U.]  #03  dart-sass                1.94.2 -> 1.95.0
-[U*]  #04  docker                   28.5.1 -> 29.1.2
-[U.]  #05  docker-compose           2.39.4 -> 5.0.0
-[U.]  #06  docker-containerd        28.5.1 -> 29.1.2
-[U.]  #07  docker-runc              28.5.1 -> 29.1.2
-[U.]  #08  docker-tini              28.5.1 -> 29.1.2
-[U*]  #09  dolphin                  25.08.3 -> 25.12.0
-[U*]  #10  firefox                  145.0.2 -> 146.0
-[U.]  #11  firefox-unwrapped        145.0.2 -> 146.0
-[C.]  #12  gamescope                <none>, 3.16.17 -> <none>, 3.16.18
-[U*]  #13  kcalc                    25.08.3 -> 25.12.0
-[U.]  #14  kdegraphics-mobipocket   25.08.3 -> 25.12.0
-[U.]  #15  kio-extras               25.08.3 -> 25.12.0
-[U.]  #16  libkexiv2                25.08.3 -> 25.12.0
-[U.]  #17  moby                     28.5.1 -> 29.1.2
-[U.]  #18  nixos-system-raysha      26.05.20251208.addf7cf -> 26.05.20251211.2fbfb1d
-[C.]  #19  nss                      3.112.2 x2, 3.112.2-man, 3.119 -> 3.112.2 x2, 3.112.2-man, 3.119.1
-[U.]  #20  nuspell                  5.1.6-lib -> 5.1.7-lib
-[U.]  #21  plasma-activities        6.5.3 -> 6.5.4
-[U.]  #22  plasma-activities-stats  6.5.3 -> 6.5.4
-[U*]  #23  strace                   6.17, 6.17-man -> 6.18, 6.18-man
-Closure size: 2301 -> 2301 (122 paths added, 122 paths removed, delta +0, disk usage -73.6MiB).
+[U.]  #01  attica               6.20.0 -> 6.21.0
+[U.]  #02  baloo                6.20.0 -> 6.21.0
+[U*]  #03  bind                 9.20.15-host, 9.20.15-lib, 9.20.15-man -> 9.20.16-host, 9.20.16-lib, 9.20.16-man
+[U*]  #04  brave                1.85.111 -> 1.85.116
+[U.]  #05  breeze-icons         6.20.0 -> 6.21.0
+[U.]  #06  grimblast            0.1-unstable-2025-12-01 -> 0.1-unstable-2025-12-07
+[U.]  #07  hyprutils            0.10.4 -> 0.11.0
+[U.]  #08  initrd-linux         6.18 -> 6.18.1
+[U.]  #09  karchive             6.20.0 -> 6.21.0
+[U.]  #10  kauth                6.20.0 -> 6.21.0
+[U.]  #11  kbookmarks           6.20.0 -> 6.21.0
+[U.]  #12  kcmutils             6.20.0 -> 6.21.0
+[U.]  #13  kcodecs              6.20.0 -> 6.21.0
+[U.]  #14  kcolorscheme         6.20.0 -> 6.21.0
+[U.]  #15  kcompletion          6.20.0 -> 6.21.0
+[U.]  #16  kconfig              6.20.0 -> 6.21.0
+[U.]  #17  kconfigwidgets       6.20.0 -> 6.21.0
+[U.]  #18  kcoreaddons          6.20.0 -> 6.21.0
+[U.]  #19  kcrash               6.20.0 -> 6.21.0
+[U.]  #20  kdbusaddons          6.20.0 -> 6.21.0
+[U.]  #21  kdnssd               6.20.0 -> 6.21.0
+[U.]  #22  kdoctools            6.20.0 -> 6.21.0
+[U.]  #23  kfilemetadata        6.20.0 -> 6.21.0
+[U.]  #24  kglobalaccel         6.20.0 -> 6.21.0
+[U.]  #25  kguiaddons           6.20.0 -> 6.21.0
+[U.]  #26  ki18n                6.20.0 -> 6.21.0
+[U.]  #27  kiconthemes          6.20.0 -> 6.21.0
+[U.]  #28  kidletime            6.20.0 -> 6.21.0
+[U.]  #29  kio                  6.20.0 -> 6.21.0
+[U.]  #30  kirigami             6.20.0 -> 6.21.0
+[U.]  #31  kitemviews           6.20.0 -> 6.21.0
+[U.]  #32  kjobwidgets          6.20.0 -> 6.21.0
+[U.]  #33  knewstuff            6.20.0 -> 6.21.0
+[U.]  #34  knotifications       6.20.0 -> 6.21.0
+[U.]  #35  kpackage             6.20.0 -> 6.21.0
+[U.]  #36  kparts               6.20.0 -> 6.21.0
+[U.]  #37  kservice             6.20.0 -> 6.21.0
+[U.]  #38  ktextwidgets         6.20.0 -> 6.21.0
+[U.]  #39  kuserfeedback        6.20.0 -> 6.21.0
+[U.]  #40  kwallet              6.20.0 -> 6.21.0
+[U.]  #41  kwidgetsaddons       6.20.0 -> 6.21.0
+[U.]  #42  kwindowsystem        6.20.0 -> 6.21.0
+[U.]  #43  kxmlgui              6.20.0 -> 6.21.0
+[C.]  #44  libXNVCtrl           390.157, 580.105.08 -> 390.157, 580.119.02
+[U.]  #45  linux                6.18, 6.18-modules x2, 6.18-modules-shrunk -> 6.18.1, 6.18.1-modules x2, 6.18.1-modules-shrunk
+[U.]  #46  nixos-system-raysha  26.05.20251211.2fbfb1d -> 26.05.20251215.1306659
+[U*]  #47  nvidia-settings      580.105.08 -> 580.119.02
+[U*]  #48  nvidia-x11           580.105.08-6.18, 580.105.08-6.18-bin, 580.105.08-6.18-firmware, 580.105.08-6.18-lib32 -> 580.119.02-6.18.1, 580.119.02-6.18.1-bin, 580.119.02-6.18.1-firmware, 580.119.02-6.18.1-lib32
+[U.]  #49  qqc2-desktop-style   6.20.0 -> 6.21.0
+[U.]  #50  solid                6.20.0 -> 6.21.0
+[U.]  #51  sonnet               6.20.0 -> 6.21.0
+[U.]  #52  syndication          6.20.0 -> 6.21.0
+[U.]  #53  syntax-highlighting  6.20.0 -> 6.21.0
+[U*]  #54  vscode               1.106.3 -> 1.107.0
+Removed packages:
+[R.]  #1  docker-plugins  <none>
+Closure size: 2301 -> 2300 (165 paths added, 166 paths removed, delta -1, disk usage +10.2MiB).
