@@ -30,6 +30,7 @@ in
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKdej5cPrmoBbFQVPcj2pFJhScGdfdZJ2dXnaF3fxXJl server@raysha"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIADLIKC7KG2TgvOeEaK5LRKgyTE4tFupPZ1k08nJ1grQ talia"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHFfxdS4k6cw7VZ8LT/cyVNhIDmLBoazLyx6n4WcIoeS pete@WIN-O1N1V4FR36K"
     ];
     packages = with pkgs; [
       tree
