@@ -30,8 +30,8 @@
       ];
 
       bind = [
-        "$mod, left, movetoworkspace, 1"
-        "$mod, right, movetoworkspace, 2"
+        "SUPER, left, movetoworkspace, 1"
+        "SUPER, right, movetoworkspace, 2"
       ];
     };
   };

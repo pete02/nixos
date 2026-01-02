@@ -36,9 +36,9 @@
       };
 
       bind = [
-        "$mod, right, movetoworkspace, 1"
-        "$mod, left, movetoworkspace, 2"
-        "$mod, n,exec, /home/pete/wallpapers/switch.sh"
+        "SUPER, right, movetoworkspace, 1"
+        "SUPER, left, movetoworkspace, 2"
+        "SUPER, n,exec, /home/pete/wallpapers/switch.sh"
       ];
 
       debug = {
