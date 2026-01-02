@@ -56,18 +56,16 @@
         no_update_news = true;
         no_donation_nag = true;
       };
-      "$mod" = "$SUPER";
-
       bind = [
-        "$mod, SPACE, exec, rofi -show drun -show-icons"
-        "$mod, C, killactive"
-        "$mod, M, exit"
-        "$mod, V, togglefloating"
-        "$mod, up, fullscreenstate, 1"
-        "$mod, mouse_down, workspace, e+1"
-        "$mod, p, exec, export SCREENSHOT=~/screenshots/\"$(date '+%Y-%m-%d_%H-%M-%S').png\" && grim -g \"$(slurp)\" - | magick - -shave 1x1 PNG:- > \"$SCREENSHOT\" && cat \"$SCREENSHOT\" | wl-copy"
-        "$mod, mouse_up, workspace, e-1"
-        "$mod, V, togglefloating"
+        "SUPER, SPACE, exec, rofi -show drun -show-icons"
+        "SUPER, C, killactive"
+        "SUPER, M, exit"
+        "SUPER, V, togglefloating"
+        "SUPER, up, fullscreenstate, 1"
+        "SUPER, mouse_down, workspace, e+1"
+        "SUPER, p, exec, export SCREENSHOT=~/screenshots/\"$(date '+%Y-%m-%d_%H-%M-%S').png\" && grim -g \"$(slurp)\" - | magick - -shave 1x1 PNG:- > \"$SCREENSHOT\" && cat \"$SCREENSHOT\" | wl-copy"
+        "SUPER, mouse_up, workspace, e-1"
+        "SUPER, V, togglefloating"
       ];
       bindel = [
         ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
