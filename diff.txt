@@ -1,4 +1,5 @@
-<<< /nix/var/nix/profiles/system-15-link
->>> /nix/var/nix/profiles/system-16-link
-No version or selection state changes.
-Closure size: 2308 -> 2308 (7 paths added, 7 paths removed, delta +0, disk usage -128B).
+<<< /nix/var/nix/profiles/system-16-link
+>>> /nix/var/nix/profiles/system-17-link
+Added packages:
+[A.]  #1  winetricks  20250102
+Closure size: 2308 -> 2309 (28 paths added, 27 paths removed, delta +1, disk usage +865.4KiB).
