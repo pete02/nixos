@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   ...
 }:
 let
@@ -44,7 +43,6 @@ in
     "nix-command"
     "flakes"
   ];
-  config.allowUnfree = true;
 
   environment.systemPackages = [
     pkgs.nixfmt-tree
