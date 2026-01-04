@@ -10,7 +10,8 @@ let
     name = "gpu-fan-control";
     text = ''
       #!/bin/bash
-
+      echo 1 > /sys/class/hwmon/hwmon1/pwm2_enable
+      echo 1 > /sys/class/hwmon/hwmon1/pwm5_enable
       while true; do
         temp=$(/run/current-system/sw/bin/nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
