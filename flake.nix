@@ -17,16 +17,6 @@
       nixpkgs,
       ...
     }@inputs:
-    let
-      systemPkgs = import nixpkgs {
-        system = "x86_64-linux";
-        overlays = [
-          (final: prev: {
-            # Example overlay to inject something, optional
-          })
-        ];
-      };
-    in
     {
       nixpkgs.config.allowUnfree = true;
       nixosConfigurations.talia = nixpkgs.lib.nixosSystem {
@@ -58,7 +48,7 @@
             {
               nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
               nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
-              boot.kernelPackages = pkgs.cachyosKernels.linux-cachyos-latest-zen4;
+              boot.kernelPackages = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
             }
           )
         ];
