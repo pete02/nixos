@@ -42,11 +42,15 @@
           (
             { pkgs, ... }:
             let
-              # Overlay to inject CachyOS kernel
-              cachyosOverlay = self: super: {
-                linuxPackages = super.linuxPackages.override {
+              cachyosOverlay = final: prev: {
+                # Replace the kernel derivation in the package set
+                linuxPackages = prev.linuxPackages // {
                   kernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
                 };
+              };
+              pkgsWithOverlay = import inputs.nixpkgs {
+                system = "x86_64-linux";
+                overlays = [ cachyosOverlay ];
               };
             in
             {
@@ -56,7 +60,7 @@
               nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
               # Use the NixOS kernel package set (with overlay applied)
-              boot.kernelPackages = pkgs.linuxPackages;
+              boot.kernelPackages = pkgsWithOverlay.linuxPackages;
             }
           )
         ];
