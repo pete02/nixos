@@ -1,15 +1,18 @@
-<<< /nix/var/nix/profiles/system-25-link
->>> /nix/var/nix/profiles/system-26-link
+<<< /nix/var/nix/profiles/system-26-link
+>>> /nix/var/nix/profiles/system-27-link
 Version changes:
-[D.]  #1  initrd-linux  6.18.3 -> 6.12.63
-[D.]  #2  linux         6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk -> 6.12.63, 6.12.63-modules x2, 6.12.63-modules-shrunk
-[D*]  #3  nvidia-x11    580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32 -> 580.119.02-6.12.63, 580.119.02-6.12.63-bin, 580.119.02-6.12.63-firmware, 580.119.02-6.12.63-lib32
-[C.]  #4  udev-rules    <none> x2 -> <none>
+[U*]  #1  nvidia-x11  580.119.02-6.12.63, 580.119.02-6.12.63-bin, 580.119.02-6.12.63-firmware, 580.119.02-6.12.63-lib32 -> 580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32
+[C.]  #2  udev-rules  <none> -> <none> x2
+Added packages:
+[A.]  #1  extra-utils                       <none>
+[A.]  #2  initrd-fsinfo                     <none>
+[A.]  #3  initrd-linux-cachyos-latest-zen4  6.18.3
+[A.]  #4  keymap                            <none>
+[A.]  #5  link-units                        <none>
+[A.]  #6  linux-cachyos-latest-zen4         6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk
+[A.]  #7  mdadm.conf                        <none>
+[A.]  #8  stage                             1-init.sh
 Removed packages:
-[R.]  #1  extra-utils    <none>
-[R.]  #2  initrd-fsinfo  <none>
-[R.]  #3  keymap         <none>
-[R.]  #4  link-units     <none>
-[R.]  #5  mdadm.conf     <none>
-[R.]  #6  stage          1-init.sh
-Closure size: 2309 -> 2302 (37 paths added, 44 paths removed, delta -7, disk usage -39.5MiB).
+[R.]  #1  initrd-linux  6.12.63
+[R.]  #2  linux         6.12.63, 6.12.63-modules x2, 6.12.63-modules-shrunk
+Closure size: 2302 -> 2309 (44 paths added, 37 paths removed, delta +7, disk usage +54.5MiB).
