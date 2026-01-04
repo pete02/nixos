@@ -58,7 +58,6 @@
             {
               nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
               nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
-              inputs.nixpkgs.overlays = [ self.overlays.default ];
               boot.kernelPackages = pkgs.cachyosKernels.linux-cachyos-latest-zen4;
             }
           )
