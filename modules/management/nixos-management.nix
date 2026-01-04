@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   ...
 }:
 let
@@ -43,7 +44,7 @@ in
     "nix-command"
     "flakes"
   ];
-  allowUnfree = true;
+  config.allowUnfree = true;
   environment.systemPackages = [
     pkgs.nixfmt-tree
     pkgs.libnotify
