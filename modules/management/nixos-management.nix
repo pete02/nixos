@@ -23,7 +23,7 @@ let
 
     echo "Rebuilding system for $HOSTNAME..."
     echo "Please insert password for nixos-rebuild"
-    if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME"; then
+    if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure; then
         echo "Rebuild successful"
         nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > /etc/nixos/diff.txt
         cat /etc/nixos/diff.txt

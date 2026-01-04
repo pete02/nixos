@@ -40,7 +40,12 @@
           ./hosts/raysha/configuration.nix
           inputs.home-manager.nixosModules.default
           (
-            { pkgs, ... }:
+            {
+              pkgs,
+              lib,
+              config,
+              ...
+            }:
             let
               cachyosOverlay = final: prev: {
                 # Replace the kernel derivation in the package set
@@ -55,7 +60,12 @@
             in
             {
               nixpkgs.overlays = [ cachyosOverlay ];
-
+              config.allowUnfree = true;
+              config.allowUnfreePredicate =
+                pkg:
+                builtins.elem (lib.getName pkg) [
+                  "nvidia-x11"
+                ];
               nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
               nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
