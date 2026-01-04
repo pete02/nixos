@@ -6,17 +6,23 @@
   ...
 }:
 let
-  # Overlay to replace linuxPackages.kernel with CachyOS Zen4
+  # Wrap CachyOS in a linuxPackages-style function
+  cachyosLinuxPackages = self: super: {
+    # Use the full CachyOS kernel package set
+    linuxPackages = super.linuxPackages // {
+      kernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
+      headers = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4.dev;
+      modules = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
+    };
+  };
+
+  # Import pkgs with this overlay applied
   pkgsWithOverlay = import inputs.nixpkgs {
     system = "x86_64-linux";
-    config.allowUnfree = true;
-    overlays = [
-      (self: super: {
-        linuxPackages = super.linuxPackages // {
-          kernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
-        };
-      })
-    ];
+    overlays = [ cachyosLinuxPackages ];
+    config = {
+      allowUnfree = true;
+    };
   };
 in
 {
@@ -33,13 +39,7 @@ in
   nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
   nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
-  cachyosLinuxPackages = pkgs: {
-    kernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
-    modules = pkgs.linuxPackages.modules;
-    headers = pkgs.linuxPackages.headers;
-  };
-
-  boot.kernelPackages = cachyosLinuxPackages pkgs;
+  boot.kernelPackages = pkgsWithOverlay.linuxPackages;
   #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
     "nvme"
