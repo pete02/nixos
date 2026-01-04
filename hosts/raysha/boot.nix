@@ -19,7 +19,7 @@
   nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
   nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
-  boot.kernelPackages = inputs.nix-cachyos-kernel.linux-cachyos-latest;
+  boot.kernelPackages = inputs.nix-cachyos-kernel.x86_64-linux.linux-cachyos-latest;
 
   #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
