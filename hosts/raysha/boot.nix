@@ -1,7 +1,6 @@
 {
   lib,
   pkgs,
-  pkgsWithOverlay,
   inputs,
   ...
 }:
@@ -15,7 +14,6 @@
     timerConfig.Unit = "firewall.service";
   };
 
-  boot.kernelPackages = pkgsWithOverlay.linuxPackages;
   #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
     "nvme"
