@@ -9,6 +9,7 @@ let
   # Overlay to replace linuxPackages.kernel with CachyOS Zen4
   pkgsWithOverlay = import inputs.nixpkgs {
     system = "x86_64-linux";
+    config.allowUnfree = true;
     overlays = [
       (self: super: {
         linuxPackages = super.linuxPackages // {
