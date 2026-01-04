@@ -7,10 +7,8 @@
 let
   # Overlay to replace linuxPackages.kernel with CachyOS Zen4
   cachyosOverlay = self: super: {
-    linuxPackages = super.linuxPackages {
-      kernel = super.linuxPackages.kernel.overrideAttrs (old: {
-        src = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
-      });
+    linuxPackages = import inputs.nix-cachyos-kernel {
+      inherit system pkgs;
     };
   };
 
