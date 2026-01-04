@@ -91,10 +91,6 @@
     calibre
     libreoffice
   ];
-  services.mdadm = {
-    notifyByEmail = false;
-    notifyProgram = "/bin/true"; # disables notifications
-  };
 
   system.stateVersion = "25.05";
 
