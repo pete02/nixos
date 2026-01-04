@@ -24,6 +24,7 @@ let
   };
 in
 {
+
   systemd.services."systemd-networkd-wait-online".enable = lib.mkForce false;
 
   systemd.timers.firewall-start = {
