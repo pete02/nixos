@@ -1,10 +1,4 @@
-{
-  lib,
-  pkgs,
-  config,
-  inputs,
-  ...
-}:
+{ lib, pkgs, ... }:
 {
   systemd.services."systemd-networkd-wait-online".enable = lib.mkForce false;
 
@@ -17,6 +11,7 @@
 
   boot = {
     kernelPackages = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
+    extraKernelPackages = pkgs.linuxPackages_lts;
     initrd.availableKernelModules = [
       "nvme"
       "xhci_pci"
@@ -46,21 +41,6 @@
       systemd-enable = true;
       efi.canTouchEfiVariables = true;
       timeout = 1;
-
-      entries = [
-        {
-          name = "CachyOS Latest Zen4"; # primary kernel
-          linuxKernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4.kernel;
-          initrd = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4.initrd;
-          options = "root=${config.boot.loader.efi.efiSysMountPoint}/nixos-root rw";
-        }
-        {
-          name = "Linux LTS"; # fallback
-          linuxKernel = pkgs.linuxPackages_latest.kernel; # or linux-lts if you prefer
-          initrd = pkgs.linuxPackages_latest.initrd;
-          options = "root=${config.boot.loader.efi.efiSysMountPoint}/nixos-root rw";
-        }
-      ];
     };
     swraid.enable = true;
   };
