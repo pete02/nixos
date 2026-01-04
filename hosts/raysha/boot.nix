@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   systemd.services."systemd-networkd-wait-online".enable = lib.mkForce false;
 
