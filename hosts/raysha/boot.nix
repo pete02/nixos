@@ -16,7 +16,7 @@
 
   boot = {
     kernelPackages = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
-    extraKernelPackages = pkgs.linuxPackages_lts;
+    extraKernelPackages = pkgs.linuxPackages_latest;
     initrd.availableKernelModules = [
       "nvme"
       "xhci_pci"
