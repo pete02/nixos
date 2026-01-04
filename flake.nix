@@ -60,17 +60,11 @@
             in
             {
               nixpkgs.overlays = [ cachyosOverlay ];
-              config.allowUnfree = true;
-              config.allowUnfreePredicate =
-                pkg:
-                builtins.elem (lib.getName pkg) [
-                  "nvidia-x11"
-                ];
               nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
               nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
               # Use the NixOS kernel package set (with overlay applied)
-              boot.kernelPackages = pkgsWithOverlay.linuxPackages;
+              config.boot.kernelPackages = pkgsWithOverlay.linuxPackages;
             }
           )
         ];
