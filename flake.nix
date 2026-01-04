@@ -56,6 +56,7 @@
               pkgsWithOverlay = import inputs.nixpkgs {
                 system = "x86_64-linux";
                 overlays = [ cachyosOverlay ];
+                config.allowUnfree = true;
               };
             in
             {
