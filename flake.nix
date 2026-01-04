@@ -17,6 +17,16 @@
       nixpkgs,
       ...
     }@inputs:
+    let
+      systemPkgs = import nixpkgs {
+        system = "x86_64-linux";
+        overlays = [
+          (final: prev: {
+            # Example overlay to inject something, optional
+          })
+        ];
+      };
+    in
     {
       nixpkgs.config.allowUnfree = true;
       nixosConfigurations.talia = nixpkgs.lib.nixosSystem {
