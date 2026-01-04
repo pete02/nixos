@@ -43,7 +43,7 @@ in
     "nix-command"
     "flakes"
   ];
-  allowUnfree = true;
+  nixpkgs.config.allowUnfree = true;
   environment.systemPackages = [
     pkgs.nixfmt-tree
     pkgs.libnotify
