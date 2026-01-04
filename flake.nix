@@ -8,6 +8,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
 
   outputs =
@@ -35,12 +36,14 @@
       };
       nixosConfigurations.raysha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+
         specialArgs = {
           inherit inputs;
         };
         modules = [
           ./hosts/raysha/configuration.nix
           inputs.home-manager.nixosModules.default
+
         ];
       };
 

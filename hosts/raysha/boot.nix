@@ -8,7 +8,7 @@
     timerConfig.OnBootSec = "10s";
     timerConfig.Unit = "firewall.service";
   };
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.cachyosKernels.linux-cachyos-latest-zen4;
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
