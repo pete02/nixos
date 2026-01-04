@@ -14,8 +14,8 @@
     timerConfig.Unit = "firewall.service";
   };
 
-  #boot.kernelPackages = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgsWithOverlay.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
