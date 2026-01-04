@@ -27,8 +27,8 @@ let
   };
 
   # Import pkgs with overlay applied
-  pkgsWithOverlay = import inputs.nixpkgs {
-    system = system;
+  pkgsWithOverlay = import <nixpkgs> {
+    inherit (pkgs) system;
     overlays = [ cachyosLinuxPackages ];
     config = {
       allowUnfree = true;
