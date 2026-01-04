@@ -5,6 +5,28 @@
   system,
   ...
 }:
+let
+  # Base pkgs
+  basePkgs = import inputs.nixpkgs {
+    system = system;
+    config = {
+      allowUnfree = true;
+    };
+  };
+
+  patchedKernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4.override {
+    pname = "linux-cachyos-with-custom-source";
+    version = "6.18.3-cachyos";
+  };
+
+  # Wrap in linuxPackages attrset so NixOS likes it
+  patchedLinuxPackages = basePkgs.linuxPackages // {
+    kernel = patchedKernel;
+    headers = patchedKernel.dev; # headers for modules
+    modules = patchedKernel; # include out-of-tree modules
+  };
+
+in
 {
 
   systemd.services."systemd-networkd-wait-online".enable = lib.mkForce false;
@@ -19,7 +41,7 @@
   nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
   nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
-  boot.kernelPackages = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest;
+  boot.kernelPackages = patchedLinuxPackages;
 
   #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
