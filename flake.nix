@@ -43,7 +43,14 @@
         modules = [
           ./hosts/raysha/configuration.nix
           inputs.home-manager.nixosModules.default
-
+          (
+            { inputs, ... }:
+            {
+              boot.kernelPackages = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
+              nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
+              nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
+            }
+          )
         ];
       };
 
