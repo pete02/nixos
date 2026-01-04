@@ -1,4 +1,15 @@
-<<< /nix/var/nix/profiles/system-21-link
->>> /nix/var/nix/profiles/system-22-link
-No version or selection state changes.
-Closure size: 2302 -> 2302 (7 paths added, 7 paths removed, delta +0, disk usage +16B).
+<<< /nix/var/nix/profiles/system-22-link
+>>> /nix/var/nix/profiles/system-23-link
+Version changes:
+[U.]  #1  initrd-linux  6.12.63 -> 6.18.3
+[U.]  #2  linux         6.12.63, 6.12.63-modules x2, 6.12.63-modules-shrunk -> 6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk
+[U*]  #3  nvidia-x11    580.119.02-6.12.63, 580.119.02-6.12.63-bin, 580.119.02-6.12.63-firmware, 580.119.02-6.12.63-lib32 -> 580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32
+[C.]  #4  udev-rules    <none> -> <none> x2
+Added packages:
+[A.]  #1  extra-utils    <none>
+[A.]  #2  initrd-fsinfo  <none>
+[A.]  #3  keymap         <none>
+[A.]  #4  link-units     <none>
+[A.]  #5  mdadm.conf     <none>
+[A.]  #6  stage          1-init.sh
+Closure size: 2302 -> 2309 (44 paths added, 37 paths removed, delta +7, disk usage +39.5MiB).
