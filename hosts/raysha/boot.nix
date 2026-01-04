@@ -8,7 +8,7 @@
 let
   # Base pkgs
   basePkgs = import inputs.nixpkgs {
-    inherit system;
+    system = config.system;
     config = {
       allowUnfree = true;
     };
