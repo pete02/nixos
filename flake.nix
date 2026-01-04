@@ -1,6 +1,4 @@
 {
-
-  description = "A very basic flake";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     hyprland.url = "github:hyprwm/Hyprland";
@@ -12,13 +10,10 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      ...
-    }@inputs:
+    { self, nixpkgs, ... }@inputs:
     {
       nixpkgs.config.allowUnfree = true;
+
       nixosConfigurations.talia = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
@@ -27,6 +22,7 @@
           inputs.home-manager.nixosModules.default
         ];
       };
+
       nixosConfigurations.aria = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
@@ -34,30 +30,36 @@
           ./hosts/aria/configuration.nix
         ];
       };
+
       nixosConfigurations.raysha = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
-        specialArgs = {
-          inherit inputs;
-        };
+        specialArgs = { inherit inputs; };
+
         modules = [
           ./hosts/raysha/configuration.nix
           inputs.home-manager.nixosModules.default
           (
-            { inputs, pkgs, ... }:
+            { pkgs, ... }:
+            let
+              # Overlay to inject CachyOS kernel
+              cachyosOverlay = self: super: {
+                linuxPackages = super.linuxPackages.override {
+                  kernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
+                };
+              };
+            in
             {
+              nixpkgs.overlays = [ cachyosOverlay ];
+
               nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
               nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
-              boot.kernelPackages = pkgs.linuxPackages_latest;
 
-              # Optional extra kernel (CachyOS) – systemd-boot will auto-generate
-              boot.extraKernelPackages = [
-                inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4
-              ];
+              # Use the NixOS kernel package set (with overlay applied)
+              boot.kernelPackages = pkgs.linuxPackages;
             }
           )
         ];
       };
-
     };
 }
