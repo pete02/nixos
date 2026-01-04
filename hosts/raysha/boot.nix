@@ -6,25 +6,16 @@
   ...
 }:
 let
-  # Base pkgs
-  basePkgs = import inputs.nixpkgs {
-    system = config.system;
-    config = {
-      allowUnfree = true;
-    };
-  };
-
+  # Patched CachyOS kernel
   patchedKernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4.override {
     pname = "linux-cachyos-with-custom-source";
     version = "6.18.3-cachyos";
+    # src = pkgs.fetchurl { url = "..."; sha256 = "..."; };
+    # extraPatches = [...];  # optional
   };
 
-  # Wrap in linuxPackages attrset so NixOS likes it
-  patchedLinuxPackages = basePkgs.linuxPackages // {
-    kernel = patchedKernel;
-    headers = patchedKernel.dev; # headers for modules
-    modules = patchedKernel; # include out-of-tree modules
-  };
+  # Generate a proper NixOS kernelPackages set
+  patchedKernelPackages = pkgs.linuxPackagesFor patchedKernel;
 
 in
 {
