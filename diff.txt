@@ -1,34 +1,4 @@
-<<< /nix/var/nix/profiles/system-17-link
->>> /nix/var/nix/profiles/system-18-link
-Version changes:
-[U*]  #01  bind                 9.20.16-host, 9.20.16-lib, 9.20.16-man -> 9.20.17-host, 9.20.17-lib, 9.20.17-man
-[U.]  #02  busybox              1.36.1 -> 1.37.0
-[U*]  #03  cifs-utils           7.4 -> 7.5
-[C*]  #04  direnv               2.37.1 x2 -> 2.37.1
-[U.]  #05  hyprgraphics         0.4.0 -> 0.5.0
-[U.]  #06  initrd-linux         6.18.2 -> 6.18.3
-[U.]  #07  libgphoto2           2.5.32 x2 -> 2.5.33 x2
-[U.]  #08  libwacom             2.16.1 -> 2.17.0
-[U.]  #09  linux                6.18.2, 6.18.2-modules x2, 6.18.2-modules-shrunk -> 6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk
-[U.]  #10  mesa                 25.3.2 x2 -> 25.3.3 x2
-[U*]  #11  nix                  2.31.2+1 x2, 2.31.2+1-dev, 2.31.2+1-doc, 2.31.2+1-man -> 2.31.2+2 x2, 2.31.2+2-dev, 2.31.2+2-doc, 2.31.2+2-man
-[C.]  #12  nix-cmd              2.30.3, 2.31.2+1, 2.31.2+1-dev -> 2.30.3+1, 2.31.2+2, 2.31.2+2-dev
-[C.]  #13  nix-expr             2.30.3, 2.31.2+1, 2.31.2+1-dev -> 2.30.3+1, 2.31.2+2, 2.31.2+2-dev
-[U.]  #14  nix-expr-c           2.31.2+1, 2.31.2+1-dev -> 2.31.2+2, 2.31.2+2-dev
-[C.]  #15  nix-fetchers         2.30.3, 2.31.2+1, 2.31.2+1-dev -> 2.30.3+1, 2.31.2+2, 2.31.2+2-dev
-[U.]  #16  nix-fetchers-c       2.31.2+1, 2.31.2+1-dev -> 2.31.2+2, 2.31.2+2-dev
-[C.]  #17  nix-flake            2.30.3, 2.31.2+1, 2.31.2+1-dev -> 2.30.3+1, 2.31.2+2, 2.31.2+2-dev
-[U.]  #18  nix-flake-c          2.31.2+1, 2.31.2+1-dev -> 2.31.2+2, 2.31.2+2-dev
-[C.]  #19  nix-main             2.30.3, 2.31.2+1, 2.31.2+1-dev -> 2.30.3+1, 2.31.2+2, 2.31.2+2-dev
-[U.]  #20  nix-main-c           2.31.2+1, 2.31.2+1-dev -> 2.31.2+2, 2.31.2+2-dev
-[U.]  #21  nix-manual           2.31.2+1, 2.31.2+1-man -> 2.31.2+2, 2.31.2+2-man
-[U.]  #22  nix-perl             2.31.2+1 -> 2.31.2+2
-[C.]  #23  nix-store            2.30.3, 2.31.2+1, 2.31.2+1-dev -> 2.30.3+1, 2.31.2+2, 2.31.2+2-dev
-[U.]  #24  nix-store-c          2.31.2+1, 2.31.2+1-dev -> 2.31.2+2, 2.31.2+2-dev
-[C.]  #25  nix-util             2.30.3, 2.31.2+1, 2.31.2+1-dev -> 2.30.3+1, 2.31.2+2, 2.31.2+2-dev
-[U.]  #26  nix-util-c           2.31.2+1, 2.31.2+1-dev -> 2.31.2+2, 2.31.2+2-dev
-[U.]  #27  nixos-system-raysha  26.05.20251230.cad22e7 -> 26.05.20260102.fb7944c
-[U*]  #28  nvidia-x11           580.119.02-6.18.2, 580.119.02-6.18.2-bin, 580.119.02-6.18.2-firmware, 580.119.02-6.18.2-lib32 -> 580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32
-Added packages:
-[A.]  #1  switch-inhibitors  <none>
-Closure size: 2309 -> 2309 (176 paths added, 176 paths removed, delta +0, disk usage +3.1MiB).
+<<< /nix/var/nix/profiles/system-18-link
+>>> /nix/var/nix/profiles/system-19-link
+No version or selection state changes.
+Closure size: 2309 -> 2309 (6 paths added, 6 paths removed, delta +0, disk usage +88B).
