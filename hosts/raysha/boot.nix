@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  pkgsWithOverlay,
   inputs,
   ...
 }:
