@@ -46,7 +46,7 @@ in
   ];
   config.allowUnfree = true;
 
-  environment.systemPackages = [
+  config.environment.systemPackages = [
     pkgs.nixfmt-tree
     pkgs.libnotify
     pkgs.nvd
