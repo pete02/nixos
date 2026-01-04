@@ -5,24 +5,7 @@
   system,
   ...
 }:
-let
-  # Overlay to replace linuxPackages.kernel with CachyOS Zen4
-  cachyosOverlay = self: super: {
-    linuxPackages = import inputs.nix-cachyos-kernel {
-      inherit system pkgs;
-    };
-  };
 
-  # Import a new pkgs with overlay and allow unfree
-  pkgsWithOverlay = import inputs.nixpkgs {
-    system = "x86_64-linux";
-    overlays = [ cachyosOverlay ];
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = pkg: lib.elem (lib.getName pkg) [ "nvidia-x11" ];
-    };
-  };
-in
 {
 
   systemd.services."systemd-networkd-wait-online".enable = lib.mkForce false;
@@ -36,7 +19,7 @@ in
 
   nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
   nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
-  boot.kernelPackages = pkgsWithOverlay.linuxPackages;
+  boot.kernelPackages = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4;
 
   #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
