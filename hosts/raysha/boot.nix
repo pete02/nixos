@@ -9,7 +9,6 @@ let
   # Patched CachyOS kernel
   patchedKernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4.override {
 
-    buildInputs = old.buildInputs;
     # src = pkgs.fetchurl { url = "..."; sha256 = "..."; };
     # extraPatches = [...];  # optional
   };
