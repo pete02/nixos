@@ -9,7 +9,7 @@ let
   # Fetch/override the upstream kernel and patch it with CachyOS patches
   patchedKernel = pkgs.cachyosKernels.linux-cachyos-latest.override {
     pname = "linux-cachyos-with-custom-source";
-    version = "6.18.3"; # target kernel version
+    version = "6.18.3-cachyos";
     src = pkgs.fetchurl {
       url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.3.tar.xz";
       sha256 = "sha256sum_here";
