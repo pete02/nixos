@@ -5,7 +5,36 @@
   system,
   ...
 }:
+let
+  # Fetch/override the upstream kernel and patch it with CachyOS patches
+  patchedKernel = pkgs.cachyosKernels.linux-cachyos-latest.override {
+    pname = "linux-cachyos-with-custom-source";
+    version = "6.18.3"; # target kernel version
+    src = pkgs.fetchurl {
+      url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.3.tar.xz";
+      sha256 = "sha256sum_here";
+    };
+    # You can also add extra args if needed, e.g. `extraPatches = [...]`
+  };
 
+  # Wrap in linuxPackages function for NixOS internal `.extend` calls
+  cachyosLinuxPackages = self: super: {
+    linuxPackages = super.linuxPackages // {
+      kernel = patchedKernel;
+      headers = patchedKernel.dev; # headers for modules
+      modules = patchedKernel; # modules for NixOS to include
+    };
+  };
+
+  # Import pkgs with overlay applied
+  pkgsWithOverlay = import inputs.nixpkgs {
+    system = system;
+    overlays = [ cachyosLinuxPackages ];
+    config = {
+      allowUnfree = true;
+    };
+  };
+in
 {
 
   systemd.services."systemd-networkd-wait-online".enable = lib.mkForce false;
@@ -20,8 +49,7 @@
   nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
   nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
-  nixpkgs.overlays = [ self.overlays.pinned ];
-  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+  boot.kernelPackages = pkgsWithOverlay.linuxPackages;
 
   #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [
