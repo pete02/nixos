@@ -8,9 +8,8 @@
 let
   # Patched CachyOS kernel
   patchedKernel = inputs.nix-cachyos-kernel.packages.x86_64-linux.linux-cachyos-latest-zen4.override {
-    version = "6.18.3-cachyos";
-    pname = "linux";
-    buildInputs = [ pkgs.rustfmt ];
+
+    buildInputs = old.buildInputs;
     # src = pkgs.fetchurl { url = "..."; sha256 = "..."; };
     # extraPatches = [...];  # optional
   };
