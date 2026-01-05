@@ -57,9 +57,9 @@
     ];
 
     # Use mkIf inside config so config is evaluated lazily
-    networking.systemd.network =
+    networking.systemd.networks =
       lib.mkIf (!config.networking.dhcp) {
-        networks."custom-network" = {
+        "custom-network" = {
           matchConfig.Name = config.networking.interface;
           networkConfig.DHCP = "no";
           address = config.networking.address;
@@ -68,7 +68,7 @@
         };
       }
       // lib.mkIf (config.networking.dhcp) {
-        networks."custom-network" = {
+        "custom-network" = {
           matchConfig.Name = config.networking.interface;
           networkConfig.DHCP = "yes";
           dhcpConfig = {
