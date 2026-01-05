@@ -1,6 +1,6 @@
 { ... }:
 {
   imports = [
-    ./host-nivida.nix
+    ./host-nvidia.nix
   ];
 }
