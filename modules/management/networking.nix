@@ -53,7 +53,7 @@
     services.resolved.enable = true;
 
     systemd.network.networks."10-wired" = {
-      matchConfig.Name = "${config.net.interface}"; # replace with your NIC name
+      matchConfig.Name = "enp12s0"; # replace with your NIC name
       networkConfig.DHCP = "yes";
       dhcpConfig = {
         ClientIdentifier = "mac";
