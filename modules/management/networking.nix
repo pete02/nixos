@@ -48,8 +48,12 @@
         message = "Static IP requires gateway";
       }
     ];
+    networking.useNetworkd = true;
+    networking.enableIPv6 = true;
+    services.resolved.enable = true;
+
     systemd.network.networks."10-wired" = {
-      matchConfig.Name = "enp12s0"; # replace with your NIC name
+      matchConfig.Name = "${config.net.interface}"; # replace with your NIC name
       networkConfig.DHCP = "yes";
       dhcpConfig = {
         ClientIdentifier = "mac";

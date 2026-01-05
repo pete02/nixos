@@ -1,30 +1,30 @@
-<<< /nix/var/nix/profiles/system-39-link
->>> /nix/var/nix/profiles/system-40-link
+<<< /nix/var/nix/profiles/system-40-link
+>>> /nix/var/nix/profiles/system-41-link
 Selection state changes:
-[C-]  #1  dhcpcd      10.2.4 x2
-[C-]  #2  openresolv  3.17.0 x2
+[C+]  #1  dhcpcd      10.2.4 x2
+[C+]  #2  openresolv  3.17.0 x2
 Added packages:
-[A.]  #01  X-Reload-Triggers-systemd-networkd          <none>
-[A.]  #02  X-Reload-Triggers-systemd-resolved          <none>
-[A.]  #03  X-Restart-Triggers-systemd-networkd         <none>
-[A.]  #04  etc-systemd-networkd.conf                   <none>
-[A.]  #05  etc-systemd-resolved.conf                   <none>
-[A.]  #06  unit                                        10-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
-[A.]  #07  unit-systemd-networkd-wait-online-.service  <none>
-[A.]  #08  unit-systemd-networkd.service               <none>
-[A.]  #09  unit-systemd-networkd.socket                <none>
-[A.]  #10  unit-systemd-resolved.service               <none>
+[A.]  #01  X-Restart-Triggers-dhcpcd                           <none>
+[A.]  #02  X-Restart-Triggers-resolvconf                       <none>
+[A.]  #03  dhcpcd.conf                                         <none>
+[A.]  #04  etc-dhcpcd.exit-hook                                <none>
+[A.]  #05  hostname                                            <none>
+[A.]  #06  migrate-dhcpcd                                      <none>
+[A.]  #07  unit-dhcpcd.service                                 <none>
+[A.]  #08  unit-network-setup.service                          <none>
+[A.]  #09  unit-resolvconf.service                             <none>
+[A.]  #10  unit-script-network-setup-start                     <none>
+[A.]  #11  unit-script-resolvconf-start                        <none>
+[A.]  #12  unit-systemd-networkd-wait-online.service-disabled  <none>
 Removed packages:
-[R.]  #01  X-Restart-Triggers-dhcpcd                           <none>
-[R.]  #02  X-Restart-Triggers-resolvconf                       <none>
-[R.]  #03  dhcpcd.conf                                         <none>
-[R.]  #04  etc-dhcpcd.exit-hook                                <none>
-[R.]  #05  hostname                                            <none>
-[R.]  #06  migrate-dhcpcd                                      <none>
-[R.]  #07  unit-dhcpcd.service                                 <none>
-[R.]  #08  unit-network-setup.service                          <none>
-[R.]  #09  unit-resolvconf.service                             <none>
-[R.]  #10  unit-script-network-setup-start                     <none>
-[R.]  #11  unit-script-resolvconf-start                        <none>
-[R.]  #12  unit-systemd-networkd-wait-online.service-disabled  <none>
-Closure size: 2299 -> 2299 (34 paths added, 34 paths removed, delta +0, disk usage -4.0KiB).
+[R.]  #01  X-Reload-Triggers-systemd-networkd          <none>
+[R.]  #02  X-Reload-Triggers-systemd-resolved          <none>
+[R.]  #03  X-Restart-Triggers-systemd-networkd         <none>
+[R.]  #04  etc-systemd-networkd.conf                   <none>
+[R.]  #05  etc-systemd-resolved.conf                   <none>
+[R.]  #06  unit                                        10-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
+[R.]  #07  unit-systemd-networkd-wait-online-.service  <none>
+[R.]  #08  unit-systemd-networkd.service               <none>
+[R.]  #09  unit-systemd-networkd.socket                <none>
+[R.]  #10  unit-systemd-resolved.service               <none>
+Closure size: 2299 -> 2299 (34 paths added, 34 paths removed, delta +0, disk usage +4.0KiB).
