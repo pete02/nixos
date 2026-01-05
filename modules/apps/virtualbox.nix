@@ -60,7 +60,7 @@
       # Looking glass
       environment.systemPackages = [ pkgs.looking-glass-client ];
       systemd.tmpfiles.rules = [
-        "f /dev/shm/looking-glass 0660 ${config.settings.user.name} libvirtd -"
+        "f /dev/shm/looking-glass 0660 pete libvirtd -"
       ];
 
       settings.virtualisation.enable = true;
