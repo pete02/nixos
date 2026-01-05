@@ -18,7 +18,6 @@
     (lib.mkIf config.settings.virtualisation.enable {
       virtualisation.libvirtd = {
         enable = true;
-        qemu.ovmf.enable = true;
         onBoot = "ignore";
         onShutdown = "shutdown";
       };
