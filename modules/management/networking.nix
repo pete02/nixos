@@ -62,12 +62,11 @@
       };
     };
 
-    systemd.network.networks."static-wired" = lib.mkIf config.net.dhcp {
+    systemd.network.networks."static-wired" = lib.mkIf (!config.net.dhcp) {
       matchConfig.Name = config.net.interface;
       networkConfig.DHCP = "no";
       address = config.net.address;
       gateway = config.net.gateway;
-      DNS = [ config.net.gateway ];
     };
   };
 }
