@@ -5,11 +5,7 @@
   ...
 }:
 
-let
-  enableStatic = !config.networking.custom.dhcp;
-in
 {
-  # Step 1: define options for the module
   options = {
     networking.custom = {
       interface = lib.mkOption {
@@ -38,21 +34,20 @@ in
     };
   };
 
-  # Step 2: define module config
   config = {
-    # Always enable systemd-networkd and resolved
+    # always-on stuff
     networking.useNetworkd = true;
     networking.enableIPv6 = true;
     services.resolved.enable = true;
 
-    # Assertions
+    # assertions
     assertions = [
       {
         assertion = config.networking.custom.interface != "";
         message = "networking.custom.interface must be provided";
       }
     ]
-    ++ lib.optionals enableStatic [
+    ++ lib.optionals (config.networking.custom.dhcp == false) [
       {
         assertion = config.networking.custom.address != "";
         message = "Static IP requires address";
@@ -63,12 +58,9 @@ in
       }
     ];
 
-    # Step 3: set networking.systemd.networks using built-in option
-    networking.systemd.networks = lib.mkMerge [
-      # Static IP
-      lib.mkIf
-      enableStatic
-      {
+    # **The correct way to set systemd.networks**
+    networking.systemd.networks =
+      lib.mkIf (config.networking.custom.dhcp == false) {
         "custom-network" = {
           matchConfig.Name = config.networking.custom.interface;
           networkConfig.DHCP = "no";
@@ -77,11 +69,7 @@ in
           DNS = [ config.networking.custom.gateway ];
         };
       }
-
-      # DHCP
-      lib.mkIf
-      (config.networking.custom.dhcp)
-      {
+      // lib.mkIf (config.networking.custom.dhcp == true) {
         "custom-network" = {
           matchConfig.Name = config.networking.custom.interface;
           networkConfig.DHCP = "yes";
@@ -91,7 +79,6 @@ in
             CriticalConnection = "true";
           };
         };
-      }
-    ];
+      };
   };
 }
