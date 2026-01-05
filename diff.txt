@@ -1,4 +1,91 @@
-<<< /nix/var/nix/profiles/system-32-link
->>> /nix/var/nix/profiles/system-33-link
-No version or selection state changes.
-Closure size: 2325 -> 2325 (4 paths added, 4 paths removed, delta +0, disk usage +520B).
+<<< /nix/var/nix/profiles/system-33-link
+>>> /nix/var/nix/profiles/system-34-link
+Version changes:
+[C.]  #1  gtksourceview  3.24.11 -> 3.24.11, 4.8.4
+[C.]  #2  libnl          3.11.0 x2 -> 3.11.0 x2, 3.11.0-bin
+[C.]  #3  libxml2        2.15.1 x2, 2.15.1-bin -> 2.15.1 x3, 2.15.1-bin x2, 2.15.1-dev, 2.15.1-py
+[C.]  #4  unit           10-wired.network, 40-vboxnet0.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network -> 10-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
+Added packages:
+[A.]  #01  OVMF                                                                         202511-fd
+[A.]  #02  SDL2_image                                                                   2.8.8
+[A.]  #03  bridge-utils                                                                 1.7.1
+[A.]  #04  capstone                                                                     5.0.6
+[A.]  #05  cloud-hypervisor                                                             50.0
+[A.]  #06  dmidecode                                                                    3.7
+[A.]  #07  drbd                                                                         9.33.0
+[A.]  #08  dtc                                                                          1.7.2
+[A.]  #09  etc-qemu-bridge.conf                                                         <none>
+[A.]  #10  gfxstream                                                                    0.1.2
+[A.]  #11  gtk-vnc                                                                      1.5.0
+[A.]  #12  inetutils                                                                    2.6
+[A.]  #13  ipxe                                                                         1.21.1-unstable-2025-12-29
+[A.]  #14  libburn                                                                      1.5.6
+[A.]  #15  libcacard                                                                    2.8.1
+[A.]  #16  libiscsi                                                                     1.20.0
+[A.]  #17  libisoburn                                                                   1.5.6, 1.5.6-lib
+[A.]  #18  libisofs                                                                     1.5.6.pl01
+[A.]  #19  libosinfo                                                                    1.12.0
+[A+]  #20  libvirt                                                                      11.7.0
+[A.]  #21  libvirt-glib                                                                 5.0.0
+[A.]  #22  libvirtd.conf                                                                <none>
+[A.]  #23  multipath-tools                                                              0.13.0
+[A.]  #24  nbd                                                                          3.25
+[A.]  #25  network.conf                                                                 <none>
+[A.]  #26  nfs-utils                                                                    2.8.4, 2.8.4-lib
+[A.]  #27  numad                                                                        0.5-unstable-2023-09-06
+[A.]  #28  open-iscsi                                                                   2.1.11
+[A.]  #29  open-isns                                                                    0.103-lib
+[A.]  #30  openvswitch                                                                  3.6.1
+[A.]  #31  osinfo-db                                                                    20251212
+[A.]  #32  phodav                                                                       3.0-lib
+[A.]  #33  pm-utils                                                                     1.4.1
+[A.]  #34  python3.13-libvirt                                                           11.7.0
+[A+]  #35  qemu                                                                         10.1.2, 10.1.2-doc, 10.1.2-ga
+[A.]  #36  qemu-ovmf-metadata                                                           <none>
+[A.]  #37  qemu.conf                                                                    <none>
+[A.]  #38  rutabaga_gfx                                                                 0.1.6
+[A.]  #39  seabios                                                                      1.17.0
+[A.]  #40  security-wrapper-qemu-bridge-helper-x86_64-unknown-linux-musl                <none>
+[A.]  #41  security-wrapper-spice-client-glib-usb-acl-helper-x86_64-unknown-linux-musl  <none>
+[A.]  #42  smartmontools                                                                7.5
+[A.]  #43  spice                                                                        0.16.0
+[A+]  #44  spice-gtk                                                                    0.42, 0.42-man
+[A.]  #45  syslinux-unstable                                                            2019-02-07
+[A.]  #46  sysstat                                                                      12.7.7
+[A.]  #47  unit-libvirt-guests.service                                                  <none>
+[A.]  #48  unit-libvirtd-config.service                                                 <none>
+[A.]  #49  unit-libvirtd.service                                                        <none>
+[A.]  #50  unit-libvirtd.socket                                                         <none>
+[A.]  #51  unit-script-libvirtd-config-start                                            <none>
+[A.]  #52  unit-virtchd.service                                                         <none>
+[A.]  #53  unit-virtlockd.service                                                       <none>
+[A.]  #54  unit-virtlockd.socket                                                        <none>
+[A.]  #55  unit-virtlogd.service                                                        <none>
+[A.]  #56  unit-virtlogd.socket                                                         <none>
+[A.]  #57  usbredir                                                                     0.15.0
+[A.]  #58  vde2                                                                         2.3.3
+[A.]  #59  vhost-user                                                                   <none>
+[A.]  #60  virglrenderer                                                                1.2.0
+[A+]  #61  virt-manager                                                                 5.1.0
+[A.]  #62  vte                                                                          0.82.2
+[A.]  #63  wolfssl-all                                                                  5.8.4-lib
+[A.]  #64  xen                                                                          4.20.2
+[A.]  #65  yajl                                                                         2.1.0-unstable-2024-02-01
+[A.]  #66  zfs-user                                                                     2.3.5
+Removed packages:
+[R.]  #01  VBoxGuestAdditions_7.2.4.iso                              <none>
+[R.]  #02  net-tools                                                 2.10
+[R.]  #03  qtscxml                                                   6.10.1
+[R.]  #04  security-wrapper-VBoxHeadless-x86_64-unknown-linux-musl   <none>
+[R.]  #05  security-wrapper-VBoxNetAdpCtl-x86_64-unknown-linux-musl  <none>
+[R.]  #06  security-wrapper-VBoxNetDHCP-x86_64-unknown-linux-musl    <none>
+[R.]  #07  security-wrapper-VBoxNetNAT-x86_64-unknown-linux-musl     <none>
+[R.]  #08  security-wrapper-VBoxSDL-x86_64-unknown-linux-musl        <none>
+[R.]  #09  security-wrapper-VBoxVolInfo-x86_64-unknown-linux-musl    <none>
+[R.]  #10  security-wrapper-VirtualBoxVM-x86_64-unknown-linux-musl   <none>
+[R.]  #11  unit-script-vboxnet0-post-stop                            <none>
+[R.]  #12  unit-script-vboxnet0-start                                <none>
+[R.]  #13  unit-vboxnet0.service                                     <none>
+[R-]  #14  virtualbox                                                7.2.4
+[R.]  #15  virtualbox-modules                                        7.2.4-6.18.3
+Closure size: 2325 -> 2386 (117 paths added, 56 paths removed, delta +61, disk usage +886.8MiB).
