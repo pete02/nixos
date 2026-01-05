@@ -36,14 +36,27 @@
     ];
   };
   config = {
-    systemd.network.networks."10-wired" = {
-      matchConfig.Name = "${config.net.interface}"; # replace with your NIC name
-      networkConfig.DHCP = "yes";
-      dhcpConfig = {
-        ClientIdentifier = "mac";
-        UseDomains = "true";
-        CriticalConnection = "true";
+    systemd.networks =
+      lib.mkIf (!config.net.dhcp) {
+        "custom-network" = {
+          matchConfig.Name = config.net.interface;
+          networkConfig.DHCP = "no";
+          address = config.net.address;
+          gateway = config.net.gateway;
+          DNS = [ config.net.gateway ];
+        };
+      }
+      // lib.mkIf (config.net.dhcp) {
+        "custom-network" = {
+          matchConfig.Name = config.net.interface;
+          networkConfig.DHCP = "yes";
+          dhcpConfig = {
+            ClientIdentifier = "mac";
+            UseDomains = "true";
+            CriticalConnection = "true";
+          };
+        };
       };
-    };
+
   };
 }
