@@ -1,24 +1,4 @@
-<<< /nix/var/nix/profiles/system-29-link
->>> /nix/var/nix/profiles/system-30-link
-Version changes:
-[C.]  #1  udev-rules  <none> x2 -> <none>
-Added packages:
-[A+]  #01  VirtualBox-GuestAdditions                          7.2.4-6.18.3
-[A.]  #02  mount.vboxsf                                       <none>
-[A.]  #03  unit-script-virtualboxClientClipboard-pre-start    <none>
-[A.]  #04  unit-script-virtualboxClientDragAndDrop-pre-start  <none>
-[A.]  #05  unit-script-virtualboxClientSeamless-pre-start     <none>
-[A.]  #06  unit-script-virtualboxClientVmsvga-pre-start       <none>
-[A.]  #07  unit-virtualbox.service                            <none>
-[A.]  #08  unit-virtualboxClientClipboard.service             <none>
-[A.]  #09  unit-virtualboxClientDragAndDrop.service           <none>
-[A.]  #10  unit-virtualboxClientSeamless.service              <none>
-[A.]  #11  unit-virtualboxClientVmsvga.service                <none>
-Removed packages:
-[R.]  #1  extra-utils    <none>
-[R.]  #2  initrd-fsinfo  <none>
-[R.]  #3  keymap         <none>
-[R.]  #4  link-units     <none>
-[R.]  #5  mdadm.conf     <none>
-[R.]  #6  stage          1-init.sh
-Closure size: 2387 -> 2391 (45 paths added, 41 paths removed, delta +4, disk usage +67.1MiB).
+<<< /nix/var/nix/profiles/system-30-link
+>>> /nix/var/nix/profiles/system-31-link
+No version or selection state changes.
+Closure size: 2391 -> 2391 (2 paths added, 2 paths removed, delta +0, disk usage +8B).
