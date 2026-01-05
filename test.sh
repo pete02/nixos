@@ -1,13 +1,7 @@
- pulled=1
- flaked=1
- 
- if [ "$pulled" -eq 1 ] || [ "$flaked" -eq 1 ]; then
-    msg="System ready for rebuild:"
-    if [ "$pulled" -eq 1 ]; then
-        msg="$msg \n- configuration pulled"
-    fi
-    if [ "$flaked" -eq 1 ]; then
-        msg="$msg \n- flake updated"
-    fi
-    notify-send "NixOS" "$msg"
-fi
+shopt -s nullglob
+for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
+    echo "IOMMU Group ${g##*/}:"
+    for d in $g/devices/*; do
+        echo -e "\t$(lspci -nns ${d##*/})"
+    done;
+done;

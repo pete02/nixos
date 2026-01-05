@@ -15,7 +15,10 @@ let
 
   # Generate a proper NixOS kernelPackages set
   patchedKernelPackages = pkgs.linuxPackagesFor patchedKernel;
-
+  devices = [
+    "10de:2704" # Nvidia 2060 mobile GPU
+    "10de:22bb" # Nvidia audio controller
+  ];
 in
 {
 
@@ -44,10 +47,13 @@ in
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [
-    "nvidia"
-    "nvidia_modeset"
-    "nvidia_uvm"
-    "nvidia_drm"
+    #"nvidia"
+    #"nvidia_modeset"
+    #"nvidia_uvm"
+    #"nvidia_drm"
+    "vfio_pci"
+    "vfio"
+    "vfio_iommu_type1"
   ];
   boot.kernelParams = [
     "drm.edid_firmware=DP-2:/boot/edid/monitor.bin"
@@ -56,12 +62,26 @@ in
     "nvidia.NVreg_UseVBiosModeset=1"
     "nvidia.NVreg_RegistryDwords=EnablePrimaryDisplay=1"
     "video=3440x1440@175"
+    "vfio-pci.ids=${lib.concatStringsSep "," devices}"
   ];
   boot.blacklistedKernelModules = [
     "amdgpu"
     "kvm"
     "kvm_amd"
+    "nouveau"
+    "nvidia"
+    "nvidia_drm"
+    "nvidia_modeset"
+    "i2c_nvidia_gpu"
   ];
+
+  boot.extraModprobeConfig = ''
+    softdep nvidia pre: vfio-pci
+    softdep drm pre: vfio-pci
+    softdep nouveau pre: vfio-pci
+  '';
+
+  virtualisation.spiceUSBRedirection.enable = true;
   boot.extraModulePackages = [ ];
   boot.loader = {
     systemd-boot.enable = true;
