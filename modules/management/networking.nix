@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, ... }:
 {
   options = {
     net = {
@@ -30,6 +30,7 @@
       };
     };
   };
+
   config = lib.mkIf config.net.enable {
     assertions = [
       {
