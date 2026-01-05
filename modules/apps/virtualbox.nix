@@ -6,9 +6,9 @@
   ...
 }:
 {
-  options.settings.virtualisation.enable = lib.mkEnableOption "virtualisation";
-  options.settings.nvidia.passthrough.enable = lib.mkEnableOption "passthrough";
-  options.settings.nvidia.passthrough.ids = lib.mkOption {
+  options.virtualisation.enable = lib.mkEnableOption "virtualisation";
+  options.nvidia.passthrough.enable = lib.mkEnableOption "passthrough";
+  options.nvidia.passthrough.ids = lib.mkOption {
     type = lib.types.listOf lib.types.str;
     default = [ ];
     description = "IDs of hardware to pass through with vfio";
