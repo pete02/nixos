@@ -7,6 +7,7 @@
 
 let
   customNetworkName = "custom-network";
+  enableStatic = !config.networking.custom.dhcp;
 in
 {
   options = {
@@ -37,71 +38,67 @@ in
     };
   };
 
-  # module config: always a plain set, optionally merged at top level
-  config = {
-    networking.useNetworkd = true;
-    networking.enableIPv6 = true;
-    services.resolved.enable = true;
-
-    assertions = [
-      {
-        assertion = config.networking.custom.interface != "";
-        message = "networking.custom.interface must be provided";
-      }
-    ]
-    ++ lib.optionals (!config.networking.custom.dhcp) [
-      {
-        assertion = config.networking.custom.address != "";
-        message = "Static IP requires address";
-      }
-      {
-        assertion = config.networking.custom.gateway != "";
-        message = "Static IP requires gateway";
-      }
-    ];
-  };
-
-  # **top-level conditional merge**: safe and works with built-in options
-  # We return a list of attribute sets that will be merged into config
-  # Here, we assign networking.systemd.networks based on DHCP/static
+  # single config block
   config = lib.mkMerge [
+
     {
-      # common assertions and flags
       networking.useNetworkd = true;
       networking.enableIPv6 = true;
       services.resolved.enable = true;
+
+      # assertions
+      assertions = [
+        {
+          assertion = config.networking.custom.interface != "";
+          message = "networking.custom.interface must be provided";
+        }
+      ]
+      ++ lib.optionals enableStatic [
+        {
+          assertion = config.networking.custom.address != "";
+          message = "Static IP requires address";
+        }
+        {
+          assertion = config.networking.custom.gateway != "";
+          message = "Static IP requires gateway";
+        }
+      ];
     }
 
-    # static IP
-    lib.mkIf
-    (!config.networking.custom.dhcp)
+    # conditional networking.systemd.networks
     {
-      networking.systemd.networks = {
-        ${customNetworkName} = {
-          matchConfig.Name = config.networking.custom.interface;
-          networkConfig.DHCP = "no";
-          address = config.networking.custom.address;
-          gateway = config.networking.custom.gateway;
-          DNS = [ config.networking.custom.gateway ];
-        };
-      };
-    }
+      networking.systemd.networks = lib.mkMerge [
 
-    # DHCP
-    lib.mkIf
-    config.networking.custom.dhcp
-    {
-      networking.systemd.networks = {
-        ${customNetworkName} = {
-          matchConfig.Name = config.networking.custom.interface;
-          networkConfig.DHCP = "yes";
-          dhcpConfig = {
-            ClientIdentifier = "mac";
-            UseDomains = "true";
-            CriticalConnection = "true";
+        # static
+        lib.mkIf
+        enableStatic
+        {
+          ${customNetworkName} = {
+            matchConfig.Name = config.networking.custom.interface;
+            networkConfig.DHCP = "no";
+            address = config.networking.custom.address;
+            gateway = config.networking.custom.gateway;
+            DNS = [ config.networking.custom.gateway ];
           };
-        };
-      };
+        }
+
+        # DHCP
+        lib.mkIf
+        config.networking.custom.dhcp
+        {
+          ${customNetworkName} = {
+            matchConfig.Name = config.networking.custom.interface;
+            networkConfig.DHCP = "yes";
+            dhcpConfig = {
+              ClientIdentifier = "mac";
+              UseDomains = "true";
+              CriticalConnection = "true";
+            };
+          };
+        }
+
+      ];
     }
+
   ];
 }
