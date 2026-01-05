@@ -10,7 +10,7 @@
 
   programs.home-manager.enable = true;
 
-  wayland.windowManager.hyprland = lib.mkIf osConfig.enable.hyprland {
+  wayland.windowManager.hyprland = lib.mkIf osConfig.desktops.hyprland {
     importantPrefixes = [ "output" ];
     settings = {
       environment = {

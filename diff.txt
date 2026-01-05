@@ -1,83 +1,40 @@
-<<< /nix/var/nix/profiles/system-37-link
->>> /nix/var/nix/profiles/system-38-link
-Version changes:
-[C.]  #1  binutils       2.44, 2.44-lib x2 -> 2.44, 2.44-lib
-[C.]  #2  gtksourceview  3.24.11, 4.8.4 -> 3.24.11
-[C.]  #3  libnl          3.11.0 x2, 3.11.0-bin -> 3.11.0 x2
-[C.]  #4  libxml2        2.15.1 x3, 2.15.1-bin x2, 2.15.1-dev, 2.15.1-py -> 2.15.1 x2, 2.15.1-bin
-[U*]  #5  nvidia-x11     580.119.02-6.18.2, 580.119.02-6.18.2-bin, 580.119.02-6.18.2-firmware, 580.119.02-6.18.2-lib32 -> 580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32
+<<< /nix/var/nix/profiles/system-38-link
+>>> /nix/var/nix/profiles/system-39-link
+Selection state changes:
+[C+]  #1  dhcpcd      10.2.4 x2
+[C+]  #2  openresolv  3.17.0 x2
 Added packages:
-[A.]  #1  initrd-linux-cachyos-latest-zen4  6.18.3
-[A.]  #2  linux-cachyos-latest-zen4         6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk
+[A.]  #01  X-Restart-Triggers-dhcpcd                           <none>
+[A.]  #02  X-Restart-Triggers-resolvconf                       <none>
+[A.]  #03  dhcpcd.conf                                         <none>
+[A.]  #04  etc-dhcpcd.exit-hook                                <none>
+[A.]  #05  hostname                                            <none>
+[A.]  #06  migrate-dhcpcd                                      <none>
+[A.]  #07  unit-dhcpcd.service                                 <none>
+[A.]  #08  unit-network-setup.service                          <none>
+[A.]  #09  unit-resolvconf.service                             <none>
+[A.]  #10  unit-script-network-setup-start                     <none>
+[A.]  #11  unit-script-resolvconf-start                        <none>
+[A.]  #12  unit-systemd-networkd-wait-online.service-disabled  <none>
 Removed packages:
-[R.]  #01  OVMF                                                                         202511-fd
-[R.]  #02  SDL2_image                                                                   2.8.8
-[R.]  #03  bridge-utils                                                                 1.7.1
-[R.]  #04  capstone                                                                     5.0.6
-[R.]  #05  cloud-hypervisor                                                             50.0
-[R.]  #06  dmidecode                                                                    3.7
-[R.]  #07  drbd                                                                         9.33.0
-[R.]  #08  dtc                                                                          1.7.2
-[R.]  #09  etc-qemu-bridge.conf                                                         <none>
-[R.]  #10  gfxstream                                                                    0.1.2
-[R.]  #11  gtk-vnc                                                                      1.5.0
-[R.]  #12  inetutils                                                                    2.6
-[R.]  #13  initrd-linux-zen                                                             6.18.2
-[R.]  #14  ipxe                                                                         1.21.1-unstable-2025-12-29
-[R.]  #15  libburn                                                                      1.5.6
-[R.]  #16  libcacard                                                                    2.8.1
-[R.]  #17  libiscsi                                                                     1.20.0
-[R.]  #18  libisoburn                                                                   1.5.6, 1.5.6-lib
-[R.]  #19  libisofs                                                                     1.5.6.pl01
-[R.]  #20  libosinfo                                                                    1.12.0
-[R-]  #21  libvirt                                                                      11.7.0
-[R.]  #22  libvirt-glib                                                                 5.0.0
-[R.]  #23  libvirtd.conf                                                                <none>
-[R.]  #24  libxpresent                                                                  1.0.2
-[R.]  #25  linux-zen                                                                    6.18.2, 6.18.2-modules x2, 6.18.2-modules-shrunk
-[R-]  #26  looking-glass-client-B7                                                      <none>
-[R.]  #27  multipath-tools                                                              0.13.0
-[R.]  #28  nbd                                                                          3.25
-[R.]  #29  network.conf                                                                 <none>
-[R.]  #30  nfs-utils                                                                    2.8.4, 2.8.4-lib
-[R.]  #31  numad                                                                        0.5-unstable-2023-09-06
-[R.]  #32  open-iscsi                                                                   2.1.11
-[R.]  #33  open-isns                                                                    0.103-lib
-[R.]  #34  openvswitch                                                                  3.6.1
-[R.]  #35  osinfo-db                                                                    20251212
-[R.]  #36  phodav                                                                       3.0-lib
-[R.]  #37  pm-utils                                                                     1.4.1
-[R.]  #38  python3.13-libvirt                                                           11.7.0
-[R-]  #39  qemu                                                                         10.1.2, 10.1.2-doc, 10.1.2-ga
-[R.]  #40  qemu-ovmf-metadata                                                           <none>
-[R.]  #41  qemu.conf                                                                    <none>
-[R.]  #42  rutabaga_gfx                                                                 0.1.6
-[R.]  #43  seabios                                                                      1.17.0
-[R.]  #44  security-wrapper-qemu-bridge-helper-x86_64-unknown-linux-musl                <none>
-[R.]  #45  security-wrapper-spice-client-glib-usb-acl-helper-x86_64-unknown-linux-musl  <none>
-[R.]  #46  smartmontools                                                                7.5
-[R.]  #47  spice                                                                        0.16.0
-[R-]  #48  spice-gtk                                                                    0.42, 0.42-man
-[R.]  #49  syslinux-unstable                                                            2019-02-07
-[R.]  #50  sysstat                                                                      12.7.7
-[R.]  #51  unit-libvirt-guests.service                                                  <none>
-[R.]  #52  unit-libvirtd-config.service                                                 <none>
-[R.]  #53  unit-libvirtd.service                                                        <none>
-[R.]  #54  unit-libvirtd.socket                                                         <none>
-[R.]  #55  unit-script-libvirtd-config-start                                            <none>
-[R.]  #56  unit-virtchd.service                                                         <none>
-[R.]  #57  unit-virtlockd.service                                                       <none>
-[R.]  #58  unit-virtlockd.socket                                                        <none>
-[R.]  #59  unit-virtlogd.service                                                        <none>
-[R.]  #60  unit-virtlogd.socket                                                         <none>
-[R.]  #61  usbredir                                                                     0.15.0
-[R.]  #62  vde2                                                                         2.3.3
-[R.]  #63  vhost-user                                                                   <none>
-[R.]  #64  virglrenderer                                                                1.2.0
-[R-]  #65  virt-manager                                                                 5.1.0
-[R.]  #66  vte                                                                          0.82.2
-[R.]  #67  wolfssl-all                                                                  5.8.4-lib
-[R.]  #68  xen                                                                          4.20.2
-[R.]  #69  yajl                                                                         2.1.0-unstable-2024-02-01
-[R.]  #70  zfs-user                                                                     2.3.5
-Closure size: 2389 -> 2309 (52 paths added, 132 paths removed, delta -80, disk usage -1.2GiB).
+[R.]  #01  X-Reload-Triggers-systemd-networkd          <none>
+[R.]  #02  X-Reload-Triggers-systemd-resolved          <none>
+[R.]  #03  X-Restart-Triggers-systemd-networkd         <none>
+[R.]  #04  alsa-firmware                               1.2.4-zstd
+[R.]  #05  etc-systemd-networkd.conf                   <none>
+[R.]  #06  etc-systemd-resolved.conf                   <none>
+[R.]  #07  intel2200BGFirmware                         3.1-zstd
+[R.]  #08  libreelec-dvb-firmware                      1.5.0-zstd
+[R.]  #09  linux-firmware                              20251125-unstable-2025-12-18-zstd
+[R.]  #10  rt5677-firmware                             4.16-10-zstd
+[R.]  #11  rtl8192su-firmware                          0-unstable-2016-10-05-zstd
+[R.]  #12  rtl8761b-firmware-rtk1395-zstd              <none>
+[R.]  #13  sof-firmware                                2025.05.1-zstd
+[R.]  #14  unit                                        10-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
+[R.]  #15  unit-systemd-networkd-wait-online-.service  <none>
+[R.]  #16  unit-systemd-networkd.service               <none>
+[R.]  #17  unit-systemd-networkd.socket                <none>
+[R.]  #18  unit-systemd-resolved.service               <none>
+[R.]  #19  wireless-regdb                              2025.10.07-zstd
+[R.]  #20  zd1211-firmware                             1.5-zstd
+Closure size: 2309 -> 2299 (39 paths added, 49 paths removed, delta -10, disk usage -755.5MiB).
