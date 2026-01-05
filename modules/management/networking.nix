@@ -2,6 +2,9 @@
 {
   options = {
     net = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+      };
       interface = lib.mkOption {
         type = lib.types.str;
         default = "";
@@ -27,7 +30,7 @@
       };
     };
   };
-  config = {
+  config = lib.mkIf config.net.enable {
     assertions = [
       {
         assertion = config.net.interface != "";
