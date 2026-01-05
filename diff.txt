@@ -1,5 +1,5 @@
-<<< /nix/var/nix/profiles/system-42-link
->>> /nix/var/nix/profiles/system-43-link
+<<< /nix/var/nix/profiles/system-43-link
+>>> /nix/var/nix/profiles/system-44-link
 Version changes:
-[C.]  #1  unit  10-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network -> 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
-Closure size: 2299 -> 2298 (5 paths added, 6 paths removed, delta -1, disk usage -696B).
+[C.]  #1  unit  99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network -> 10-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
+Closure size: 2298 -> 2299 (6 paths added, 5 paths removed, delta +1, disk usage +696B).
