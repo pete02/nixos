@@ -52,12 +52,10 @@
     networking.enableIPv6 = true;
     services.resolved.enable = true;
 
-    systemd.network.networks = lib.mkMerge [
-      lib.mkIf
-      config.net.dhcp
-      {
+    networking.systemd.networks =
+      lib.mkIf config.net.dhcp {
         "10-wired" = {
-          matchConfig.Name = "${config.net.interface}"; # replace with your NIC name
+          matchConfig.Name = config.net.interface;
           networkConfig.DHCP = "yes";
           dhcpConfig = {
             ClientIdentifier = "mac";
@@ -66,20 +64,14 @@
           };
         };
       }
-
-      lib.mkIf
-      (!config.net.dhcp)
-      {
+      // lib.mkIf (!config.net.dhcp) {
         "10-wired" = {
-          matchConfig.Name = "enp12s0"; # replace with your NIC name
-          networkConfig.DHCP = "yes";
-          dhcpConfig = {
-            ClientIdentifier = "mac";
-            UseDomains = "true";
-            CriticalConnection = "true";
-          };
+          matchConfig.Name = config.net.interface;
+          networkConfig.DHCP = "no";
+          address = config.net.address;
+          gateway = config.net.gateway;
+          DNS = [ config.net.gateway ];
         };
-      }
-    ];
+      };
   };
 }
