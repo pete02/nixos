@@ -18,7 +18,7 @@
     net = {
       enable = true;
       interface = "enp12s0";
-      dhcp = true;
+      dhcp = false;
       address = "192.168.88.254/24";
       gateway = "192.168.88.1";
     };
