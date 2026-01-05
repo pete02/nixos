@@ -57,7 +57,11 @@ in
     "nvidia.NVreg_RegistryDwords=EnablePrimaryDisplay=1"
     "video=3440x1440@175"
   ];
-  boot.blacklistedKernelModules = [ "amdgpu" ];
+  boot.blacklistedKernelModules = [
+    "amdgpu"
+    "kvm"
+    "kvm_amd"
+  ];
   boot.extraModulePackages = [ ];
   boot.loader = {
     systemd-boot.enable = true;
