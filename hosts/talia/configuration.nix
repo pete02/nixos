@@ -13,8 +13,7 @@
   nixpkgs.config.allowUnfree = true;
   enable = {
     dev = true;
-    hyprland = true;
-    hyprpanel = true;
+
     school = true;
     sync = false;
     powersave = true;
@@ -23,6 +22,11 @@
     user = true;
     wireguardclient = true;
     brave = true;
+  };
+
+  desktops = {
+    hyprland = true;
+    hyprpanel = true;
   };
 
   networking.hostName = "talia";

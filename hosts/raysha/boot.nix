@@ -42,25 +42,6 @@ in
     "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = lib.optionals (!config.settings.virtualisation.enable) [
-    "nvidia"
-    "nvidia_modeset"
-    "nvidia_uvm"
-    "nvidia_drm"
-  ];
-  boot.kernelParams = lib.optionals (!config.settings.virtualisation.enable) [
-    "drm.edid_firmware=DP-2:/boot/edid/monitor.bin"
-    "nvidia-drm.modeset=1"
-    "nvidia_drm.modeset=1"
-    "nvidia.NVreg_UseVBiosModeset=1"
-    "nvidia.NVreg_RegistryDwords=EnablePrimaryDisplay=1"
-    "video=3440x1440@175"
-  ];
-  boot.blacklistedKernelModules = [
-    "amdgpu"
-    "kvm"
-    "kvm_amd"
-  ];
 
   boot.extraModulePackages = [ ];
   boot.loader = {

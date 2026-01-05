@@ -6,8 +6,8 @@
 }:
 {
   options = {
-    enable.hyprland = lib.mkEnableOption "enables hyprland";
-    enable.hyprpanel = lib.mkEnableOption "enables hyprland";
+    desktops.hyprland = lib.mkEnableOption "enables hyprland";
+    desktops.hyprpanel = lib.mkEnableOption "enables hyprland";
   };
   config = lib.mkIf config.enable.hyprland {
     programs.hyprland = {
@@ -43,6 +43,18 @@
       jack.enable = true;
     };
     services.upower.enable = true;
+
+    environment.sessionVariables = {
+      GDK_BACKEND = "wayland,x11";
+      QT_QPA_PLATFORM = "wayland;xcb";
+      CLUTTER_BACKEND = "wayland";
+      XDG_CURRENT_DESKTOP = "Hyprland";
+      XDG_SESSION_TYPE = "wayland";
+      XDG_SESSION_DESKTOP = "Hyprland";
+      WLR_NO_HARDWARE_CURSORS = "1";
+      CHROME_PASSWORD_STORE = "basic";
+      NIXOS_OZONE_WL = "0";
+    };
 
     services.greetd = {
       enable = true;
