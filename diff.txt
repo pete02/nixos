@@ -1,7 +1,7 @@
-<<< /nix/var/nix/profiles/system-46-link
->>> /nix/var/nix/profiles/system-47-link
-Added packages:
-[A.]  #1  unit-static-wired.network  <none>
+<<< /nix/var/nix/profiles/system-47-link
+>>> /nix/var/nix/profiles/system-48-link
+Version changes:
+[C.]  #1  unit  99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network -> 10-static-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
 Removed packages:
-[R.]  #1  unit-dhcp-wired.network  <none>
-Closure size: 2299 -> 2299 (6 paths added, 6 paths removed, delta +0, disk usage +48B).
+[R.]  #1  unit-static-wired.network  <none>
+Closure size: 2299 -> 2299 (6 paths added, 6 paths removed, delta +0, disk usage +8B).

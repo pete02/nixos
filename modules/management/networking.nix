@@ -52,7 +52,7 @@
     networking.enableIPv6 = true;
     services.resolved.enable = true;
 
-    systemd.network.networks."dhcp-wired" = lib.mkIf config.net.dhcp {
+    systemd.network.networks."10-dhcp-wired" = lib.mkIf config.net.dhcp {
       matchConfig.Name = "${config.net.interface}"; # replace with your NIC name
       networkConfig.DHCP = "yes";
       dhcpConfig = {
@@ -62,7 +62,7 @@
       };
     };
 
-    systemd.network.networks."static-wired" = lib.mkIf (!config.net.dhcp) {
+    systemd.network.networks."10-static-wired" = lib.mkIf (!config.net.dhcp) {
       matchConfig.Name = "${config.net.interface}";
       networkConfig.DHCP = "no";
       address = [ config.net.address ];
