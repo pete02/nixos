@@ -47,10 +47,10 @@ in
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [
-    #"nvidia"
-    #"nvidia_modeset"
-    #"nvidia_uvm"
-    #"nvidia_drm"
+    "nvidia"
+    "nvidia_modeset"
+    "nvidia_uvm"
+    "nvidia_drm"
     "vfio_pci"
     "vfio"
     "vfio_iommu_type1"
@@ -68,11 +68,6 @@ in
     "amdgpu"
     "kvm"
     "kvm_amd"
-    "nouveau"
-    "nvidia"
-    "nvidia_drm"
-    "nvidia_modeset"
-    "i2c_nvidia_gpu"
   ];
 
   boot.extraModprobeConfig = ''
