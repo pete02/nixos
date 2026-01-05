@@ -4,6 +4,7 @@
   pkgs,
   ...
 }:
+
 {
   options = {
     networking.interface = lib.mkOption {
@@ -15,54 +16,49 @@
     networking.dhcp = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Whether to use DHCP (true) or static IP (false).";
+      description = "Use DHCP (true) or static IP (false)";
     };
 
     networking.address = lib.mkOption {
       type = lib.types.str;
       default = "";
-      description = "Static IP address with prefix (e.g., 192.168.88.254/24). Only used if dhcp=false.";
+      description = "Static IP (only if dhcp=false)";
     };
 
     networking.gateway = lib.mkOption {
       type = lib.types.str;
       default = "";
-      description = "Gateway IP. Only used if dhcp=false. DNS will default to this.";
+      description = "Gateway (only if dhcp=false)";
     };
   };
 
-  # Merge assertions into config
-  config = lib.mkMerge [
+  config = {
+    # Always enable networkd & resolved
+    networking.useNetworkd = true;
+    networking.enableIPv6 = true;
+    services.resolved.enable = true;
 
-    # Basic interface assertion
-    {
-      networking.useNetworkd = true;
-      networking.enableIPv6 = true;
-      services.resolved.enable = true;
+    # Assertions
+    assertions = [
+      {
+        assertion = config.networking.interface != "";
+        message = "networking.interface must be provided";
+      }
+    ]
+    ++ lib.optionals (config.networking.dhcp == false) [
+      {
+        assertion = config.networking.address != "";
+        message = "Static IP is enabled but no address provided";
+      }
+      {
+        assertion = config.networking.gateway != "";
+        message = "Static IP is enabled but no gateway provided";
+      }
+    ];
 
-      assertions = [
-        {
-          assertion = config.networking.interface != "";
-          message = "networking.interface must be provided";
-        }
-      ]
-      ++ (lib.optionals (!config.networking.dhcp) [
-        {
-          assertion = config.networking.address != "";
-          message = "Static IP is enabled but no 'networking.address' was provided.";
-        }
-        {
-          assertion = config.networking.gateway != "";
-          message = "Static IP is enabled but no 'networking.gateway' was provided.";
-        }
-      ]);
-    }
-
-    # Static IP configuration
-    lib.mkIf
-    (!config.networking.dhcp)
-    {
-      networking.systemd.network = {
+    # Use mkIf inside config so config is evaluated lazily
+    networking.systemd.network =
+      lib.mkIf (!config.networking.dhcp) {
         networks."custom-network" = {
           matchConfig.Name = config.networking.interface;
           networkConfig.DHCP = "no";
@@ -70,14 +66,8 @@
           gateway = config.networking.gateway;
           DNS = [ config.networking.gateway ];
         };
-      };
-    }
-
-    # DHCP configuration
-    lib.mkIf
-    config.networking.dhcp
-    {
-      networking.systemd.network = {
+      }
+      // lib.mkIf (config.networking.dhcp) {
         networks."custom-network" = {
           matchConfig.Name = config.networking.interface;
           networkConfig.DHCP = "yes";
@@ -88,6 +78,5 @@
           };
         };
       };
-    }
-  ];
+  };
 }
