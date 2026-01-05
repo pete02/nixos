@@ -21,6 +21,9 @@
       dhcp = true;
     };
 
+    networking.useNetworkd = true;
+    networking.enableIPv6 = true;
+    services.resolved.enable = true;
     systemd.network.networks."10-wired" = {
       matchConfig.Name = "enp12s0"; # replace with your NIC name
       networkConfig.DHCP = "yes";
