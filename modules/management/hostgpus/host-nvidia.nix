@@ -37,9 +37,16 @@
       "nvidia_drm"
     ];
 
-    boot.blacklistedKernelModules = lib.optionals config.enable.nvidia-host [
-      "amdgpu"
-    ];
+    boot.blacklistedKernelModules =
+      lib.optionals config.enable.nvidia-host [
+        "amdgpu"
+      ]
+      ++ lib.optionals (!config.enable.nvidia-host) [
+        "nvidia"
+        "nvidia_modeset"
+        "nvidia_uvm"
+        "nvidia_drm"
+      ];
 
     boot.kernelParams = lib.optionals config.enable.nvidia-host [
       "drm.edid_firmware=DP-2:/boot/edid/monitor.bin"
