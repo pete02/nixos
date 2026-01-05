@@ -1,4 +1,82 @@
-<<< /nix/var/nix/profiles/system-30-link
->>> /nix/var/nix/profiles/system-31-link
-No version or selection state changes.
-Closure size: 2391 -> 2391 (2 paths added, 2 paths removed, delta +0, disk usage +8B).
+<<< /nix/var/nix/profiles/system-31-link
+>>> /nix/var/nix/profiles/system-32-link
+Version changes:
+[C.]  #1  libnl       3.11.0 x2, 3.11.0-bin -> 3.11.0 x2
+[C.]  #2  udev-rules  <none> -> <none> x2
+Added packages:
+[A.]  #1  extra-utils    <none>
+[A.]  #2  initrd-fsinfo  <none>
+[A.]  #3  keymap         <none>
+[A.]  #4  link-units     <none>
+[A.]  #5  mdadm.conf     <none>
+[A.]  #6  stage          1-init.sh
+Removed packages:
+[R.]  #01  OVMF                                                                         202511-fd
+[R.]  #02  SDL2_image                                                                   2.8.8
+[R-]  #03  VirtualBox-GuestAdditions                                                    7.2.4-6.18.3
+[R.]  #04  bridge-utils                                                                 1.7.1
+[R.]  #05  capstone                                                                     5.0.6
+[R.]  #06  cloud-hypervisor                                                             50.0
+[R.]  #07  dmidecode                                                                    3.7
+[R.]  #08  drbd                                                                         9.33.0
+[R.]  #09  dtc                                                                          1.7.2
+[R.]  #10  etc-qemu-bridge.conf                                                         <none>
+[R.]  #11  gfxstream                                                                    0.1.2
+[R.]  #12  inetutils                                                                    2.6
+[R.]  #13  ipxe                                                                         1.21.1-unstable-2025-12-29
+[R.]  #14  libcacard                                                                    2.8.1
+[R.]  #15  libiscsi                                                                     1.20.0
+[R-]  #16  libvirt                                                                      11.7.0
+[R.]  #17  libvirtd.conf                                                                <none>
+[R.]  #18  mount.vboxsf                                                                 <none>
+[R.]  #19  multipath-tools                                                              0.13.0
+[R.]  #20  nbd                                                                          3.25
+[R.]  #21  network.conf                                                                 <none>
+[R.]  #22  nfs-utils                                                                    2.8.4, 2.8.4-lib
+[R.]  #23  numad                                                                        0.5-unstable-2023-09-06
+[R.]  #24  open-iscsi                                                                   2.1.11
+[R.]  #25  open-isns                                                                    0.103-lib
+[R.]  #26  openvswitch                                                                  3.6.1
+[R.]  #27  phodav                                                                       3.0-lib
+[R.]  #28  pm-utils                                                                     1.4.1
+[R-]  #29  qemu                                                                         10.1.2, 10.1.2-doc, 10.1.2-ga
+[R.]  #30  qemu-ovmf-metadata                                                           <none>
+[R.]  #31  qemu.conf                                                                    <none>
+[R.]  #32  rutabaga_gfx                                                                 0.1.6
+[R.]  #33  seabios                                                                      1.17.0
+[R.]  #34  security-wrapper-qemu-bridge-helper-x86_64-unknown-linux-musl                <none>
+[R.]  #35  security-wrapper-spice-client-glib-usb-acl-helper-x86_64-unknown-linux-musl  <none>
+[R.]  #36  smartmontools                                                                7.5
+[R.]  #37  spice                                                                        0.16.0
+[R-]  #38  spice-gtk                                                                    0.42, 0.42-man
+[R.]  #39  syslinux-unstable                                                            2019-02-07
+[R.]  #40  sysstat                                                                      12.7.7
+[R.]  #41  unit-libvirt-guests.service                                                  <none>
+[R.]  #42  unit-libvirtd-config.service                                                 <none>
+[R.]  #43  unit-libvirtd.service                                                        <none>
+[R.]  #44  unit-libvirtd.socket                                                         <none>
+[R.]  #45  unit-script-libvirtd-config-start                                            <none>
+[R.]  #46  unit-script-virtualboxClientClipboard-pre-start                              <none>
+[R.]  #47  unit-script-virtualboxClientDragAndDrop-pre-start                            <none>
+[R.]  #48  unit-script-virtualboxClientSeamless-pre-start                               <none>
+[R.]  #49  unit-script-virtualboxClientVmsvga-pre-start                                 <none>
+[R.]  #50  unit-virtchd.service                                                         <none>
+[R.]  #51  unit-virtlockd.service                                                       <none>
+[R.]  #52  unit-virtlockd.socket                                                        <none>
+[R.]  #53  unit-virtlogd.service                                                        <none>
+[R.]  #54  unit-virtlogd.socket                                                         <none>
+[R.]  #55  unit-virtualbox.service                                                      <none>
+[R.]  #56  unit-virtualboxClientClipboard.service                                       <none>
+[R.]  #57  unit-virtualboxClientDragAndDrop.service                                     <none>
+[R.]  #58  unit-virtualboxClientSeamless.service                                        <none>
+[R.]  #59  unit-virtualboxClientVmsvga.service                                          <none>
+[R.]  #60  usbredir                                                                     0.15.0
+[R.]  #61  vde2                                                                         2.3.3
+[R.]  #62  vhost-user                                                                   <none>
+[R.]  #63  virglrenderer                                                                1.2.0
+[R.]  #64  vte                                                                          0.82.2
+[R.]  #65  wolfssl-all                                                                  5.8.4-lib
+[R.]  #66  xen                                                                          4.20.2
+[R.]  #67  yajl                                                                         2.1.0-unstable-2024-02-01
+[R.]  #68  zfs-user                                                                     2.3.5
+Closure size: 2391 -> 2325 (44 paths added, 110 paths removed, delta -66, disk usage -1.1GiB).
