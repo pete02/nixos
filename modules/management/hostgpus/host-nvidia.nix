@@ -8,12 +8,6 @@
     enable.nvidia-host = lib.mkEnableOption "enables nvida GPUS";
   };
   config = lib.mkIf config.enable.nvidia-host {
-    assertions = [
-      {
-        assertion = (!config.enable.nvidia.passthrough && config.enable.amdgpu == [ ]);
-        message = "VFIO passthrough enabled but no PCI IDs specified.";
-      }
-    ];
 
     hardware.graphics = {
       enable = true;
