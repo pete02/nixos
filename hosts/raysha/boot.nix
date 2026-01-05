@@ -15,10 +15,6 @@ let
 
   # Generate a proper NixOS kernelPackages set
   patchedKernelPackages = pkgs.linuxPackagesFor patchedKernel;
-  devices = [
-    "10de:2704" # Nvidia 2060 mobile GPU
-    "10de:22bb" # Nvidia audio controller
-  ];
 in
 {
 
@@ -46,13 +42,13 @@ in
     "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [
+  boot.kernelModules = lib.optionals (!config.settings.virtualisation.enable) [
     "nvidia"
     "nvidia_modeset"
     "nvidia_uvm"
     "nvidia_drm"
   ];
-  boot.kernelParams = [
+  boot.kernelParams = lib.optionals (!config.settings.virtualisation.enable) [
     "drm.edid_firmware=DP-2:/boot/edid/monitor.bin"
     "nvidia-drm.modeset=1"
     "nvidia_drm.modeset=1"

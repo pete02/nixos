@@ -1,14 +1,4 @@
-<<< /nix/var/nix/profiles/system-35-link
->>> /nix/var/nix/profiles/system-36-link
-Version changes:
-[C.]  #1  binutils    2.44, 2.44-lib -> 2.44, 2.44-lib x2
-[D*]  #2  nvidia-x11  580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32 -> 580.119.02-6.18.2, 580.119.02-6.18.2-bin, 580.119.02-6.18.2-firmware, 580.119.02-6.18.2-lib32
-Added packages:
-[A.]  #1  initrd-linux-zen         6.18.2
-[A.]  #2  libxpresent              1.0.2
-[A.]  #3  linux-zen                6.18.2, 6.18.2-modules x2, 6.18.2-modules-shrunk
-[A+]  #4  looking-glass-client-B7  <none>
-Removed packages:
-[R.]  #1  initrd-linux-cachyos-latest-zen4  6.18.3
-[R.]  #2  linux-cachyos-latest-zen4         6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk
-Closure size: 2386 -> 2389 (46 paths added, 43 paths removed, delta +3, disk usage +16.1MiB).
+<<< /nix/var/nix/profiles/system-36-link
+>>> /nix/var/nix/profiles/system-37-link
+No version or selection state changes.
+Closure size: 2389 -> 2389 (6 paths added, 6 paths removed, delta +0, disk usage -488B).
