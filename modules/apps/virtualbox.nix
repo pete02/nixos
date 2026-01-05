@@ -15,7 +15,7 @@
   };
 
   config = lib.mkMerge [
-    (lib.mkIf config.settings.virtualisation.enable {
+    (lib.mkIf config.virtualisation.enable {
       virtualisation.libvirtd = {
         enable = true;
         qemu.ovmf.enable = true;
@@ -28,15 +28,15 @@
       #     uris = ["qemu:///system"];
       #   };
       # };
-      users.users.${config.settings.user.name}.extraGroups = [ "libvirtd" ];
+      users.users.${config.user.name}.extraGroups = [ "libvirtd" ];
       environment.systemPackages = [ pkgs.virt-manager ];
-      settings.persist.root.cache = [ "/var/lib/libvirt" ];
+      persist.root.cache = [ "/var/lib/libvirt" ];
     })
-    (lib.mkIf config.settings.nvidia.passthrough.enable {
+    (lib.mkIf config.nvidia.passthrough.enable {
       boot.kernelPackages = lib.mkForce pkgs.linuxPackages_zen; # This not be necessary on other computers, but on my computer the GPU was in the same IOMMU group as other pci stuff that was not supposed to be passed through
       boot.kernelParams = [
         # These are device ids found with `lspci -nnk`.
-        "vfio-pci.ids=${lib.concatStringsSep "," config.settings.nvidia.passthrough.ids}"
+        "vfio-pci.ids=${lib.concatStringsSep "," config.nvidia.passthrough.ids}"
         "pcie_acs_override=downstream,multifunction" # Make GPU be in a different IOMMU group
       ];
       boot.initrd.kernelModules = [
@@ -61,10 +61,10 @@
       # Looking glass
       environment.systemPackages = [ pkgs.looking-glass-client ];
       systemd.tmpfiles.rules = [
-        "f /dev/shm/looking-glass 0660 ${config.settings.user.name} libvirtd -"
+        "f /dev/shm/looking-glass 0660 ${config.user.name} libvirtd -"
       ];
 
-      settings.virtualisation.enable = true;
+      virtualisation.enable = true;
     })
   ];
 }
