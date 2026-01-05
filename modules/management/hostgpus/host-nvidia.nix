@@ -7,7 +7,7 @@
   options = {
     enable.nvidia-host = lib.mkEnableOption "enables nvida GPUS";
   };
-  config = lib.mkIf config.enable.nvidia {
+  config = lib.mkIf config.enable.nvidia-host {
     assertions = [
       {
         assertion = (!config.enable.nvidia.passthrough && config.enable.amdgpu == [ ]);
