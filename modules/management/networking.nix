@@ -36,7 +36,7 @@
     ];
   };
   config = {
-    systemd.networks =
+    systemd.network.networks =
       lib.mkIf (!config.net.dhcp) {
         "custom-network" = {
           matchConfig.Name = config.net.interface;
@@ -57,6 +57,5 @@
           };
         };
       };
-
   };
 }
