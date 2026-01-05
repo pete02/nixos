@@ -15,6 +15,11 @@
 
     networking.hostName = "raysha";
 
+    net = {
+      interface = "enp12s0";
+      dhcp = true;
+    };
+
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
