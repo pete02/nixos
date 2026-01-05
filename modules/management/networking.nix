@@ -38,67 +38,60 @@ in
     };
   };
 
-  # single config block
-  config = lib.mkMerge [
+  networking.useNetworkd = true;
+  networking.enableIPv6 = true;
+  services.resolved.enable = true;
 
+  # assertions
+  assertions = [
     {
-      networking.useNetworkd = true;
-      networking.enableIPv6 = true;
-      services.resolved.enable = true;
-
-      # assertions
-      assertions = [
-        {
-          assertion = config.networking.custom.interface != "";
-          message = "networking.custom.interface must be provided";
-        }
-      ]
-      ++ lib.optionals enableStatic [
-        {
-          assertion = config.networking.custom.address != "";
-          message = "Static IP requires address";
-        }
-        {
-          assertion = config.networking.custom.gateway != "";
-          message = "Static IP requires gateway";
-        }
-      ];
+      assertion = config.networking.custom.interface != "";
+      message = "networking.custom.interface must be provided";
     }
-
-    # conditional networking.systemd.networks
+  ]
+  ++ lib.optionals enableStatic [
     {
-      networking.systemd.networks = lib.mkMerge [
-
-        # static
-        lib.mkIf
-        enableStatic
-        {
-          ${customNetworkName} = {
-            matchConfig.Name = config.networking.custom.interface;
-            networkConfig.DHCP = "no";
-            address = config.networking.custom.address;
-            gateway = config.networking.custom.gateway;
-            DNS = [ config.networking.custom.gateway ];
-          };
-        }
-
-        # DHCP
-        lib.mkIf
-        config.networking.custom.dhcp
-        {
-          ${customNetworkName} = {
-            matchConfig.Name = config.networking.custom.interface;
-            networkConfig.DHCP = "yes";
-            dhcpConfig = {
-              ClientIdentifier = "mac";
-              UseDomains = "true";
-              CriticalConnection = "true";
-            };
-          };
-        }
-
-      ];
+      assertion = config.networking.custom.address != "";
+      message = "Static IP requires address";
     }
-
+    {
+      assertion = config.networking.custom.gateway != "";
+      message = "Static IP requires gateway";
+    }
   ];
 }
+
+  # conditional networking.systemd.networks
+  {
+    networking.systemd.networks = lib.mkMerge [
+
+      # static
+      lib.mkIf
+      enableStatic
+      {
+        ${customNetworkName} = {
+          matchConfig.Name = config.networking.custom.interface;
+          networkConfig.DHCP = "no";
+          address = config.networking.custom.address;
+          gateway = config.networking.custom.gateway;
+          DNS = [ config.networking.custom.gateway ];
+        };
+      }
+
+      # DHCP
+      lib.mkIf
+      config.networking.custom.dhcp
+      {
+        ${customNetworkName} = {
+          matchConfig.Name = config.networking.custom.interface;
+          networkConfig.DHCP = "yes";
+          dhcpConfig = {
+            ClientIdentifier = "mac";
+            UseDomains = "true";
+            CriticalConnection = "true";
+          };
+        };
+      }
+
+    ];
+  }
