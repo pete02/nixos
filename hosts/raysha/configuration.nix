@@ -16,7 +16,7 @@
     networking.hostName = "raysha";
 
     net = {
-      enable = false;
+      enable = true;
       interface = "enp12s0";
       dhcp = true;
     };
