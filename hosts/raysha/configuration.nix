@@ -12,12 +12,7 @@
     inputs.home-manager.nixosModules.default
   ];
   config = {
-    networking.custom = {
-      interface = "enp12s0";
-      dhcp = false;
-      address = "192.168.88.254";
-      gateway = "192.168.88.1";
-    };
+
     networking.hostName = "raysha";
 
     programs.direnv = {
