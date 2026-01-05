@@ -1,18 +1,77 @@
-<<< /nix/var/nix/profiles/system-26-link
->>> /nix/var/nix/profiles/system-27-link
+<<< /nix/var/nix/profiles/system-27-link
+>>> /nix/var/nix/profiles/system-28-link
 Version changes:
-[U*]  #1  nvidia-x11  580.119.02-6.12.63, 580.119.02-6.12.63-bin, 580.119.02-6.12.63-firmware, 580.119.02-6.12.63-lib32 -> 580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32
-[C.]  #2  udev-rules  <none> -> <none> x2
+[C.]  #1  gtksourceview  3.24.11 -> 3.24.11, 4.8.4
+[C.]  #2  libnl          3.11.0 x2 -> 3.11.0 x2, 3.11.0-bin
+[C.]  #3  libxml2        2.15.1 x2, 2.15.1-bin -> 2.15.1 x3, 2.15.1-bin x2, 2.15.1-dev, 2.15.1-py
 Added packages:
-[A.]  #1  extra-utils                       <none>
-[A.]  #2  initrd-fsinfo                     <none>
-[A.]  #3  initrd-linux-cachyos-latest-zen4  6.18.3
-[A.]  #4  keymap                            <none>
-[A.]  #5  link-units                        <none>
-[A.]  #6  linux-cachyos-latest-zen4         6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk
-[A.]  #7  mdadm.conf                        <none>
-[A.]  #8  stage                             1-init.sh
-Removed packages:
-[R.]  #1  initrd-linux  6.12.63
-[R.]  #2  linux         6.12.63, 6.12.63-modules x2, 6.12.63-modules-shrunk
-Closure size: 2302 -> 2309 (44 paths added, 37 paths removed, delta +7, disk usage +54.5MiB).
+[A.]  #01  OVMF                                                                         202511-fd
+[A.]  #02  SDL2_image                                                                   2.8.8
+[A.]  #03  bridge-utils                                                                 1.7.1
+[A.]  #04  capstone                                                                     5.0.6
+[A.]  #05  cloud-hypervisor                                                             50.0
+[A.]  #06  dconf-db                                                                     <none>
+[A.]  #07  dconf-system-config                                                          <none>
+[A.]  #08  dmidecode                                                                    3.7
+[A.]  #09  drbd                                                                         9.33.0
+[A.]  #10  dtc                                                                          1.7.2
+[A.]  #11  etc-qemu-bridge.conf                                                         <none>
+[A.]  #12  gfxstream                                                                    0.1.2
+[A.]  #13  gtk-vnc                                                                      1.5.0
+[A.]  #14  inetutils                                                                    2.6
+[A.]  #15  ipxe                                                                         1.21.1-unstable-2025-12-29
+[A.]  #16  libburn                                                                      1.5.6
+[A.]  #17  libcacard                                                                    2.8.1
+[A.]  #18  libiscsi                                                                     1.20.0
+[A.]  #19  libisoburn                                                                   1.5.6, 1.5.6-lib
+[A.]  #20  libisofs                                                                     1.5.6.pl01
+[A.]  #21  libosinfo                                                                    1.12.0
+[A+]  #22  libvirt                                                                      11.7.0
+[A.]  #23  libvirt-glib                                                                 5.0.0
+[A.]  #24  libvirtd.conf                                                                <none>
+[A.]  #25  multipath-tools                                                              0.13.0
+[A.]  #26  nbd                                                                          3.25
+[A.]  #27  network.conf                                                                 <none>
+[A.]  #28  nfs-utils                                                                    2.8.4, 2.8.4-lib
+[A.]  #29  numad                                                                        0.5-unstable-2023-09-06
+[A.]  #30  open-iscsi                                                                   2.1.11
+[A.]  #31  open-isns                                                                    0.103-lib
+[A.]  #32  openvswitch                                                                  3.6.1
+[A.]  #33  osinfo-db                                                                    20251212
+[A.]  #34  phodav                                                                       3.0-lib
+[A.]  #35  pm-utils                                                                     1.4.1
+[A.]  #36  python3.13-libvirt                                                           11.7.0
+[A+]  #37  qemu                                                                         10.1.2, 10.1.2-doc, 10.1.2-ga
+[A.]  #38  qemu-ovmf-metadata                                                           <none>
+[A.]  #39  qemu.conf                                                                    <none>
+[A.]  #40  rutabaga_gfx                                                                 0.1.6
+[A.]  #41  seabios                                                                      1.17.0
+[A.]  #42  security-wrapper-qemu-bridge-helper-x86_64-unknown-linux-musl                <none>
+[A.]  #43  security-wrapper-spice-client-glib-usb-acl-helper-x86_64-unknown-linux-musl  <none>
+[A.]  #44  smartmontools                                                                7.5
+[A.]  #45  spice                                                                        0.16.0
+[A+]  #46  spice-gtk                                                                    0.42, 0.42-man
+[A.]  #47  syslinux-unstable                                                            2019-02-07
+[A.]  #48  sysstat                                                                      12.7.7
+[A.]  #49  unit-libvirt-guests.service                                                  <none>
+[A.]  #50  unit-libvirtd-config.service                                                 <none>
+[A.]  #51  unit-libvirtd.service                                                        <none>
+[A.]  #52  unit-libvirtd.socket                                                         <none>
+[A.]  #53  unit-script-libvirtd-config-start                                            <none>
+[A.]  #54  unit-virtchd.service                                                         <none>
+[A.]  #55  unit-virtlockd.service                                                       <none>
+[A.]  #56  unit-virtlockd.socket                                                        <none>
+[A.]  #57  unit-virtlogd.service                                                        <none>
+[A.]  #58  unit-virtlogd.socket                                                         <none>
+[A.]  #59  usbredir                                                                     0.15.0
+[A.]  #60  user                                                                         <none>
+[A.]  #61  vde2                                                                         2.3.3
+[A.]  #62  vhost-user                                                                   <none>
+[A.]  #63  virglrenderer                                                                1.2.0
+[A+]  #64  virt-manager                                                                 5.1.0
+[A.]  #65  vte                                                                          0.82.2
+[A.]  #66  wolfssl-all                                                                  5.8.4-lib
+[A.]  #67  xen                                                                          4.20.2
+[A.]  #68  yajl                                                                         2.1.0-unstable-2024-02-01
+[A.]  #69  zfs-user                                                                     2.3.5
+Closure size: 2309 -> 2389 (107 paths added, 27 paths removed, delta +80, disk usage +1.2GiB).

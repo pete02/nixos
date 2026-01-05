@@ -22,6 +22,7 @@
     sync = true;
     user = true;
     brave = true;
+    virtual = true;
   };
 
   networking.hostName = "raysha";
