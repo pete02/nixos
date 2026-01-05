@@ -1,5 +1,7 @@
-<<< /nix/var/nix/profiles/system-45-link
->>> /nix/var/nix/profiles/system-46-link
+<<< /nix/var/nix/profiles/system-46-link
+>>> /nix/var/nix/profiles/system-47-link
 Added packages:
-[A.]  #1  unit-dhcp-wired.network  <none>
-Closure size: 2298 -> 2299 (6 paths added, 5 paths removed, delta +1, disk usage +720B).
+[A.]  #1  unit-static-wired.network  <none>
+Removed packages:
+[R.]  #1  unit-dhcp-wired.network  <none>
+Closure size: 2299 -> 2299 (6 paths added, 6 paths removed, delta +0, disk usage +48B).

@@ -66,7 +66,7 @@
       matchConfig.Name = "${config.net.interface}";
       networkConfig.DHCP = "no";
       address = [ config.net.address ];
-      gateway = config.net.gateway;
+      gateway = [ config.net.gateway ];
     };
   };
 }
