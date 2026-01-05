@@ -1,36 +1,24 @@
-<<< /nix/var/nix/profiles/system-28-link
->>> /nix/var/nix/profiles/system-29-link
+<<< /nix/var/nix/profiles/system-29-link
+>>> /nix/var/nix/profiles/system-30-link
 Version changes:
-[C.]  #1  gtksourceview  3.24.11, 4.8.4 -> 3.24.11
-[C.]  #2  libxml2        2.15.1 x3, 2.15.1-bin x2, 2.15.1-dev, 2.15.1-py -> 2.15.1 x2, 2.15.1-bin
-[C.]  #3  unit           10-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network -> 10-wired.network, 40-vboxnet0.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
+[C.]  #1  udev-rules  <none> x2 -> <none>
 Added packages:
-[A.]  #01  VBoxGuestAdditions_7.2.4.iso                              <none>
-[A.]  #02  net-tools                                                 2.10
-[A.]  #03  qtscxml                                                   6.10.1
-[A.]  #04  security-wrapper-VBoxHeadless-x86_64-unknown-linux-musl   <none>
-[A.]  #05  security-wrapper-VBoxNetAdpCtl-x86_64-unknown-linux-musl  <none>
-[A.]  #06  security-wrapper-VBoxNetDHCP-x86_64-unknown-linux-musl    <none>
-[A.]  #07  security-wrapper-VBoxNetNAT-x86_64-unknown-linux-musl     <none>
-[A.]  #08  security-wrapper-VBoxSDL-x86_64-unknown-linux-musl        <none>
-[A.]  #09  security-wrapper-VBoxVolInfo-x86_64-unknown-linux-musl    <none>
-[A.]  #10  security-wrapper-VirtualBoxVM-x86_64-unknown-linux-musl   <none>
-[A.]  #11  unit-script-vboxnet0-post-stop                            <none>
-[A.]  #12  unit-script-vboxnet0-start                                <none>
-[A.]  #13  unit-vboxnet0.service                                     <none>
-[A+]  #14  virtualbox                                                7.2.4
-[A.]  #15  virtualbox-modules                                        7.2.4-6.18.3
+[A+]  #01  VirtualBox-GuestAdditions                          7.2.4-6.18.3
+[A.]  #02  mount.vboxsf                                       <none>
+[A.]  #03  unit-script-virtualboxClientClipboard-pre-start    <none>
+[A.]  #04  unit-script-virtualboxClientDragAndDrop-pre-start  <none>
+[A.]  #05  unit-script-virtualboxClientSeamless-pre-start     <none>
+[A.]  #06  unit-script-virtualboxClientVmsvga-pre-start       <none>
+[A.]  #07  unit-virtualbox.service                            <none>
+[A.]  #08  unit-virtualboxClientClipboard.service             <none>
+[A.]  #09  unit-virtualboxClientDragAndDrop.service           <none>
+[A.]  #10  unit-virtualboxClientSeamless.service              <none>
+[A.]  #11  unit-virtualboxClientVmsvga.service                <none>
 Removed packages:
-[R.]  #01  dconf-db             <none>
-[R.]  #02  dconf-system-config  <none>
-[R.]  #03  gtk-vnc              1.5.0
-[R.]  #04  libburn              1.5.6
-[R.]  #05  libisoburn           1.5.6, 1.5.6-lib
-[R.]  #06  libisofs             1.5.6.pl01
-[R.]  #07  libosinfo            1.12.0
-[R.]  #08  libvirt-glib         5.0.0
-[R.]  #09  osinfo-db            20251212
-[R.]  #10  python3.13-libvirt   11.7.0
-[R.]  #11  user                 <none>
-[R-]  #12  virt-manager         5.1.0
-Closure size: 2389 -> 2387 (49 paths added, 51 paths removed, delta -2, disk usage +213.8MiB).
+[R.]  #1  extra-utils    <none>
+[R.]  #2  initrd-fsinfo  <none>
+[R.]  #3  keymap         <none>
+[R.]  #4  link-units     <none>
+[R.]  #5  mdadm.conf     <none>
+[R.]  #6  stage          1-init.sh
+Closure size: 2387 -> 2391 (45 paths added, 41 paths removed, delta +4, disk usage +67.1MiB).
