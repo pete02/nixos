@@ -24,8 +24,8 @@
     brave = true;
   };
 
-  settings.virtualisation.enable = true;
-  settings.nvidia.passthrough.enable = true;
+  settings.virtualisation.enable = false;
+  settings.nvidia.passthrough.enable = false;
   settings.nvidia.passthrough.ids = [
     "10de:2704" # Nvidia 2060 mobile GPU
     "10de:22bb" # Nvidia audio controller

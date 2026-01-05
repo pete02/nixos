@@ -16,6 +16,13 @@
 
   config = lib.mkMerge [
     (lib.mkIf config.settings.virtualisation.enable {
+      assertions = [
+        {
+          assertion =
+            !(config.settings.nvidia.passthrough.enable && config.settings.nvidia.passthrough.ids == [ ]);
+          message = "VFIO passthrough enabled but no PCI IDs specified.";
+        }
+      ];
       virtualisation.libvirtd = {
         enable = true;
         onBoot = "ignore";
