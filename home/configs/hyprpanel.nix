@@ -1,6 +1,6 @@
 { lib, osConfig, ... }:
 {
-  programs.hyprpanel = lib.mkIf osConfig.enable.hyprpanel {
+  programs.hyprpanel = lib.mkIf osConfig.desktops.hyprpanel {
     enable = true;
     settings = {
       bar = {
