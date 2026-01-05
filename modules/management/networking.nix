@@ -57,7 +57,7 @@
     ];
 
     # Use mkIf inside config so config is evaluated lazily
-    systemd.networks =
+    networking.systemd.networks =
       lib.mkIf (!config.net.dhcp) {
         "custom-network" = {
           matchConfig.Name = config.net.interface;
