@@ -9,7 +9,7 @@
     desktops.hyprland = lib.mkEnableOption "enables hyprland";
     desktops.hyprpanel = lib.mkEnableOption "enables hyprland";
   };
-  config = lib.mkIf config.enable.hyprland {
+  config = lib.mkIf config.desktops.hyprland {
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
