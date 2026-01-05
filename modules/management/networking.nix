@@ -4,10 +4,6 @@
   pkgs,
   ...
 }:
-
-let
-  enableStatic = !config.networking.dhcp;
-in
 {
   options = {
     networking.interface = lib.mkOption {
@@ -50,7 +46,7 @@ in
           message = "networking.interface must be provided";
         }
       ]
-      ++ (lib.optionals enableStatic [
+      ++ (lib.optionals (!config.networking.dhcp) [
         {
           assertion = config.networking.address != "";
           message = "Static IP is enabled but no 'networking.address' was provided.";
@@ -64,7 +60,7 @@ in
 
     # Static IP configuration
     lib.mkIf
-    enableStatic
+    (!config.networking.dhcp)
     {
       networking.systemd.network = {
         networks."custom-network" = {
