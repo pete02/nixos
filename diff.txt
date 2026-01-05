@@ -1,7 +1,16 @@
-<<< /nix/var/nix/profiles/system-47-link
->>> /nix/var/nix/profiles/system-48-link
-Version changes:
-[C.]  #1  unit  99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network -> 10-static-wired.network, 99-ethernet-default-dhcp.network, 99-wireless-client-dhcp.network
+<<< /nix/var/nix/profiles/system-48-link
+>>> /nix/var/nix/profiles/system-49-link
 Removed packages:
-[R.]  #1  unit-static-wired.network  <none>
-Closure size: 2299 -> 2299 (6 paths added, 6 paths removed, delta +0, disk usage +8B).
+[R.]  #01  acEvent.sh                                           <none>
+[R.]  #02  acpi-events                                          <none>
+[R.]  #03  acpid                                                2.0.34
+[R.]  #04  lidEvent.sh                                          <none>
+[R.]  #05  nvidia-cdi-generator                                 <none>
+[R.]  #06  nvidia-container-toolkit                             1.18.0, 1.18.0-tools
+[R-]  #07  nvidia-settings                                      580.119.02
+[R.]  #08  nvidia-vaapi-driver                                  0.0.14
+[R-]  #09  nvidia-x11                                           580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32
+[R.]  #10  powerEvent.sh                                        <none>
+[R.]  #11  unit-acpid.service                                   <none>
+[R.]  #12  unit-nvidia-container-toolkit-cdi-generator.service  <none>
+Closure size: 2299 -> 2283 (39 paths added, 55 paths removed, delta -16, disk usage -1.6GiB).
