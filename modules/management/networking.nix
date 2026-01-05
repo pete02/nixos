@@ -5,35 +5,42 @@
   ...
 }:
 
+let
+  enableStatic = !config.networking.custom.dhcp;
+in
 {
+  # Step 1: define options for the module
   options = {
-    net.interface = lib.mkOption {
-      type = lib.types.str;
-      default = "";
-      description = "Network interface name to configure.";
-    };
+    networking.custom = {
+      interface = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        description = "Network interface to configure";
+      };
 
-    net.dhcp = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Use DHCP (true) or static IP (false)";
-    };
+      dhcp = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Use DHCP (true) or static IP (false)";
+      };
 
-    net.address = lib.mkOption {
-      type = lib.types.str;
-      default = "";
-      description = "Static IP (only if dhcp=false)";
-    };
+      address = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        description = "Static IP (only if dhcp=false)";
+      };
 
-    net.gateway = lib.mkOption {
-      type = lib.types.str;
-      default = "";
-      description = "Gateway (only if dhcp=false)";
+      gateway = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        description = "Gateway (only if dhcp=false)";
+      };
     };
   };
 
+  # Step 2: define module config
   config = {
-    # Always enable networkd & resolved
+    # Always enable systemd-networkd and resolved
     networking.useNetworkd = true;
     networking.enableIPv6 = true;
     services.resolved.enable = true;
@@ -41,35 +48,42 @@
     # Assertions
     assertions = [
       {
-        assertion = config.net.interface != "";
-        message = "networking.interface must be provided";
+        assertion = config.networking.custom.interface != "";
+        message = "networking.custom.interface must be provided";
       }
     ]
-    ++ lib.optionals (config.net.dhcp == false) [
+    ++ lib.optionals enableStatic [
       {
-        assertion = config.net.address != "";
-        message = "Static IP is enabled but no address provided";
+        assertion = config.networking.custom.address != "";
+        message = "Static IP requires address";
       }
       {
-        assertion = config.net.gateway != "";
-        message = "Static IP is enabled but no gateway provided";
+        assertion = config.networking.custom.gateway != "";
+        message = "Static IP requires gateway";
       }
     ];
 
-    # Use mkIf inside config so config is evaluated lazily
-    networking.systemd.networks =
-      lib.mkIf (!config.net.dhcp) {
+    # Step 3: set networking.systemd.networks using built-in option
+    networking.systemd.networks = lib.mkMerge [
+      # Static IP
+      lib.mkIf
+      enableStatic
+      {
         "custom-network" = {
-          matchConfig.Name = config.net.interface;
+          matchConfig.Name = config.networking.custom.interface;
           networkConfig.DHCP = "no";
-          address = config.net.address;
-          gateway = config.net.gateway;
-          DNS = [ config.net.gateway ];
+          address = config.networking.custom.address;
+          gateway = config.networking.custom.gateway;
+          DNS = [ config.networking.custom.gateway ];
         };
       }
-      // lib.mkIf (config.net.dhcp) {
+
+      # DHCP
+      lib.mkIf
+      (config.networking.custom.dhcp)
+      {
         "custom-network" = {
-          matchConfig.Name = config.net.interface;
+          matchConfig.Name = config.networking.custom.interface;
           networkConfig.DHCP = "yes";
           dhcpConfig = {
             ClientIdentifier = "mac";
@@ -77,6 +91,7 @@
             CriticalConnection = "true";
           };
         };
-      };
+      }
+    ];
   };
 }
