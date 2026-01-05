@@ -28,7 +28,7 @@
       #     uris = ["qemu:///system"];
       #   };
       # };
-      users.users.${config.settings.user.name}.extraGroups = [ "libvirtd" ];
+      users.users.pete.extraGroups = [ "libvirtd" ];
       environment.systemPackages = [ pkgs.virt-manager ];
 
     })
