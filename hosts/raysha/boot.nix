@@ -51,9 +51,6 @@ in
     "nvidia_modeset"
     "nvidia_uvm"
     "nvidia_drm"
-    "vfio_pci"
-    "vfio"
-    "vfio_iommu_type1"
   ];
   boot.kernelParams = [
     "drm.edid_firmware=DP-2:/boot/edid/monitor.bin"
@@ -62,7 +59,6 @@ in
     "nvidia.NVreg_UseVBiosModeset=1"
     "nvidia.NVreg_RegistryDwords=EnablePrimaryDisplay=1"
     "video=3440x1440@175"
-    "vfio-pci.ids=${lib.concatStringsSep "," devices}"
   ];
   boot.blacklistedKernelModules = [
     "amdgpu"
@@ -70,13 +66,6 @@ in
     "kvm_amd"
   ];
 
-  boot.extraModprobeConfig = ''
-    softdep nvidia pre: vfio-pci
-    softdep drm pre: vfio-pci
-    softdep nouveau pre: vfio-pci
-  '';
-
-  virtualisation.spiceUSBRedirection.enable = true;
   boot.extraModulePackages = [ ];
   boot.loader = {
     systemd-boot.enable = true;

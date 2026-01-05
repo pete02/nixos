@@ -22,8 +22,14 @@
     sync = true;
     user = true;
     brave = true;
-    virtual = true;
   };
+
+  settings.virtualisation.enable = true;
+  settings.nvidia.passthrough.enable = true;
+  settings.nvidia.passthrough.ids = [
+    "10de:2704" # Nvidia 2060 mobile GPU
+    "10de:22bb" # Nvidia audio controller
+  ];
 
   networking.hostName = "raysha";
 
