@@ -5,6 +5,9 @@
   ...
 }:
 
+let
+  customNetworkName = "custom-network";
+in
 {
   options = {
     networking.custom = {
@@ -34,20 +37,19 @@
     };
   };
 
+  # module config: always a plain set, optionally merged at top level
   config = {
-    # always-on stuff
     networking.useNetworkd = true;
     networking.enableIPv6 = true;
     services.resolved.enable = true;
 
-    # assertions
     assertions = [
       {
         assertion = config.networking.custom.interface != "";
         message = "networking.custom.interface must be provided";
       }
     ]
-    ++ lib.optionals (config.networking.custom.dhcp == false) [
+    ++ lib.optionals (!config.networking.custom.dhcp) [
       {
         assertion = config.networking.custom.address != "";
         message = "Static IP requires address";
@@ -57,20 +59,40 @@
         message = "Static IP requires gateway";
       }
     ];
+  };
 
-    # **The correct way to set systemd.networks**
-    networking.systemd.networks =
-      lib.mkIf (config.networking.custom.dhcp == false) {
-        "custom-network" = {
+  # **top-level conditional merge**: safe and works with built-in options
+  # We return a list of attribute sets that will be merged into config
+  # Here, we assign networking.systemd.networks based on DHCP/static
+  config = lib.mkMerge [
+    {
+      # common assertions and flags
+      networking.useNetworkd = true;
+      networking.enableIPv6 = true;
+      services.resolved.enable = true;
+    }
+
+    # static IP
+    lib.mkIf
+    (!config.networking.custom.dhcp)
+    {
+      networking.systemd.networks = {
+        ${customNetworkName} = {
           matchConfig.Name = config.networking.custom.interface;
           networkConfig.DHCP = "no";
           address = config.networking.custom.address;
           gateway = config.networking.custom.gateway;
           DNS = [ config.networking.custom.gateway ];
         };
-      }
-      // lib.mkIf (config.networking.custom.dhcp == true) {
-        "custom-network" = {
+      };
+    }
+
+    # DHCP
+    lib.mkIf
+    config.networking.custom.dhcp
+    {
+      networking.systemd.networks = {
+        ${customNetworkName} = {
           matchConfig.Name = config.networking.custom.interface;
           networkConfig.DHCP = "yes";
           dhcpConfig = {
@@ -80,5 +102,6 @@
           };
         };
       };
-  };
+    }
+  ];
 }
