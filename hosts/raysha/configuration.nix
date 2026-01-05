@@ -12,7 +12,7 @@
     inputs.home-manager.nixosModules.default
   ];
   config = {
-    networking = {
+    net = {
       interface = "enp12s0";
       dhcp = false;
       address = "192.168.88.254";

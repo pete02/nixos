@@ -7,25 +7,25 @@
 
 {
   options = {
-    networking.interface = lib.mkOption {
+    net.interface = lib.mkOption {
       type = lib.types.str;
       default = "";
       description = "Network interface name to configure.";
     };
 
-    networking.dhcp = lib.mkOption {
+    net.dhcp = lib.mkOption {
       type = lib.types.bool;
       default = true;
       description = "Use DHCP (true) or static IP (false)";
     };
 
-    networking.address = lib.mkOption {
+    net.address = lib.mkOption {
       type = lib.types.str;
       default = "";
       description = "Static IP (only if dhcp=false)";
     };
 
-    networking.gateway = lib.mkOption {
+    net.gateway = lib.mkOption {
       type = lib.types.str;
       default = "";
       description = "Gateway (only if dhcp=false)";
@@ -41,35 +41,35 @@
     # Assertions
     assertions = [
       {
-        assertion = config.networking.interface != "";
+        assertion = config.net.interface != "";
         message = "networking.interface must be provided";
       }
     ]
-    ++ lib.optionals (config.networking.dhcp == false) [
+    ++ lib.optionals (config.net.dhcp == false) [
       {
-        assertion = config.networking.address != "";
+        assertion = config.net.address != "";
         message = "Static IP is enabled but no address provided";
       }
       {
-        assertion = config.networking.gateway != "";
+        assertion = config.net.gateway != "";
         message = "Static IP is enabled but no gateway provided";
       }
     ];
 
     # Use mkIf inside config so config is evaluated lazily
     networking.systemd.networks =
-      lib.mkIf (!config.networking.dhcp) {
+      lib.mkIf (!config.net.dhcp) {
         "custom-network" = {
-          matchConfig.Name = config.networking.interface;
+          matchConfig.Name = config.net.interface;
           networkConfig.DHCP = "no";
-          address = config.networking.address;
-          gateway = config.networking.gateway;
-          DNS = [ config.networking.gateway ];
+          address = config.net.address;
+          gateway = config.net.gateway;
+          DNS = [ config.net.gateway ];
         };
       }
-      // lib.mkIf (config.networking.dhcp) {
+      // lib.mkIf (config.net.dhcp) {
         "custom-network" = {
-          matchConfig.Name = config.networking.interface;
+          matchConfig.Name = config.net.interface;
           networkConfig.DHCP = "yes";
           dhcpConfig = {
             ClientIdentifier = "mac";
