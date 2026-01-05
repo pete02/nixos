@@ -16,9 +16,22 @@
     networking.hostName = "raysha";
 
     net = {
-      enable = true;
+      enable = false;
       interface = "enp12s0";
       dhcp = true;
+    };
+
+    networking.useNetworkd = true;
+    networking.enableIPv6 = true;
+    services.resolved.enable = true;
+    systemd.network.networks."10-wired" = {
+      matchConfig.Name = "enp12s0"; # replace with your NIC name
+      networkConfig.DHCP = "yes";
+      dhcpConfig = {
+        ClientIdentifier = "mac";
+        UseDomains = "true";
+        CriticalConnection = "true";
+      };
     };
 
     programs.direnv = {
