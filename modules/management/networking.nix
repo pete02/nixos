@@ -33,29 +33,27 @@
         assertion = config.net.interface != "";
         message = "networking.custom.interface must be provided";
       }
+    ]
+    ++ lib.optionals (!config.networking.custom.dhcp) [
+      {
+        assertion = config.networking.custom.address != "";
+        message = "Static IP requires address";
+      }
+      {
+        assertion = config.networking.custom.gateway != "";
+        message = "Static IP requires gateway";
+      }
     ];
   };
   config = {
-    systemd.network.networks =
-      lib.mkIf (!config.net.dhcp) {
-        "custom-network" = {
-          matchConfig.Name = config.net.interface;
-          networkConfig.DHCP = "no";
-          address = config.net.address;
-          gateway = config.net.gateway;
-          DNS = [ config.net.gateway ];
-        };
-      }
-      // lib.mkIf (config.net.dhcp) {
-        "custom-network" = {
-          matchConfig.Name = config.net.interface;
-          networkConfig.DHCP = "yes";
-          dhcpConfig = {
-            ClientIdentifier = "mac";
-            UseDomains = "true";
-            CriticalConnection = "true";
-          };
-        };
+    systemd.network.networks."10-wired" = {
+      matchConfig.Name = "enp12s0"; # replace with your NIC name
+      networkConfig.DHCP = "yes";
+      dhcpConfig = {
+        ClientIdentifier = "mac";
+        UseDomains = "true";
+        CriticalConnection = "true";
       };
+    };
   };
 }
