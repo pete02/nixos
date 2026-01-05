@@ -34,7 +34,7 @@
         message = "networking.custom.interface must be provided";
       }
     ]
-    ++ lib.optionals enableStatic [
+    ++ lib.optionals (!config.net.dhcp) [
       {
         assertion = config.net.address != "";
         message = "Static IP requires address";
