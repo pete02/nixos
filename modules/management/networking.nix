@@ -34,13 +34,13 @@
         message = "networking.custom.interface must be provided";
       }
     ]
-    ++ lib.optionals (!config.networking.custom.dhcp) [
+    ++ lib.optionals (!config.net.dhcp) [
       {
-        assertion = config.networking.custom.address != "";
+        assertion = config.net.address != "";
         message = "Static IP requires address";
       }
       {
-        assertion = config.networking.custom.gateway != "";
+        assertion = config.net.gateway != "";
         message = "Static IP requires gateway";
       }
     ];
