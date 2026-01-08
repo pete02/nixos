@@ -1,24 +1,5 @@
-<<< /nix/var/nix/profiles/system-64-link
->>> /nix/var/nix/profiles/system-65-link
+<<< /nix/var/nix/profiles/system-65-link
+>>> /nix/var/nix/profiles/system-66-link
 Version changes:
-[C.]  #1  expand-response-params  <none> -> <none> x2
-[C.]  #2  llvm                    21.1.7, 21.1.7-lib x2 -> 19.0.0-rocm, 19.0.0-rocm-lib, 21.1.7, 21.1.7-lib x2
-[C.]  #3  source                  <none> x2 -> <none> x3
-Added packages:
-[A.]  #01  clang                  19.0.0-rocm-lib
-[A.]  #02  clr                    6.4.3, 6.4.3-icd
-[A.]  #03  compiler-rt-libc       19.0.0-rocm
-[A.]  #04  gcc-prefix             <none>
-[A.]  #05  gcc-prefix-headers     <none>
-[A.]  #06  hipClang               <none>
-[A.]  #07  lld                    19.0.0-rocm
-[A.]  #08  llvm-binutils          19.0.0-rocm
-[A.]  #09  llvm-binutils-wrapper  19.0.0-rocm
-[A.]  #10  openmp                 19.0.0-rocm
-[A.]  #11  rocm-comgr             19.0.0-rocm
-[A.]  #12  rocm-core              6.4.3
-[A.]  #13  rocm-device-libs       19.0.0-rocm
-[A.]  #14  rocm-runtime           6.4.3
-[A.]  #15  rocm-toolchain         <none>
-[A.]  #16  rocminfo               6.4.3
-Closure size: 2286 -> 2307 (46 paths added, 25 paths removed, delta +21, disk usage +625.0MiB).
+[D.]  #1  linux-firmware  20251125-unstable-2025-12-18 -> 20250509
+Closure size: 2307 -> 2307 (5 paths added, 5 paths removed, delta +0, disk usage -304.1MiB).

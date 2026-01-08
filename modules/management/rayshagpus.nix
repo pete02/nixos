@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  inputs,
+  nixpkgs,
   ...
 }:
 {
@@ -34,7 +34,7 @@
         package = config.boot.kernelPackages.nvidiaPackages.stable;
       };
     };
-    inputs.nixpkgs.overlays = [
+    nixpkgs.overlays = [
       (final: prev: {
         linux-firmware = prev.linux-firmware.overrideAttrs (old: rec {
           version = "20250509";
