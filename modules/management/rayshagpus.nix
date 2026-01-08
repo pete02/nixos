@@ -18,6 +18,7 @@
       graphics = {
         enable = true;
         enable32Bit = true;
+        packages = [ pkgs.linux-firmware ];
       };
       nvidia-container-toolkit.enable = config.enable.nvidia-host;
       nvidia = lib.mkIf config.enable.nvidia-host {
