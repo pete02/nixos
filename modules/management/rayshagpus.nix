@@ -20,7 +20,7 @@
         enable32Bit = true;
       };
       nvidia-container-toolkit.enable = config.enable.nvidia-host;
-      nvidia = lib.mkIfconfig.enable.nvidia-host {
+      nvidia = lib.mkIf config.enable.nvidia-host {
         modesetting.enable = true;
         powerManagement.enable = false;
         powerManagement.finegrained = false;
