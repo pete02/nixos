@@ -7,9 +7,10 @@
     Exec=feh %f
     Terminal=false
     Type=Application
-    MimeType=image/jpeg;image/png;image/gif;image/bmp;
-    Icon=feh
+    MimeType=image/png;image/jpeg;image/gif;image/bmp;
+    Icon=utilities-terminal
     Categories=Graphics;Viewer;
+    NoDisplay=false
   '';
 
   home.file.".config/mimeapps.list".text = ''
