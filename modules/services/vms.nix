@@ -7,8 +7,7 @@
 
 {
   options = {
-    services.enable.vms = lib.mkOption {
-      type = lib.types.bool;
+    enable.vms = lib.mkOption {
       default = false;
       description = "Whether to enable VMs";
     };
