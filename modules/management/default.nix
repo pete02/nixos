@@ -5,7 +5,7 @@
     ./bluetooth.nix
     ./localization.nix
     ./nixos-management.nix
-    ./hostgpus
+    ./rayshagpus.nix
     ./user.nix
     ./wireless.nix
     ./networking.nix
