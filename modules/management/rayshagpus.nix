@@ -20,6 +20,9 @@
         enable = true;
         enable32Bit = true;
       };
+      amdgpu.opencl.enable = true;
+      amdgpu.initrd.enable = true;
+
       nvidia-container-toolkit.enable = config.enable.nvidia-host;
       nvidia = lib.mkIf config.enable.nvidia-host {
         modesetting.enable = true;
