@@ -40,7 +40,7 @@
       virt-viewer
       spice
       spice-gtk
-      win-virtio
+      virtio-win
       dnsmasq
     ];
 
