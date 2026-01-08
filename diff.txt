@@ -1,4 +1,9 @@
-<<< /nix/var/nix/profiles/system-55-link
->>> /nix/var/nix/profiles/system-56-link
-No version or selection state changes.
-Closure size: 2299 -> 2299 (3 paths added, 3 paths removed, delta +0, disk usage +208B).
+<<< /nix/var/nix/profiles/system-57-link
+>>> /nix/var/nix/profiles/system-58-link
+Version changes:
+[U*]  #1  calibre              8.14.0 -> 8.15.0
+[U.]  #2  docker-compose       5.0.0 -> 5.0.1
+[U.]  #3  hyprlang             0.6.7 -> 0.6.8
+[U.]  #4  libtracefs           1.8.2 -> 1.8.3
+[U.]  #5  nixos-system-raysha  26.05.20260105.9f0c42f -> 26.05.20260107.5912c17
+Closure size: 2301 -> 2301 (69 paths added, 69 paths removed, delta +0, disk usage +163.9KiB).
