@@ -28,7 +28,6 @@
         runAsRoot = true;
 
         swtpm.enable = true; # TPM support (useful for modern OSes)
-        ovmf.enable = true; # UEFI support
       };
     };
 
