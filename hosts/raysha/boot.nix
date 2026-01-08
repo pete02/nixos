@@ -43,7 +43,7 @@ in
   ];
   boot.initrd.kernelModules = [ ];
 
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = [ pkgs.linux-firmware ];
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
