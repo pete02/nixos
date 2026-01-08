@@ -51,7 +51,6 @@
       ffmpeg
       mdadm
       calibre
-      libreoffice
     ];
     system.stateVersion = "25.05";
   };

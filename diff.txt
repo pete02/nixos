@@ -1,18 +1,32 @@
-<<< /nix/var/nix/profiles/system-66-link
->>> /nix/var/nix/profiles/system-67-link
-Version changes:
-[U.]  #1  linux-firmware  20250509 -> 20251125-unstable-2025-12-18
-Added packages:
-[A.]  #01  acEvent.sh                                           <none>
-[A.]  #02  acpi-events                                          <none>
-[A.]  #03  acpid                                                2.0.34
-[A.]  #04  lidEvent.sh                                          <none>
-[A.]  #05  nvidia-cdi-generator                                 <none>
-[A.]  #06  nvidia-container-toolkit                             1.18.0, 1.18.0-tools
-[A+]  #07  nvidia-settings                                      580.119.02
-[A.]  #08  nvidia-vaapi-driver                                  0.0.14
-[A+]  #09  nvidia-x11                                           580.119.02-6.18.3, 580.119.02-6.18.3-bin, 580.119.02-6.18.3-firmware, 580.119.02-6.18.3-lib32
-[A.]  #10  powerEvent.sh                                        <none>
-[A.]  #11  unit-acpid.service                                   <none>
-[A.]  #12  unit-nvidia-container-toolkit-cdi-generator.service  <none>
-Closure size: 2307 -> 2323 (56 paths added, 40 paths removed, delta +16, disk usage +1.9GiB).
+<<< /nix/var/nix/profiles/system-67-link
+>>> /nix/var/nix/profiles/system-68-link
+Removed packages:
+[R.]  #01  clucene-core         2.3.3.4
+[R.]  #02  coinmp               1.8.4
+[R.]  #03  gpgmepp              2.0.0
+[R.]  #04  libabw               0.1.3
+[R.]  #05  libargon2            20190702
+[R.]  #06  libcdr               0.1.8
+[R.]  #07  libcmis              0.6.2
+[R.]  #08  libe-book            0.1.3
+[R.]  #09  libepubgen           0.1.1
+[R.]  #10  libetonyek           0.1.12
+[R.]  #11  libexttextcat        3.4.6
+[R.]  #12  liblangtag           0.6.7
+[R.]  #13  libmwaw              0.3.22
+[R.]  #14  libodfgen            0.1.7
+[R.]  #15  libpng               1.6.52
+[R-]  #16  libreoffice          25.2.6.2, 25.2.6.2-wrapped
+[R.]  #17  librevenge           0.0.5
+[R.]  #18  libvisio             0.1.8
+[R.]  #19  libwpd               0.10.3
+[R.]  #20  libwpg               0.3.4
+[R.]  #21  libwps               0.4.14
+[R.]  #22  libzmf               0.0.2
+[R.]  #23  lp_solve             5.5.2.11
+[R.]  #24  mythes               1.2.4
+[R.]  #25  openjdk-minimal-jre  21.0.9+10
+[R.]  #26  rasqal               0.9.33
+[R.]  #27  redland              1.0.17
+[R.]  #28  xmlsec               1.3.7
+Closure size: 2323 -> 2294 (11 paths added, 40 paths removed, delta -29, disk usage -1.6GiB).
