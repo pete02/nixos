@@ -9,5 +9,6 @@
     ./syncing.nix
     ./wireguard-client.nix
     ./gpucooler.nix
+    ./vms.nix
   ];
 }
