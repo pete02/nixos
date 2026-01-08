@@ -2,7 +2,7 @@
 {
   enable = {
     dev = true;
-    nvidia-host = true;
+    nvidia-host = false;
     gaming = true;
     logitech = true;
     books = true;
