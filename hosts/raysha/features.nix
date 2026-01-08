@@ -8,6 +8,7 @@
     books = true;
     sync = true;
     user = true;
+    vms = true;
     brave = true;
   };
 
