@@ -13,6 +13,9 @@
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
+      extraSessionCommands = ''
+        mako &
+      '';
     };
     environment.systemPackages = with pkgs; [
       kitty
@@ -43,10 +46,6 @@
       jack.enable = true;
     };
     services.upower.enable = true;
-
-    services.xserver.windowManager.hyprland.extraSessionCommands = ''
-      mako &
-    '';
 
     environment.sessionVariables = {
       GDK_BACKEND = "wayland,x11";
