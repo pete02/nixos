@@ -26,18 +26,17 @@ let
     echo "Rebuilding system for $HOSTNAME..."
     echo "Please insert password for nixos-rebuild"
 
-    REBUILD_LOG="/etc/nixos/rebuild-failure.log"
-    if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure &> "$REBUILD_LOG"; then
+    if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure; then
         echo "Rebuild successful"
-        rm -f "$REBUILD_LOG"
 
-        GENERATIONS=($(nix-env --list-generations --profile /nix/var/nix/profiles/system | awk '{print $1}' | tail -n 2))
         nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > /etc/nixos/diff.txt
         cat /etc/nixos/diff.txt
         git add /etc/nixos/diff.txt
 
         CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
         if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
+          git commit --amend --no-edit
+          git push origin "$UNSTABLE_BRANCH"
           git checkout master
           git pull --rebase origin master
           git merge --no-ff "$UNSTABLE_BRANCH" -m "Merge successful rebuild from $UNSTABLE_BRANCH"
@@ -55,8 +54,6 @@ let
         else
             git checkout -b "$UNSTABLE_BRANCH"
         fi
-
-        git add "$REBUILD_LOG"
         git commit -am "Rebuild failed on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
         git push -u origin "$UNSTABLE_BRANCH"
 

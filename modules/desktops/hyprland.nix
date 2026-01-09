@@ -4,16 +4,31 @@
   pkgs,
   ...
 }:
+
+let
+  hyprlandStartup = pkgs.writeTextFile {
+    name = "hyprland-startup";
+    destination = "/home/pete/.config/hypr/startup";
+    text = ''
+      #!/usr/bin/env bash
+      # Start Mako notifications
+      mako &
+      # Start any other user autostart programs here
+    '';
+  };
+in
 {
   options = {
     desktops.hyprland = lib.mkEnableOption "enables hyprland";
     desktops.hyprpanel = lib.mkEnableOption "enables hyprland";
   };
+
   config = lib.mkIf config.desktops.hyprland {
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
     };
+
     environment.systemPackages = with pkgs; [
       kitty
       mako
@@ -27,6 +42,7 @@
       playerctl
       rofi
       swaylock
+      hyprlandStartup # Ensure the startup script is installed
     ];
 
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
@@ -43,10 +59,6 @@
       jack.enable = true;
     };
     services.upower.enable = true;
-
-    services.xserver.windowManager.hyprland.extraSessionCommands = ''
-      mako &
-    '';
 
     environment.sessionVariables = {
       GDK_BACKEND = "wayland,x11";
