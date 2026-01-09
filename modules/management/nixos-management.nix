@@ -22,7 +22,7 @@ let
 
     git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
 
-    git pull --rebase origin master
+    git pull
     echo "Rebuilding system for $HOSTNAME..."
     echo "Please insert password for nixos-rebuild"
 
