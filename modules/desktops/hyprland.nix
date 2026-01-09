@@ -13,9 +13,6 @@
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
-      extraSessionCommands = ''
-        mako &
-      '';
     };
     environment.systemPackages = with pkgs; [
       kitty
@@ -63,7 +60,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${lib.getExe config.programs.hyprland.package}";
+          command = "mako & ${lib.getExe config.programs.hyprland.package}";
           user = "pete";
         };
       };

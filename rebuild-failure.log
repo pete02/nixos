@@ -1,3 +1,4 @@
+warning: Git tree '/etc/nixos' is dirty
 error:
        … while calling the 'seq' builtin
          at /nix/store/i77jvi0qh4kddj4hraizq1j0c028q05l-source/lib/modules.nix:361:18:
@@ -13,12 +14,12 @@ error:
              |             ^
           334|         else
 
-       error: The option `services.xserver.windowManager.hyprland' does not exist. Definition values:
-       - In `/nix/store/ip7qgb8xg0wyfzr3md7rdkbndp4mwf11-source/modules/desktops/hyprland.nix':
+       error: The option `programs.hyprland.extraSessionCommands' does not exist. Definition values:
+       - In `/nix/store/xasmrsk7vqd1f01akyk43dbx69gl46hm-source/modules/desktops/hyprland.nix':
            {
              _type = "if";
              condition = true;
-             content = {
-               extraSessionCommands = ''
+             content = ''
+               mako &
            ...
 Command 'nix --extra-experimental-features 'nix-command flakes' build --print-out-paths '/etc/nixos#nixosConfigurations."talia".config.system.build.nixos-rebuild' --impure --no-link' returned non-zero exit status 1.
