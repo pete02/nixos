@@ -7,6 +7,8 @@ let
     cd /etc/nixos
     set -euo pipefail
     HOSTNAME=$(hostname)
+    UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
+
 
     if ! treefmt --no-cache --tree-root /etc/nixos &>/dev/null; then
         echo "treefmt failed, running for output:"
@@ -20,18 +22,44 @@ let
 
     git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
 
-    git pull
+    git pull --rebase origin master
     echo "Rebuilding system for $HOSTNAME..."
     echo "Please insert password for nixos-rebuild"
-    if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure; then
+
+    REBUILD_LOG="/etc/nixos/rebuild-failure.log"
+    if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure &> "$REBUILD_LOG"; then
         echo "Rebuild successful"
-        nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > /etc/nixos/diff.txt
+        rm -f "$REBUILD_LOG"
+
+        GENERATIONS=($(nix-env --list-generations --profile /nix/var/nix/profiles/system | awk '{print $1}' | tail -n 2))
+        nvd diff "/nix/var/nix/profiles/system-${GENERATIONS [ 0 ]}-link" "/nix/var/nix/profiles/system-${GENERATIONS [ 1 ]}-link" > /etc/nixos/diff.txt
         cat /etc/nixos/diff.txt
         git add /etc/nixos/diff.txt
-        git commit --amend --no-edit
-        git push
+
+        CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
+          git checkout master
+          git pull --rebase origin master
+          git merge --no-ff "$UNSTABLE_BRANCH" -m "Merge successful rebuild from $UNSTABLE_BRANCH"
+          git push origin master
+          git push origin --delete "$UNSTABLE_BRANCH"
+        else
+          git commit --amend --no-edit
+          git push origin master
+        fi
     else
         echo "Rebuild failed, not pushing."
+        if git show-ref --quiet refs/heads/"$UNSTABLE_BRANCH"; then
+            git checkout "$UNSTABLE_BRANCH"
+            git pull --rebase origin "$UNSTABLE_BRANCH"
+        else
+            git checkout -b "$UNSTABLE_BRANCH"
+        fi
+
+        git add "$REBUILD_LOG"
+        git commit -am "Rebuild failed on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
+        git push -u origin "$UNSTABLE_BRANCH"
+
         exit 1
     fi
 
