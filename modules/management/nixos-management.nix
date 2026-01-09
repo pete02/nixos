@@ -31,9 +31,9 @@ let
 
 
         GENERATIONS=($(nix-env --list-generations --profile /nix/var/nix/profiles/system | awk '{print $1}' | tail -n 2))
-        nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > /etc/nixos/diff.txt
-        cat /etc/nixos/diff.txt
-        git add /etc/nixos/diff.txt
+        #nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > /etc/nixos/diff.txt
+        #cat /etc/nixos/diff.txt
+        #git add /etc/nixos/diff.txt
 
         CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
         if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
