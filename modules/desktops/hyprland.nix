@@ -5,18 +5,6 @@
   ...
 }:
 
-let
-  hyprlandStartup = pkgs.writeTextFile {
-    name = "hyprland-startup";
-    destination = "/home/pete/.config/hypr/startup";
-    text = ''
-      #!/usr/bin/env bash
-      # Start Mako notifications
-      mako &
-      # Start any other user autostart programs here
-    '';
-  };
-in
 {
   options = {
     desktops.hyprland = lib.mkEnableOption "enables hyprland";
@@ -49,6 +37,11 @@ in
 
     xdg.portal.enable = true;
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    xdg.configFile."hypr/startup".text = ''
+      #!/usr/bin/env bash
+      mako &
+      # other autostart apps
+    '';
 
     security.rtkit.enable = true;
     services.pipewire = {
