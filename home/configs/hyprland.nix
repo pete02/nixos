@@ -4,6 +4,8 @@
   ...
 }:
 {
+
+  programs.mako.enable = true;
   wayland.windowManager.hyprland = lib.mkIf osConfig.desktops.hyprland {
     enable = true;
     settings = {
