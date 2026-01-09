@@ -35,6 +35,7 @@ let
 
         CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
         if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
+          git commit --amend --no-edit
           git push origin "$UNSTABLE_BRANCH"
           git checkout master
           git pull --rebase origin master
