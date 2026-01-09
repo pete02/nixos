@@ -32,7 +32,7 @@ let
         rm -f "$REBUILD_LOG"
 
         GENERATIONS=($(nix-env --list-generations --profile /nix/var/nix/profiles/system | awk '{print $1}' | tail -n 2))
-        nvd diff "/nix/var/nix/profiles/system-\${GENERATIONS [ 0 ]}-link" "/nix/var/nix/profiles/system-\${GENERATIONS [ 1 ]}-link" > /etc/nixos/diff.txt
+        nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > /etc/nixos/diff.txt
         cat /etc/nixos/diff.txt
         git add /etc/nixos/diff.txt
 

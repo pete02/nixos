@@ -16,7 +16,7 @@
     };
     environment.systemPackages = with pkgs; [
       kitty
-      dunst
+      mako
       xorg.xrandr
       grim
       slurp
@@ -43,6 +43,10 @@
       jack.enable = true;
     };
     services.upower.enable = true;
+
+    services.xserver.windowManager.hyprland.extraSessionCommands = ''
+      mako &
+    '';
 
     environment.sessionVariables = {
       GDK_BACKEND = "wayland,x11";

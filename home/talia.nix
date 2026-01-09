@@ -19,7 +19,7 @@
 
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
-  wayland.windowManager.hyprland = lib.mkIf osConfig.enable.hyprland {
+  wayland.windowManager.hyprland = lib.mkIf osConfig.desktops.hyprland {
     settings = {
       exec-once = [
         ''${pkgs.swaylock}/bin/swaylock -f''
@@ -36,7 +36,7 @@
     };
   };
 
-  programs.hyprpanel.settings.bar.layouts."*".right = lib.mkIf osConfig.enable.hyprpanel [
+  programs.hyprpanel.settings.bar.layouts."*".right = lib.mkIf osConfig.desktops.hyprpanel [
     "network"
     "bluetooth"
     "battery"

@@ -4,6 +4,7 @@
     net = {
       enable = lib.mkOption {
         type = lib.types.bool;
+        default = false;
       };
       interface = lib.mkOption {
         type = lib.types.str;

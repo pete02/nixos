@@ -1,7 +1,10 @@
-shopt -s nullglob
-for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
-    echo "IOMMU Group ${g##*/}:"
-    for d in $g/devices/*; do
-        echo -e "\t$(lspci -nns ${d##*/})"
-    done;
-done;
+# Determine Pete's runtime directory
+USER="pete"
+XDG_RUNTIME_DIR="/run/user/$(id -u $USER)"
+export XDG_RUNTIME_DIR
+
+# Run dunstctl in the user's session
+if command -v dunstctl &> /dev/null; then
+    DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus dunstctl close-all \
+        || echo "Warning: failed to clear notifications"
+fi
