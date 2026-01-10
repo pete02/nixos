@@ -30,7 +30,6 @@
       playerctl
       rofi
       swaylock
-      hyprlandStartup # Ensure the startup script is installed
     ];
 
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
