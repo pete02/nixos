@@ -37,11 +37,6 @@
 
     xdg.portal.enable = true;
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    xdg.configFile."hypr/startup".text = ''
-      #!/usr/bin/env bash
-      mako &
-      # other autostart apps
-    '';
 
     security.rtkit.enable = true;
     services.pipewire = {
