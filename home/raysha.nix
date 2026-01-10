@@ -18,7 +18,7 @@
       };
       exec-once = "sleep 5 && xrandr --output DP-2 --primary && dunst";
       monitor = [
-        "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,3440x0,1"
+        "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,2560x0,1"
       ];
       /*
         monitorv2 = {
@@ -36,6 +36,7 @@
       monitorv2 = {
         output = "DP-2";
         position = "0x0";
+        mode = "2560x1440@144";
       };
       misc = {
         force_default_wallpaper = 2;
