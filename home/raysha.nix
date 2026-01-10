@@ -20,7 +20,7 @@
       monitor = [
         "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,3440x0,1"
       ];
-      monitorv2 = {
+/*       monitorv2 = {
         output = "DP-2";
         mode = "3440x1440@175";
         position = "0x0";
@@ -30,6 +30,10 @@
         supports_hdr = 1;
         sdr_max_luminance = 250;
         max_luminance = 1000;
+      }; */
+      monitorv2 = {
+        output = "DP-2";
+        position = "0x0";
       };
       misc = {
         force_default_wallpaper = 2;
