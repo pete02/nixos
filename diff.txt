@@ -1,4 +1,11 @@
-<<< /nix/var/nix/profiles/system-70-link
->>> /nix/var/nix/profiles/system-71-link
-No version or selection state changes.
-Closure size: 2371 -> 2371 (12 paths added, 12 paths removed, delta +0, disk usage -24B).
+<<< /nix/var/nix/profiles/system-71-link
+>>> /nix/var/nix/profiles/system-72-link
+Version changes:
+[U.]  #1  baloo-widgets           25.12.0 -> 25.12.1
+[U*]  #2  dolphin                 25.12.0 -> 25.12.1
+[U*]  #3  kcalc                   25.12.0 -> 25.12.1
+[U.]  #4  kdegraphics-mobipocket  25.12.0 -> 25.12.1
+[U.]  #5  kio-extras              25.12.0 -> 25.12.1
+[U.]  #6  libkexiv2               25.12.0 -> 25.12.1
+[U.]  #7  nixos-system-raysha     26.05.20260107.5912c17 -> 26.05.20260108.3497aa5
+Closure size: 2371 -> 2371 (64 paths added, 64 paths removed, delta +0, disk usage +336.1KiB).
