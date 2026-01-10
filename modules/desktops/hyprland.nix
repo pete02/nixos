@@ -63,7 +63,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${lib.getExe config.programs.hyprland.package}";
+          command = "start-hyprland";
           user = "pete";
         };
       };
