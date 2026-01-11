@@ -66,8 +66,9 @@
     systemd.network.networks."10-static-wired" = lib.mkIf (!config.net.dhcp) {
       matchConfig.Name = "${config.net.interface}";
       networkConfig.DHCP = "no";
-      address = [ config.net.address ];
-      gateway = [ config.net.gateway ];
+      Address = [ config.net.address ];
+      Gateway = [ config.net.gateway ];
+      DNS = [ config.net.gateway ];
     };
   };
 }
