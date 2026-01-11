@@ -68,7 +68,7 @@
       networkConfig.DHCP = "no";
       address = [ config.net.address ];
       gateway = [ config.net.gateway ];
-      DNS = [ config.net.gateway ];
+      dns = [ config.net.gateway ];
     };
 
   };
