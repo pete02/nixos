@@ -22,7 +22,7 @@
   wayland.windowManager.hyprland = lib.mkIf osConfig.desktops.hyprland {
     settings = {
       exec-once = [
-        ''${pkgs.swaylock}/bin/swaylock -f''
+        "${pkgs.swaylock}/bin/swaylock -f"
       ];
       monitor = [
         "eDP-1,1920x1080,0x0,1"
