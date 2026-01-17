@@ -1,71 +1,25 @@
-<<< /nix/var/nix/profiles/system-189-link
->>> /nix/var/nix/profiles/system-190-link
+<<< /nix/var/nix/profiles/system-190-link
+>>> /nix/var/nix/profiles/system-191-link
 Version changes:
-[U.]  #01  attica                  6.21.0 -> 6.22.0
-[U.]  #02  baloo                   6.21.0 -> 6.22.0
-[U.]  #03  baloo-widgets           25.12.0 -> 25.12.1
-[U*]  #04  brave                   1.85.118 -> 1.85.120
-[U.]  #05  breeze-icons            6.21.0 -> 6.22.0
-[U.]  #06  dart-sass               1.97.1 -> 1.97.2
-[U*]  #07  dolphin                 25.12.0 -> 25.12.1
-[U.]  #08  gpu-screen-recorder     5.11.2 -> 5.11.5
-[U.]  #09  hyprpanel               0-unstable-2026-01-03 -> 0-unstable-2026-01-07
-[U.]  #10  initrd-linux            6.18.3 -> 6.18.4
-[U.]  #11  karchive                6.21.0 -> 6.22.0
-[U.]  #12  kauth                   6.21.0 -> 6.22.0
-[U.]  #13  kbookmarks              6.21.0 -> 6.22.0
-[U.]  #14  kcmutils                6.21.0 -> 6.22.0
-[U.]  #15  kcodecs                 6.21.0 -> 6.22.0
-[U.]  #16  kcolorscheme            6.21.0 -> 6.22.0
-[U.]  #17  kcompletion             6.21.0 -> 6.22.0
-[U.]  #18  kconfig                 6.21.0 -> 6.22.0
-[U.]  #19  kconfigwidgets          6.21.0 -> 6.22.0
-[U.]  #20  kcoreaddons             6.21.0 -> 6.22.0
-[U.]  #21  kcrash                  6.21.0 -> 6.22.0
-[U.]  #22  kdbusaddons             6.21.0 -> 6.22.0
-[U.]  #23  kdegraphics-mobipocket  25.12.0 -> 25.12.1
-[U.]  #24  kdnssd                  6.21.0 -> 6.22.0
-[U.]  #25  kdoctools               6.21.0 -> 6.22.0
-[U.]  #26  kfilemetadata           6.21.0 -> 6.22.0
-[U.]  #27  kglobalaccel            6.21.0 -> 6.22.0
-[U.]  #28  kguiaddons              6.21.0 -> 6.22.0
-[U.]  #29  ki18n                   6.21.0 -> 6.22.0
-[U.]  #30  kiconthemes             6.21.0 -> 6.22.0
-[U.]  #31  kidletime               6.21.0 -> 6.22.0
-[U.]  #32  kio                     6.21.0 -> 6.22.0
-[U.]  #33  kio-extras              25.12.0 -> 25.12.1
-[U.]  #34  kirigami                6.21.0 -> 6.22.0
-[U.]  #35  kitemviews              6.21.0 -> 6.22.0
-[U.]  #36  kjobwidgets             6.21.0 -> 6.22.0
-[U.]  #37  knewstuff               6.21.0 -> 6.22.0
-[U.]  #38  knotifications          6.21.0 -> 6.22.0
-[U.]  #39  kpackage                6.21.0 -> 6.22.0
-[U.]  #40  kparts                  6.21.0 -> 6.22.0
-[U.]  #41  kservice                6.21.0 -> 6.22.0
-[U.]  #42  ktextwidgets            6.21.0 -> 6.22.0
-[U.]  #43  kuserfeedback           6.21.0 -> 6.22.0
-[U.]  #44  kwallet                 6.21.0 -> 6.22.0
-[U.]  #45  kwidgetsaddons          6.21.0 -> 6.22.0
-[U.]  #46  kwindowsystem           6.21.0 -> 6.22.0
-[U.]  #47  kxmlgui                 6.21.0 -> 6.22.0
-[U.]  #48  libkexiv2               25.12.0 -> 25.12.1
-[U.]  #49  linux                   6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk -> 6.18.4, 6.18.4-modules x2, 6.18.4-modules-shrunk
-[U.]  #50  linux-firmware          20251125-unstable-2025-12-18-zstd -> 20260110-zstd
-[U.]  #51  nixfmt                  1.1.0 -> 1.2.0
-[U.]  #52  nixos-system-talia      26.05.20260107.5912c17 -> 26.05.20260111.ffbc9f8
-[C.]  #53  nss                     3.112.2, 3.119.1 -> 3.112.2, 3.120
-[U.]  #54  qqc2-desktop-style      6.21.0 -> 6.22.0
-[U.]  #55  solid                   6.21.0 -> 6.22.0
-[U.]  #56  sonnet                  6.21.0 -> 6.22.0
-[U.]  #57  syndication             6.21.0 -> 6.22.0
-[U.]  #58  syntax-highlighting     6.21.0 -> 6.22.0
-[U*]  #59  tlp                     1.9.0 -> 1.9.1
-[C.]  #60  udev-rules              <none> -> <none> x2
-[U.]  #61  x86_energy_perf_policy  6.12.63 -> 6.12.64
-Added packages:
-[A.]  #1  extra-utils    <none>
-[A.]  #2  initrd-fsinfo  <none>
-[A.]  #3  keymap         <none>
-[A.]  #4  link-units     <none>
-[A.]  #5  stage          1-init.sh
-Closure size: 1844 -> 1850 (131 paths added, 125 paths removed, delta +6, disk usage +22.9MiB).
+[U*]  #01  firefox                  146.0.1 -> 147.0
+[U.]  #02  firefox-unwrapped        146.0.1 -> 147.0
+[C.]  #03  icu4c                    76.1 x2, 77.1 -> 76.1 x2, 77.1, 78.1
+[U.]  #04  initrd-linux             6.18.4 -> 6.18.5
+[U.]  #05  linux                    6.18.4, 6.18.4-modules x2, 6.18.4-modules-shrunk -> 6.18.5, 6.18.5-modules x2, 6.18.5-modules-shrunk
+[U*]  #06  nixd                     2.8.1 -> 2.8.2
+[U.]  #07  nixf                     2.8.1 -> 2.8.2
+[U.]  #08  nixos-system-talia       26.05.20260111.ffbc9f8 -> 26.05.20260116.e4bae1b
+[U.]  #09  nixt                     2.8.1 -> 2.8.2
+[U.]  #10  plasma-activities        6.5.4 -> 6.5.5
+[U.]  #11  plasma-activities-stats  6.5.4 -> 6.5.5
+[U.]  #12  sdbus-cpp                2.1.0 -> 2.2.1
+[C.]  #13  udev-rules               <none> x2 -> <none>
+[U*]  #14  vscode                   1.107.1 -> 1.108.0
+[U.]  #15  x86_energy_perf_policy   6.12.64 -> 6.12.65
+Removed packages:
+[R.]  #1  extra-utils    <none>
+[R.]  #2  initrd-fsinfo  <none>
+[R.]  #3  keymap         <none>
+[R.]  #4  link-units     <none>
+[R.]  #5  stage          1-init.sh
+Closure size: 1850 -> 1845 (97 paths added, 102 paths removed, delta -5, disk usage +13.1MiB).
