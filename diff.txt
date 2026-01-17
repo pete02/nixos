@@ -1,25 +1,9 @@
-<<< /nix/var/nix/profiles/system-190-link
->>> /nix/var/nix/profiles/system-191-link
-Version changes:
-[U*]  #01  firefox                  146.0.1 -> 147.0
-[U.]  #02  firefox-unwrapped        146.0.1 -> 147.0
-[C.]  #03  icu4c                    76.1 x2, 77.1 -> 76.1 x2, 77.1, 78.1
-[U.]  #04  initrd-linux             6.18.4 -> 6.18.5
-[U.]  #05  linux                    6.18.4, 6.18.4-modules x2, 6.18.4-modules-shrunk -> 6.18.5, 6.18.5-modules x2, 6.18.5-modules-shrunk
-[U*]  #06  nixd                     2.8.1 -> 2.8.2
-[U.]  #07  nixf                     2.8.1 -> 2.8.2
-[U.]  #08  nixos-system-talia       26.05.20260111.ffbc9f8 -> 26.05.20260116.e4bae1b
-[U.]  #09  nixt                     2.8.1 -> 2.8.2
-[U.]  #10  plasma-activities        6.5.4 -> 6.5.5
-[U.]  #11  plasma-activities-stats  6.5.4 -> 6.5.5
-[U.]  #12  sdbus-cpp                2.1.0 -> 2.2.1
-[C.]  #13  udev-rules               <none> x2 -> <none>
-[U*]  #14  vscode                   1.107.1 -> 1.108.0
-[U.]  #15  x86_energy_perf_policy   6.12.64 -> 6.12.65
-Removed packages:
-[R.]  #1  extra-utils    <none>
-[R.]  #2  initrd-fsinfo  <none>
-[R.]  #3  keymap         <none>
-[R.]  #4  link-units     <none>
-[R.]  #5  stage          1-init.sh
-Closure size: 1850 -> 1845 (97 paths added, 102 paths removed, delta -5, disk usage +13.1MiB).
+<<< /nix/var/nix/profiles/system-191-link
+>>> /nix/var/nix/profiles/system-192-link
+Added packages:
+[A+]  #1  direnv                     2.37.1
+[A.]  #2  direnv.toml                <none>
+[A.]  #3  etc-direnv-direnvrc        <none>
+[A.]  #4  etc-direnv-lib-zz-user.sh  <none>
+[A.]  #5  nix-direnv                 3.1.0
+Closure size: 1845 -> 1850 (19 paths added, 14 paths removed, delta +5, disk usage +8.6MiB).

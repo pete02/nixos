@@ -39,6 +39,11 @@
     server = true;
   };
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    silent = true;
+  };
   programs.firefox.enable = true;
 
   environment.systemPackages = with pkgs; [
