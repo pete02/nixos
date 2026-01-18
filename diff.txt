@@ -1,9 +1,4 @@
-<<< /nix/var/nix/profiles/system-191-link
->>> /nix/var/nix/profiles/system-192-link
-Added packages:
-[A+]  #1  direnv                     2.37.1
-[A.]  #2  direnv.toml                <none>
-[A.]  #3  etc-direnv-direnvrc        <none>
-[A.]  #4  etc-direnv-lib-zz-user.sh  <none>
-[A.]  #5  nix-direnv                 3.1.0
-Closure size: 1845 -> 1850 (19 paths added, 14 paths removed, delta +5, disk usage +8.6MiB).
+<<< /nix/var/nix/profiles/system-192-link
+>>> /nix/var/nix/profiles/system-193-link
+No version or selection state changes.
+Closure size: 1850 -> 1850 (7 paths added, 7 paths removed, delta +0, disk usage +1.2KiB).
