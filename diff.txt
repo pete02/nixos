@@ -1,4 +1,49 @@
-<<< /nix/var/nix/profiles/system-193-link
->>> /nix/var/nix/profiles/system-194-link
-No version or selection state changes.
-Closure size: 1850 -> 1850 (7 paths added, 7 paths removed, delta +0, disk usage +848B).
+<<< /nix/var/nix/profiles/system-194-link
+>>> /nix/var/nix/profiles/system-195-link
+Version changes:
+[U*]  #01  brave                   1.85.120 -> 1.86.139
+[U.]  #02  clang                   19.0.0-rocm-lib -> 20.0.0-rocm-lib
+[U.]  #03  clr                     6.4.3, 6.4.3-icd -> 7.0.2, 7.0.2-icd
+[U.]  #04  compiler-rt-libc        19.0.0-rocm -> 20.0.0-rocm
+[U*]  #05  firefox                 147.0 -> 147.0.1
+[U.]  #06  firefox-unwrapped       147.0 -> 147.0.1
+[U.]  #07  flatpak                 1.16.1 -> 1.16.2
+[U.]  #08  grimblast               0.1-unstable-2025-12-18 -> 0.1-unstable-2026-01-14
+[U.]  #09  initrd-linux            6.18.5 -> 6.18.6
+[U.]  #10  kguiaddons              6.22.0 -> 6.22.1
+[U.]  #11  linux                   6.18.5, 6.18.5-modules x2, 6.18.5-modules-shrunk -> 6.18.6, 6.18.6-modules x2, 6.18.6-modules-shrunk
+[U.]  #12  lld                     19.0.0-rocm -> 20.0.0-rocm
+[C.]  #13  llvm                    19.0.0-rocm, 19.0.0-rocm-lib, 21.1.7-lib x2 -> 20.0.0-rocm, 20.0.0-rocm-lib, 21.1.7-lib x2
+[U.]  #14  llvm-binutils           19.0.0-rocm -> 20.0.0-rocm
+[U.]  #15  llvm-binutils-wrapper   19.0.0-rocm -> 20.0.0-rocm
+[U*]  #16  nix                     2.31.2+2 x2, 2.31.2+2-dev, 2.31.2+2-doc, 2.31.2+2-man -> 2.31.3 x2, 2.31.3-dev, 2.31.3-doc, 2.31.3-man
+[C.]  #17  nix-cmd                 2.30.3+1, 2.31.2+2, 2.31.2+2-dev -> 2.30.3+1, 2.31.3, 2.31.3-dev
+[C.]  #18  nix-expr                2.30.3+1, 2.31.2+2, 2.31.2+2-dev -> 2.30.3+1, 2.31.3, 2.31.3-dev
+[U.]  #19  nix-expr-c              2.31.2+2, 2.31.2+2-dev -> 2.31.3, 2.31.3-dev
+[C.]  #20  nix-fetchers            2.30.3+1, 2.31.2+2, 2.31.2+2-dev -> 2.30.3+1, 2.31.3, 2.31.3-dev
+[U.]  #21  nix-fetchers-c          2.31.2+2, 2.31.2+2-dev -> 2.31.3, 2.31.3-dev
+[C.]  #22  nix-flake               2.30.3+1, 2.31.2+2, 2.31.2+2-dev -> 2.30.3+1, 2.31.3, 2.31.3-dev
+[U.]  #23  nix-flake-c             2.31.2+2, 2.31.2+2-dev -> 2.31.3, 2.31.3-dev
+[C.]  #24  nix-main                2.30.3+1, 2.31.2+2, 2.31.2+2-dev -> 2.30.3+1, 2.31.3, 2.31.3-dev
+[U.]  #25  nix-main-c              2.31.2+2, 2.31.2+2-dev -> 2.31.3, 2.31.3-dev
+[U.]  #26  nix-manual              2.31.2+2, 2.31.2+2-man -> 2.31.3, 2.31.3-man
+[U.]  #27  nix-perl                2.31.2+2 -> 2.31.3
+[C.]  #28  nix-store               2.30.3+1, 2.31.2+2, 2.31.2+2-dev -> 2.30.3+1, 2.31.3, 2.31.3-dev
+[U.]  #29  nix-store-c             2.31.2+2, 2.31.2+2-dev -> 2.31.3, 2.31.3-dev
+[C.]  #30  nix-util                2.30.3+1, 2.31.2+2, 2.31.2+2-dev -> 2.30.3+1, 2.31.3, 2.31.3-dev
+[U.]  #31  nix-util-c              2.31.2+2, 2.31.2+2-dev -> 2.31.3, 2.31.3-dev
+[U.]  #32  nixos-system-talia      26.05.20260116.e4bae1b -> 26.05.20260120.80e4adb
+[U.]  #33  onnxruntime             1.22.2 -> 1.23.2
+[U.]  #34  openmp                  19.0.0-rocm -> 20.0.0-rocm
+[C.]  #35  protobuf                32.1 -> 32.1 x2
+[C.]  #36  python3                 3.13.11 x2, 3.13.11-env x5 -> 3.13.11 x2, 3.13.11-env x4
+[U.]  #37  rocm-comgr              19.0.0-rocm -> 20.0.0-rocm
+[U.]  #38  rocm-core               6.4.3 -> 7.0.2
+[U.]  #39  rocm-device-libs        19.0.0-rocm -> 20.0.0-rocm
+[U.]  #40  rocm-runtime            6.4.3 -> 7.0.2
+[U.]  #41  rocminfo                6.4.3 -> 7.0.2
+[U.]  #42  udisks                  2.10.2 -> 2.11.0
+[U.]  #43  x86_energy_perf_policy  6.12.65 -> 6.12.66
+Removed packages:
+[R.]  #1  python3.13-libevdev  0.12
+Closure size: 1850 -> 1849 (169 paths added, 170 paths removed, delta -1, disk usage +29.8MiB).
