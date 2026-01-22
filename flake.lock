@@ -499,7 +499,6 @@
         "owner": "nixos",
         "repo": "nixpkgs",
         "rev": "80e4adbcf8992d3fd27ad4964fbb84907f9478b0",
->>>>>>> da77c25 (Auto-update flake inputs)
         "type": "github"
       },
       "original": {
