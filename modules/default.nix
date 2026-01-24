@@ -11,5 +11,6 @@
     ./books.nix
     ./razer.nix
     ./logitech.nix
+    ./3d.nix
   ];
 }

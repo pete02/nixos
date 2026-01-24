@@ -10,6 +10,7 @@
     user = true;
     vms = true;
     brave = true;
+    modeling = true;
   };
 
   desktops = {
