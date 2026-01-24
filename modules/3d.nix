@@ -11,7 +11,7 @@
   config = lib.mkIf config.enable.books {
     environment.systemPackages = [
       pkgs.freecad
-      pkgs.appimage-run
+      appimage-run
     ];
   };
 }
