@@ -7,6 +7,6 @@
     networking.wireless.enable = true;
     networking.networkmanager.enable = lib.mkForce true;
     systemd.services.NetworkManager-wait-online.enable = false;
-    users.users.${cof.username}.extraGroups = [ "networkmanager" ];
+    users.users.${config.username}.extraGroups = [ "networkmanager" ];
   };
 }
