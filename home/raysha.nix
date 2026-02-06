@@ -17,21 +17,27 @@
 
       };
       exec-once = "sleep 5 && xrandr --output DP-2 --primary && dunst";
-      monitor = [
-        "desc:Eizo Nanao Corporation EV2436W 38144035,1920x1080,3440x0,1"
-      ];
 
-      monitorv2 = {
-        output = "DP-2";
-        mode = "3440x1440@175";
-        position = "0x0";
-        scale = 1;
-        bitdepth = 10;
-        supports_wide_color = 1;
-        supports_hdr = 1;
-        sdr_max_luminance = 250;
-        max_luminance = 1000;
-      };
+      monitorv2 = [
+        {
+          output = "desc:Dell Inc. AW3425DW DD5H274";
+          mode = "3440x1440@175";
+          position = "0x0";
+          scale = 1;
+          bitdepth = 10;
+          supports_wide_color = 1;
+          supports_hdr = 1;
+          sdr_max_luminance = 250;
+          max_luminance = 1000;
+        }
+        {
+          output = "desc:Eizo Nanao Corporation EV2436W 38144035";
+          scale = 1;
+          mode = "1920x1080";
+          position = "3440x0";
+        }
+
+      ];
 
       misc = {
         force_default_wallpaper = 2;
