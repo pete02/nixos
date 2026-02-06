@@ -67,6 +67,7 @@
         "SUPER, p, exec, export SCREENSHOT=~/screenshots/\"$(date '+%Y-%m-%d_%H-%M-%S').png\" && grim -g \"$(slurp)\" - | magick - -shave 1x1 PNG:- > \"$SCREENSHOT\" && cat \"$SCREENSHOT\" | wl-copy"
         "SUPER, mouse_up, workspace, e-1"
         "SUPER, V, togglefloating"
+        "SUPER, F, fullscreen"
       ];
       bindel = [
         ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
