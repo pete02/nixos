@@ -43,7 +43,10 @@ in
   ];
   boot.initrd.kernelModules = [ ];
 
-  boot.extraModulePackages = [ pkgs.linux-firmware ];
+  boot.extraModulePackages = [
+    pkgs.linux-firmware
+    linuxKernel.packages.linux_zen.r8125
+  ];
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
