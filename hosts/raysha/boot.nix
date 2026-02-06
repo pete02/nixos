@@ -44,9 +44,11 @@ in
   boot.initrd.kernelModules = [ ];
 
   boot.extraModulePackages = [
-    pkgs.linux-firmware
-    linuxKernel.packages.linux_zen.r8125
+    patchedKernelPackages.r8125
   ];
+
+  boot.blacklistedKernelModules = [ "r8169" ];
+
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
