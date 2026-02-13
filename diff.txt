@@ -1,4 +1,8 @@
-<<< /nix/var/nix/profiles/system-206-link
->>> /nix/var/nix/profiles/system-207-link
-No version or selection state changes.
-Closure size: 1880 -> 1880 (7 paths added, 7 paths removed, delta +0, disk usage +0B).
+<<< /nix/var/nix/profiles/system-89-link
+>>> /nix/var/nix/profiles/system-90-link
+Removed packages:
+[R.]  #1  desktop-sync              <none>
+[R.]  #2  desktop-syncrestore       <none>
+[R.]  #3  unit-sync.service         <none>
+[R.]  #4  unit-syncrestore.service  <none>
+Closure size: 2630 -> 2626 (11 paths added, 15 paths removed, delta -4, disk usage -5.1KiB).
