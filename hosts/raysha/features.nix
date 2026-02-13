@@ -6,7 +6,7 @@
     gaming = true;
     logitech = true;
     books = true;
-    sync = true;
+    sync = false;
     user = true;
     vms = true;
     brave = true;
