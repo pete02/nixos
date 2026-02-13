@@ -1,20 +1,4 @@
-<<< /nix/var/nix/profiles/system-198-link
->>> /nix/var/nix/profiles/system-199-link
-Version changes:
-[U*]  #01  cifs-utils          7.5 -> 7.5-bin, 7.5-man
-[U.]  #02  clr                 7.0.2, 7.0.2-icd -> 7.1.1, 7.1.1-icd
-[U.]  #03  dart-sass           1.97.2 -> 1.97.3
-[C.]  #04  f2fs-tools          1.16.0 -> 1.16.0, 1.16.0-lib
-[U*]  #05  hyprland            0.53.1, 0.53.1-man -> 0.53.3, 0.53.3-man
-[U.]  #06  mesa                25.3.3 x2 -> 25.3.4 x2
-[C*]  #07  mtools              4.0.49 -> 4.0.49, 4.0.49-info, 4.0.49-man
-[U.]  #08  net-snmp            5.9.4, 5.9.4-lib -> 5.9.5.2, 5.9.5.2-lib
-[U.]  #09  nixos-system-talia  26.05.20260123.c5296fd -> 26.05.20260126.bfc1b8a
-[U*]  #10  obsidian            1.10.6 -> 1.11.5
-[U.]  #11  rocm-core           7.0.2 -> 7.1.1
-[U.]  #12  rocm-runtime        7.0.2 -> 7.1.1
-[U.]  #13  rocminfo            7.0.2 -> 7.1.1
-[U*]  #14  upower              1.90.10 -> 1.91.0
-Removed packages:
-[R.]  #1  initrd-fsinfo  <none>
-Closure size: 1856 -> 1859 (132 paths added, 129 paths removed, delta +3, disk usage +338.8KiB).
+<<< /nix/var/nix/profiles/system-90-link
+>>> /nix/var/nix/profiles/system-91-link
+No version or selection state changes.
+Closure size: 2626 -> 2626 (7 paths added, 7 paths removed, delta +0, disk usage +24B).
