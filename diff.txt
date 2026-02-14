@@ -1,4 +1,19 @@
-<<< /nix/var/nix/profiles/system-90-link
->>> /nix/var/nix/profiles/system-91-link
-No version or selection state changes.
-Closure size: 2626 -> 2626 (7 paths added, 7 paths removed, delta +0, disk usage +24B).
+<<< /nix/var/nix/profiles/system-91-link
+>>> /nix/var/nix/profiles/system-92-link
+Version changes:
+[C.]  #1  gamescope            <none>, 3.16.19 -> <none>, 3.16.20
+[U.]  #2  nixos-system-raysha  26.05.20260211.ec7c70d -> 26.05.20260213.a82ccc3
+[C.]  #3  nss                  3.112.2 x2, 3.112.2-man, 3.120 -> 3.112.2 x2, 3.112.2-man, 3.120.1
+[C.]  #4  udev-rules           <none> -> <none> x2
+[U*]  #5  upower               1.91.0 -> 1.91.1
+[U*]  #6  vscode               1.109.0 -> 1.109.2
+[U.]  #7  webkitgtk            2.50.4+abi=4.1 -> 2.50.5+abi=4.1
+[U.]  #8  wireless-regdb       2025.10.07-zstd -> 2026.02.04-zstd
+Added packages:
+[A.]  #1  extra-utils    <none>
+[A.]  #2  initrd-fsinfo  <none>
+[A.]  #3  keymap         <none>
+[A.]  #4  link-units     <none>
+[A.]  #5  mdadm.conf     <none>
+[A.]  #6  stage          1-init.sh
+Closure size: 2626 -> 2633 (75 paths added, 68 paths removed, delta +7, disk usage +30.4MiB).
