@@ -18,6 +18,7 @@
     "iwlwifi.regdom=FI"
   ];
 
+  boot.extraModprobeConfig = "options cfg80211 ieee80211_regdom=FI";
   # Use the systemd-boot EFI boot loader.
   boot.loader = {
     systemd-boot.enable = true;
