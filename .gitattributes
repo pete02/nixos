@@ -1,0 +1,2 @@
+flake.lock merge=theirs
+diff.txt merge=ours
