@@ -54,6 +54,7 @@
     unzip
     kdePackages.dolphin
     tree
+    iw
   ];
 
   system.stateVersion = "25.05";
