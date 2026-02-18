@@ -65,5 +65,12 @@
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # lazy-start firewall
+  hardware = {
+    enableAllFirmware = true;
+    enableRedistributableFirmware = true;
+    # NOTE: When 21.11 lands, swap for:
+    wirelessRegulatoryDatabase = true;
+    cpu.intel.updateMicrocode = true;
+  };
 
 }

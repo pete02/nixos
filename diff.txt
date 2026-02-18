@@ -1,4 +1,9 @@
-<<< /nix/var/nix/profiles/system-202-link
->>> /nix/var/nix/profiles/system-203-link
-No version or selection state changes.
-Closure size: 1870 -> 1870 (9 paths added, 9 paths removed, delta +0, disk usage +43.7KiB).
+<<< /nix/var/nix/profiles/system-203-link
+>>> /nix/var/nix/profiles/system-204-link
+Added packages:
+[A.]  #1  b43-firmware            5.100.138-zstd, 6.30.163.46-zstd
+[A.]  #2  broadcom-bt-firmware    12.0.1.1012-zstd
+[A.]  #3  facetimehd-calibration  5.1.5769-zstd
+[A.]  #4  facetimehd-firmware     1.43_5-zstd
+[A.]  #5  xone-dongle-firmware    0-unstable-2025-12-18-zstd
+Closure size: 1870 -> 1876 (12 paths added, 6 paths removed, delta +6, disk usage +18.6MiB).
