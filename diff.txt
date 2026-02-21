@@ -1,9 +1,82 @@
-<<< /nix/var/nix/profiles/system-203-link
->>> /nix/var/nix/profiles/system-204-link
+<<< /nix/var/nix/profiles/system-93-link
+>>> /nix/var/nix/profiles/system-94-link
+Version changes:
+[U.]  #01  attica                     6.22.0 -> 6.23.0
+[U.]  #02  baloo                      6.22.0 -> 6.23.0
+[U*]  #03  brave                      1.86.148 -> 1.87.188
+[U.]  #04  breeze-icons               6.22.0 -> 6.23.0
+[U.]  #05  capstone                   5.0.6 -> 5.0.7
+[U*]  #06  docker                     29.2.0 -> 29.2.1
+[U.]  #07  docker-containerd          29.2.0 -> 29.2.1
+[U.]  #08  docker-runc                29.2.0 -> 29.2.1
+[U.]  #09  docker-tini                29.2.0 -> 29.2.1
+[U*]  #10  firefox                    147.0.3 -> 147.0.4
+[U.]  #11  firefox-unwrapped          147.0.3 -> 147.0.4
+[U.]  #12  gnome-desktop              44.4 -> 44.5
+[U.]  #13  hyprpicker                 0.4.5 -> 0.4.6
+[U.]  #14  karchive                   6.22.0 -> 6.23.0
+[U.]  #15  kauth                      6.22.0 -> 6.23.0
+[U.]  #16  kbookmarks                 6.22.0 -> 6.23.0
+[U.]  #17  kcmutils                   6.22.0 -> 6.23.0
+[U.]  #18  kcodecs                    6.22.0 -> 6.23.0
+[U.]  #19  kcolorscheme               6.22.0 -> 6.23.0
+[U.]  #20  kcompletion                6.22.0 -> 6.23.0
+[U.]  #21  kconfig                    6.22.0 -> 6.23.0
+[U.]  #22  kconfigwidgets             6.22.0 -> 6.23.0
+[U.]  #23  kcoreaddons                6.22.0 -> 6.23.0
+[U.]  #24  kcrash                     6.22.0 -> 6.23.0
+[U.]  #25  kdbusaddons                6.22.0 -> 6.23.0
+[U.]  #26  kdnssd                     6.22.0 -> 6.23.0
+[U.]  #27  kdoctools                  6.22.0 -> 6.23.0
+[U.]  #28  kfilemetadata              6.22.0 -> 6.23.0
+[U.]  #29  kglobalaccel               6.22.0 -> 6.23.0
+[U.]  #30  kguiaddons                 6.22.1 -> 6.23.0
+[U.]  #31  ki18n                      6.22.0 -> 6.23.0
+[U.]  #32  kiconthemes                6.22.0 -> 6.23.0
+[U.]  #33  kidletime                  6.22.0 -> 6.23.0
+[U.]  #34  kio                        6.22.0 -> 6.23.0
+[U.]  #35  kirigami                   6.22.0 -> 6.23.0
+[U.]  #36  kitemviews                 6.22.0 -> 6.23.0
+[U.]  #37  kjobwidgets                6.22.0 -> 6.23.0
+[U.]  #38  knewstuff                  6.22.0 -> 6.23.0
+[U.]  #39  knotifications             6.22.0 -> 6.23.0
+[U.]  #40  kpackage                   6.22.0 -> 6.23.0
+[U.]  #41  kparts                     6.22.0 -> 6.23.0
+[U.]  #42  kservice                   6.22.0 -> 6.23.0
+[U.]  #43  ktextwidgets               6.22.0 -> 6.23.0
+[U.]  #44  kuserfeedback              6.22.0 -> 6.23.0
+[U.]  #45  kwallet                    6.22.0 -> 6.23.0
+[U.]  #46  kwidgetsaddons             6.22.0 -> 6.23.0
+[U.]  #47  kwindowsystem              6.22.0 -> 6.23.0
+[U.]  #48  kxmlgui                    6.22.0 -> 6.23.0
+[C.]  #49  linux-cachyos-latest-zen4  6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk -> 6.18.3, 6.18.3-modules x2
+[U.]  #50  moby                       29.2.0 -> 29.2.1
+[U.]  #51  networkmanager             1.54.3 x2, 1.54.3-man -> 1.56.0 x2, 1.56.0-man
+[U*]  #52  nixfmt-tree                <none> -> 2.4.0
+[U.]  #53  nixos-system-raysha        26.05.20260213.a82ccc3 -> 26.05.20260217.0182a36
+[U.]  #54  nlopt                      2.10.0 -> 2.10.1
+[U.]  #55  plasma-activities          6.5.5 -> 6.6.0
+[U.]  #56  plasma-activities-stats    6.5.5 -> 6.6.0
+[U*]  #57  qemu-host-cpu-only         10.2.0, 10.2.0-doc, 10.2.0-ga -> 10.2.1, 10.2.1-doc, 10.2.1-ga
+[U.]  #58  qqc2-desktop-style         6.22.0 -> 6.23.0
+[U.]  #59  solid                      6.22.0 -> 6.23.0
+[U.]  #60  sonnet                     6.22.0 -> 6.23.0
+[U*]  #61  strace                     6.18, 6.18-man -> 6.19, 6.19-man
+[U.]  #62  syndication                6.22.0 -> 6.23.0
+[U.]  #63  syntax-highlighting        6.22.0 -> 6.23.0
+[C.]  #64  udev-rules                 <none> x2 -> <none>
+[U*]  #65  vulnix                     1.12.2, 1.12.2-doc, 1.12.2-man -> 1.12.3, 1.12.3-doc, 1.12.3-man
 Added packages:
-[A.]  #1  b43-firmware            5.100.138-zstd, 6.30.163.46-zstd
-[A.]  #2  broadcom-bt-firmware    12.0.1.1012-zstd
-[A.]  #3  facetimehd-calibration  5.1.5769-zstd
-[A.]  #4  facetimehd-firmware     1.43_5-zstd
-[A.]  #5  xone-dongle-firmware    0-unstable-2025-12-18-zstd
-Closure size: 1870 -> 1876 (12 paths added, 6 paths removed, delta +6, disk usage +18.6MiB).
+[A.]  #1  kactivitymanagerd                   6.6.0
+[A.]  #2  nixos-init                          0.1.0
+[A.]  #3  systemd-generator-environment.json  <none>
+[A.]  #4  unit-post-boot.service              <none>
+[A.]  #5  unit-script-post-boot-start         <none>
+Removed packages:
+[R.]  #1  extra-utils    <none>
+[R.]  #2  initrd-fsinfo  <none>
+[R.]  #3  keymap         <none>
+[R.]  #4  link-units     <none>
+[R.]  #5  mdadm.conf     <none>
+[R.]  #6  stage          1-init.sh
+Closure size: 2633 -> 2630 (251 paths added, 254 paths removed, delta -3, disk usage -63.8MiB).
