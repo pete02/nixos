@@ -20,7 +20,7 @@
     environment.systemPackages = with pkgs; [
       kitty
       mako
-      xorg.xrandr
+      xrandr
       grim
       slurp
       imagemagick
