@@ -1,8 +1,80 @@
-<<< /nix/var/nix/profiles/system-89-link
->>> /nix/var/nix/profiles/system-90-link
+<<< /nix/var/nix/profiles/system-94-link
+>>> /nix/var/nix/profiles/system-95-link
+Version changes:
+[D.]  #01  attica                     6.23.0 -> 6.22.0
+[D.]  #02  baloo                      6.23.0 -> 6.22.0
+[D*]  #03  brave                      1.87.188 -> 1.86.148
+[D.]  #04  breeze-icons               6.23.0 -> 6.22.0
+[D.]  #05  capstone                   5.0.7 -> 5.0.6
+[D*]  #06  docker                     29.2.1 -> 29.2.0
+[D.]  #07  docker-containerd          29.2.1 -> 29.2.0
+[D.]  #08  docker-runc                29.2.1 -> 29.2.0
+[D.]  #09  docker-tini                29.2.1 -> 29.2.0
+[D*]  #10  firefox                    147.0.4 -> 147.0.3
+[D.]  #11  firefox-unwrapped          147.0.4 -> 147.0.3
+[C.]  #12  gamescope                  <none>, 3.16.20 -> <none>, 3.16.19
+[D.]  #13  gnome-desktop              44.5 -> 44.4
+[D.]  #14  hyprpicker                 0.4.6 -> 0.4.5
+[D.]  #15  karchive                   6.23.0 -> 6.22.0
+[D.]  #16  kauth                      6.23.0 -> 6.22.0
+[D.]  #17  kbookmarks                 6.23.0 -> 6.22.0
+[D.]  #18  kcmutils                   6.23.0 -> 6.22.0
+[D.]  #19  kcodecs                    6.23.0 -> 6.22.0
+[D.]  #20  kcolorscheme               6.23.0 -> 6.22.0
+[D.]  #21  kcompletion                6.23.0 -> 6.22.0
+[D.]  #22  kconfig                    6.23.0 -> 6.22.0
+[D.]  #23  kconfigwidgets             6.23.0 -> 6.22.0
+[D.]  #24  kcoreaddons                6.23.0 -> 6.22.0
+[D.]  #25  kcrash                     6.23.0 -> 6.22.0
+[D.]  #26  kdbusaddons                6.23.0 -> 6.22.0
+[D.]  #27  kdnssd                     6.23.0 -> 6.22.0
+[D.]  #28  kdoctools                  6.23.0 -> 6.22.0
+[D.]  #29  kfilemetadata              6.23.0 -> 6.22.0
+[D.]  #30  kglobalaccel               6.23.0 -> 6.22.0
+[D.]  #31  kguiaddons                 6.23.0 -> 6.22.1
+[D.]  #32  ki18n                      6.23.0 -> 6.22.0
+[D.]  #33  kiconthemes                6.23.0 -> 6.22.0
+[D.]  #34  kidletime                  6.23.0 -> 6.22.0
+[D.]  #35  kio                        6.23.0 -> 6.22.0
+[D.]  #36  kirigami                   6.23.0 -> 6.22.0
+[D.]  #37  kitemviews                 6.23.0 -> 6.22.0
+[D.]  #38  kjobwidgets                6.23.0 -> 6.22.0
+[D.]  #39  knewstuff                  6.23.0 -> 6.22.0
+[D.]  #40  knotifications             6.23.0 -> 6.22.0
+[D.]  #41  kpackage                   6.23.0 -> 6.22.0
+[D.]  #42  kparts                     6.23.0 -> 6.22.0
+[D.]  #43  kservice                   6.23.0 -> 6.22.0
+[D.]  #44  ktextwidgets               6.23.0 -> 6.22.0
+[D.]  #45  kuserfeedback              6.23.0 -> 6.22.0
+[D.]  #46  kwallet                    6.23.0 -> 6.22.0
+[D.]  #47  kwidgetsaddons             6.23.0 -> 6.22.0
+[D.]  #48  kwindowsystem              6.23.0 -> 6.22.0
+[D.]  #49  kxmlgui                    6.23.0 -> 6.22.0
+[C.]  #50  linux-cachyos-latest-zen4  6.18.3, 6.18.3-modules x2 -> 6.18.3, 6.18.3-modules x2, 6.18.3-modules-shrunk
+[D.]  #51  moby                       29.2.1 -> 29.2.0
+[D.]  #52  networkmanager             1.56.0 x2, 1.56.0-man -> 1.54.3 x2, 1.54.3-man
+[D*]  #53  nixfmt-tree                2.4.0 -> <none>
+[D.]  #54  nixos-system-raysha        26.05.20260217.0182a36 -> 26.05.20260211.ec7c70d
+[D.]  #55  nlopt                      2.10.1 -> 2.10.0
+[C.]  #56  nss                        3.112.2 x2, 3.112.2-man, 3.120.1 -> 3.112.2 x2, 3.112.2-man, 3.120
+[D.]  #57  plasma-activities          6.6.0 -> 6.5.5
+[D.]  #58  plasma-activities-stats    6.6.0 -> 6.5.5
+[D*]  #59  qemu-host-cpu-only         10.2.1, 10.2.1-doc, 10.2.1-ga -> 10.2.0, 10.2.0-doc, 10.2.0-ga
+[D.]  #60  qqc2-desktop-style         6.23.0 -> 6.22.0
+[D.]  #61  solid                      6.23.0 -> 6.22.0
+[D.]  #62  sonnet                     6.23.0 -> 6.22.0
+[D*]  #63  strace                     6.19, 6.19-man -> 6.18, 6.18-man
+[D.]  #64  syndication                6.23.0 -> 6.22.0
+[D.]  #65  syntax-highlighting        6.23.0 -> 6.22.0
+[D*]  #66  upower                     1.91.1 -> 1.91.0
+[D*]  #67  vscode                     1.109.2 -> 1.109.0
+[D*]  #68  vulnix                     1.12.3, 1.12.3-doc, 1.12.3-man -> 1.12.2, 1.12.2-doc, 1.12.2-man
+[D.]  #69  webkitgtk                  2.50.5+abi=4.1 -> 2.50.4+abi=4.1
+[D.]  #70  wireless-regdb             2026.02.04-zstd -> 2025.10.07-zstd
 Removed packages:
-[R.]  #1  desktop-sync              <none>
-[R.]  #2  desktop-syncrestore       <none>
-[R.]  #3  unit-sync.service         <none>
-[R.]  #4  unit-syncrestore.service  <none>
-Closure size: 2630 -> 2626 (11 paths added, 15 paths removed, delta -4, disk usage -5.1KiB).
+[R.]  #1  kactivitymanagerd                   6.6.0
+[R.]  #2  nixos-init                          0.1.0
+[R.]  #3  systemd-generator-environment.json  <none>
+[R.]  #4  unit-post-boot.service              <none>
+[R.]  #5  unit-script-post-boot-start         <none>
+Closure size: 2630 -> 2626 (253 paths added, 257 paths removed, delta -4, disk usage +33.4MiB).
