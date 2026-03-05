@@ -30,6 +30,7 @@
       playerctl
       rofi
       swaylock
+      libinput
     ];
 
     fonts.packages = with pkgs; [ nerd-fonts.arimo ];
