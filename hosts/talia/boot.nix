@@ -17,7 +17,7 @@
     "mem_sleep_default=deep"
     "iwlwifi.regdom=FI"
   ];
-
+  boot.blacklistedKernelModules = [ "hid_logitech_hidpp" ];
   boot.extraModprobeConfig = "options cfg80211 ieee80211_regdom=FI";
   # Use the systemd-boot EFI boot loader.
   boot.loader = {

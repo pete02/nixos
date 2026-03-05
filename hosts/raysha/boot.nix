@@ -47,7 +47,10 @@ in
     patchedKernelPackages.r8125
   ];
 
-  boot.blacklistedKernelModules = [ "r8169" ];
+  boot.blacklistedKernelModules = [
+    "r8169"
+    "hid_logitech_hidpp"
+  ];
 
   boot.loader = {
     systemd-boot.enable = true;
