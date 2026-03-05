@@ -75,7 +75,7 @@ in
     pkgs.nvd
     pkgs.vulnix
     pkgs.lm_sensors
-    pkgs.neofetch
+    pkgs.fastfetch
     rebuild-script
   ];
 
