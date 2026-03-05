@@ -16,7 +16,7 @@
     "video=HDMI-A-1:3440x1440@60"
     "mem_sleep_default=deep"
   ];
-
+  boot.blacklistedKernelModules = [ "hid_logitech_hidpp" ];
   # Use the systemd-boot EFI boot loader.
   boot.loader = {
     systemd-boot.enable = true;
