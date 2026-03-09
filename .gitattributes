@@ -1,2 +1,2 @@
-flake.lock merge=theirs
+flake.lock merge=ours
 diff.txt merge=ours
