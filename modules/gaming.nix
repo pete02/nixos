@@ -31,7 +31,6 @@
       steam = pkgs.steam.override {
         extraPkgs =
           pkgs: with pkgs; [
-            libXcursor
             libXi
             libXinerama
             libXScrnSaver
