@@ -8,6 +8,15 @@
     ./configs
   ];
 
+  programs.git = {
+    extraConfig = {
+      merge."ours" = {
+        name = "Keep ours on conflict";
+        driver = "true";
+      };
+    };
+  };
+
   programs.home-manager.enable = true;
 
   wayland.windowManager.hyprland = lib.mkIf osConfig.desktops.hyprland {
