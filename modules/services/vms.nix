@@ -19,6 +19,10 @@
       "kvm-amd"
     ];
 
+    system.activationScripts.usrbinsh = lib.stringAfter [ "users" ] ''
+      mkdir -p /usr/bin
+      ln -sf /bin/sh /usr/bin/sh
+    '';
     #### libvirt / QEMU
     virtualisation.libvirtd = {
       enable = true;
