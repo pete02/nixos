@@ -13,6 +13,11 @@
     virtualisation.docker = {
       enable = true;
       enableOnBoot = false;
+      daemon.settings = {
+        features = {
+          cdi = true;
+        };
+      };
     };
 
     users.users.pete = {
