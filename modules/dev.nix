@@ -12,7 +12,6 @@
   config = lib.mkIf config.enable.dev {
     environment.systemPackages = with pkgs; [
       nixd
-      cudatoolkit
       vscode
     ];
     enable.docker = true;
