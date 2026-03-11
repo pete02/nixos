@@ -1,17 +1,4 @@
-<<< /nix/var/nix/profiles/system-106-link
->>> /nix/var/nix/profiles/system-107-link
-Version changes:
-[U*]  #01  brave                1.87.191 -> 1.87.192
-[U*]  #02  fastfetch            2.59.0, 2.59.0-man -> 2.60.0, 2.60.0-man
-[U.]  #03  gvfs                 1.58.1 -> 1.58.2
-[U.]  #04  kguiaddons           6.23.0 -> 6.23.1
-[U.]  #05  kirigami             6.23.0 -> 6.23.1
-[U.]  #06  kservice             6.23.0 -> 6.23.1
-[U.]  #07  libcacard            2.8.1 -> 2.8.2
-[U.]  #08  nfs-utils            2.8.5, 2.8.5-lib -> 2.8.6, 2.8.6-lib
-[U.]  #09  nixos-system-raysha  26.05.20260306.aca4d95 -> 26.05.20260308.9dcb002
-[U.]  #10  skalibs              2.14.4.0-lib -> 2.14.5.1-lib
-[U*]  #11  vim                  9.1.2148, 9.1.2148-xxd -> 9.2.0106, 9.2.0106-xxd
-Added packages:
-[A.]  #1  virt-secret-init-encryption-sh  <none>
-Closure size: 2658 -> 2659 (143 paths added, 142 paths removed, delta +1, disk usage +885.4KiB).
+<<< /nix/var/nix/profiles/system-107-link
+>>> /nix/var/nix/profiles/system-108-link
+No version or selection state changes.
+Closure size: 2659 -> 2659 (5 paths added, 5 paths removed, delta +0, disk usage +32B).

@@ -14,25 +14,19 @@
       enable = true;
       enableOnBoot = false;
       daemon.settings = {
-        features = {
-          cdi = true;
-        };
-        runtimes = {
-          nvidia = {
-            path = "nvidia-container-runtime";
-            runtimeArgs = [ ];
-          };
+        features.cdi = true;
+        runtimes.nvidia = {
+          path = "nvidia-container-runtime";
+          runtimeArgs = [ ];
         };
         # Optionally make nvidia the default:
-        # default-runtime = "nvidia";
+        default-runtime = "nvidia";
       };
     };
 
     users.users.pete = {
       extraGroups = [ "docker" ];
     };
-
-    systemd.services.docker.enable = true;
 
   };
 }
