@@ -18,7 +18,7 @@
         # Optionally make nvidia the default:
         default-runtime = "nvidia";
         runtimes.nvidia = {
-          runtimes.nvidia.path = "${pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime";
+          runtimes.nvidia.path = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime";
           runtimeArgs = [ ];
         };
       };
