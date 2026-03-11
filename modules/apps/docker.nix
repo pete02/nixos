@@ -17,6 +17,14 @@
         features = {
           cdi = true;
         };
+        runtimes = {
+          nvidia = {
+            path = "nvidia-container-runtime";
+            runtimeArgs = [ ];
+          };
+        };
+        # Optionally make nvidia the default:
+        # default-runtime = "nvidia";
       };
     };
 
