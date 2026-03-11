@@ -17,6 +17,10 @@
         features.cdi = true;
         # Optionally make nvidia the default:
         default-runtime = "nvidia";
+        runtimes.nvidia = {
+          path = "${pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime";
+          runtimeArgs = [ ];
+        };
       };
     };
 
