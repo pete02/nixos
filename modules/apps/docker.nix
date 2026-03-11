@@ -14,7 +14,7 @@
       enable = true;
       enableOnBoot = false;
       daemon.settings = {
-        features.cdi = true;
+        features.cdi = false;
 
       };
     };
