@@ -14,14 +14,17 @@
       enable = true;
       enableOnBoot = false;
       daemon.settings = {
-        features.cdi = false;
-
+        features = {
+          cdi = true;
+        };
       };
     };
 
     users.users.pete = {
       extraGroups = [ "docker" ];
     };
+
     systemd.services.docker.enable = true;
+
   };
 }
