@@ -16,6 +16,8 @@
         "nvidia"
       ]
       ++ lib.optionals (!config.enable.nvidia-host) [ "amdgpu" ];
+
+    environment.systemPackages = [ pkgs.nvidia-container-toolkit ];
     hardware = {
       graphics = {
         enable = true;
@@ -25,7 +27,6 @@
       amdgpu.initrd.enable = true;
 
       nvidia-container-toolkit.enable = config.enable.nvidia-host;
-      environment.systemPackages = [ pkgs.nvidia-container-toolkit ];
       nvidia = lib.mkIf config.enable.nvidia-host {
         modesetting.enable = true;
         powerManagement.enable = false;
