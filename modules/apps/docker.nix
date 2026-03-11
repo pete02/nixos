@@ -15,10 +15,6 @@
       enableOnBoot = false;
       daemon.settings = {
         features.cdi = true;
-        runtimes.nvidia = {
-          path = "${pkgs.nvidia-container-toolkit}/bin/nvidia-container-runtime";
-          runtimeArgs = [ ];
-        };
         # Optionally make nvidia the default:
         default-runtime = "nvidia";
       };

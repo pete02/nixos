@@ -1,5 +1,4 @@
-<<< /nix/var/nix/profiles/system-109-link
->>> /nix/var/nix/profiles/system-110-link
-Selection state changes:
-[C+]  #1  nvidia-container-toolkit  1.18.2, 1.18.2-tools
-Closure size: 2659 -> 2659 (11 paths added, 11 paths removed, delta +0, disk usage +288B).
+<<< /nix/var/nix/profiles/system-110-link
+>>> /nix/var/nix/profiles/system-111-link
+No version or selection state changes.
+Closure size: 2659 -> 2659 (5 paths added, 5 paths removed, delta +0, disk usage -192B).
