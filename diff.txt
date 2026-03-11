@@ -1,4 +1,4 @@
-<<< /nix/var/nix/profiles/system-110-link
->>> /nix/var/nix/profiles/system-111-link
+<<< /nix/var/nix/profiles/system-112-link
+>>> /nix/var/nix/profiles/system-113-link
 No version or selection state changes.
-Closure size: 2659 -> 2659 (5 paths added, 5 paths removed, delta +0, disk usage -192B).
+Closure size: 2659 -> 2659 (4 paths added, 4 paths removed, delta +0, disk usage -248B).

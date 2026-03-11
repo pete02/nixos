@@ -12,7 +12,7 @@
   config = lib.mkIf config.enable.docker {
     virtualisation.docker = {
       enable = true;
-      enableOnBoot = true;
+      enableOnBoot = false;
       daemon.settings = {
         features.cdi = true;
         # Optionally make nvidia the default:
@@ -23,6 +23,6 @@
     users.users.pete = {
       extraGroups = [ "docker" ];
     };
-
+    systemd.services.docker.enable = true;
   };
 }
