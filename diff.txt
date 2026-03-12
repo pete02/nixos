@@ -1,4 +1,93 @@
-<<< /nix/var/nix/profiles/system-119-link
->>> /nix/var/nix/profiles/system-120-link
-No version or selection state changes.
-Closure size: 2659 -> 2659 (5 paths added, 5 paths removed, delta +0, disk usage -176B).
+<<< /nix/var/nix/profiles/system-207-link
+>>> /nix/var/nix/profiles/system-208-link
+Version changes:
+[U.]  #01  baloo-widgets            25.12.2 -> 25.12.3
+[U*]  #02  brave                    1.87.188 -> 1.87.192
+[U*]  #03  btrfs-progs              6.17.1, 6.17.1-man -> 6.19, 6.19-man
+[U.]  #04  clang                    20.0.0-rocm-lib -> 22.0.0-rocm-lib
+[U.]  #05  clr                      7.1.1, 7.1.1-icd -> 7.2.0, 7.2.0-icd
+[U.]  #06  compiler-rt-libc         20.0.0-rocm -> 22.0.0-rocm
+[U*]  #07  docker                   29.2.1 -> 29.3.0
+[U.]  #08  docker-containerd        29.2.1 -> 29.3.0
+[U.]  #09  docker-runc              29.2.1 -> 29.3.0
+[U.]  #10  docker-tini              29.2.1 -> 29.3.0
+[U*]  #11  dolphin                  25.12.2 -> 25.12.3
+[U.]  #12  electron                 38.8.1 -> 38.8.4
+[U.]  #13  electron-unwrapped       38.8.1 -> 38.8.4
+[U.]  #14  exiv2                    0.28.7, 0.28.7-lib -> 0.28.8, 0.28.8-lib
+[U*]  #15  firefox                  147.0.4 -> 148.0
+[U.]  #16  firefox-unwrapped        147.0.4 -> 148.0
+[U.]  #17  fzf                      0.68.0 -> 0.70.0
+[U.]  #18  grimblast                0.1-unstable-2026-01-14 -> 0.1-unstable-2026-02-19
+[U.]  #19  gvfs                     1.58.1 -> 1.58.2
+[U*]  #20  hyprland                 0.53.3, 0.53.3-man -> 0.54.1, 0.54.1-man
+[U.]  #21  initrd-linux             6.19.3 -> 6.19.6
+[U.]  #22  kactivitymanagerd        6.6.0 -> 6.6.2
+[U.]  #23  kdegraphics-mobipocket   25.12.2 -> 25.12.3
+[U.]  #24  kguiaddons               6.23.0 -> 6.23.1
+[U.]  #25  kio-extras               25.12.2 -> 25.12.3
+[U.]  #26  kirigami                 6.23.0 -> 6.23.1
+[U.]  #27  kservice                 6.23.0 -> 6.23.1
+[C+]  #28  libinput                 1.29.2 -> 1.29.2, 1.29.2-bin
+[U.]  #29  libkexiv2                25.12.2 -> 25.12.3
+[U.]  #30  libtraceevent            1.8.7 -> 1.9
+[U.]  #31  linux                    6.19.3, 6.19.3-modules x2 -> 6.19.6, 6.19.6-modules x2
+[U.]  #32  lld                      20.0.0-rocm -> 22.0.0-rocm
+[C.]  #33  llvm                     20.0.0-rocm, 20.0.0-rocm-lib, 21.1.8-lib x2 -> 21.1.8-lib x2, 22.0.0-rocm, 22.0.0-rocm-lib
+[U.]  #34  llvm-binutils            20.0.0-rocm -> 22.0.0-rocm
+[U.]  #35  llvm-binutils-wrapper    20.0.0-rocm -> 22.0.0-rocm
+[U.]  #36  matugen                  3.1.0 -> 4.0.0
+[U.]  #37  mesa                     26.0.0 x2 -> 26.0.1 x2
+[U*]  #38  mkpasswd                 5.6.5, 5.6.5-man -> 5.6.6, 5.6.6-man
+[U.]  #39  moby                     29.2.1 -> 29.3.0
+[U*]  #40  nixfmt-tree              2.4.0 -> 2.4.1
+[U.]  #41  nixos-system-talia       26.05.20260223.2fc6539 -> 26.05.20260310.62dc67a
+[U*]  #42  obsidian                 1.11.5 -> 1.12.4
+[U.]  #43  openmp                   20.0.0-rocm -> 22.0.0-rocm
+[U.]  #44  plasma-activities        6.6.0 -> 6.6.2
+[U.]  #45  plasma-activities-stats  6.6.0 -> 6.6.2
+[C.]  #46  python3                  3.13.12 x2, 3.13.12-env x4 -> 3.13.12 x2, 3.13.12-env x5
+[U.]  #47  rocm-comgr               20.0.0-rocm -> 22.0.0-rocm
+[U.]  #48  rocm-core                7.1.1 -> 7.2.0
+[U.]  #49  rocm-device-libs         20.0.0-rocm -> 22.0.0-rocm
+[U.]  #50  rocm-runtime             7.1.1 -> 7.2.0
+[U.]  #51  rocminfo                 7.1.1 -> 7.2.0
+[C.]  #52  source                   <none> x3 -> <none> x2
+[U*]  #53  swaylock                 1.8.4 -> 1.8.5
+[U.]  #54  treefmt                  2.4.0 -> 2.4.1
+[U.]  #55  udisks                   2.11.0 -> 2.11.1
+[U*]  #56  vim                      9.1.2109, 9.1.2109-xxd -> 9.2.0106, 9.2.0106-xxd
+[U*]  #57  vscode                   1.109.4 -> 1.111.0
+[U.]  #58  x86_energy_perf_policy   6.18.13 -> 6.18.16
+Added packages:
+[A.]  #01  chafa                           1.18.1
+[A.]  #02  ddcutil                         2.2.3
+[A+]  #03  fastfetch                       2.60.0, 2.60.0-man
+[A.]  #04  libelf                          0.8.13
+[A.]  #05  libsepol                        3.8.1
+[A.]  #06  libsysprof-capture              49.0
+[A.]  #07  libxfce4util                    4.20.1
+[A.]  #08  mbrola-voices                   0-unstable-2020-03-30
+[A+]  #09  nvidia-container-toolkit        1.18.2
+[A.]  #10  openjdk-headless-minimal-jre    21.0.10+7
+[A.]  #11  python3.13-libevdev             0.13.1
+[A.]  #12  unit-pre-shutdown.service       <none>
+[A.]  #13  unit-systemd-hostnamed.service  <none>
+[A.]  #14  unit-systemd-localed.service    <none>
+[A.]  #15  xfconf                          4.20.0
+[A.]  #16  yyjson                          0.12.0
+Removed packages:
+[R.]  #01  libimagequant                4.4.1
+[R.]  #02  libxres                      1.2.3
+[R-]  #03  neofetch-unstable            2021-12-10, 2021-12-10-man
+[R.]  #04  openjdk                      21.0.10+7
+[R.]  #05  python3.13-attrs             25.4.0
+[R.]  #06  python3.13-docopt            0.6.2
+[R.]  #07  python3.13-pillow            12.1.0
+[R.]  #08  python3.13-psutil            7.2.1
+[R.]  #09  python3.13-ueberzug          18.3.1
+[R.]  #10  python3.13-xlib              0.33
+[R.]  #11  set-java-classpath-hook      <none>
+[R.]  #12  unit-save-hwclock.service    <none>
+[R.]  #13  unit-script-pre-sleep-start  <none>
+Closure size: 1880 -> 1884 (232 paths added, 228 paths removed, delta +4, disk usage -428.7MiB).
