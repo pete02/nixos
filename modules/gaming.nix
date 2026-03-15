@@ -25,6 +25,7 @@
       mesa-demos
       protonup-ng
       lutris
+      umu-launcher
     ];
 
     nixpkgs.config.packageOverrides = pkgs: {

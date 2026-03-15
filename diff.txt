@@ -1,27 +1,18 @@
-<<< /nix/var/nix/profiles/system-120-link
->>> /nix/var/nix/profiles/system-121-link
-Version changes:
-[U.]  #01  ddcutil              2.2.3 -> 2.2.6
-[U*]  #02  docker               29.2.1 -> 29.3.0
-[U.]  #03  docker-containerd    29.2.1 -> 29.3.0
-[U.]  #04  docker-runc          29.2.1 -> 29.3.0
-[U.]  #05  docker-tini          29.2.1 -> 29.3.0
-[U*]  #06  firefox              148.0 -> 148.0.2
-[U.]  #07  firefox-unwrapped    148.0 -> 148.0.2
-[U*]  #08  hyprland             0.54.1, 0.54.1-man -> 0.54.2, 0.54.2-man
-[C.]  #09  libXNVCtrl           390.157, 580.126.18 -> 390.157, 580.142
-[U.]  #10  libtraceevent        1.8.7 -> 1.9
-[U.]  #11  linux-firmware       20260221-zstd -> 20260309-zstd
-[U.]  #12  mesa                 26.0.1 x2 -> 26.0.2 x2
-[U.]  #13  moby                 29.2.1 -> 29.3.0
-[U.]  #14  nixos-system-raysha  26.05.20260308.9dcb002 -> 26.05.20260313.c06b4ae
-[U*]  #15  nvidia-settings      580.126.18 -> 580.142
-[U*]  #16  nvidia-x11           580.126.18-6.18.3, 580.126.18-6.18.3-bin, 580.126.18-6.18.3-firmware, 580.126.18-6.18.3-lib32 -> 580.142-6.18.3, 580.142-6.18.3-bin, 580.142-6.18.3-firmware, 580.142-6.18.3-lib32
-[U.]  #17  pv                   1.10.3 -> 1.10.4
-[U.]  #18  python3.13-evdev     1.9.2 -> 1.9.3
-[U*]  #19  swaylock             1.8.4 -> 1.8.5
-[U*]  #20  vscode               1.109.5 -> 1.111.0
+<<< /nix/var/nix/profiles/system-121-link
+>>> /nix/var/nix/profiles/system-122-link
 Added packages:
-[A.]  #1  unit-script-pre-shutdown-start  <none>
-[A.]  #2  unit-script-pre-sleep-start     <none>
-Closure size: 2659 -> 2661 (158 paths added, 156 paths removed, delta +2, disk usage +38.6MiB).
+[A.]  #01  python3.13-anyio                   4.12.1
+[A.]  #02  python3.13-cbor2                   5.8.0
+[A.]  #03  python3.13-cryptography            46.0.4
+[A.]  #04  python3.13-h11                     0.16.0
+[A.]  #05  python3.13-httpcore                1.0.9
+[A.]  #06  python3.13-httpx                   0.28.1
+[A.]  #07  python3.13-pyopenssl               25.3.0, 25.3.0-dev
+[A.]  #08  python3.13-pyzstd                  0.19.1
+[A.]  #09  python3.13-trustme                 1.2.1
+[A.]  #10  python3.13-truststore              0.10.4
+[A.]  #11  python3.13-umu-launcher-unwrapped  1.3.0
+[A.]  #12  python3.13-xlib                    0.33
+[A.]  #13  python3.13-xxhash                  3.6.0
+[A+]  #14  umu-launcher                       1.3.0, 1.3.0-bwrap, 1.3.0-fhsenv-profile, 1.3.0-fhsenv-rootfs, 1.3.0-init
+Closure size: 2661 -> 2680 (30 paths added, 11 paths removed, delta +19, disk usage +24.5MiB).
