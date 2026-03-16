@@ -38,6 +38,7 @@
           supports_hdr = 1;
           sdr_max_luminance = 250;
           max_luminance = 1000;
+          primary = true;
         }
         {
           output = "desc:Eizo Nanao Corporation EV2436W 38144035";
