@@ -25,7 +25,7 @@
       environment = {
 
       };
-      exec-once = "sleep 5 && xrandr --output DP-2 --primary && dunst";
+      exec-once = "sleep 5  && dunst && xrandr --output $(xrandr | grep ' connected' | grep '3440x1440' | cut -d' ' -f1) --primary";
 
       monitorv2 = [
         {
