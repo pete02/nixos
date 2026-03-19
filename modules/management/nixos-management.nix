@@ -21,8 +21,6 @@ let
     git diff -U0 '*.nix'
 
     git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
-
-    git pull
     echo "Rebuilding system for $HOSTNAME..."
     echo "Please insert password for nixos-rebuild"
 
@@ -44,6 +42,7 @@ let
           git push origin --delete "$UNSTABLE_BRANCH"
         else
           git commit --amend --no-edit
+          git pull --rebase origin master
           git push origin master
         fi
     else
@@ -55,6 +54,7 @@ let
             git checkout -b "$UNSTABLE_BRANCH"
         fi
         git commit -am "Rebuild failed on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
+        git pull --rebase origin master
         git push -u origin "$UNSTABLE_BRANCH"
 
         exit 1

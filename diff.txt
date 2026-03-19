@@ -1,11 +1,4 @@
-<<< /nix/var/nix/profiles/system-126-link
->>> /nix/var/nix/profiles/system-127-link
-Version changes:
-[C.]  #1  gamescope                <none>, 3.16.20 -> <none>, 3.16.22
-[U.]  #2  kactivitymanagerd        6.6.2 -> 6.6.3
-[U.]  #3  nixos-system-raysha      26.05.20260316.5b2c2d8 -> 26.05.20260318.b40629e
-[U.]  #4  plasma-activities        6.6.2 -> 6.6.3
-[U.]  #5  plasma-activities-stats  6.6.2 -> 6.6.3
-Added packages:
-[A.]  #1  python3.14-pystache  0.6.8
-Closure size: 2680 -> 2681 (63 paths added, 62 paths removed, delta +1, disk usage +121.3KiB).
+<<< /nix/var/nix/profiles/system-127-link
+>>> /nix/var/nix/profiles/system-128-link
+No version or selection state changes.
+Closure size: 2681 -> 2681 (12 paths added, 12 paths removed, delta +0, disk usage +64B).
