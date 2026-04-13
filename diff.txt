@@ -1,103 +1,20 @@
-<<< /nix/var/nix/profiles/system-130-link
->>> /nix/var/nix/profiles/system-131-link
-Version changes:
-[U.]  #01  SDL_net                   1.2.8-unstable-2025-04-21 -> 1.2.8-unstable-2026-03-17
-[U.]  #02  abseil-cpp                20250814.1 x2, 20250814.1-dev -> 20260107.1 x2, 20260107.1-dev
-[U.]  #03  alsa-lib                  1.2.15.1 x2 -> 1.2.15.3 x2
-[U.]  #04  alsa-ucm-conf             1.2.15.1 x2 -> 1.2.15.3 x2
-[U.]  #05  babl                      0.1.122 -> 0.1.124
-[U.]  #06  boehm-gc                  8.2.8 x2, 8.2.8-dev -> 8.2.12 x2, 8.2.12-dev
-[U*]  #07  brave                     1.88.132 -> 1.88.134
-[U*]  #08  calibre                   9.4.0 -> 9.5.0
-[U.]  #09  ed                        1.22.4 -> 1.22.5
-[U.]  #10  ell                       0.81 x2 -> 0.82 x2
-[U*]  #11  firefox                   148.0.2 -> 149.0
-[U.]  #12  firefox-unwrapped         148.0.2 -> 149.0
-[U.]  #13  fluidsynth                2.5.2 x2, 2.5.2-man -> 2.5.3 x2, 2.5.3-man
-[U.]  #14  gdal-minimal              3.12.2 -> 3.12.3
-[U.]  #15  gegl                      0.4.64 -> 0.4.68
-[C*]  #16  getent-glibc              2.42-51 x2 -> 2.42-51
-[U*]  #17  gimp                      3.0.6, 3.0.6-man -> 3.0.8, 3.0.8-man
-[C*]  #18  glibc                     2.40-66, 2.42-51 x2, 2.42-51-bin x2, 2.42-51-dev, 2.42-51-getent x2 -> 2.40-66, 2.42-51 x2, 2.42-51-bin x2, 2.42-51-dev, 2.42-51-getent
-[C*]  #19  hicolor-icon-theme        0.18 -> 0.18, 0.18-dev
-[U.]  #20  hwdata                    0.404 x2 -> 0.405 x2
-[U.]  #21  hwloc                     2.12.2, 2.12.2-dev, 2.12.2-lib -> 2.13.0, 2.13.0-dev, 2.13.0-lib
-[U*]  #22  imagemagick               7.1.2-13, 7.1.2-13-doc -> 7.1.2-17, 7.1.2-17-doc
-[U*]  #23  iproute2                  6.18.0 -> 6.19.0
-[U*]  #24  iptables                  1.8.11 x2, 1.8.11-lib x2, 1.8.11-man -> 1.8.12 x2, 1.8.12-lib x2, 1.8.12-man
-[U.]  #25  ipxe                      1.21.1-unstable-2026-01-30 -> 2.0.0
-[U*]  #26  kitty                     0.46.0, 0.46.0-terminfo -> 0.46.1, 0.46.1-terminfo
-[U*]  #27  less                      691, 691-man -> 692, 692-man
-[U.]  #28  libbluray                 1.4.0 x3 -> 1.4.1 x3
-[U.]  #29  libfyaml                  0.9.4 x2 -> 0.9.5 x2
-[U.]  #30  libgpg-error              1.55 x2 -> 1.58 x2
-[U.]  #31  libheif                   1.20.2-lib -> 1.21.2-lib
-[U.]  #32  libpq                     18.1 -> 18.2
-[U.]  #33  libredwg                  0.13.3 -> 0.13.4
-[U.]  #34  librsvg                   2.61.3 x2, 2.61.3-dev -> 2.61.4 x2, 2.61.4-dev
-[U.]  #35  libselinux                3.8.1 x2, 3.8.1-bin, 3.8.1-dev, 3.8.1-man -> 3.10 x2, 3.10-bin, 3.10-dev, 3.10-man
-[U.]  #36  libsepol                  3.8.1, 3.8.1-bin, 3.8.1-dev -> 3.10, 3.10-bin, 3.10-dev
-[U.]  #37  libsodium                 1.0.21-unstable-2026-01-22 x2 -> 1.0.21-unstable-2026-02-11 x2
-[U.]  #38  libsoup                   3.6.5 x2 -> 3.6.6 x2
-[U.]  #39  liburing                  2.13 x2 -> 2.14 x2
-[U.]  #40  libuv                     1.51.0 x2 -> 1.52.0 x2
-[U.]  #41  libvpx                    1.15.2 x2, 1.15.2-bin -> 1.16.0 x2, 1.16.0-bin
-[U.]  #42  libx11                    1.8.12 x2, 1.8.12-dev, 1.8.12-man -> 1.8.13 x2, 1.8.13-dev, 1.8.13-man
-[U.]  #43  libxkbcommon              1.11.0 x2, 1.11.0-dev -> 1.13.1 x2, 1.13.1-dev
-[U.]  #44  llhttp                    9.3.0 -> 9.3.1
-[C*]  #45  lvm2                      2.03.38, 2.03.38-bin, 2.03.38-lib x2, 2.03.38-man -> 2.03.38, 2.03.38-bin, 2.03.38-lib x2, 2.03.38-man, 2.03.38-scripts
-[U.]  #46  mesa                      26.0.2 x2 -> 26.0.3 x2
-[U.]  #47  minizip                   1.3.1 -> 1.3.2
-[U.]  #48  nixos-system-raysha       26.05.20260318.b40629e -> 26.05.20260324.46db2e0
-[C.]  #49  nss                       3.112.2 x2, 3.112.2-man, 3.121 -> 3.112.3 x2, 3.112.3-man, 3.122
-[U.]  #50  nss-cacert                3.119.1, 3.119.1-p11kit -> 3.121, 3.121-p11kit
-[U.]  #51  onnxruntime               1.23.2 -> 1.24.4
-[U.]  #52  openapv                   0.2.1.0 x2 -> 0.2.1.1 x2
-[U.]  #53  openblas                  0.3.30 -> 0.3.31
-[C.]  #54  pciutils                  3.14.0 -> 3.14.0, 3.14.0-man
-[U.]  #55  perl5.42.0-Crypt-URandom  0.54 -> 0.55
-[U*]  #56  pipewire                  1.4.10 x2, 1.4.10-doc, 1.4.10-jack, 1.4.10-man -> 1.6.2 x2, 1.6.2-doc, 1.6.2-jack, 1.6.2-man
-[U.]  #57  pkgconf                   2.4.3, 2.4.3-lib -> 2.5.1, 2.5.1-lib
-[U.]  #58  pkgconf-wrapper           2.4.3 -> 2.5.1
-[U.]  #59  protobuf                  33.5 -> 34.0
-[U.]  #60  publicsuffix-list         0-unstable-2026-01-25 x2 -> 0-unstable-2026-03-02 x2
-[U.]  #61  pv                        1.10.4 -> 1.10.5
-[U.]  #62  python3.13-cryptography   46.0.4 -> 46.0.5
-[U.]  #63  python3.13-markdown       3.10.1 x2 -> 3.10.2 x2
-[U.]  #64  python3.13-pillow         12.1.0 -> 12.1.1
-[U.]  #65  python3.13-protobuf       6.33.5 -> 7.34.0
-[U.]  #66  python3.13-regex          2026.1.15 -> 2026.2.19
-[U.]  #67  python3.13-scipy          1.17.0 -> 1.17.1
-[U.]  #68  python3.14-markdown       3.10.1 -> 3.10.2
-[U.]  #69  python3.14-pillow         12.1.0 -> 12.1.1
-[U.]  #70  python3.14-regex          2026.1.15 -> 2026.2.19
-[U.]  #71  re2                       2025-08-12 -> 2025-11-05
-[U.]  #72  sbc                       2.1 x2 -> 2.2 x2
-[U.]  #73  sdl3                      3.4.0-lib x2 -> 3.4.2-lib x2
-[U*]  #74  shadow                    4.19.3, 4.19.3-man, 4.19.3-su -> 4.19.4, 4.19.4-man, 4.19.4-su
-[U.]  #75  sof-firmware              2025.05.1-zstd -> 2025.12.2-zstd
-[U.]  #76  spidermonkey              140.7.0 -> 140.7.1
-[U.]  #77  squashfs                  4.7.4 -> 4.7.5
-[C*]  #78  systemd                   <none>, 259 x2, 259-dev, 259-man -> <none>, 259.3 x2, 259.3-dev, 259.3-man
-[U.]  #79  systemd-minimal           259 x2 -> 259.3 x2
-[U.]  #80  systemd-minimal-libs      259 x2, 259-dev -> 259.3 x2, 259.3-dev
-[U.]  #81  tzdata                    2025c x2 -> 2026a x2
-[U*]  #82  vscode                    1.111.0 -> 1.112.0
-[U.]  #83  wavpack                   5.8.1 x2, 5.8.1-man -> 5.9.0 x2, 5.9.0-man
-[U.]  #84  webkitgtk                 2.50.6+abi=4.1 -> 2.52.0+abi=4.1
-[C*]  #85  which                     2.23 x2 -> 2.23 x2, 2.23-info, 2.23-man
-[U*]  #86  wl-clipboard              2.2.1 -> 2.3.0
-[C.]  #87  xdg-user-dirs             0.19 x2 -> 0.19 x2, 0.19-lib x2, 0.19-man
-[U.]  #88  xkeyboard-config          2.46 x2 -> 2.47 x2
-[U.]  #89  zlib                      1.3.1 x2, 1.3.1-dev, 1.3.1-static x2 -> 1.3.2 x2, 1.3.2-dev, 1.3.2-static x2
+<<< /nix/var/nix/profiles/system-133-link
+>>> /nix/var/nix/profiles/system-134-link
+Selection state changes:
+[C+]  #1  nvidia-container-toolkit  1.18.2, 1.18.2-tools
 Added packages:
-[A.]  #1  cdparanoia-iii  10.2 x2
-[A.]  #2  libldac-dec     0.0.2-unstable-2024-11-12 x2
-[A.]  #3  passt           2025_09_19.623dbf6
-[A.]  #4  unixobcd        2.3.12 x2
-Removed packages:
-[R.]  #1  cdparanoia-III      10.2 x2
-[R.]  #2  qtbase6-setup-hook  <none>
-[R.]  #3  unixODBC            2.3.12 x2
-[R.]  #4  woff2               1.0.2-lib
-Closure size: 2681 -> 2688 (2658 paths added, 2651 paths removed, delta +7, disk usage +46.4MiB).
+[A.]  #01  python3.13-anyio                   4.12.1
+[A.]  #02  python3.13-cbor2                   5.8.0
+[A.]  #03  python3.13-cryptography            46.0.5
+[A.]  #04  python3.13-h11                     0.16.0
+[A.]  #05  python3.13-httpcore                1.0.9
+[A.]  #06  python3.13-httpx                   0.28.1
+[A.]  #07  python3.13-pyopenssl               25.3.0, 25.3.0-dev
+[A.]  #08  python3.13-pyzstd                  0.19.1
+[A.]  #09  python3.13-trustme                 1.2.1
+[A.]  #10  python3.13-truststore              0.10.4
+[A.]  #11  python3.13-umu-launcher-unwrapped  1.4.0
+[A.]  #12  python3.13-xlib                    0.33
+[A.]  #13  python3.13-xxhash                  3.6.0
+[A+]  #14  umu-launcher                       1.4.0, 1.4.0-bwrap, 1.4.0-fhsenv-profile, 1.4.0-fhsenv-rootfs, 1.4.0-init
+Closure size: 2679 -> 2698 (35 paths added, 16 paths removed, delta +19, disk usage +24.7MiB).
