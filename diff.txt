@@ -1,20 +1,4 @@
-<<< /nix/var/nix/profiles/system-133-link
->>> /nix/var/nix/profiles/system-134-link
-Selection state changes:
-[C+]  #1  nvidia-container-toolkit  1.18.2, 1.18.2-tools
-Added packages:
-[A.]  #01  python3.13-anyio                   4.12.1
-[A.]  #02  python3.13-cbor2                   5.8.0
-[A.]  #03  python3.13-cryptography            46.0.5
-[A.]  #04  python3.13-h11                     0.16.0
-[A.]  #05  python3.13-httpcore                1.0.9
-[A.]  #06  python3.13-httpx                   0.28.1
-[A.]  #07  python3.13-pyopenssl               25.3.0, 25.3.0-dev
-[A.]  #08  python3.13-pyzstd                  0.19.1
-[A.]  #09  python3.13-trustme                 1.2.1
-[A.]  #10  python3.13-truststore              0.10.4
-[A.]  #11  python3.13-umu-launcher-unwrapped  1.4.0
-[A.]  #12  python3.13-xlib                    0.33
-[A.]  #13  python3.13-xxhash                  3.6.0
-[A+]  #14  umu-launcher                       1.4.0, 1.4.0-bwrap, 1.4.0-fhsenv-profile, 1.4.0-fhsenv-rootfs, 1.4.0-init
-Closure size: 2679 -> 2698 (35 paths added, 16 paths removed, delta +19, disk usage +24.7MiB).
+<<< /nix/var/nix/profiles/system-134-link
+>>> /nix/var/nix/profiles/system-135-link
+No version or selection state changes.
+Closure size: 2698 -> 2698 (11 paths added, 11 paths removed, delta +0, disk usage +0B).
