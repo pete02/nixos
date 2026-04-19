@@ -29,7 +29,7 @@
       vlc
       playerctl
       rofi
-      swww
+      awww
       swaylock
       libinput
     ];
