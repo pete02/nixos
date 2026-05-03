@@ -11,6 +11,7 @@
     vms = true;
     brave = true;
     modeling = true;
+    wireless = true;
   };
 
   desktops = {
