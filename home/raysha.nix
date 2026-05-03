@@ -19,6 +19,12 @@
 
   programs.home-manager.enable = true;
 
+  
+  programs.hyprpanel.settings.bar.layouts."*".right = lib.mkIf osConfig.desktops.hyprpanel [
+    "network"
+    "bluetooth"
+  ];
+
   wayland.windowManager.hyprland = lib.mkIf osConfig.desktops.hyprland {
     importantPrefixes = [ "output" ];
     settings = {

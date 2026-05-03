@@ -42,7 +42,7 @@
       zip
       unzip
       unrar
-      swww
+      awww
       kdePackages.dolphin
       htop
       kdePackages.kcalc
