@@ -33,6 +33,14 @@
     username = "pete";
     home-manager.users.pete = import ./../../home/raysha.nix;
 
+    nixpkgs.overlays = [
+      (final: prev: {
+        openldap = prev.openldap.overrideAttrs (old: {
+          doCheck = false;
+        });
+      })
+    ];
+
     programs.firefox.enable = true;
     environment.systemPackages = with pkgs; [
       vim
