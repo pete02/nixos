@@ -79,29 +79,30 @@ Version changes:
 [U.]  #76  syntax-highlighting  6.24.0 -> 6.25.0
 [U*]  #77  vscode               1.114.0 -> 1.115.0
 Added packages:
-[A.]  #01  dmenu                    5.4
-[A.]  #02  getconf-glibc            2.42-51
-[A.]  #03  gflags                   2.2.2
-[A.]  #04  glog                     0.7.1
-[A.]  #05  nix-nswrapper            2.34.6
-[A.]  #06  pipewire-ladspa-plugins  <none>
-[A.]  #07  python3.13-pydbus        0.6.0
-[A.]  #08  rocprofiler-register     7.2.1
-[A.]  #09  unit-modprobe-.service   <none>
-[A.]  #10  uwsm                     0.26.4
+[A.]  #1  unit-systemd-udev-settle.service  <none>
 Removed packages:
-[R.]  #01  python3.13-anyio                   4.12.1
-[R.]  #02  python3.13-cbor2                   5.8.0
-[R.]  #03  python3.13-cryptography            46.0.5
-[R.]  #04  python3.13-h11                     0.16.0
-[R.]  #05  python3.13-httpcore                1.0.9
-[R.]  #06  python3.13-httpx                   0.28.1
-[R.]  #07  python3.13-pyopenssl               25.3.0, 25.3.0-dev
-[R.]  #08  python3.13-pyzstd                  0.19.1
-[R.]  #09  python3.13-trustme                 1.2.1
-[R.]  #10  python3.13-truststore              0.10.4
-[R.]  #11  python3.13-umu-launcher-unwrapped  1.4.0
-[R.]  #12  python3.13-xlib                    0.33
-[R.]  #13  python3.13-xxhash                  3.6.0
-[R-]  #14  umu-launcher                       1.4.0, 1.4.0-bwrap, 1.4.0-fhsenv-profile, 1.4.0-fhsenv-rootfs, 1.4.0-init
-Closure size: 2698 -> 2679 (16 paths added, 35 paths removed, delta -19, disk usage -24.7MiB).
+[R.]  #01  dmenu                              5.4
+[R.]  #02  getconf-glibc                      2.42-51
+[R.]  #03  gflags                             2.2.2
+[R.]  #04  glog                               0.7.1
+[R.]  #05  nix-nswrapper                      2.34.6
+[R.]  #06  pipewire-ladspa-plugins            <none>
+[R.]  #07  python3.13-anyio                   4.12.1
+[R.]  #08  python3.13-cbor2                   5.8.0
+[R.]  #09  python3.13-cryptography            46.0.5
+[R.]  #10  python3.13-h11                     0.16.0
+[R.]  #11  python3.13-httpcore                1.0.9
+[R.]  #12  python3.13-httpx                   0.28.1
+[R.]  #13  python3.13-pydbus                  0.6.0
+[R.]  #14  python3.13-pyopenssl               25.3.0, 25.3.0-dev
+[R.]  #15  python3.13-pyzstd                  0.19.1
+[R.]  #16  python3.13-trustme                 1.2.1
+[R.]  #17  python3.13-truststore              0.10.4
+[R.]  #18  python3.13-umu-launcher-unwrapped  1.4.0
+[R.]  #19  python3.13-xlib                    0.33
+[R.]  #20  python3.13-xxhash                  3.6.0
+[R.]  #21  rocprofiler-register               7.2.1
+[R-]  #22  umu-launcher                       1.4.0, 1.4.0-bwrap, 1.4.0-fhsenv-profile, 1.4.0-fhsenv-rootfs, 1.4.0-init
+[R.]  #23  unit-modprobe-.service             <none>
+[R.]  #24  uwsm                               0.26.4
+Closure size: 2707 -> 2685 (245 paths added, 267 paths removed, delta -22, disk usage -30.6MiB).
