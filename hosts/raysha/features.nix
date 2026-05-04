@@ -10,7 +10,6 @@
     user = true;
     vms = true;
     brave = true;
-    wireless = true;
     modeling = true;
     wireless = true;
   };
