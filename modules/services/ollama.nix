@@ -7,7 +7,7 @@
 {
   options.enable.ollama = lib.mkEnableOption "enable ollama service";
 
-  config = lib.mkIf config.services.enable.ollama {
+  config = lib.mkIf config.enable.ollama {
     services.ollama = {
       enable = true;
       acceleration = "cuda"; # Or "rocm" for AMD
