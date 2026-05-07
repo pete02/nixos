@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   options.services.enable.ollama = lib.mkEnableOption "enable ollama service";
 
