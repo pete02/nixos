@@ -10,5 +10,6 @@
     ./wireguard-client.nix
     ./gpucooler.nix
     ./vms.nix
+    ./ollama.nix
   ];
 }

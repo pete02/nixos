@@ -12,6 +12,7 @@
     brave = true;
     modeling = true;
     wireless = true;
+    ollama = true;
   };
 
   desktops = {
