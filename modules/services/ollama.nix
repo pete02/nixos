@@ -6,12 +6,14 @@
 }:
 {
   options.services.enable.ollama = lib.mkEnableOption "enable ollama service";
+  config = lib.mkIf config.services.enable.ollama {
+    services.ollama = {
+      enable = true;
+      acceleration = "cuda"; # Or "rocm" for AMD
+    };
 
-  services.ollama = lib.mkIf config.services.enable.ollama {
-    enable = true;
-    acceleration = "cuda"; # Or "rocm" for AMD
+    # Optional: Install ollama CLI for terminal use
+    environment.systemPackages = [ pkgs.ollama ];
   };
 
-  # Optional: Install ollama CLI for terminal use
-  environment.systemPackages = [ pkgs.ollama ];
 }
