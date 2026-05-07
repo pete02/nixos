@@ -5,7 +5,8 @@
   ...
 }:
 {
-  options.services.enable.ollama = lib.mkEnableOption "enable ollama service";
+  options.enable.ollama = lib.mkEnableOption "enable ollama service";
+
   config = lib.mkIf config.services.enable.ollama {
     services.ollama = {
       enable = true;
