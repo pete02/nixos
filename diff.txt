@@ -1,6 +1,5 @@
-<<< /nix/var/nix/profiles/system-141-link
->>> /nix/var/nix/profiles/system-142-link
-Added packages:
-[A+]  #1  ollama               0.22.1
-[A.]  #2  unit-ollama.service  <none>
-Closure size: 2744 -> 2746 (13 paths added, 11 paths removed, delta +2, disk usage +91.9MiB).
+<<< /nix/var/nix/profiles/system-142-link
+>>> /nix/var/nix/profiles/system-143-link
+Removed packages:
+[R.]  #1  unit-ollama.service  <none>
+Closure size: 2746 -> 2745 (15 paths added, 16 paths removed, delta -1, disk usage -2.6KiB).
