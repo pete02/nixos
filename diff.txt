@@ -1,5 +1,4 @@
-<<< /nix/var/nix/profiles/system-142-link
->>> /nix/var/nix/profiles/system-143-link
-Removed packages:
-[R.]  #1  unit-ollama.service  <none>
-Closure size: 2746 -> 2745 (15 paths added, 16 paths removed, delta -1, disk usage -2.6KiB).
+<<< /nix/var/nix/profiles/system-143-link
+>>> /nix/var/nix/profiles/system-144-link
+No version or selection state changes.
+Closure size: 2745 -> 2745 (7 paths added, 7 paths removed, delta +0, disk usage +0B).
