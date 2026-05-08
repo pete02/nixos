@@ -8,7 +8,7 @@
   options.enable.ollama = lib.mkEnableOption "enable ollama service";
 
   config = lib.mkIf config.enable.ollama {
-    services.ollama.enable = false;
+    services.ollama.enable = true;
     # Optional: Install ollama CLI for terminal use
     environment.systemPackages = [ pkgs.ollama ];
   };
