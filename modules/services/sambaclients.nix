@@ -33,7 +33,7 @@
       };
 
       "/mnt/server" = lib.mkIf config.smb.server {
-        device = "//192.168.88.244/private/";
+        device = "//192.168.88.241/private/";
         fsType = "cifs";
         options =
           let
