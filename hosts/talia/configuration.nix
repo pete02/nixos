@@ -20,7 +20,7 @@
     wireless = true;
     bluetooth = true;
     user = true;
-    wireguardclient = true;
+    wireguardclient = false;
     brave = true;
   };
 
