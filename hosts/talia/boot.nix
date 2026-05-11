@@ -15,6 +15,7 @@
     "video=eDP-1:1920x1080@60"
     "mem_sleep_default=deep"
     "iwlwifi.regdom=FI"
+    "amdgpu.dc=1"
   ];
   boot.blacklistedKernelModules = [ "hid_logitech_hidpp" ];
   boot.extraModprobeConfig = "options cfg80211 ieee80211_regdom=FI";
