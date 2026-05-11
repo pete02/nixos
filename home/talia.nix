@@ -26,7 +26,7 @@
       ];
       monitor = [
         "eDP-1,1920x1080,0x0,1"
-        "HDMI-A-1,preferred,1920x0,1"
+        "HDMI-A-1,3440x1440@60,auto,1"
       ];
 
       bind = [

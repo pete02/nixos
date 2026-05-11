@@ -1,25 +1,4 @@
-<<< /nix/var/nix/profiles/system-212-link
->>> /nix/var/nix/profiles/system-213-link
-Selection state changes:
-[C+]  #1  openresolv  3.17.0
-Added packages:
-[A.]  #1  X-Restart-Triggers-resolvconf    <none>
-[A.]  #2  unit-network-setup.service       <none>
-[A.]  #3  unit-resolvconf.service          <none>
-[A.]  #4  unit-script-network-setup-start  <none>
-[A.]  #5  unit-script-resolvconf-start     <none>
-Removed packages:
-[R.]  #01  X-Reload-Triggers-systemd-networkd            <none>
-[R.]  #02  X-Reload-Triggers-systemd-resolved            <none>
-[R.]  #03  X-Restart-Triggers-systemd-networkd           <none>
-[R.]  #04  etc-systemd-networkd.conf                     <none>
-[R.]  #05  etc-systemd-resolved.conf                     <none>
-[R.]  #06  unit                                          50-wg0.netdev, 50-wg0.network
-[R.]  #07  unit-systemd-networkd-varlink-metrics.socket  <none>
-[R.]  #08  unit-systemd-networkd-wait-online-.service    <none>
-[R.]  #09  unit-systemd-networkd-wait-online.service     <none>
-[R.]  #10  unit-systemd-networkd.service                 <none>
-[R.]  #11  unit-systemd-networkd.socket                  <none>
-[R.]  #12  unit-systemd-resolved.service                 <none>
-[R-]  #13  wireguard-tools                               1.0.20260223, 1.0.20260223-man
-Closure size: 1912 -> 1902 (31 paths added, 41 paths removed, delta -10, disk usage -155.2KiB).
+<<< /nix/var/nix/profiles/system-213-link
+>>> /nix/var/nix/profiles/system-214-link
+No version or selection state changes.
+Closure size: 1902 -> 1902 (7 paths added, 7 paths removed, delta +0, disk usage +0B).
