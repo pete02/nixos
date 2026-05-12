@@ -18,6 +18,8 @@ in
       extraGroups = [
         "wheel"
         "seat"
+        "dialout"
+        "uucp"
       ];
     };
   };
