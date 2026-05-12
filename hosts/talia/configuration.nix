@@ -57,6 +57,19 @@
     iw
   ];
 
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+      glibc
+      libgcc
+      libstdcxx5
+      libffi
+      openssl
+    ];
+  };
+
   system.stateVersion = "25.05";
 
 }
