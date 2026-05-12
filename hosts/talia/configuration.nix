@@ -64,7 +64,6 @@
       zlib
       glibc
       libgcc
-      libstdcxx5
       libffi
       openssl
     ];

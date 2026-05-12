@@ -1,4 +1,86 @@
-<<< /nix/var/nix/profiles/system-215-link
->>> /nix/var/nix/profiles/system-216-link
-No version or selection state changes.
-Closure size: 1902 -> 1902 (7 paths added, 7 paths removed, delta +0, disk usage +1.0KiB).
+<<< /nix/var/nix/profiles/system-216-link
+>>> /nix/var/nix/profiles/system-217-link
+Version changes:
+[U.]  #01  attica                  6.25.0 -> 6.26.0
+[U.]  #02  baloo                   6.25.0 -> 6.26.0
+[U.]  #03  baloo-widgets           26.04.0 -> 26.04.1
+[U*]  #04  brave                   1.89.145 -> 1.90.121
+[U.]  #05  breeze-icons            6.25.0 -> 6.26.0
+[U*]  #06  docker                  29.4.1 -> 29.4.2
+[U.]  #07  docker-containerd       29.4.1 -> 29.4.2
+[U.]  #08  docker-runc             29.4.1 -> 29.4.2
+[U.]  #09  docker-tini             29.4.1 -> 29.4.2
+[U*]  #10  dolphin                 26.04.0 -> 26.04.1
+[U*]  #11  feh                     3.12.1, 3.12.1-doc, 3.12.1-man -> 3.12.2, 3.12.2-doc, 3.12.2-man
+[U*]  #12  firefox                 150.0.1 -> 150.0.2
+[U.]  #13  firefox-unwrapped       150.0.1 -> 150.0.2
+[U.]  #14  hyprpicker              0.4.6 -> 0.4.7
+[U.]  #15  hyprutils               0.13.0 -> 0.13.1
+[U.]  #16  initrd-linux            7.0.3 -> 7.0.5
+[U.]  #17  karchive                6.25.0 -> 6.26.0
+[U.]  #18  kauth                   6.25.0 -> 6.26.0
+[U.]  #19  kbookmarks              6.25.0 -> 6.26.0
+[U.]  #20  kcmutils                6.25.0 -> 6.26.0
+[U.]  #21  kcodecs                 6.25.0 -> 6.26.0
+[U.]  #22  kcolorscheme            6.25.0 -> 6.26.0
+[U.]  #23  kcompletion             6.25.0 -> 6.26.0
+[U.]  #24  kconfig                 6.25.0 -> 6.26.0
+[U.]  #25  kconfigwidgets          6.25.0 -> 6.26.0
+[U.]  #26  kcoreaddons             6.25.0 -> 6.26.0
+[U.]  #27  kcrash                  6.25.0 -> 6.26.0
+[U.]  #28  kdbusaddons             6.25.0 -> 6.26.0
+[U.]  #29  kdegraphics-mobipocket  26.04.0 -> 26.04.1
+[U.]  #30  kdnssd                  6.25.0 -> 6.26.0
+[U.]  #31  kdoctools               6.25.0 -> 6.26.0
+[U.]  #32  kfilemetadata           6.25.0 -> 6.26.0
+[U.]  #33  kglobalaccel            6.25.0 -> 6.26.0
+[U.]  #34  kguiaddons              6.25.0 -> 6.26.0
+[U.]  #35  ki18n                   6.25.0 -> 6.26.0
+[U.]  #36  kiconthemes             6.25.0 -> 6.26.0
+[U.]  #37  kidletime               6.25.0 -> 6.26.0
+[U.]  #38  kio                     6.25.0 -> 6.26.0
+[U.]  #39  kio-extras              26.04.0 -> 26.04.1
+[U.]  #40  kirigami                6.25.0 -> 6.26.0
+[U.]  #41  kitemviews              6.25.0 -> 6.26.0
+[U.]  #42  kjobwidgets             6.25.0 -> 6.26.0
+[U.]  #43  knewstuff               6.25.0 -> 6.26.0
+[U.]  #44  knotifications          6.25.0 -> 6.26.0
+[U.]  #45  kpackage                6.25.0 -> 6.26.0
+[U.]  #46  kparts                  6.25.0 -> 6.26.0
+[U.]  #47  kservice                6.25.0 -> 6.26.0
+[U.]  #48  ktextwidgets            6.25.0 -> 6.26.0
+[U.]  #49  kuserfeedback           6.25.0 -> 6.26.0
+[U.]  #50  kwallet                 6.25.0 -> 6.26.0
+[U.]  #51  kwidgetsaddons          6.25.0 -> 6.26.0
+[U.]  #52  kwindowsystem           6.25.0 -> 6.26.0
+[U.]  #53  kxmlgui                 6.25.0 -> 6.26.0
+[U*]  #54  libinput                1.29.2, 1.29.2-bin -> 1.31.1, 1.31.1-bin
+[U.]  #55  libkexiv2               26.04.0 -> 26.04.1
+[U.]  #56  linux                   7.0.3, 7.0.3-modules x2 -> 7.0.5, 7.0.5-modules x2
+[U.]  #57  mesa                    26.0.6 x2 -> 26.1.0 x2
+[U.]  #58  moby                    29.4.1 -> 29.4.2
+[C.]  #59  nix-cmd                 2.30.5+1, 2.34.7, 2.34.7-dev -> 2.34.7, 2.34.7-dev
+[C.]  #60  nix-expr                2.30.5+1, 2.34.7, 2.34.7-dev -> 2.34.7, 2.34.7-dev
+[C.]  #61  nix-fetchers            2.30.5+1, 2.34.7, 2.34.7-dev -> 2.34.7, 2.34.7-dev
+[C.]  #62  nix-flake               2.30.5+1, 2.34.7, 2.34.7-dev -> 2.34.7, 2.34.7-dev
+[C.]  #63  nix-main                2.30.5+1, 2.34.7, 2.34.7-dev -> 2.34.7, 2.34.7-dev
+[C.]  #64  nix-store               2.30.5+1, 2.34.7, 2.34.7-dev -> 2.34.7, 2.34.7-dev
+[C.]  #65  nix-util                2.30.5+1, 2.34.7, 2.34.7-dev -> 2.34.7, 2.34.7-dev
+[U*]  #66  nixd                    2.9.0 -> 2.9.1
+[U.]  #67  nixf                    2.9.0 -> 2.9.1
+[U.]  #68  nixos-system-talia      26.05.20260505.549bd84 -> 26.05.20260510.da5ad66
+[U.]  #69  nixt                    2.9.0 -> 2.9.1
+[U.]  #70  qqc2-desktop-style      6.25.0 -> 6.26.0
+[U.]  #71  solid                   6.25.0 -> 6.26.0
+[U.]  #72  sonnet                  6.25.0 -> 6.26.0
+[U.]  #73  syndication             6.25.0 -> 6.26.0
+[U.]  #74  syntax-highlighting     6.25.0 -> 6.26.0
+[U*]  #75  vscode                  1.116.0 -> 1.119.0
+[U.]  #76  x86_energy_perf_policy  6.18.26 -> 6.18.28
+Added packages:
+[A+]  #1  ld-library-path  <none>
+[A.]  #2  nix-ld           2.0.6
+Removed packages:
+[R.]  #1  aws-sdk-cpp                        1.11.647
+[R.]  #2  stub-ld-x86_64-unknown-linux-musl  <none>
+Closure size: 1902 -> 1895 (177 paths added, 184 paths removed, delta -7, disk usage +11.7MiB).
