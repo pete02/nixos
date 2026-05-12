@@ -32,17 +32,4 @@
     timerConfig.OnBootSec = "10s";
     timerConfig.Unit = "firewall.service";
   };
-
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs; [
-      stdenv.cc.cc
-      zlib
-      glibc
-      libgcc
-      libstdcxx5
-      libffi
-      openssl
-    ];
-  };
 }
