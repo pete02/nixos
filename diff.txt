@@ -1,4 +1,61 @@
-<<< /nix/var/nix/profiles/system-148-link
->>> /nix/var/nix/profiles/system-149-link
-No version or selection state changes.
-Closure size: 2737 -> 2737 (7 paths added, 7 paths removed, delta +0, disk usage +424B).
+<<< /nix/var/nix/profiles/system-149-link
+>>> /nix/var/nix/profiles/system-150-link
+Version changes:
+[U.]  #01  SDL2_mixer               2.8.1 -> 2.8.2
+[C.]  #02  alsa-lib                 1.2.15.3 x2 -> 1.2.15.3 x2, 1.2.15.3-dev
+[U*]  #03  brave                    1.90.121 -> 1.90.122
+[U.]  #04  cloud-hypervisor         51.1 -> 52.0
+[U.]  #05  clr                      7.2.2, 7.2.2-icd -> 7.2.3, 7.2.3-icd
+[C*]  #06  curl                     8.19.0 x3, 8.19.0-bin x3, 8.19.0-man x2 -> 8.19.0 x3, 8.19.0-bin x3, 8.19.0-dev, 8.19.0-man x2
+[U*]  #07  dnsmasq                  2.92 x2 -> 2.92rel2 x2
+[U*]  #08  docker                   29.4.2 -> 29.4.3
+[U.]  #09  docker-containerd        29.4.2 -> 29.4.3
+[U.]  #10  docker-runc              29.4.2 -> 29.4.3
+[U.]  #11  docker-tini              29.4.2 -> 29.4.3
+[U*]  #12  fastfetch                2.62.1, 2.62.1-man -> 2.63.1, 2.63.1-man
+[U*]  #13  firefox                  150.0.2 -> 150.0.3
+[U.]  #14  firefox-unwrapped        150.0.2 -> 150.0.3
+[U.]  #15  hyprgraphics             0.5.0 -> 0.5.1
+[U*]  #16  hyprland                 0.54.3, 0.54.3-man -> 0.55.1, 0.55.1-man
+[U.]  #17  kactivitymanagerd        6.6.4 -> 6.6.5
+[C.]  #18  krb5                     1.22.1, 1.22.1-lib x2 -> 1.22.1, 1.22.1-dev, 1.22.1-lib x2
+[C.]  #19  lcms2                    2.18 x2, 2.18-bin -> 2.18 x2, 2.18-bin, 2.18-dev
+[U.]  #20  libgit2                  1.9.2-lib -> 1.9.3-lib
+[C.]  #21  libidn2                  2.3.8 x3 -> 2.3.8 x3, 2.3.8-bin, 2.3.8-dev
+[C*]  #22  libinput                 1.31.1, 1.31.1-bin -> 1.31.1, 1.31.1-bin, 1.31.1-dev
+[C.]  #23  libpsl                   0.21.5 x2 -> 0.21.5 x2, 0.21.5-dev
+[C.]  #24  libraw                   0.22.0-lib -> 0.22.0, 0.22.0-dev, 0.22.0-lib
+[C.]  #25  libssh2                  1.11.1 x2 -> 1.11.1 x2, 1.11.1-dev
+[C.]  #26  lua                      5.2.4, 5.4.7 -> 5.2.4, 5.4.7, 5.5.0
+[U.]  #27  moby                     29.4.2 -> 29.4.3
+[C.]  #28  nghttp2                  1.68.1-lib x2 -> 1.68.1, 1.68.1-dev, 1.68.1-lib x2
+[C.]  #29  nghttp3                  1.15.0 x2 -> 1.15.0 x2, 1.15.0-dev
+[C.]  #30  ngtcp2                   1.22.0 x2, 1.22.1 -> 1.22.0 x2, 1.22.0-dev, 1.22.1
+[U.]  #31  nixos-system-raysha      26.05.20260510.da5ad66 -> 26.05.20260515.d233902
+[C.]  #32  nspr                     4.38.2 x2 -> 4.38.2 x2, 4.38.2-dev
+[C.]  #33  nss                      3.112.3 x2, 3.112.3-man, 3.123.1 -> 3.112.3 x2, 3.112.3-dev, 3.112.3-man, 3.123.1
+[U.]  #34  nvidia-vaapi-driver      0.0.16 -> 0.0.17
+[C.]  #35  openjpeg                 2.5.4 x2 -> 2.5.4 x2, 2.5.4-dev
+[U.]  #36  plasma-activities        6.6.4 -> 6.6.5
+[U.]  #37  plasma-activities-stats  6.6.4 -> 6.6.5
+[C.]  #38  poppler-glib             25.10.0 x2 -> 25.10.0 x2, 25.10.0-dev
+[U.]  #39  proj                     9.8.0, 9.8.0-dev -> 9.8.1, 9.8.1-dev
+[U.]  #40  python3.13-zodbpickle    4.3 -> 4.4
+[U.]  #41  rocm-core                7.2.2 -> 7.2.3
+[U.]  #42  rocm-runtime             7.2.2 -> 7.2.3
+[U.]  #43  rocminfo                 7.2.2 -> 7.2.3
+[U.]  #44  rocprofiler-register     7.2.2 -> 7.2.3
+[C.]  #45  sdl2-compat              2.32.66 x2 -> 2.32.66 x2, 2.32.66-dev
+[U.]  #46  zfs-user                 2.4.1 -> 2.4.2
+Added packages:
+[A.]  #01  bullet               3.25
+[A.]  #02  c-ares               1.34.6
+[A.]  #03  doxygen              1.16.1
+[A.]  #04  efl                  1.28.1
+[A.]  #05  gnome-icon-theme     3.12.0
+[A.]  #06  gtk-engine-murrine   0.98.2
+[A.]  #07  humanity-icon-theme  0.6.16
+[A.]  #08  libev                4.33
+[A.]  #09  mint-x-icons         1.7.5
+[A.]  #10  ubuntu-themes        24.04
+Closure size: 2737 -> 2768 (256 paths added, 225 paths removed, delta +31, disk usage +339.2MiB).
