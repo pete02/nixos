@@ -45,11 +45,6 @@
         };
       };
 
-      dwindle = {
-        pseudotile = true;
-        preserve_split = true;
-      };
-
       input = {
         kb_layout = "fi";
       };
