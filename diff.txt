@@ -1,5 +1,5 @@
-<<< /nix/var/nix/profiles/system-165-link
->>> /nix/var/nix/profiles/system-166-link
+<<< /nix/var/nix/profiles/system-167-link
+>>> /nix/var/nix/profiles/system-168-link
 Version changes:
 [U.]  #001  SDL2_image                     2.8.8 -> 2.8.12
 [U.]  #002  adwaita-icon-theme             49.0 -> 50.0
