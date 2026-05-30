@@ -30,8 +30,10 @@
       environment = {
 
       };
-      exec-once = "sleep 5  && dunst && xrandr --output $(xrandr | grep ' connected' | grep '3440x1440' | cut -d' ' -f1) --primary";
 
+      exec-once =
+        bash
+        - c "ULTRA=$(xrandr | grep \"3440x1440\" | grep -o \"^[^ ]*\"); EIZO=$(xrandr | grep \"1920x1200\" | grep -o \"^[^ ]*\"); xrandr --output $ULTRA --primary --pos 0x0 --output $EIZO --pos 3440x0";
       monitorv2 = [
         {
           output = "desc:Dell Inc. AW3425DW DD5H274";
