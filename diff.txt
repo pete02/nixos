@@ -1,8 +1,4 @@
-<<< /nix/var/nix/profiles/system-168-link
->>> /nix/var/nix/profiles/system-169-link
-Selection state changes:
-[C+]  #1  gamescope  <none>, 3.16.23
-Removed packages:
-[R.]  #1  security-wrapper-bwrap-x86_64-unknown-linux-musl      <none>
-[R.]  #2  security-wrapper-gamescope-x86_64-unknown-linux-musl  <none>
-Closure size: 2762 -> 2760 (17 paths added, 19 paths removed, delta -2, disk usage -140.2KiB).
+<<< /nix/var/nix/profiles/system-169-link
+>>> /nix/var/nix/profiles/system-170-link
+No version or selection state changes.
+Closure size: 2760 -> 2760 (7 paths added, 7 paths removed, delta +0, disk usage +80B).
