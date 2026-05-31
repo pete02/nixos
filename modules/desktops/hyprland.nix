@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  stablePkgs,
   ...
 }:
 
@@ -14,10 +15,11 @@
   config = lib.mkIf config.desktops.hyprland {
     programs.hyprland = {
       enable = true;
+      package = stablePkgs.hyprland;
       xwayland.enable = true;
     };
 
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = with stablePkgs; [
       kitty
       mako
       xrandr
@@ -34,10 +36,10 @@
       libinput
     ];
 
-    fonts.packages = with pkgs; [ nerd-fonts.arimo ];
+    fonts.packages = with stablePkgs; [ nerd-fonts.arimo ];
 
     xdg.portal.enable = true;
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    xdg.portal.extraPortals = [ stablePkgs.xdg-desktop-portal-gtk ];
 
     security.rtkit.enable = true;
     services.pipewire = {
