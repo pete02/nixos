@@ -1,7 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,9 +22,7 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          stablePkgs = import nixpkgs-stable {
-            config.allowUnfree = true;
-          };
+
         };
         modules = [
           ./hosts/talia/configuration.nix
@@ -37,9 +34,6 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          stablePkgs = import nixpkgs-stable {
-            config.allowUnfree = true;
-          };
         };
         modules = [
           ./hosts/aria/configuration.nix
@@ -51,9 +45,6 @@
 
         specialArgs = {
           inherit inputs;
-          stablePkgs = import nixpkgs-stable {
-            config.allowUnfree = true;
-          };
         };
 
         modules = [
