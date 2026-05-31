@@ -12,7 +12,6 @@
     {
       self,
       nixpkgs,
-      nixpkgs-stable,
       ...
     }@inputs:
     {
