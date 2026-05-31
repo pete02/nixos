@@ -61,9 +61,12 @@
 
     boot.kernelParams = lib.optionals config.enable.nvidia-host [
       "nvidia-drm.modeset=1"
-      "nvidia_drm.modeset=1"
-      "nvidia.NVreg_UseVBiosModeset=1"
-      "nvidia.NVreg_RegistryDwords=EnablePrimaryDisplay=1"
+    ];
+    boot.initrd.kernelModules = lib.optionals config.enable.nvidia-host [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nvidia_drm"
     ];
   };
 }
