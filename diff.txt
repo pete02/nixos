@@ -1,10 +1,4 @@
-<<< /nix/var/nix/profiles/system-174-link
->>> /nix/var/nix/profiles/system-175-link
-Version changes:
-[C-]  #1  seatd  0.9.3, 0.9.3-bin, 0.9.3-man -> 0.9.3
-Removed packages:
-[R.]  #1  execline            2.9.9.1-bin, 2.9.9.1-lib
-[R.]  #2  s6                  2.15.0.0
-[R.]  #3  skalibs             2.15.0.0-lib
-[R.]  #4  unit-seatd.service  <none>
-Closure size: 2760 -> 2753 (12 paths added, 19 paths removed, delta -7, disk usage -5.5MiB).
+<<< /nix/var/nix/profiles/system-175-link
+>>> /nix/var/nix/profiles/system-176-link
+No version or selection state changes.
+Closure size: 2753 -> 2753 (8 paths added, 8 paths removed, delta +0, disk usage +16B).
