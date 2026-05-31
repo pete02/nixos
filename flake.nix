@@ -54,7 +54,6 @@
         specialArgs = {
           inherit inputs;
           stablePkgs = import nixpkgs-stable {
-            inherit system;
             config.allowUnfree = true;
           };
         };
