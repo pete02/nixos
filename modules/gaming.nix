@@ -46,6 +46,6 @@
       };
     };
     programs.gamemode.enable = true;
-    services.seatd.enable = true;
+    services.seatd.enable = false;
   };
 }
