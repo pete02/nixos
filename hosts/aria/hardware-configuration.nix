@@ -28,14 +28,7 @@
     ];
   };
 
-  powerManagement.hdparm = {
-  "/dev/disk/by-id/wwn-0x5000c500f6ff664b" = {
-      apm = 255;  # 255 = APM fully disabled
-    };
-    "/dev/disk/by-id/wwn-0x5000c500662713d6" = {
-      apm = 255;  # 255 = APM fully disabled
-    };
-  };
+
 
   swapDevices = [ ];
 

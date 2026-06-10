@@ -45,6 +45,7 @@ in
     rsync
     lshw
     smartmontools
+    hdparm
   ];
 
   smb = {
