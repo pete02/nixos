@@ -22,7 +22,4 @@
       ${pkgs.hdparm}/bin/hdparm -B 255 /dev/disk/by-id/wwn-0x5000c500f6ff664b
       ${pkgs.hdparm}/bin/hdparm -B 255 /dev/disk/by-id/wwn-0x5000c500662713d6
     ''
-    };
-  };
-  ''
 }
