@@ -31,13 +31,13 @@ with lib;
               echo "Remote has updates, triggering autoupdater"
               git reset --hard origin/master
               git pull
-              nixos-rebuild switch --flake /etc/nixos#$HOSTNAME
+              nixos-rebuild switch --flake /etc/nixos#$HOSTNAME || echo "Rebuild had warnings/errors, continuing anyway"
+              
               if [ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ] || \
                 [ "$(readlink /run/booted-system/initrd)" != "$(readlink /run/current-system/initrd)" ]; then
                 echo "Kernel or initrd changed, scheduling reboot for 03:00..."
                 systemd-run --on-calendar="03:00" systemctl reboot
               fi
-
             else
               echo "Local in sync"
             fi

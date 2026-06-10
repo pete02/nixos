@@ -48,22 +48,6 @@ in
     hdparm
   ];
 
-  smb = {
-    enable = true;
-    router = true;
-  };
-
-  enable = {
-    nvidia-host = true;
-    docker = true;
-  };
-
-  services.enable = {
-    ssh = true;
-    gitops = true;
-    gpufan = true;
-  };
-
   username = "pete";
 
   services.samba = {
