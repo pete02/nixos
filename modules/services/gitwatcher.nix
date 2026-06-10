@@ -30,6 +30,7 @@ with lib;
             if [ "$LOCAL" != "$REMOTE" ]; then
               echo "Remote has updates, triggering autoupdater"
               git reset --hard origin/master
+              git pull
               nixos-rebuild switch --flake /etc/nixos#$HOSTNAME
             else
               echo "Local in sync"
