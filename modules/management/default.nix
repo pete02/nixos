@@ -2,6 +2,7 @@
 {
   imports = [
     ./batterymanagement.nix
+    ./autoupdater.nix
     ./bluetooth.nix
     ./localization.nix
     ./nixos-management.nix
