@@ -53,7 +53,7 @@ in
   };
 
   enable = {
-    nvidia = true;
+    nvidia-host = true;
     docker = true;
   };
 
