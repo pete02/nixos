@@ -5,7 +5,7 @@
     enableDefaultConfig = false;
     settings = {
       servu = {
-        hostname = "192.168.88.241";
+        hostname = "192.168.88.243";
         user = "pete";
         identityFile = "~/.ssh/id_server";
         port = 22;
