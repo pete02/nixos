@@ -44,6 +44,7 @@ in
     git
     rsync
     lshw
+    smartmontools
   ];
 
   smb = {
