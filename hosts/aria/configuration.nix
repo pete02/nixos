@@ -13,6 +13,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./boot.nix
+    ./features.nix
     ./../../modules
   ];
 

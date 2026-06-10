@@ -13,7 +13,6 @@
   nixpkgs.config.allowUnfree = true;
   enable = {
     dev = true;
-
     school = true;
     sync = false;
     powersave = true;
