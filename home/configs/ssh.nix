@@ -3,7 +3,7 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       servu = {
         hostname = "192.168.88.241";
         user = "pete";
