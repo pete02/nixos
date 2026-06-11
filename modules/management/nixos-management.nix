@@ -5,6 +5,7 @@
 let
   rebuild-script = pkgs.writeShellScriptBin "rebuild" ''
     cd /etc/nixos
+    nix flake check
     set -euo pipefail
     HOSTNAME=$(hostname)
     UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
