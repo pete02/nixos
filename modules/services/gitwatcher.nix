@@ -21,7 +21,10 @@ with lib;
         Environment = "PATH=${pkgs.git}/bin:${pkgs.nixos-rebuild}/bin:/run/current-system/sw/bin";
         ExecStart = pkgs.writeShellScript "check-nixos-updates" ''
           set -e
-          export GIT_SSH_COMMAND="ssh -i /etc/ssh/id_server -o IdentitiesOnly=yes" 
+          TIMESTAMP_FILE="/var/lib/gitops/last-sync"
+          mkdir -p /var/lib/gitops
+
+          export GIT_SSH_COMMAND="ssh -i /etc/ssh/id_server -o IdentitiesOnly=yes"
           cd /etc/nixos
           git fetch origin master
           LOCAL=$(git rev-parse @)
@@ -32,14 +35,20 @@ with lib;
             git reset --hard origin/master
             git pull
             nixos-rebuild switch --flake /etc/nixos#$HOSTNAME || echo "Rebuild had warnings/errors, continuing anyway"
-            
+            date -Iseconds > "$TIMESTAMP_FILE"
+
             if [ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ] || \
               [ "$(readlink /run/booted-system/initrd)" != "$(readlink /run/current-system/initrd)" ]; then
               echo "Kernel or initrd changed, scheduling reboot for 03:00..."
               systemd-run --on-calendar="03:00" systemctl reboot
             fi
           else
-            echo "Local in sync"
+            date -Iseconds > "$TIMESTAMP_FILE"
+            if [ -f "$TIMESTAMP_FILE" ]; then
+              echo "Local in sync (last checked: $(cat $TIMESTAMP_FILE))"
+            else
+              echo "Local in sync (no previous timestamp found)"
+            fi
           fi
         '';
       };
