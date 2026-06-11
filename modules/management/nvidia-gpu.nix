@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options = {
     enable.nvidia-host = lib.mkEnableOption "enables nvidia GPU (current driver)";
@@ -25,9 +30,19 @@
       };
     };
 
-    boot.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+    boot.kernelModules = [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nvidia_drm"
+    ];
     boot.blacklistedKernelModules = [ "amdgpu" ];
     boot.kernelParams = [ "nvidia-drm.modeset=1" ];
-    boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+    boot.initrd.kernelModules = [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nvidia_drm"
+    ];
   };
 }

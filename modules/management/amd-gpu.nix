@@ -13,6 +13,11 @@
     };
 
     boot.kernelModules = [ "amdgpu" ];
-    boot.blacklistedKernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+    boot.blacklistedKernelModules = [
+      "nvidia"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nvidia_drm"
+    ];
   };
 }

@@ -78,17 +78,19 @@ in
     };
   };
 
-/*   systemd.services.serverbackup = {
-    description = "Daily backup of Serversetup/data to router samba";
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = ''
-        ${pkgs.rsync}/bin/rsync -avz --delete /mnt/private/Serversetup/data/ /mnt/router/serverbackups/
-      '';
+  /*
+    systemd.services.serverbackup = {
+      description = "Daily backup of Serversetup/data to router samba";
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = ''
+          ${pkgs.rsync}/bin/rsync -avz --delete /mnt/private/Serversetup/data/ /mnt/router/serverbackups/
+        '';
+      };
     };
-  }; */
+  */
 
   system.stateVersion = "25.05";
 

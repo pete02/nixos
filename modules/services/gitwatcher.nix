@@ -19,29 +19,29 @@ with lib;
       serviceConfig = {
         Type = "oneshot";
         Environment = "PATH=${pkgs.git}/bin:${pkgs.nixos-rebuild}/bin:/run/current-system/sw/bin";
-          ExecStart = pkgs.writeShellScript "check-nixos-updates" ''
-            set -e
-            export GIT_SSH_COMMAND="ssh -i /etc/ssh/id_server -o IdentitiesOnly=yes" 
-            cd /etc/nixos
-            git fetch origin master
-            LOCAL=$(git rev-parse @)
-            REMOTE=$(git rev-parse @{u})
+        ExecStart = pkgs.writeShellScript "check-nixos-updates" ''
+          set -e
+          export GIT_SSH_COMMAND="ssh -i /etc/ssh/id_server -o IdentitiesOnly=yes" 
+          cd /etc/nixos
+          git fetch origin master
+          LOCAL=$(git rev-parse @)
+          REMOTE=$(git rev-parse @{u})
 
-            if [ "$LOCAL" != "$REMOTE" ]; then
-              echo "Remote has updates, triggering autoupdater"
-              git reset --hard origin/master
-              git pull
-              nixos-rebuild switch --flake /etc/nixos#$HOSTNAME || echo "Rebuild had warnings/errors, continuing anyway"
-              
-              if [ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ] || \
-                [ "$(readlink /run/booted-system/initrd)" != "$(readlink /run/current-system/initrd)" ]; then
-                echo "Kernel or initrd changed, scheduling reboot for 03:00..."
-                systemd-run --on-calendar="03:00" systemctl reboot
-              fi
-            else
-              echo "Local in sync"
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            echo "Remote has updates, triggering autoupdater"
+            git reset --hard origin/master
+            git pull
+            nixos-rebuild switch --flake /etc/nixos#$HOSTNAME || echo "Rebuild had warnings/errors, continuing anyway"
+            
+            if [ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ] || \
+              [ "$(readlink /run/booted-system/initrd)" != "$(readlink /run/current-system/initrd)" ]; then
+              echo "Kernel or initrd changed, scheduling reboot for 03:00..."
+              systemd-run --on-calendar="03:00" systemctl reboot
             fi
-          '';
+          else
+            echo "Local in sync"
+          fi
+        '';
       };
     };
 
