@@ -8,7 +8,7 @@ let
     set -euo pipefail
     HOSTNAME=$(hostname)
     UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
-
+    nix flake check
 
     if ! treefmt --no-cache --tree-root /etc/nixos &>/dev/null; then
         echo "treefmt failed, running for output:"
