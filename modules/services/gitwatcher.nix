@@ -43,9 +43,8 @@ with lib;
               systemd-run --on-calendar="03:00" systemctl reboot
             fi
           else
-            date -Iseconds > "$TIMESTAMP_FILE"
             if [ -f "$TIMESTAMP_FILE" ]; then
-              echo "Local in sync (last checked: $(cat $TIMESTAMP_FILE))"
+              echo "Local in sync (last build: $(cat $TIMESTAMP_FILE))"
             else
               echo "Local in sync (no previous timestamp found)"
             fi
