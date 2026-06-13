@@ -4,29 +4,14 @@
 {self, inputs,...}:
 {
   flake.nixosModules.rayshaHardware = { config, lib, pkgs, modulesPath, ...}:{
-    fileSystems."/" = {
-      device = "/dev/disk/by-label/nixroot";
-      fsType = "btrfs";
-      options = [ "subvol=@" ];
-    };
+    imports = [ self.nixosModules.cachyosKernel ];
 
-    fileSystems."/boot" = {
-      device = "/dev/disk/by-uuid/12CE-A600";
-      fsType = "vfat";
-      options = [
-        "fmask=0022"
-        "dmask=0022"
-      ];
-    };
-
-    fileSystems."/home" = {
-      device = "/dev/disk/by-label/nixroot";
-      fsType = "btrfs";
-      options = [ "subvol=@home" ];
-    };
+    fileSystems."/" = {device = "/dev/disk/by-label/nixroot"; fsType = "btrfs"; options = [ "subvol=@" ]; };
+    fileSystems."/boot" = {device = "/dev/disk/by-uuid/12CE-A600"; fsType = "vfat"; options = [ "fmask=0022" "dmask=0022" ]; };
+    fileSystems."/home" = { device = "/dev/disk/by-label/nixroot"; fsType = "btrfs";options = [ "subvol=@home" ];};
 
     swapDevices = [ ];
-      boot.blacklistedKernelModules = [
+    boot.blacklistedKernelModules = [
       "r8169"
       "hid_logitech_hidpp"
     ];
@@ -37,8 +22,6 @@
       timeout = 1;
     };
     boot.swraid.enable = true;
-    boot.kernelPackages=self.packages.${pkgs.stdenv.hostPlatform.system}.cachyosKernel;
-
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
