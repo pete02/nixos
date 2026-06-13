@@ -4,7 +4,7 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
-
+    wrappers.url = "github:Lassulus/wrappers";
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
   };

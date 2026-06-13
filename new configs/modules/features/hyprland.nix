@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.hyprland = { self, config, lib, pkgs, ... }:
+  flake.nixosModules.hyprland = {  config, lib, pkgs, ... }:
   {
     options.username=lib.mkOption { type = lib.types.str; };
 
