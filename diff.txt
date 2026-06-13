@@ -1,27 +1,4 @@
-<<< /nix/var/nix/profiles/system-186-link
->>> /nix/var/nix/profiles/system-187-link
-Version changes:
-[U*]  #01  brave                1.90.128 -> 1.91.168
-[U*]  #02  calibre              9.8.0 -> 9.9.0
-[U*]  #03  docker               29.5.2 -> 29.5.3
-[U.]  #04  docker-containerd    29.5.2 -> 29.5.3
-[U.]  #05  docker-runc          29.5.2 -> 29.5.3
-[U.]  #06  docker-tini          29.5.2 -> 29.5.3
-[U*]  #07  fastfetch            2.63.1, 2.63.1-man -> 2.64.2, 2.64.2-man
-[U*]  #08  firefox              151.0.3 -> 151.0.4
-[U.]  #09  firefox-unwrapped    151.0.3 -> 151.0.4
-[U.]  #10  fuse-overlayfs       1.16 -> 1.17
-[C.]  #11  gnupg                2.4.9 x2 -> 2.4.9 x3
-[U*]  #12  hyprland             0.55.2, 0.55.2-man -> 0.55.3, 0.55.3-man
-[U*]  #13  kitty                0.47.1, 0.47.1-terminfo -> 0.47.2, 0.47.2-terminfo
-[U.]  #14  libslirp             4.9.1 -> 4.9.3
-[U*]  #15  mangohud             0.8.3 x2, 0.8.3-doc, 0.8.3-man -> 0.8.4 x2, 0.8.4-doc, 0.8.4-man
-[U.]  #16  moby                 29.5.2 -> 29.5.3
-[U.]  #17  nixos-system-raysha  26.11.20260606.a799d3e -> 26.11.20260610.9ae611a
-[U*]  #18  ollama               0.30.5 -> 0.30.6
-[U.]  #19  python3.13-libvirt   12.2.0 -> 12.4.0
-[U*]  #20  vscode               1.122.1 -> 1.123.0
-Removed packages:
-[R.]  #1  graphviz  12.2.1
-[R.]  #2  gts       0.7.6
-Closure size: 2732 -> 2731 (130 paths added, 131 paths removed, delta -1, disk usage +22.0MiB).
+<<< /nix/var/nix/profiles/system-187-link
+>>> /nix/var/nix/profiles/system-188-link
+No version or selection state changes.
+Closure size: 2731 -> 2731 (9 paths added, 9 paths removed, delta +0, disk usage +8B).
