@@ -26,6 +26,17 @@
     };
 
     swapDevices = [ ];
+      boot.blacklistedKernelModules = [
+      "r8169"
+      "hid_logitech_hidpp"
+    ];
+
+    boot.loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      timeout = 1;
+    };
+    boot.swraid.enable = true;
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

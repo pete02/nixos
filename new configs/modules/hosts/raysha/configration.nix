@@ -1,4 +1,7 @@
 {self, inputs, ...}: {
-  flake.nixosConfigurations.raysha = {pkgs, lib, ...}:{
+  flake.nixosModules.rayshaConfiguration = {pkgs, lib, config, ...}:{
+      config={
+        networking.hostName = "raysha";
+      };
   };
 }
