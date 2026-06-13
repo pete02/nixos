@@ -1,6 +1,6 @@
-{ self, inputs, ... }:
+{ self, inputs,  ... }:
 {
-  flake.nixosModules.hyprland = {  config, lib, pkgs, ... }:
+  flake.nixosModules.hyprland = {  config, lib, pkgs, selfPkgs,... }:
   {
     options.username=lib.mkOption { type = lib.types.str; };
 
@@ -8,6 +8,7 @@
       programs.hyprland = {
         enable = true;
         xwayland.enable = true;
+        package= selfPkgs.hyprland;
       };
 
       environment.systemPackages = with pkgs; [

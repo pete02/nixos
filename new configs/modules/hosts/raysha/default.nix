@@ -1,5 +1,6 @@
 {self, inputs, ...}: {
-  flake.nixosConfigurations.raysha = inputs.nixpkgs.lib.nixosSystem{
+  flake.nixosConfigurations.raysha = self.lib.mkHost{
+    system= "x86_64-linux";
     modules=[
       self.nixosModules.rayshaHardware
       self.nixosModules.rayshaConfiguration
