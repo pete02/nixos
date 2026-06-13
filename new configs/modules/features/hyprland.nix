@@ -1,11 +1,14 @@
-{ ... }:
+{ self, inputs, ... }:
 {
-  flake.nixosModules.hyprland = { config, lib, pkgs, ... }:
+  flake.nixosModules.hyprland = { self, config, lib, pkgs, ... }:
   {
+    options.username=lib.mkOption { type = lib.types.str; };
+
     config = {
       programs.hyprland = {
         enable = true;
         xwayland.enable = true;
+        package= self.packages.${pkgs.stdenv.hostPlatform.system}.myHyprland;
       };
 
       environment.systemPackages = with pkgs; [
@@ -58,7 +61,7 @@
         enable = true;
         settings.default_session = {
           command = "start-hyprland";
-          user    = config.modules.system.user.name;
+          user    = "pete";
         };
       };
     };

@@ -1,9 +1,6 @@
 {self, inputs, ...}: {
   flake.nixosModules.rayshaConfiguration = {pkgs, lib, config, ...}:{
-      config={
-        networking.hostName = "raysha";
-        modules.system.user.name = "pete";
-      };
+      username="pete";
       imports=[
         self.nixosModules.hyprland
       ];
