@@ -37,6 +37,8 @@
       timeout = 1;
     };
     boot.swraid.enable = true;
+    boot.kernelPackages=self.packages.${pkgs.stdenv.hostPlatform.system}.cachyosKernel;
+
 
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
