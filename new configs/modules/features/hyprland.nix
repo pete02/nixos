@@ -1,6 +1,6 @@
-{ self, inputs, selfPkgs, ... }:
+{ self, inputs, ... }:
 {
-  flake.nixosModules.hyprland = {  config, lib, pkgs, selfPkgs, ... }:
+  flake.nixosModules.hyprland = {  config, lib, pkgs, ... }:
     let
     confFile = pkgs.writeText "hyprland.conf"
       (self.hyprlandBaseConfig + config.hyprlandExtraConfig);
@@ -41,6 +41,7 @@
         playerctl
         rofi
         awww
+        brightnessctl
         swaylock
         libinput
       ];
@@ -53,6 +54,8 @@
       };
 
       security.rtkit.enable = true;
+      security.pam.services.swaylock = {};
+
       services.pipewire = {
         enable = true;
         alsa.enable = true;
