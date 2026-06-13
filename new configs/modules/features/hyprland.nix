@@ -1,14 +1,31 @@
-{ self, inputs,  ... }:
+{ self, inputs, selfPkgs, ... }:
 {
-  flake.nixosModules.hyprland = {  config, lib, pkgs, selfPkgs,... }:
+  flake.nixosModules.hyprland = {  config, lib, pkgs, selfPkgs, ... }:
+    let
+    confFile = pkgs.writeText "hyprland.conf"
+      (self.hyprlandBaseConfig + config.hyprlandExtraConfig);
+
+    hyprlandPkg = (inputs.wrappers.wrapperModules.hyprland.apply {
+      inherit pkgs;
+      imports = [ self.wrappersModules.hyprland ];
+      _module.args = { inherit confFile; };
+    }).wrapper;
+  in
   {
-    options.username=lib.mkOption { type = lib.types.str; };
+    options= {
+      username=lib.mkOption { type = lib.types.str; };
+      hyprlandExtraConfig = lib.mkOption {
+        type = lib.types.lines;
+        default = "";
+      };  
+    };
 
     config = {
+
       programs.hyprland = {
         enable = true;
         xwayland.enable = true;
-        package= selfPkgs.hyprland;
+        package= hyprlandPkg;
       };
 
       environment.systemPackages = with pkgs; [
