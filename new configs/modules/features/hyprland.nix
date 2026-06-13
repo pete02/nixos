@@ -8,7 +8,6 @@
       programs.hyprland = {
         enable = true;
         xwayland.enable = true;
-        package= self.packages.${pkgs.stdenv.hostPlatform.system}.myHyprland;
       };
 
       environment.systemPackages = with pkgs; [
