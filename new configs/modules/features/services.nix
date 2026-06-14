@@ -13,7 +13,8 @@
         gpucooler = lib.mkEnableOption "Enable the GPU cooler service";
         ssh = lib.mkEnableOption "Enable the SSH service";
         sync = lib.mkEnableOption "Enable syncing to server";
-        samba-client = lib.mkEnableOption "enables router samba";
+        sambaClient = lib.mkEnableOption "enables router samba";
+        sambaServer = lib.mkEnableOption "enables samba server";
         ollama = lib.mkEnableOption "enable ollama service";
       };
 
@@ -124,7 +125,10 @@
 
         })
 
-        (lib.mkIf config.services.samba-client {
+
+
+
+        (lib.mkIf config.services.sambaClient {
           systemd.tmpfiles.rules = [
             "d /mnt/router 0755 pete pete -"
           ];
@@ -145,6 +149,58 @@
                 in
                 [ "${automount_opts},${creds},${vers},${uidguid}" ];
             };
+          };
+        })
+
+        (lib.mkIf config.services.sambaServer {
+          sops.secrets."samba/server" = { };
+          services.samba = {
+            enable = true;
+            securityType = "user";
+            openFirewall = true;
+            settings = {
+              global = {
+                "workgroup" = "WORKGROUP";
+                "server string" = "smbnix";
+                "netbios name" = "smbnix";
+                "hosts allow" = "192.168.88.0/24 10.0.0.0/24 127.0.0.1 localhost";
+                "hosts deny" = "0.0.0.0/0";
+                "guest account" = "nobody";
+                "map to guest" = "bad user";
+              };
+              "private" = {
+                "path" = "/mnt/private";
+                "browseable" = "yes";
+                "read only" = "no";
+                "guest ok" = "no";
+                "create mask" = "0644";
+                "directory mask" = "0755";
+                "force user" = config.username;
+                "force group" = "users";
+              };
+            };
+          };
+
+
+          systemd.services.samba-credentials = {
+            description = "Set Samba password from sops secret";
+            wantedBy    = [ "multi-user.target" ];
+            after       = [ "sops-nix.service" "samba.service" ];
+            requires    = [ "sops-nix.service" ];
+
+            serviceConfig = {
+              Type      = "oneshot";
+              RemainAfterExit = true;
+            };
+
+            script = ''
+              # Parse credentials file
+              username=$(grep '^username=' /run/secrets/samba/server | cut -d= -f2)
+              password=$(grep '^password=' /run/secrets/samba/server | cut -d= -f2)
+
+              # Set samba password
+              echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
+            '';
           };
         })
 

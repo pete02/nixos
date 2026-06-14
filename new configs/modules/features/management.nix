@@ -14,6 +14,7 @@
         };
 
         management = {
+          ssh-client= lib.mkEnableOption "enables ssh client";
           powersave = lib.mkEnableOption "Enable power saving";
           ld = lib.mkEnableOption "enables nix-ld";
         };
