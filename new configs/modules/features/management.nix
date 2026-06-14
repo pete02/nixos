@@ -89,6 +89,7 @@
             ];
           };
         })
+        
         (lib.mkIf (config.management.sshClient) {
           sops.secrets."ssh/${config.username}/servu" = { 
             owner= config.username;

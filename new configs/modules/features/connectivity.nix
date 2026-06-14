@@ -120,6 +120,10 @@
             users.users.${config.username}.extraGroups = [ "networkmanager" ];
           })
           (lib.mkIf cfg.wireguard {
+            sops.secrets."wireguard/private_key" = { 
+              owner = config.username;
+            };
+
             networking.firewall.allowedUDPPorts = [ 51820 ];
 
             networking.useNetworkd = true;
@@ -144,14 +148,13 @@
                 wireguardConfig = {
                   ListenPort = 51820;
 
-                  PrivateKeyFile = "/etc/wireguard/private.key";
+                  PrivateKeyFile = "/run/secrets/wireguard/private_key";
                   RouteTable = "main";
 
                   FirewallMark = 42;
                 };
                 wireguardPeers = [
                   {
-                    # laptop wg conf
                     PublicKey = "gmynMSFD+1ThqA0YimZdJa4rtZ3BnpsXpV4A/AFJpzo=";
                     AllowedIPs = [
                       "192.168.88.0/24"
