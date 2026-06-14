@@ -44,6 +44,7 @@
           wl-clipboard
           feh
           vlc
+          brave
           playerctl
           rofi
           awww
@@ -53,7 +54,7 @@
         ];
 
         fonts.packages = with pkgs; [ nerd-fonts.arimo ];
-
+        programs.firefox.enable = true;
         xdg.portal = {
           enable = true;
           extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
