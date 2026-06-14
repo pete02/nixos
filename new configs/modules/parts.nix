@@ -1,12 +1,12 @@
-{inputs, ...}:{
-  imports= [
+{ inputs, ... }: {
+  imports = [
     inputs.wrapper-modules.flakeModules.wrappers
   ];
 
   options = {
     flake = inputs.flake-parts.lib.mkSubmoduleOptions {
       wrappersModules = inputs.nixpkgs.lib.mkOption {
-        default = {};
+        default = { };
       };
     };
   };

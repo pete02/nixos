@@ -1,89 +1,95 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.hyprland = {  config, lib, pkgs, ... }:
+  flake.nixosModules.hyprland =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
-    confFile = pkgs.writeText "hyprland.conf"
-      (self.hyprlandBaseConfig + config.hyprlandExtraConfig);
+      confFile = pkgs.writeText "hyprland.conf" (self.hyprlandBaseConfig + config.hyprlandExtraConfig);
 
-    hyprlandPkg = (inputs.wrappers.wrapperModules.hyprland.apply {
-      inherit pkgs;
-      imports = [ self.wrappersModules.hyprland ];
-      _module.args = { inherit confFile; };
-    }).wrapper;
-  in
-  {
-    options= {
-      username=lib.mkOption { type = lib.types.str; };
-      hyprlandExtraConfig = lib.mkOption {
-        type = lib.types.lines;
-        default = "";
-      };  
-    };
-
-    config = {
-
-      programs.hyprland = {
-        enable = true;
-        xwayland.enable = true;
-        package= hyprlandPkg;
+      hyprlandPkg =
+        (inputs.wrappers.wrapperModules.hyprland.apply {
+          inherit pkgs;
+          imports = [ self.wrappersModules.hyprland ];
+          _module.args = { inherit confFile; };
+        }).wrapper;
+    in
+    {
+      options = {
+        username = lib.mkOption { type = lib.types.str; };
+        hyprlandExtraConfig = lib.mkOption {
+          type = lib.types.lines;
+          default = "";
+        };
       };
 
-      environment.systemPackages = with pkgs; [
-        kitty
-        mako
-        xrandr
-        grim
-        slurp
-        imagemagick
-        wl-clipboard
-        feh
-        vlc
-        playerctl
-        rofi
-        awww
-        brightnessctl
-        swaylock
-        libinput
-      ];
+      config = {
 
-      fonts.packages = with pkgs; [ nerd-fonts.arimo ];
+        programs.hyprland = {
+          enable = true;
+          xwayland.enable = true;
+          package = hyprlandPkg;
+        };
 
-      xdg.portal = {
-        enable = true;
-        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      };
+        environment.systemPackages = with pkgs; [
+          kitty
+          mako
+          xrandr
+          grim
+          slurp
+          imagemagick
+          wl-clipboard
+          feh
+          vlc
+          playerctl
+          rofi
+          awww
+          brightnessctl
+          swaylock
+          libinput
+        ];
 
-      security.rtkit.enable = true;
-      security.pam.services.swaylock = {};
+        fonts.packages = with pkgs; [ nerd-fonts.arimo ];
 
-      services.pipewire = {
-        enable = true;
-        alsa.enable = true;
-        alsa.support32Bit = true;
-        pulse.enable = true;
-        jack.enable = true;
-      };
-      services.upower.enable = true;
+        xdg.portal = {
+          enable = true;
+          extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+        };
 
-      environment.sessionVariables = {
-        GDK_BACKEND        = "wayland,x11";
-        QT_QPA_PLATFORM    = "wayland;xcb";
-        CLUTTER_BACKEND    = "wayland";
-        XDG_CURRENT_DESKTOP = "Hyprland";
-        XDG_SESSION_TYPE   = "wayland";
-        XDG_SESSION_DESKTOP = "Hyprland";
-        WLR_NO_HARDWARE_CURSORS = "1";
-        CHROME_PASSWORD_STORE   = "basic";
-        NIXOS_OZONE_WL          = "0";
-      };
+        security.rtkit.enable = true;
+        security.pam.services.swaylock = { };
 
-      services.greetd = {
-        enable = true;
-        settings.default_session = {
-          command = "start-hyprland";
-          user    = "pete";
+        services.pipewire = {
+          enable = true;
+          alsa.enable = true;
+          alsa.support32Bit = true;
+          pulse.enable = true;
+          jack.enable = true;
+        };
+        services.upower.enable = true;
+
+        environment.sessionVariables = {
+          GDK_BACKEND = "wayland,x11";
+          QT_QPA_PLATFORM = "wayland;xcb";
+          CLUTTER_BACKEND = "wayland";
+          XDG_CURRENT_DESKTOP = "Hyprland";
+          XDG_SESSION_TYPE = "wayland";
+          XDG_SESSION_DESKTOP = "Hyprland";
+          WLR_NO_HARDWARE_CURSORS = "1";
+          CHROME_PASSWORD_STORE = "basic";
+          NIXOS_OZONE_WL = "0";
+        };
+
+        services.greetd = {
+          enable = true;
+          settings.default_session = {
+            command = "start-hyprland";
+            user = "pete";
+          };
         };
       };
     };
-  };
 }

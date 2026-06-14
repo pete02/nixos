@@ -1,19 +1,26 @@
-{ self, inputs, lib, ... }:
+{
+  self,
+  inputs,
+  lib,
+  ...
+}:
 
 {
-
 
   options.flake.hyprlandBaseConfig = lib.mkOption {
     type = lib.types.lines;
     default = "";
   };
 
-  config= {
+  config = {
     flake.wrappersModules.hyprland = { confFile, ... }: {
-      args = [ "--config" "${confFile}" ];  # confFile passed in from perSystem
+      args = [
+        "--config"
+        "${confFile}"
+      ]; # confFile passed in from perSystem
     };
 
-    flake.hyprlandBaseConfig= ''
+    flake.hyprlandBaseConfig = ''
       general {
         gaps_in = 5
         gaps_out = 5
