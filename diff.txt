@@ -1,5 +1,7 @@
-<<< /nix/var/nix/profiles/system-188-link
->>> /nix/var/nix/profiles/system-189-link
+<<< /nix/var/nix/profiles/system-189-link
+>>> /nix/var/nix/profiles/system-190-link
 Added packages:
-[A+]  #1  sops  3.13.1
-Closure size: 2731 -> 2732 (13 paths added, 12 paths removed, delta +1, disk usage +49.5MiB).
+[A.]  #1  manifest.json         <none>
+[A.]  #2  secrets.yaml          <none>
+[A.]  #3  sops-install-secrets  0.0.1
+Closure size: 2732 -> 2735 (4 paths added, 1 paths removed, delta +3, disk usage +48.1MiB).
