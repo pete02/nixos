@@ -7,10 +7,14 @@
       ...
     }:
     {
-      username = "pete";
       imports = [
         self.nixosModules.hyprland
       ];
+
+      username = "pete";
+
+
+      
       hyprlandExtraConfig = ''
         monitorv2 = desc:Dell Inc. AW3425DW DD5H274, 3440x1440@175, 0x0, 1, bitdepth, 10
         monitorv2 = desc:Eizo Nanao Corporation EV2436W 38144035, 1920x1080, 3440x0, 1
