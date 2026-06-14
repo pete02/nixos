@@ -1,4 +1,7 @@
-<<< /nix/var/nix/profiles/system-190-link
->>> /nix/var/nix/profiles/system-191-link
-No version or selection state changes.
-Closure size: 2735 -> 2735 (3 paths added, 3 paths removed, delta +0, disk usage +0B).
+<<< /nix/var/nix/profiles/system-191-link
+>>> /nix/var/nix/profiles/system-192-link
+Removed packages:
+[R.]  #1  manifest.json         <none>
+[R.]  #2  secrets.yaml          <none>
+[R.]  #3  sops-install-secrets  0.0.1
+Closure size: 2735 -> 2732 (1 paths added, 4 paths removed, delta -3, disk usage -48.1MiB).
