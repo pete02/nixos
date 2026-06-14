@@ -9,6 +9,7 @@
     {
       imports = [
         self.nixosModules.hyprland
+        inputs.sops-nix.nixosModules.sops
       ];
 
       username = "pete";

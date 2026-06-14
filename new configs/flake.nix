@@ -7,6 +7,7 @@
     wrappers.url = "github:Lassulus/wrappers";
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =

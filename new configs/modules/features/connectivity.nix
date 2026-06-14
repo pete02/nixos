@@ -11,7 +11,7 @@
         connectivity = {
           bluetooth = lib.mkEnableOption "bluetooth";
           wireless = lib.mkEnableOption "wireless via NetworkManager";
-          wireguardclient = lib.mkEnableOption "enables wireguard client";
+          wireguard = lib.mkEnableOption "enables wireguard client";
 
           managed = {
             enable = lib.mkEnableOption "managed wired networking via networkd";
@@ -119,7 +119,7 @@
             systemd.services.NetworkManager-wait-online.enable = false;
             users.users.${config.username}.extraGroups = [ "networkmanager" ];
           })
-          (lib.mkIf config.enable.wireguardclient {
+          (lib.mkIf cfg.wireguard {
             networking.firewall.allowedUDPPorts = [ 51820 ];
 
             networking.useNetworkd = true;
