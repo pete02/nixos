@@ -50,6 +50,7 @@
       zip
       unzip
       unrar
+      sops
       awww
       kdePackages.dolphin
       htop

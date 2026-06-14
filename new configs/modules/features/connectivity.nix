@@ -4,6 +4,7 @@
       connectivity = {
         bluetooth = lib.mkEnableOption "bluetooth";
         wireless  = lib.mkEnableOption "wireless via NetworkManager";
+        wireguardclient = lib.mkEnableOption "enables wireguard client";
 
         managed = {
           enable = lib.mkEnableOption "managed wired networking via networkd";
@@ -111,6 +112,51 @@
           };
           systemd.services.NetworkManager-wait-online.enable = false;
           users.users.${config.username}.extraGroups = [ "networkmanager" ];
+        })
+        (lib.mkIf config.enable.wireguardclient {
+          networking.firewall.allowedUDPPorts = [ 51820 ];
+
+          networking.useNetworkd = true;
+          environment.systemPackages = [ pkgs.wireguard-tools ];
+          systemd.network = {
+            enable = true;
+
+            networks."50-wg0" = {
+              matchConfig.Name = "wg0";
+
+              address = [
+                "10.0.0.3/32"
+              ];
+            };
+
+            netdevs."50-wg0" = {
+              netdevConfig = {
+                Kind = "wireguard";
+                Name = "wg0";
+              };
+
+              wireguardConfig = {
+                ListenPort = 51820;
+
+                PrivateKeyFile = "/etc/wireguard/private.key";
+                RouteTable = "main";
+
+                FirewallMark = 42;
+              };
+              wireguardPeers = [
+                {
+                  # laptop wg conf
+                  PublicKey = "gmynMSFD+1ThqA0YimZdJa4rtZ3BnpsXpV4A/AFJpzo=";
+                  AllowedIPs = [
+                    "192.168.88.0/24"
+                  ];
+                  Endpoint = "lumilukko.com:13231";
+                  PersistentKeepalive = 25;
+                }
+              ];
+            };
+          };
+
         })
       ];
   };
