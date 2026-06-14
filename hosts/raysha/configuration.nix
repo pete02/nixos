@@ -10,10 +10,16 @@
     ./features.nix
     ./../../modules
     inputs.home-manager.nixosModules.default
+    inputs.sops-nix.nixosModules.sops
   ];
   config = {
 
     networking.hostName = "raysha";
+
+    sops.defaultSopsFile = ./secrets/secrets.yaml;
+    sops.defaultSopsFormat = "yaml";
+    sops.age.keyFile = "/home/pete/.config/sops/age/keys.txt";
+    sops.secrets."samba/server" = { };
 
     net = {
       enable = true;
