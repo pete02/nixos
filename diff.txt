@@ -1,7 +1,7 @@
-<<< /nix/var/nix/profiles/system-191-link
->>> /nix/var/nix/profiles/system-192-link
-Removed packages:
-[R.]  #1  manifest.json         <none>
-[R.]  #2  secrets.yaml          <none>
-[R.]  #3  sops-install-secrets  0.0.1
-Closure size: 2735 -> 2732 (1 paths added, 4 paths removed, delta -3, disk usage -48.1MiB).
+<<< /nix/var/nix/profiles/system-192-link
+>>> /nix/var/nix/profiles/system-193-link
+Added packages:
+[A.]  #1  manifest.json         <none>
+[A.]  #2  secrets.yaml          <none>
+[A.]  #3  sops-install-secrets  0.0.1
+Closure size: 2732 -> 2735 (4 paths added, 1 paths removed, delta +3, disk usage +48.1MiB).
