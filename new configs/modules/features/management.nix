@@ -1,10 +1,5 @@
 {self,inputs,pkgs, ...}:{
-  flake.nixosModules.management={config, lib,pkgs, ...}:let
-      rebuild-script = pkgs.writeShellScriptBin "rebuild" (
-        builtins.readFile "${self}/scripts/rebuild.sh"
-      );
-    in
-    {
+  flake.nixosModules.management={config, lib,pkgs, ...}:{
     options= {
       username= lib.mkOption {
         type = lib.types.str;
@@ -34,14 +29,16 @@
             "flakes"
           ];
           nixpkgs.config.allowUnfree = true;
-          environment.systemPackages = [
-            pkgs.nixfmt-tree
-            pkgs.libnotify
-            pkgs.nvd
-            pkgs.vulnix
-            pkgs.lm_sensors
-            pkgs.fastfetch
-            rebuild-script
+          environment.systemPackages =  with pkgs;[
+            nixfmt-tree
+            libnotify
+            nvd
+            vulnix
+            lm_sensors
+            fastfetch
+            writeShellScriptBin "rebuild" (
+              builtins.readFile "${self}/scripts/rebuild.sh"
+            )
           ];
 
           nix.gc = {
