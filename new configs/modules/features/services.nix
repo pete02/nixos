@@ -1,10 +1,11 @@
 {self,inputs, ...}:{
-  flake.nixosModules.services={lib,pkgs,...}:{
+  flake.nixosModules.services={lib,pkgs,config,...}:{
     options.services= {
-      cleaner= lib.mkEnableOption "Enable the cleaner service"
+      cleaner= lib.mkEnableOption "Enable the cleaner service";
+      gitops= lib.mkEnableOption "Enable the gitops service";
     };
     config= lib.mkMerge[
-      (lib.mkIf (options.services.cleaner){
+      (lib.mkIf (config.services.cleaner){
         systemd.services.cleaner = {
           description = "Clean Downloads and Trash at shutdown";
           wantedBy = [ "multi-user.target" ];
@@ -15,6 +16,29 @@
           };
         };
       })
-    ]
-  }
+      (lib.mkIf (config.services.gitops) {
+        systemd.services.gitops = {
+          description = "Check remote NixOS config repo for updates";
+          serviceConfig = {
+            Type = "oneshot";
+            Environment = "PATH=${pkgs.git}/bin:${pkgs.nixos-rebuild}/bin:/run/current-system/sw/bin";
+            ExecStart = pkgs.writeShellScript "check-nixos-updates" (
+              builtins.readFile "${self}/scripts/gitops.sh"
+            );
+          };
+        };
+
+        systemd.timers.gitops = {
+          description = "Timer for auto-updating NixOS from git";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnBootSec = "5m";
+            OnUnitActiveSec = "1h";
+            RandomizedDelaySec = "10m";
+            Persistent = true;
+          };
+        };
+      })
+    ];
+  };
 }
