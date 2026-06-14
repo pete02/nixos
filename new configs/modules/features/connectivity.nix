@@ -1,5 +1,5 @@
-{self, inputs, ..}:{
-  flake.nixosModules.connectivity = {}:{
+{self, inputs, ...}:{
+  flake.nixosModules.connectivity = {lib, config, pkgs, ...}:{
     options = {
       connectivity={
         bluetooth = lib.mkEnableOption "enable bluetooth";
@@ -32,7 +32,7 @@
             default = "";
             description = "Gateway (only if dhcp=false)";
           };
-        }
+        };
       };
     };
 
