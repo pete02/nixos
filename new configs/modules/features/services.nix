@@ -81,6 +81,10 @@
               AllowUsers = [ "pete" ];
             };
           };
+          users.users.${config.username}.openssh.authorizedKeys.keyFiles = [ "/run/secrets/ssh/aria/authorized_keys" ];
+          sops.secrets."ssh/aria/authorized_keys" = {
+            owner= config.username;
+           };
         })
 
         (lib.mkIf config.enable.sync {
