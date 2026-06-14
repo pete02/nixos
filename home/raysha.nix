@@ -35,7 +35,7 @@
       monitorv2 = [
         {
           output = "desc:Dell Inc. AW3425DW DD5H274";
-          mode = "3440x1440@175";
+          mode = "3440x1440@164.89";
           position = "0x0";
           scale = 1;
           bitdepth = 10;
@@ -52,6 +52,14 @@
           position = "3440x0";
         }
 
+      ];
+
+      general = {
+        allow_tearing = true;
+      };
+
+      windowrules = [
+        "immediate, class:gamescope"
       ];
 
       misc = {
