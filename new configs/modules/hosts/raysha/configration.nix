@@ -12,7 +12,10 @@
       ];
 
       username = "pete";
-
+      connectivity={
+        bluetooth = true;
+        wireless = true;
+      };
 
       
       hyprlandExtraConfig = ''
