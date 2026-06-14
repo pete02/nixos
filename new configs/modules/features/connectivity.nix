@@ -1,106 +1,117 @@
-{self, inputs, ...}:{
-  flake.nixosModules.connectivity = {lib, config, pkgs, ...}:{
+{ self, inputs, ... }: {
+  flake.nixosModules.connectivity = { lib, config, pkgs, ... }: {
     options = {
-      connectivity={
-        bluetooth = lib.mkEnableOption "enable bluetooth";
-        wireless= lib.mkEnableOption "enable wireless";
-        managed= {
-          enable = lib.mkOption {
-            type = lib.types.bool;
-            default = false;
-          };
+      connectivity = {
+        bluetooth = lib.mkEnableOption "bluetooth";
+        wireless  = lib.mkEnableOption "wireless via NetworkManager";
+
+        managed = {
+          enable = lib.mkEnableOption "managed wired networking via networkd";
+
           interface = lib.mkOption {
-            type = lib.types.str;
-            default = "";
+            type        = lib.types.str;
+            default     = "";
             description = "Network interface to configure";
           };
 
           dhcp = lib.mkOption {
-            type = lib.types.bool;
-            default = true;
+            type        = lib.types.bool;
+            default     = true;
             description = "Use DHCP (true) or static IP (false)";
           };
 
           address = lib.mkOption {
-            type = lib.types.str;
-            default = "";
-            description = "Static IP (only if dhcp=false)";
+            type        = lib.types.str;
+            default     = "";
+            description = "Static IP address (only if dhcp = false)";
           };
 
           gateway = lib.mkOption {
-            type = lib.types.str;
-            default = "";
-            description = "Gateway (only if dhcp=false)";
+            type        = lib.types.str;
+            default     = "";
+            description = "Gateway (only if dhcp = false)";
           };
         };
       };
     };
 
-    config= lib.mkMerge[
-        (lib.mkIf config.connectivity.bluetooth {
-          services.blueman.enable = true;
-          environment.systemPackages = [ pkgs.bluez ];
+    config =
+      let
+        cfg = config.connectivity;
+      in
+      lib.mkMerge [
+        (lib.mkIf cfg.bluetooth {
           hardware.bluetooth = {
-            enable = true;
-            powerOnBoot = true;
+            enable       = true;
+            powerOnBoot  = true;
             settings = {
               General = {
-                Experimental = true;
+                Experimental    = true;
                 FastConnectable = true;
               };
-              Policy = {
-                AutoEnable = true;
-              };
+              Policy.AutoEnable = true;
             };
           };
+          services.blueman.enable        = true;
+          environment.systemPackages     = [ pkgs.bluez ];
         })
-        (lib.mkIf config.connectivity.managed.enabled {
-          assertions = [
-            {
-              assertion = config.connectivity.managed.interface != "";
-              message = "networking.custom.interface must be provided";
-            }
-          ]
-          ++ lib.optionals (!config.connectivity.managed.dhcp) [
-            {
-              assertion = config.connectivity.managed.address != "";
-              message = "Static IP requires address";
-            }
-            {
-              assertion = config.connectivity.managed.gateway != "";
-              message = "Static IP requires gateway";
-            }
-          ];
 
-          networking.useNetworkd = true;
-          networking.enableIPv6 = true;
+        (lib.mkIf cfg.managed.enable {
+          assertions =
+            [
+              {
+                assertion = cfg.managed.interface != "";
+                message   = "connectivity.managed.interface must be set";
+              }
+            ]
+            ++ lib.optionals (!cfg.managed.dhcp) [
+              {
+                assertion = cfg.managed.address != "";
+                message   = "Static IP requires connectivity.managed.address";
+              }
+              {
+                assertion = cfg.managed.gateway != "";
+                message   = "Static IP requires connectivity.managed.gateway";
+              }
+            ];
+
+          networking = {
+            useNetworkd  = true;
+            enableIPv6   = true;
+          };
           services.resolved.enable = true;
 
-          systemd.network.networks."10-dhcp-wired" = lib.mkIf config.connectivity.managed.dhcp {
-            matchConfig.Name = "${config.connectivity.managed.interface}";
-            networkConfig.DHCP = "yes";
-            dhcpConfig = {
-              ClientIdentifier = "mac";
-              UseDomains = "true";
-              CriticalConnection = "true";
+          systemd.network.networks =
+            lib.optionalAttrs cfg.managed.dhcp {
+              "10-dhcp-wired" = {
+                matchConfig.Name = cfg.managed.interface;
+                networkConfig.DHCP = "yes";
+                dhcpV4Config = {
+                  ClientIdentifier    = "mac";
+                  UseDomains          = true;
+                  CriticalConnection  = true;
+                };
+              };
+            }
+            // lib.optionalAttrs (!cfg.managed.dhcp) {
+              "10-static-wired" = {
+                matchConfig.Name   = cfg.managed.interface;
+                networkConfig.DHCP = "no";
+                address            = [ cfg.managed.address ];
+                gateway            = [ cfg.managed.gateway ];
+                dns                = [ cfg.managed.gateway ];
+              };
             };
-          };
-
-          systemd.network.networks."10-static-wired" = lib.mkIf (!config.connectivity.managed.dhcp) {
-            matchConfig.Name = "${config.connectivity.managed.interface}";
-            networkConfig.DHCP = "no";
-            address = [ config.connectivity.managed.address ];
-            gateway = [ config.connectivity.managed.gateway ];
-            dns = [ config.connectivity.managed.gateway ];
-          };
         })
 
-        (lib.mkIf config.connectivity.wireless {
-          networking.networkmanager.enable = lib.mkForce true;
-          networking.networkmanager.wifi.backend = "wpa_supplicant";
+        (lib.mkIf cfg.wireless {
+          networking.networkmanager = {
+            enable       = lib.mkForce true;
+            wifi.backend = "wpa_supplicant";
+          };
           systemd.services.NetworkManager-wait-online.enable = false;
           users.users.${config.username}.extraGroups = [ "networkmanager" ];
         })
-     ]; 
+      ];
   };
 }
