@@ -19,9 +19,10 @@
         wireless = true;
       };
 
-      management={
-        sshClient= true;
-      }
+      management = {
+        sshClient = true;
+        ld = true;
+      };
 
       hyprlandExtraConfig = ''
         monitorv2 = desc:Dell Inc. AW3425DW DD5H274, 3440x1440@175, 0x0, 1, bitdepth, 10

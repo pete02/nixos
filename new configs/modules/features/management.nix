@@ -89,14 +89,14 @@
             ];
           };
         })
-        
+
         (lib.mkIf (config.management.sshClient) {
-          sops.secrets."ssh/${config.username}/servu" = { 
-            owner= config.username;
+          sops.secrets."ssh/${config.username}/servu" = {
+            owner = config.username;
           };
-          
-          sops.secrets."ssh/${config.username}/github" = { 
-            owner= config.username;
+
+          sops.secrets."ssh/${config.username}/github" = {
+            owner = config.username;
           };
 
           environment.etc."ssh/ssh_config".text = ''

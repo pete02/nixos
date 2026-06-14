@@ -11,7 +11,7 @@
         cleaner = lib.mkEnableOption "Enable the cleaner service";
         gitops = lib.mkEnableOption "Enable the gitops service";
         gpucooler = lib.mkEnableOption "Enable the GPU cooler service";
-        ssh = lib.mkEnableOption "Enable the SSH service";
+        sshServer = lib.mkEnableOption "Enable the SSH service";
         sync = lib.mkEnableOption "Enable syncing to server";
         sambaClient = lib.mkEnableOption "enables router samba";
         sambaServer = lib.mkEnableOption "enables samba server";
@@ -71,7 +71,7 @@
           };
         })
 
-        (lib.mkIf config.services.enable.ssh {
+        (lib.mkIf config.services.sshServer {
           services.openssh = {
             enable = true;
             ports = [ 22 ];
@@ -90,7 +90,7 @@
           };
         })
 
-        (lib.mkIf config.enable.sync {
+        (lib.mkIf config.services.sync {
           environment.systemPackages = [ pkgs.rsync ];
           systemd.services.syncrestore = {
             description = "Restores desktop files.";
@@ -205,7 +205,7 @@
           };
         })
 
-        (lib.mkIf config.enable.ollama {
+        (lib.mkIf config.services.ollama {
           services.ollama.enable = false;
           # Optional: Install ollama CLI for terminal use
           environment.systemPackages = [ pkgs.ollama ];

@@ -1,4 +1,4 @@
-<<< /nix/var/nix/profiles/system-193-link
->>> /nix/var/nix/profiles/system-194-link
+<<< /nix/var/nix/profiles/system-194-link
+>>> /nix/var/nix/profiles/system-195-link
 No version or selection state changes.
-Closure size: 2735 -> 2735 (3 paths added, 3 paths removed, delta +0, disk usage +2.2KiB).
+Closure size: 2735 -> 2735 (7 paths added, 7 paths removed, delta +0, disk usage +8B).
