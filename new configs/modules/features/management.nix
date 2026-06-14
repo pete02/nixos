@@ -1,51 +1,65 @@
-{self,inputs, ...}:{
-  flake.nixosModules.management={config, lib,pkgs, ...}:{
-    options= {
-      username= lib.mkOption {
-        type = lib.types.str;
-        description = "The username of the main user";
-      };
-
-
-      management= {
-        powersave = lib.mkEnableOption "Enable power saving";
-        ld= lib.mkEnableOption "enables nix-ld";
-      };
-    };
-    config= lib.mkMerge [
-      ({
-        users.users.${config.username} = {
-          isNormalUser = true;
-          extraGroups = [ "wheel" "seat" "dialout" "uucp" ];
+{ self, inputs, ... }: {
+  flake.nixosModules.management =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      options = {
+        username = lib.mkOption {
+          type = lib.types.str;
+          description = "The username of the main user";
         };
 
-        time.timeZone = "Europe/Helsinki";
-        i18n.defaultLocale = "fi_FI.UTF-8";
-
-        nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-        nixpkgs.config.allowUnfree = true;
-        environment.systemPackages =  with pkgs;[
-          nixfmt-tree
-          libnotify
-          nvd
-          vulnix
-          lm_sensors
-          fastfetch
-          writeShellScriptBin "rebuild" (
-            builtins.readFile "${self}/scripts/rebuild.sh"
-          )
-        ];
-
-        nix.gc = {
-          automatic = true;
-          dates = "daily";
-          options = "--delete-older-than 7d";
+        management = {
+          powersave = lib.mkEnableOption "Enable power saving";
+          ld = lib.mkEnableOption "enables nix-ld";
         };
-        nix.settings.auto-optimise-store = true;
+      };
+      config = lib.mkMerge [
+        ({
+          users.users.${config.username} = {
+            isNormalUser = true;
+            extraGroups = [
+              "wheel"
+              "seat"
+              "dialout"
+              "uucp"
+            ];
+          };
 
-      })
-      (lib.mkIf (config.management.powersave) {
+          time.timeZone = "Europe/Helsinki";
+          i18n.defaultLocale = "fi_FI.UTF-8";
+
+          nix.settings.experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
+
+          nixpkgs.config.allowUnfree = true;
+          environment.systemPackages = with pkgs; [
+            nixfmt-tree
+            libnotify
+            nvd
+            vulnix
+            lm_sensors
+            fastfetch
+            writeShellScriptBin
+            "rebuild"
+            (builtins.readFile "${self}/scripts/rebuild.sh")
+          ];
+
+          nix.gc = {
+            automatic = true;
+            dates = "daily";
+            options = "--delete-older-than 7d";
+          };
+          nix.settings.auto-optimise-store = true;
+
+        })
+        (lib.mkIf (config.management.powersave) {
           environment.systemPackages = with pkgs; [
             tlp
           ];
@@ -60,8 +74,8 @@
               CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
             };
           };
-      })
-      (lib.mkIf (config.management.ld){
+        })
+        (lib.mkIf (config.management.ld) {
           programs.nix-ld = {
             enable = true;
             libraries = with pkgs; [
@@ -73,7 +87,7 @@
               openssl
             ];
           };
-      })
-    ];
-  };
+        })
+      ];
+    };
 }

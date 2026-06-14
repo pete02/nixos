@@ -14,7 +14,6 @@
   enable = {
     dev = true;
     school = true;
-    sync = false;
     powersave = true;
     wireless = true;
     bluetooth = true;

@@ -1,5 +1,5 @@
-{self,inputs, ...}:{
-  flake.nixosModules.virtualization = {pkgs, config,...}:{
+{ self, inputs, ... }: {
+  flake.nixosModules.virtualization = { pkgs, config, ... }: {
     boot.kernelModules = [
       "kvm-intel"
       "kvm-amd"

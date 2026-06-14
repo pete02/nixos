@@ -1,4 +1,5 @@
-<<< /nix/var/nix/profiles/system-187-link
->>> /nix/var/nix/profiles/system-188-link
-No version or selection state changes.
-Closure size: 2731 -> 2731 (9 paths added, 9 paths removed, delta +0, disk usage +8B).
+<<< /nix/var/nix/profiles/system-188-link
+>>> /nix/var/nix/profiles/system-189-link
+Added packages:
+[A+]  #1  sops  3.13.1
+Closure size: 2731 -> 2732 (13 paths added, 12 paths removed, delta +1, disk usage +49.5MiB).
