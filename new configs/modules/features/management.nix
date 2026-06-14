@@ -90,15 +90,23 @@
           };
         })
         (lib.mkIf (config.management.sshClient) {
+          sops.secrets."ssh/${config.username}/servu" = { 
+            owner= config.username
+          };
+          
+          sops.secrets."ssh/${config.username}/github" = { 
+            owner= config.username
+          };
+
           environment.etc."ssh/ssh_config".text = ''
             Host github.com
               hostname github.com
-              identityFile ~/.ssh/github_id
+              identityFile /run/secrets/ssh/${config.username}/github
               user git
 
             Host servu
               hostname 192.168.88.241
-              identityFile ~/.ssh/id_server
+              identityFile /run/secrets/ssh/${config.username}/servu
               port 22
               user pete
           '';
