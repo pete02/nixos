@@ -14,7 +14,7 @@
         };
 
         management = {
-          ssh-client= lib.mkEnableOption "enables ssh client";
+          sshClient = lib.mkEnableOption "enables ssh client";
           powersave = lib.mkEnableOption "Enable power saving";
           ld = lib.mkEnableOption "enables nix-ld";
         };
@@ -88,6 +88,20 @@
               openssl
             ];
           };
+        })
+        (lib.mkIf (config.management.sshClient) {
+          environment.etc."ssh/ssh_config".text = ''
+            Host github.com
+              hostname github.com
+              identityFile ~/.ssh/github_id
+              user git
+
+            Host servu
+              hostname 192.168.88.241
+              identityFile ~/.ssh/id_server
+              port 22
+              user pete
+          '';
         })
       ];
     };

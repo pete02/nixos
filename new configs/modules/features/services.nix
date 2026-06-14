@@ -82,10 +82,12 @@
               AllowUsers = [ "pete" ];
             };
           };
-          users.users.${config.username}.openssh.authorizedKeys.keyFiles = [ "/run/secrets/ssh/aria/authorized_keys" ];
+          users.users.${config.username}.openssh.authorizedKeys.keyFiles = [
+            "/run/secrets/ssh/aria/authorized_keys"
+          ];
           sops.secrets."ssh/aria/authorized_keys" = {
-            owner= config.username;
-           };
+            owner = config.username;
+          };
         })
 
         (lib.mkIf config.enable.sync {
@@ -124,9 +126,6 @@
           };
 
         })
-
-
-
 
         (lib.mkIf config.services.sambaClient {
           systemd.tmpfiles.rules = [
@@ -181,15 +180,17 @@
             };
           };
 
-
           systemd.services.samba-credentials = {
             description = "Set Samba password from sops secret";
-            wantedBy    = [ "multi-user.target" ];
-            after       = [ "sops-nix.service" "samba.service" ];
-            requires    = [ "sops-nix.service" ];
+            wantedBy = [ "multi-user.target" ];
+            after = [
+              "sops-nix.service"
+              "samba.service"
+            ];
+            requires = [ "sops-nix.service" ];
 
             serviceConfig = {
-              Type      = "oneshot";
+              Type = "oneshot";
               RemainAfterExit = true;
             };
 

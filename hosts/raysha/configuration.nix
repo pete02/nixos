@@ -20,6 +20,7 @@
     sops.defaultSopsFormat = "yaml";
     sops.age.keyFile = "/home/pete/.config/sops/age/keys.txt";
     sops.secrets."samba/server" = { };
+    sops.secrets."ssh/raysha/servu" = { };
 
     net = {
       enable = true;
