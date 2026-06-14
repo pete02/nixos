@@ -125,6 +125,8 @@
             "d /mnt/router 0755 pete pete -"
           ];
           environment.systemPackages = [ pkgs.cifs-utils ];
+          sops.secrets."samba/server" = { };
+
           fileSystems = {
             "/mnt/server" = {
               device = "//192.168.88.241/private/";
@@ -133,7 +135,7 @@
                 let
                   # this line prevents hanging on network split
                   automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-                  creds = "credentials=/etc/smb/serversecret";
+                  creds = "credentials=/run/secrets/samba/server";
                   vers = "vers=3.0";
                   uidguid = "uid=1000,gid=1000";
                 in
