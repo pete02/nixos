@@ -43,6 +43,7 @@
           supports_hdr = 1;
           sdr_max_luminance = 250;
           max_luminance = 1000;
+          cm = "hdr";
           vrr = 2;
         }
         {
