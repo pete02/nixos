@@ -47,6 +47,9 @@
         };
       };
 
+      render = {
+        direct_scanout = true;
+      };
       input = {
         kb_layout = "fi";
       };
