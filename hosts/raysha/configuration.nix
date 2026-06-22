@@ -54,6 +54,7 @@
       vim
       wget
       gimp
+      groff
       git
       zip
       unzip
