@@ -30,6 +30,7 @@
       gateway = "192.168.88.1";
     };
 
+    hardware.deviceTree.enable = false;
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
