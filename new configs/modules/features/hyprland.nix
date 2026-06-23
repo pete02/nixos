@@ -51,6 +51,9 @@
           brightnessctl
           swaylock
           libinput
+          kdePackages.dolphin
+          kdePackages.kcalc
+          gimp
         ];
 
         fonts.packages = with pkgs; [ nerd-fonts.arimo ];

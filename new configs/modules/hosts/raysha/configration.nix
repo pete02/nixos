@@ -10,9 +10,13 @@
       imports = [
         self.nixosModules.hyprland
         self.nixosModules.sops
-        self.nixosModules.management
         self.nixosModules.dev
         self.nixosModules.gaming
+        self.nixosModules.common
+      ];
+
+      environment.systemPackages = with pkgs;[
+        mdadm
       ];
 
       username = "pete";
@@ -24,6 +28,13 @@
       management = {
         sshClient = true;
         ld = true;
+      };
+
+      common-tools.book=true;
+
+      services = {
+        cleaner = true;
+        sambaClient=true;
       };
 
       hyprlandExtraConfig = ''
