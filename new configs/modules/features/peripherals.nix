@@ -25,7 +25,7 @@
 
           environment.systemPackages = [ pkgs.nvidia-container-toolkit ];
 
-          peripherals = {
+          hardware = {
             graphics = {
               enable = true;
               enable32Bit = true;
@@ -63,7 +63,7 @@
 
           environment.systemPackages = [ pkgs.nvidia-container-toolkit ];
 
-          peripherals = {
+          hardware = {
             graphics = {
               enable = true;
               enable32Bit = true;
@@ -99,7 +99,7 @@
         (lib.mkIf config.peripherals.amd {
           services.xserver.videoDrivers = [ "amdgpu" ];
 
-          peripherals = {
+          hardware = {
             graphics = {
               enable = true;
               enable32Bit = true;
@@ -125,7 +125,7 @@
             libratbag
           ];
 
-          peripherals.logitech.wireless.enable = true;
+          hardware.logitech.wireless.enable = true;
 
           services.ratbagd.enable = true;
         })
