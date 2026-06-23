@@ -1,18 +1,4 @@
-<<< /nix/var/nix/profiles/system-199-link
->>> /nix/var/nix/profiles/system-200-link
-Version changes:
-[C.]  #1  bash                              5.3p3, 5.3p9 x2 -> 5.3p9 x2
-[C.]  #2  gcc                               15.2.0, 15.2.0-lib x5, 15.2.0-libgcc x5, 15.2.0-man -> 15.2.0, 15.2.0-lib x4, 15.2.0-libgcc x4, 15.2.0-man
-[C*]  #3  glibc                             2.40-66, 2.42-61 x2, 2.42-61-bin x2, 2.42-61-dev, 2.42-61-getent -> 2.42-61 x2, 2.42-61-bin x2, 2.42-61-dev, 2.42-61-getent
-[U.]  #4  initrd-linux-cachyos-latest-zen4  6.18.3 -> 7.1.1
-[C.]  #5  libidn2                           2.3.8 x3, 2.3.8-bin, 2.3.8-dev -> 2.3.8 x2, 2.3.8-bin, 2.3.8-dev
-[C.]  #6  libunistring                      1.4.1, 1.4.2 x2 -> 1.4.2 x2
-[U.]  #7  linux-cachyos-latest-zen4         6.18.3, 6.18.3-modules x2 -> 7.1.1, 7.1.1-modules x2
-[U.]  #8  nvidia-kernel-modules             595.80-6.18.3 -> 595.80-7.1.1
-[C.]  #9  xgcc                              15.2.0-libgcc x3 -> 15.2.0-libgcc x2
-Removed packages:
-[R.]  #1  manifest.json         <none>
-[R.]  #2  secrets.yaml          <none>
-[R-]  #3  sops                  3.13.1
-[R.]  #4  sops-install-secrets  0.0.1
-Closure size: 2735 -> 2724 (47 paths added, 58 paths removed, delta -11, disk usage -124.6MiB).
+<<< /nix/var/nix/profiles/system-201-link
+>>> /nix/var/nix/profiles/system-202-link
+No version or selection state changes.
+Closure size: 2705 -> 2705 (7 paths added, 7 paths removed, delta +0, disk usage +7.6KiB).
