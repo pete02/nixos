@@ -42,7 +42,7 @@
             "nix-command"
             "flakes"
           ];
-          networking.hostName= config.hostname;
+          networking.hostName = config.hostname;
 
           nixpkgs.config.allowUnfree = true;
           environment.systemPackages = with pkgs; [

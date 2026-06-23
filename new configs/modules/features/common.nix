@@ -22,7 +22,7 @@
 
       config = lib.mkMerge [
         ({
-          environment.systemPackages = with pkgs;[
+          environment.systemPackages = with pkgs; [
             vim
             git
             tree
@@ -54,7 +54,7 @@
           environment.systemPackages = with pkgs; [
             # Obsidian with Wayland support
             (obsidian.override {
-              platformArgs = ["--ozone-platform=wayland"];
+              platformArgs = [ "--ozone-platform=wayland" ];
             })
             wineWow64Packages.waylandFull
           ];

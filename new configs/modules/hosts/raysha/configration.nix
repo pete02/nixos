@@ -15,12 +15,12 @@
         self.nixosModules.common
       ];
 
-      environment.systemPackages = with pkgs;[
+      environment.systemPackages = with pkgs; [
         mdadm
       ];
 
       username = "pete";
-      hostname="raysha";
+      hostname = "raysha";
       connectivity = {
         bluetooth = true;
         wireless = true;
@@ -31,16 +31,16 @@
         ld = true;
       };
 
-      common-tools.books=true;
+      common-tools.books = true;
 
       services = {
         cleaner = true;
-        sambaClient=true;
+        sambaClient = true;
       };
 
       hyprlandExtraConfig = ''
-        monitorv2 = desc:Dell Inc. AW3425DW DD5H274, 3440x1440@175, 0x0, 1, bitdepth, 10
-        monitorv2 = desc:Eizo Nanao Corporation EV2436W 38144035, 1920x1080, 3440x0, 1
+        monitorv2 = desc:Dell Inc. AW3425DW DD5H274, 3440x1440@175, 3440x0, 1, bitdepth, 10
+        monitorv2 = desc:Eizo Nanao Corporation EV2436W 38144035, 1920x1080, 0x0, 1
 
         misc {
           force_default_wallpaper = 2
