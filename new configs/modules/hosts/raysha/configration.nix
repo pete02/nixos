@@ -20,6 +20,7 @@
       ];
 
       username = "pete";
+      hostname="raysha";
       connectivity = {
         bluetooth = true;
         wireless = true;

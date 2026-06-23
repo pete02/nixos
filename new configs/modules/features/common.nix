@@ -29,8 +29,7 @@
             groff
             htop
             unzip
-            unrarcontrol (overheating risk)
-            No
+            unrar
             lshw
           ];
         })
