@@ -15,7 +15,6 @@
         sync = lib.mkEnableOption "Enable syncing to server";
         sambaClient = lib.mkEnableOption "enables router samba";
         sambaServer = lib.mkEnableOption "enables samba server";
-        ollama = lib.mkEnableOption "enable ollama service";
       };
 
       config = lib.mkMerge [
@@ -203,12 +202,6 @@
               echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
             '';
           };
-        })
-
-        (lib.mkIf config.services.ollama {
-          services.ollama.enable = false;
-          # Optional: Install ollama CLI for terminal use
-          environment.systemPackages = [ pkgs.ollama ];
         })
       ];
     };

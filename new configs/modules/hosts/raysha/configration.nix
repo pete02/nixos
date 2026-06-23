@@ -30,7 +30,7 @@
         ld = true;
       };
 
-      common-tools.book=true;
+      common-tools.books=true;
 
       services = {
         cleaner = true;
