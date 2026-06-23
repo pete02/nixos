@@ -11,6 +11,8 @@
         self.nixosModules.hyprland
         self.nixosModules.sops
         self.nixosModules.management
+        self.nixosModules.dev
+        self.nixosModules.gaming
       ];
 
       username = "pete";

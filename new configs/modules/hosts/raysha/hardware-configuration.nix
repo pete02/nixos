@@ -12,7 +12,7 @@
       ...
     }:
     {
-      imports = [ self.nixosModules.cachyosKernel ];
+      imports = [ self.nixosModules.cachyosKernel self.nixosModules.hardware ];
 
       fileSystems."/" = {
         device = "/dev/disk/by-label/nixroot";
@@ -49,5 +49,7 @@
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
       hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
       hardware.enableRedistributableFirmware = true;
+      hardware.nvidia=true;
+      hardware.logitech=true;
     };
 }
