@@ -1,5 +1,5 @@
 { self, inputs, ... }: {
-  flake.nixosModules.hardware =
+  flake.nixosModules.peripherals =
     {
       lib,
       pkgs,
@@ -9,23 +9,23 @@
     {
       options = {
         # GPU Options (mutually exclusive)
-        hardware.nvidia = lib.mkEnableOption "NVIDIA GPU (stable driver)";
-        hardware.nvidia-legacy = lib.mkEnableOption "NVIDIA GPU (legacy driver for GTX 900/1000 series)";
-        hardware.amd = lib.mkEnableOption "AMD GPU (auto-enabled when no NVIDIA)";
+        peripherals.nvidia = lib.mkEnableOption "NVIDIA GPU (stable driver)";
+        peripherals.nvidia-legacy = lib.mkEnableOption "NVIDIA GPU (legacy driver for GTX 900/1000 series)";
+        peripherals.amd = lib.mkEnableOption "AMD GPU (auto-enabled when no NVIDIA)";
 
         # Peripheral Options
-        hardware.logitech = lib.mkEnableOption "Logitech device support (logiops, piper, ratbagd)";
-        hardware.razer = lib.mkEnableOption "Razer device support (RGB lighting control)";
+        peripherals.logitech = lib.mkEnableOption "Logitech device support (logiops, piper, ratbagd)";
+        peripherals.razer = lib.mkEnableOption "Razer device support (RGB lighting control)";
       };
 
       config = lib.mkMerge [
         # NVIDIA Stable GPU
-        (lib.mkIf config.hardware.nvidia {
+        (lib.mkIf config.peripherals.nvidia {
           services.xserver.videoDrivers = [ "nvidia" ];
 
           environment.systemPackages = [ pkgs.nvidia-container-toolkit ];
 
-          hardware = {
+          peripherals = {
             graphics = {
               enable = true;
               enable32Bit = true;
@@ -58,12 +58,12 @@
         })
 
         # NVIDIA Legacy GPU (GTX 900/1000 series)
-        (lib.mkIf config.hardware.nvidia-legacy {
+        (lib.mkIf config.peripherals.nvidia-legacy {
           services.xserver.videoDrivers = [ "nvidia" ];
 
           environment.systemPackages = [ pkgs.nvidia-container-toolkit ];
 
-          hardware = {
+          peripherals = {
             graphics = {
               enable = true;
               enable32Bit = true;
@@ -96,10 +96,10 @@
         })
 
         # AMD GPU (auto-enabled when no NVIDIA)
-        (lib.mkIf config.hardware.amd {
+        (lib.mkIf config.peripherals.amd {
           services.xserver.videoDrivers = [ "amdgpu" ];
 
-          hardware = {
+          peripherals = {
             graphics = {
               enable = true;
               enable32Bit = true;
@@ -118,20 +118,20 @@
         })
 
         # Logitech Device Support
-        (lib.mkIf config.hardware.logitech {
+        (lib.mkIf config.peripherals.logitech {
           environment.systemPackages = with pkgs; [
             logiops
             piper
             libratbag
           ];
 
-          hardware.logitech.wireless.enable = true;
+          peripherals.logitech.wireless.enable = true;
 
           services.ratbagd.enable = true;
         })
 
         # Razer Device Support (RGB lighting)
-        (lib.mkIf config.hardware.razer {
+        (lib.mkIf config.peripherals.razer {
           environment.systemPackages = with pkgs; [
             openrazer-daemon
             polychromatic
