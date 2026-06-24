@@ -22,72 +22,8 @@
     };
   };
 
-  config = {
-    flake.mkHyprlandPkg =
-      {
-        pkgs,
-        extraConfig ? "",
-        withHyprpanel ? true,
-      }:
-      let
-        confFile = pkgs.writeText "hyprland.conf" (
-          self.hyprlandBaseConfig
-          + extraConfig
-          + lib.optionalString withHyprpanel ''
-            exec-once = hyprpanel
-          ''
-        );
-
-        rawPkg = (inputs.wrappers.wrapperModules.hyprland.apply {
-          inherit pkgs;
-          imports = [ self.wrappersModules.hyprland ];
-          _module.args = { inherit confFile; };
-        }).wrapper;
-
-        hyprpanelPkg =
-          if !withHyprpanel then null
-          else
-            let
-              configDir = pkgs.writeTextDir "hyprpanel/config.json"
-                (builtins.toJSON self.hyprpanelConfig);
-
-              wrapped = pkgs.makeWrapper pkgs.hyprpanel
-                "${pkgs.stdenv.mkDerivation {
-                  name = "hyprpanel-wrapped";
-                  nativeBuildInputs = [ pkgs.makeWrapper ];
-                  buildCommand = ''
-                    mkdir -p $out/bin
-                    makeWrapper ${pkgs.hyprpanel}/bin/hyprpanel $out/bin/hyprpanel \
-                      --set XDG_CONFIG_HOME ${configDir}
-                  '';
-                }}/bin/hyprpanel";
-            in
-              pkgs.stdenv.mkDerivation {
-                name = "hyprpanel-wrapped";
-                nativeBuildInputs = [ pkgs.makeWrapper ];
-                buildCommand = ''
-                  mkdir -p $out/bin
-                  makeWrapper ${pkgs.hyprpanel}/bin/hyprpanel $out/bin/hyprpanel \
-                    --set XDG_CONFIG_HOME ${configDir}
-                '';
-              };
-      in
-      pkgs.symlinkJoin {
-        name = "hyprland-with-hyprpanel";
-        paths = [ rawPkg ] ++ lib.optional withHyprpanel hyprpanelPkg;
-        meta = rawPkg.meta;
-        passthru = {
-          inherit (rawPkg) override overrideAttrs;
-          version = rawPkg.version;
-        };
-      };
-
-    flake.wrappersModules.hyprland = { confFile, ... }: {
-      args = [ "--config" "${confFile}" ];
-    };
-
-
-    flake.hyprlandBaseConfig = ''
+  config =let 
+    hyprlandBaseConfig = ''
       general {
         gaps_in = 5
         gaps_out = 5
@@ -139,23 +75,19 @@
       bindel = ,XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+
       bindel = ,XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-
     '';
-    flake.hyprpanelConfig = {
+
+    hyprpanelConfig = {
       bar = {
-        clock = {
-          format = "%a %b %d  %H:%M";
-        };
-        launcher = {
-          autoDetectIcon = true;
-        };
+        clock.format = "%a %b %d  %H:%M";
+        launcher.autoDetectIcon = true;
+        workspaces.show_icons = true;
+
         layouts = {
           "*" = {
             left = [ "dashboard" "workspaces" ];
             middle = [ "media" ];
             right = [ "volume" "netstat" "clock" "systray" "notifications" "network" "bluetooth" ];
           };
-        };
-        workspaces = {
-          show_icons = true;
         };
       };
       menus = {
@@ -164,26 +96,73 @@
             hideSeconds = true;
             military = true;
           };
-          weather = {
-            unit = "metric";
-          };
+          weather.unit = "metric";
         };
-        dashboard = {
-          directories = {
-            enabled = false;
-          };
-        };
+        dashboard.directories.enabled = false;
       };
       theme = {
-        bar = {
-          transparent = true;
-        };
+        bar.transparent = true;
         font = {
           name = "CaskaydiaCove NF";
           size = "12px";
         };
       };
     };
+    
+      wrappersModule = { confFile, ... }: {
+    args = [ "--config" "${confFile}" ];
+  };
 
+  mkHyprlandPkg = { pkgs, extraConfig ? "", withHyprpanel ? true }:
+    let
+      hyprpanelPkg =
+        let
+          storeConfig = pkgs.writeText "config.json" (builtins.toJSON hyprpanelConfig);
+        in
+        pkgs.writeShellScriptBin "hyprpanel" ''
+          CONFIG_DIR="$XDG_RUNTIME_DIR/hyprpanel"
+          mkdir -p "$CONFIG_DIR"
+
+          cp ${storeConfig} "$CONFIG_DIR/config.json"
+          chmod 644 "$CONFIG_DIR/config.json"
+
+          export XDG_CONFIG_HOME="$XDG_RUNTIME_DIR"
+          exec ${pkgs.hyprpanel}/bin/hyprpanel "$@"
+        '';
+
+      confFile = pkgs.writeText "hyprland.conf" (
+        hyprlandBaseConfig          # local, not self.hyprlandBaseConfig
+        + extraConfig
+        + lib.optionalString withHyprpanel ''
+          exec-once = ${hyprpanelPkg}/bin/hyprpanel
+        ''
+      );
+
+      rawPkg = (inputs.wrappers.wrapperModules.hyprland.apply {
+        inherit pkgs;
+        imports = [ wrappersModule ];  # local, not self.wrappersModules.hyprland
+        _module.args = { inherit confFile; };
+      }).wrapper;
+
+      
+    in
+    pkgs.symlinkJoin {
+      name = "hyprland-with-hyprpanel";
+      paths = [ rawPkg ] ++ lib.optional withHyprpanel hyprpanelPkg;
+      meta = rawPkg.meta;
+      passthru = rawPkg.passthru // {
+        inherit (rawPkg) override overrideAttrs;
+        version = rawPkg.version;
+      };
+    };
+
+    in {    
+    flake.packages.x86_64-linux.hyprland = mkHyprlandPkg {
+      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+      withHyprpanel=true;
+    };
+
+
+    flake.mkHyprlandPkg=mkHyprlandPkg;
   };
 }
