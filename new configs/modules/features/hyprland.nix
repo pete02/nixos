@@ -8,14 +8,10 @@
       ...
     }:
     let
-      confFile = pkgs.writeText "hyprland.conf" (self.hyprlandBaseConfig + config.hyprlandExtraConfig);
-
-      hyprlandPkg =
-        (inputs.wrappers.wrapperModules.hyprland.apply {
-          inherit pkgs;
-          imports = [ self.wrappersModules.hyprland ];
-          _module.args = { inherit confFile; };
-        }).wrapper;
+      hyprlandPkg = self.mkHyprlandPkg {
+        inherit pkgs;
+        extraConfig = config.hyprlandExtraConfig;
+      };
     in
     {
       options = {

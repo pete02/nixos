@@ -7,18 +7,85 @@
 
 {
 
-  options.flake.hyprlandBaseConfig = lib.mkOption {
-    type = lib.types.lines;
-    default = "";
+  options= {
+    flake.hyprlandBaseConfig = lib.mkOption {
+      type = lib.types.lines;
+      default = "";
+    };
+    flake.hyprpanelConfig = lib.mkOption {
+      type = lib.types.attrs;
+      default = {};
+    };
+    hyprlandWithHyprpanel = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+    };
   };
 
   config = {
+    flake.mkHyprlandPkg =
+      {
+        pkgs,
+        extraConfig ? "",
+        withHyprpanel ? true,
+      }:
+      let
+        confFile = pkgs.writeText "hyprland.conf" (
+          self.hyprlandBaseConfig
+          + extraConfig
+          + lib.optionalString withHyprpanel ''
+            exec-once = hyprpanel
+          ''
+        );
+
+        rawPkg = (inputs.wrappers.wrapperModules.hyprland.apply {
+          inherit pkgs;
+          imports = [ self.wrappersModules.hyprland ];
+          _module.args = { inherit confFile; };
+        }).wrapper;
+
+        hyprpanelPkg =
+          if !withHyprpanel then null
+          else
+            let
+              configDir = pkgs.writeTextDir "hyprpanel/config.json"
+                (builtins.toJSON self.hyprpanelConfig);
+
+              wrapped = pkgs.makeWrapper pkgs.hyprpanel
+                "${pkgs.stdenv.mkDerivation {
+                  name = "hyprpanel-wrapped";
+                  nativeBuildInputs = [ pkgs.makeWrapper ];
+                  buildCommand = ''
+                    mkdir -p $out/bin
+                    makeWrapper ${pkgs.hyprpanel}/bin/hyprpanel $out/bin/hyprpanel \
+                      --set XDG_CONFIG_HOME ${configDir}
+                  '';
+                }}/bin/hyprpanel";
+            in
+              pkgs.stdenv.mkDerivation {
+                name = "hyprpanel-wrapped";
+                nativeBuildInputs = [ pkgs.makeWrapper ];
+                buildCommand = ''
+                  mkdir -p $out/bin
+                  makeWrapper ${pkgs.hyprpanel}/bin/hyprpanel $out/bin/hyprpanel \
+                    --set XDG_CONFIG_HOME ${configDir}
+                '';
+              };
+      in
+      pkgs.symlinkJoin {
+        name = "hyprland-with-hyprpanel";
+        paths = [ rawPkg ] ++ lib.optional withHyprpanel hyprpanelPkg;
+        meta = rawPkg.meta;
+        passthru = {
+          inherit (rawPkg) override overrideAttrs;
+          version = rawPkg.version;
+        };
+      };
+
     flake.wrappersModules.hyprland = { confFile, ... }: {
-      args = [
-        "--config"
-        "${confFile}"
-      ]; # confFile passed in from perSystem
+      args = [ "--config" "${confFile}" ];
     };
+
 
     flake.hyprlandBaseConfig = ''
       general {
@@ -72,5 +139,51 @@
       bindel = ,XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+
       bindel = ,XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-
     '';
+    flake.hyprpanelConfig = {
+      bar = {
+        clock = {
+          format = "%a %b %d  %H:%M";
+        };
+        launcher = {
+          autoDetectIcon = true;
+        };
+        layouts = {
+          "*" = {
+            left = [ "dashboard" "workspaces" ];
+            middle = [ "media" ];
+            right = [ "volume" "netstat" "clock" "systray" "notifications" "network" "bluetooth" ];
+          };
+        };
+        workspaces = {
+          show_icons = true;
+        };
+      };
+      menus = {
+        clock = {
+          time = {
+            hideSeconds = true;
+            military = true;
+          };
+          weather = {
+            unit = "metric";
+          };
+        };
+        dashboard = {
+          directories = {
+            enabled = false;
+          };
+        };
+      };
+      theme = {
+        bar = {
+          transparent = true;
+        };
+        font = {
+          name = "CaskaydiaCove NF";
+          size = "12px";
+        };
+      };
+    };
+
   };
 }
