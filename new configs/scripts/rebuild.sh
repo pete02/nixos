@@ -17,6 +17,7 @@ git diff -U0 '*.nix'
 git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
 echo "Rebuilding system for $HOSTNAME..."
 echo "Please insert password for nixos-rebuild"
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure; then
     echo "Rebuild successful"
@@ -25,7 +26,6 @@ if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure; then
     cat /etc/nixos/diff.txt
     git add /etc/nixos/diff.txt
 
-    CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
         git commit --amend --no-edit
         git push origin "$UNSTABLE_BRANCH"
@@ -41,14 +41,16 @@ if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure; then
     fi
 else
     echo "Rebuild failed, not pushing."
-    if git show-ref --quiet refs/heads/"$UNSTABLE_BRANCH"; then
-        git checkout "$UNSTABLE_BRANCH"
+    if [ "$CURRENT_BRANCH" = "$UNSTABLE_BRANCH" ]; then
+        # We're already working on a fix — just rebase and push
         git pull --rebase origin "$UNSTABLE_BRANCH"
     else
+        # Stale unstable branch from a previous failure — nuke and recreate from current
+        git push origin --delete "$UNSTABLE_BRANCH" 2>/dev/null || true
+        git branch -D "$UNSTABLE_BRANCH" 2>/dev/null || true
         git checkout -b "$UNSTABLE_BRANCH"
     fi
     git commit -am "Rebuild failed on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
-    git pull --rebase origin master
     git push -u origin "$UNSTABLE_BRANCH"
 
     exit 1
