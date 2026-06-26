@@ -24,12 +24,6 @@
 
       config = {
 
-        programs.hyprland = {
-          enable = true;
-          xwayland.enable = true;
-          package = hyprlandPkg;
-        };
-
         environment.systemPackages = with pkgs; [
           kitty
           mako
@@ -50,6 +44,7 @@
           kdePackages.dolphin
           kdePackages.kcalc
           gimp
+          hyprlandPkg
         ];
 
         fonts.packages = with pkgs; [ nerd-fonts.arimo ];
@@ -86,7 +81,7 @@
         services.greetd = {
           enable = true;
           settings.default_session = {
-            command = "start-hyprland";
+            command = "${hyprlandPkg}/bin/start-hyprland";
             user = "pete";
           };
         };
