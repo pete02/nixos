@@ -82,9 +82,9 @@
             };
           };
           users.users.${config.username}.openssh.authorizedKeys.keyFiles = [
-            "/run/secrets/ssh/aria/authorized_keys"
+            "/run/secrets/ssh/${config.username}/authorized_keys"
           ];
-          sops.secrets."ssh/aria/authorized_keys" = {
+          sops.secrets."ssh/${config.username}/authorized_keys" = {
             owner = config.username;
           };
         })
