@@ -169,7 +169,9 @@
         pkgs.symlinkJoin {
           name = "hyprland-with-hyprpanel";
           paths = [ rawPkg ] ++ lib.optional withHyprpanel hyprpanelPkg;
-          meta = rawPkg.meta;
+          meta = rawPkg.meta // {
+            outputsToInstall = builtins.filter (o: o != "man") (rawPkg.meta.outputsToInstall or [ "out" ]);
+          };
           passthru = rawPkg.passthru // {
             inherit (rawPkg) override overrideAttrs;
             version = rawPkg.version;

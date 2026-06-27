@@ -81,7 +81,7 @@
         services.greetd = {
           enable = true;
           settings.default_session = {
-            command = "${hyprlandPkg}/bin/start-hyprland";
+            command = "${hyprlandPkg}/bin/start-hyprland --path ${hyprlandPkg}/bin/hyprland";
             user = "pete";
           };
         };
