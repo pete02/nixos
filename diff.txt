@@ -1,10 +1,4 @@
-<<< /nix/var/nix/profiles/system-211-link
->>> /nix/var/nix/profiles/system-212-link
-Version changes:
-[C+]  #1  groff  1.24.1 -> 1.24.1, 1.24.1-doc, 1.24.1-info, 1.24.1-man, 1.24.1-perl
-Added packages:
-[A.]  #1  manifest.json         <none>
-[A.]  #2  secrets.yaml          <none>
-[A+]  #3  sops                  3.13.1
-[A.]  #4  sops-install-secrets  0.0.1
-Closure size: 2700 -> 2708 (25 paths added, 17 paths removed, delta +8, disk usage +115.6MiB).
+<<< /nix/var/nix/profiles/system-219-link
+>>> /nix/var/nix/profiles/system-220-link
+No version or selection state changes.
+Closure size: 2708 -> 2708 (9 paths added, 9 paths removed, delta +0, disk usage -792B).

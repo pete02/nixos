@@ -20,10 +20,7 @@
       username = "pete";
       hostname = "aria";
 
-      };
-
       management.ld = true;
-      
 
       common-tools.books = true;
 
