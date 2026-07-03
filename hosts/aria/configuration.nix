@@ -18,10 +18,7 @@ in
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  networking.hostName = "aria";
-  time.timeZone = "Europe/Helsinki";
+
   environment.variables.TERM = "xterm-256color";
 
   users.users.pete = {

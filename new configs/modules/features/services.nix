@@ -82,10 +82,10 @@
             };
           };
           users.users.${config.username}.openssh.authorizedKeys.keyFiles = [
-            "/run/secrets/ssh/${config.username}/authorized_keys"
+            "/run/secrets/ssh/${config.hostname}/authorized_keys"
           ];
-          sops.secrets."ssh/${config.username}/authorized_keys" = {
-            owner = config.username;
+          sops.secrets."ssh/${config.hostname}/authorized_keys" = {
+            owner = config.hostname;
           };
         })
 

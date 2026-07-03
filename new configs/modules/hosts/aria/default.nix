@@ -1,5 +1,5 @@
 { self, inputs, ... }: {
-  flake.nixosConfigurations.raysha = self.lib.mkHost {
+  flake.nixosConfigurations.aria = self.lib.mkHost {
     system = "x86_64-linux";
     modules = [
       self.nixosModules.ariaHardware

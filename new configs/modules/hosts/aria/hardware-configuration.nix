@@ -57,6 +57,11 @@
         ${pkgs.hdparm}/bin/hdparm -B 255 /dev/disk/by-id/wwn-0x5000c500662713d6
       '';
 
+
+      boot.loader.systemd-boot.enable = true;
+      boot.loader.efi.canTouchEfiVariables = true;
+      boot.loader.systemd-boot.configurationLimit = 5;
+      time.timeZone = "Europe/Helsinki";
       # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
       # (the default) this is the recommended approach. When using systemd-networkd it's
       # still possible to use this option, but it's recommended to use it in conjunction
