@@ -1,32 +1,54 @@
-cd $CONFIG_FOLDER
 set -euo pipefail
 HOSTNAME=$(hostname)
 UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
 CONFIG_FOLDER=/etc/nixos/new_config
 
-nix flake check
 
-if ! treefmt --no-cache --tree-root $CONFIG_FOLDER &>/dev/null; then
-    echo "treefmt failed, running for output:"
-    treefmt --no-cache --tree-root  $CONFIG_FOLDER
-    exit 1
-fi
-git add $CONFIG_FOLDER/.
 
-# Shows your changes
-git diff -U0 '*.nix'
+check_host_isolation() {
+    local host_root="modules/hosts"
+    local failed=0
 
-git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
-echo "Rebuilding system for $HOSTNAME..."
-echo "Please insert password for nixos-rebuild"
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    mapfile -t hosts < <(
+        find "$host_root" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort
+    )
 
-if sudo nixos-rebuild switch --flake "$CONFIG_FOLDER#$HOSTNAME" --impure; then
+    for host in "${hosts[@]}"; do
+        for other in "${hosts[@]}"; do
+            [[ "$host" == "$other" ]] && continue
+
+            if grep -RInFw "$other" "$host_root/$host" >/dev/null; then
+                echo "❌ '$other' referenced inside $host_root/$host"
+                grep -RInFw "$other" "$host_root/$host"
+                failed=1
+            fi
+        done
+    done
+
+    (( failed == 0 ))
+}
+
+
+validate_config() {
+    echo "Checking host isolation..."
+    check_host_isolation
+
+    echo "Running flake checks..."
+    nix flake check $CONFIG_FOLDER
+    if ! treefmt --no-cache --tree-root "$CONFIG_FOLDER" &>/dev/null; then
+        echo "treefmt failed:"
+        treefmt --no-cache --tree-root "$CONFIG_FOLDER"
+        return 1
+    fi
+}
+
+
+handle_success(){
     echo "Rebuild successful"
 
     nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > $CONFIG_FOLDER/diff.txt
-    cat $CONFIG_FOLDER/diff.txt
-    git add $CONFIG_FOLDER/diff.txt
+    cat "$CONFIG_FOLDER/diff.txt"
+    git add "$CONFIG_FOLDER/diff.txt"
 
     if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
         git commit --amend --no-edit
@@ -41,7 +63,13 @@ if sudo nixos-rebuild switch --flake "$CONFIG_FOLDER#$HOSTNAME" --impure; then
         git pull --rebase origin master
         git push origin master
     fi
-else
+}
+
+rebuild_function(){
+    sudo nixos-rebuild switch --flake "$CONFIG_FOLDER#$HOSTNAME" --impure
+}
+
+handle_failure(){
     echo "Rebuild failed, not pushing."
     if [ "$CURRENT_BRANCH" = "$UNSTABLE_BRANCH" ]; then
         # We're already working on a fix — just rebase and push
@@ -54,6 +82,24 @@ else
     fi
     git commit -am "Rebuild failed on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
     git push -u origin "$UNSTABLE_BRANCH"
+}
 
+
+cd $CONFIG_FOLDER
+validate_config
+git add "$CONFIG_FOLDER/."
+
+# Shows your changes
+git diff -U0 '*.nix'
+
+git commit -am "Rebuild on $HOSTNAME: $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit."
+echo "Rebuilding system for $HOSTNAME..."
+echo "Please insert password for nixos-rebuild"
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if rebuild_function; then
+    handle_success
+else
+    handle_failure
     exit 1
 fi

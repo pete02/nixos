@@ -17,6 +17,12 @@
 
       environment.systemPackages = with pkgs; [
         mdadm
+        via
+      ];
+
+      hardware.keyboard.qmk.enable = true;
+      services.udev.packages = with pkgs; [
+        via
       ];
 
       username = "pete";

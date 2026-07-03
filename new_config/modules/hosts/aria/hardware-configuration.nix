@@ -57,7 +57,6 @@
         ${pkgs.hdparm}/bin/hdparm -B 255 /dev/disk/by-id/wwn-0x5000c500662713d6
       '';
 
-
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
       boot.loader.systemd-boot.configurationLimit = 5;
