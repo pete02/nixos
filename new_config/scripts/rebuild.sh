@@ -1,15 +1,17 @@
-cd /etc/nixos
+cd $CONFIG_FOLDER
 set -euo pipefail
 HOSTNAME=$(hostname)
 UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
+CONFIG_FOLDER=/etc/nixos/new_config
+
 nix flake check
 
-if ! treefmt --no-cache --tree-root /etc/nixos &>/dev/null; then
+if ! treefmt --no-cache --tree-root $CONFIG_FOLDER &>/dev/null; then
     echo "treefmt failed, running for output:"
-    treefmt --no-cache --tree-root  /etc/nixos
+    treefmt --no-cache --tree-root  $CONFIG_FOLDER
     exit 1
 fi
-git add /etc/nixos/.
+git add $CONFIG_FOLDER/.
 
 # Shows your changes
 git diff -U0 '*.nix'
@@ -19,12 +21,12 @@ echo "Rebuilding system for $HOSTNAME..."
 echo "Please insert password for nixos-rebuild"
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-if sudo nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" --impure; then
+if sudo nixos-rebuild switch --flake "$CONFIG_FOLDER#$HOSTNAME" --impure; then
     echo "Rebuild successful"
 
-    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > /etc/nixos/diff.txt
-    cat /etc/nixos/diff.txt
-    git add /etc/nixos/diff.txt
+    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > $CONFIG_FOLDER/diff.txt
+    cat $CONFIG_FOLDER/diff.txt
+    git add $CONFIG_FOLDER/diff.txt
 
     if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
         git commit --amend --no-edit
