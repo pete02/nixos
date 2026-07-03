@@ -37,6 +37,11 @@
       silent = true;
     };
 
+    hardware.keyboard.qmk.enable = true;
+    services.udev.packages = with pkgs; [
+      via
+    ];
+
     programs.nix-ld.enable = true;
     username = "pete";
     home-manager.users.pete = import ./../../home/raysha.nix;
@@ -52,6 +57,7 @@
     programs.firefox.enable = true;
     environment.systemPackages = with pkgs; [
       vim
+      via
       wget
       gimp
       groff
