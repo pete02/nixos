@@ -10,10 +10,17 @@
     ./features.nix
     ./../../modules
     inputs.home-manager.nixosModules.default
+    inputs.sops-nix.nixosModules.sops
   ];
   config = {
 
     networking.hostName = "raysha";
+
+    sops.defaultSopsFile = /etc/nixos/secrets/secrets.yaml;
+    sops.defaultSopsFormat = "yaml";
+    sops.age.keyFile = "/home/pete/.config/sops/age/keys.txt";
+    sops.secrets."samba/server" = { };
+    sops.secrets."ssh/raysha/servu" = { };
 
     net = {
       enable = true;
@@ -23,11 +30,17 @@
       gateway = "192.168.88.1";
     };
 
+    hardware.deviceTree.enable = false;
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
       silent = true;
     };
+
+    hardware.keyboard.qmk.enable = true;
+    services.udev.packages = with pkgs; [
+      via
+    ];
 
     programs.nix-ld.enable = true;
     username = "pete";
@@ -44,12 +57,15 @@
     programs.firefox.enable = true;
     environment.systemPackages = with pkgs; [
       vim
+      via
       wget
       gimp
+      groff
       git
       zip
       unzip
       unrar
+      sops
       awww
       kdePackages.dolphin
       htop

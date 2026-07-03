@@ -12,12 +12,14 @@
       xwayland = {
         force_zero_scaling = true;
       };
+      cursor = {
+        no_hardware_cursors = true;
+      };
 
       general = {
         gaps_in = "5";
         gaps_out = "5";
         resize_on_border = false;
-        allow_tearing = false;
         layout = "dwindle";
       };
       decoration = {
@@ -45,6 +47,9 @@
         };
       };
 
+      render = {
+        direct_scanout = true;
+      };
       input = {
         kb_layout = "fi";
       };
