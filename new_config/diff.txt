@@ -1,28 +1,5 @@
-<<< /nix/var/nix/profiles/system-224-link
->>> /nix/var/nix/profiles/system-225-link
-Version changes:
-[C*]  #01  curl                8.20.0 x2, 8.20.0-bin x2, 8.20.0-dev, 8.20.0-man -> 8.20.0 x3, 8.20.0-bin x3, 8.20.0-dev, 8.20.0-man x2
-[C.]  #02  gdk-pixbuf          2.44.6 x2, 2.44.6-dev -> 2.44.6 x2, 2.44.6-dev, 2.44.6-man
-[C.]  #03  glew                2.3.1, 2.3.1-bin -> 1.10.0, 2.3.1, 2.3.1-bin
-[C.]  #04  imlib2              1.12.6 -> 1.12.6 x2
-[C.]  #05  ldconfig            <none> -> <none> x2
-[C.]  #06  libcaca             0.99.beta20 x2 -> 0.99.beta20 x2, 0.99.beta20-bin, 0.99.beta20-man
-[C.]  #07  libidn              1.43 x2 -> 1.43 x2, 1.43-bin
-[C.]  #08  libmikmod           3.3.13 -> 3.3.13, 3.3.13-man
-[C.]  #09  libmpg123           1.33.4 x2 -> 1.33.4 x2, 1.33.4-man
-[C.]  #10  libvpx              1.16.0 x2 -> 1.16.0 x2, 1.16.0-bin
-[C.]  #11  ngtcp2              1.22.1 x2, 1.22.1-dev -> 1.22.1 x2, 1.22.1-dev, 1.23.0
-[C.]  #12  openssl             3.6.2 x2, 3.6.2-bin, 3.6.2-dev -> 3.6.2 x2, 3.6.2-bin, 3.6.2-dev, 3.6.2-man
-[C.]  #13  util-linux-minimal  2.42-bin, 2.42-lib x2, 2.42-login x2, 2.42-mount x2, 2.42-swap x2 -> 2.42, 2.42-bin, 2.42-lib x2, 2.42-login x2, 2.42-man, 2.42-mount x2, 2.42-swap x2
-[C.]  #14  xdg-user-dirs       0.20 x2, 0.20-lib x2 -> 0.20 x2, 0.20-lib x2, 0.20-man
+<<< /nix/var/nix/profiles/system-225-link
+>>> /nix/var/nix/profiles/system-226-link
 Added packages:
-[A.]  #1  SDL2_image        2.8.12
-[A.]  #2  SDL2_mixer        2.8.2
-[A.]  #3  appimage-exec.sh  <none>
-[A.]  #4  libpng            1.2.59, 1.2.59-man
-[A.]  #5  libxmp            4.7.0
-[A.]  #6  pv                1.10.5
-[A.]  #7  squashfs          4.7.5
-[A.]  #8  timidity          2.15.0
-[A+]  #9  via               3.0.0, 3.0.0-bwrap, 3.0.0-extracted, 3.0.0-fhsenv-profile, 3.0.0-fhsenv-rootfs, 3.0.0-init
-Closure size: 2366 -> 2399 (51 paths added, 18 paths removed, delta +33, disk usage +263.8MiB).
+[A+]  #1  direnv  2.37.1
+Closure size: 2399 -> 2400 (14 paths added, 13 paths removed, delta +1, disk usage +8.8MiB).
