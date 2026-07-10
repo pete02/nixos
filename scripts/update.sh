@@ -2,17 +2,29 @@
 set -euo pipefail
 
 CONFIG_FOLDER=/etc/nixos
+GIT_USER=$(stat -c '%U' "$CONFIG_FOLDER/.git")
+
+git_cmd() {
+    if [[ $EUID -eq 0 ]]; then
+        sudo -H -u "$GIT_USER" git "$@"
+    else
+        git "$@"
+    fi
+}
+
+
+
 
 cd "$CONFIG_FOLDER"
 
 # Save current state so we can roll back if necessary
-ORIGINAL_REV=$(git rev-parse HEAD)
+ORIGINAL_REV=$(git_cmd rev-parse HEAD)
 
 cleanup() {
     echo "Restoring repository..."
-    git restore .
-    git clean -fd
-    git reset --hard "$ORIGINAL_REV"
+    git_cmd restore .
+    git_cmd clean -fd
+    git_cmd reset --hard "$ORIGINAL_REV"
 }
 
 echo "Updating flake inputs..."
