@@ -60,3 +60,12 @@ echo "All hosts build successfully."
 echo
 echo "Running rebuild..."
 exec /run/current-system/sw/bin/rebuild
+
+if [[ -S "/run/user/$UID/bus" ]]; then
+    sudo -u "$GIT_USER" \
+        XDG_RUNTIME_DIR="/run/user/$UID" \
+        DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID/bus" \
+        notify-send \
+        "NixOS Updated" \
+        "Automatic update and rebuild completed successfully."
+fi
