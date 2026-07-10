@@ -42,6 +42,7 @@
       services = {
         cleaner = true;
         sambaClient = true;
+        autoUpdate = true;
       };
 
       hyprlandExtraConfig = ''

@@ -10,6 +10,7 @@
       options.services = {
         cleaner = lib.mkEnableOption "Enable the cleaner service";
         gitops = lib.mkEnableOption "Enable the gitops service";
+        autoUpdate = lib.mkEnableOption "Enables weekly automatic Nixos update and rebuild";
         gpucooler = lib.mkEnableOption "Enable the GPU cooler service";
         sshServer = lib.mkEnableOption "Enable the SSH service";
         sync = lib.mkEnableOption "Enable syncing to server";
@@ -49,6 +50,35 @@
               OnBootSec = "5m";
               OnUnitActiveSec = "1h";
               RandomizedDelaySec = "10m";
+              Persistent = true;
+            };
+          };
+        })
+
+        (lib.mkIf config.services.autoUpdate {
+          systemd.services.nixos-auto-update = {
+            description = "Update flake inputs and rebuild NixOS";
+
+            serviceConfig = {
+              Type = "oneshot";
+              Environment = "PATH=${pkgs.git}/bin:${pkgs.nixos-rebuild}/bin:/run/current-system/sw/bin";
+              ExecStart = pkgs.writeShellScript "nixos-auto-update" (
+                builtins.readFile "${self}/scripts/update.sh"
+              );
+            };
+          };
+
+          systemd.timers.nixos-auto-update = {
+            description = "Weekly automatic NixOS update";
+
+            wantedBy = [ "timers.target" ];
+            after = [ "network-online.target" ];
+            wants = [ "network-online.target" ];
+
+            timerConfig = {
+              OnBootSec = "15m";
+              OnCalendar = "weekly";
+              RandomizedDelaySec = "1h";
               Persistent = true;
             };
           };
