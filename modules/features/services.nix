@@ -78,15 +78,13 @@
               PasswordAuthentication = false;
               KbdInteractiveAuthentication = false;
               PermitRootLogin = "no";
-              AllowUsers = [ "pete" ];
+              AllowUsers = [ config.username ];
+              AuthorizedKeysFile = "/run/secrets/ssh/${config.hostname}/authorized_keys";
             };
           };
           sops.secrets."ssh/${config.hostname}/authorized_keys" = {
-            owner = config.hostname;
+            owner = config.username;
           };
-          users.users.${config.username}.openssh.authorizedKeys.keyFiles = [
-            "/run/secrets/ssh/${config.hostname}/authorized_keys"
-          ];
 
         })
 

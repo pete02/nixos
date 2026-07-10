@@ -1,5 +1,5 @@
-<<< /nix/var/nix/profiles/system-221-link
->>> /nix/var/nix/profiles/system-222-link
+<<< /nix/var/nix/profiles/system-225-link
+>>> /nix/var/nix/profiles/system-226-link
 Added packages:
-[A+]  #1  via  3.0.0, 3.0.0-bwrap, 3.0.0-extracted, 3.0.0-fhsenv-profile, 3.0.0-fhsenv-rootfs, 3.0.0-init
-Closure size: 2708 -> 2714 (26 paths added, 20 paths removed, delta +6, disk usage +237.5MiB).
+[A+]  #1  direnv  2.37.1
+Closure size: 2399 -> 2400 (14 paths added, 13 paths removed, delta +1, disk usage +8.8MiB).

@@ -1,5 +1,0 @@
-<<< /nix/var/nix/profiles/system-225-link
->>> /nix/var/nix/profiles/system-226-link
-Added packages:
-[A+]  #1  direnv  2.37.1
-Closure size: 2399 -> 2400 (14 paths added, 13 paths removed, delta +1, disk usage +8.8MiB).

@@ -1,7 +1,7 @@
 set -euo pipefail
 HOSTNAME=$(hostname)
 UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
-CONFIG_FOLDER=/etc/nixos/new_config
+CONFIG_FOLDER=/etc/nixos
 
 
 
