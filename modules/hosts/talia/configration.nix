@@ -36,7 +36,7 @@
       };
 
       common-tools.books = true;
-      common-tools.school=true;
+      common-tools.school = true;
 
       services = {
         cleaner = true;
