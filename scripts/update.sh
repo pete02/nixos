@@ -53,7 +53,7 @@ for HOST in "${HOSTS[@]}"; do
         exit 1
     fi
 done
-
+rm /tmp/nixos-dry-build.log
 echo
 echo "All hosts build successfully."
 
