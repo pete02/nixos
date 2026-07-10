@@ -81,12 +81,13 @@
               AllowUsers = [ "pete" ];
             };
           };
-          users.users.${config.username}.openssh.authorizedKeys.keyFiles = [
-            "/run/secrets/ssh/${config.hostname}/authorized_keys"
-          ];
           sops.secrets."ssh/${config.hostname}/authorized_keys" = {
             owner = config.hostname;
           };
+          users.users.${config.username}.openssh.authorizedKeys.keyFiles = [
+            "/run/secrets/ssh/${config.hostname}/authorized_keys"
+          ];
+
         })
 
         (lib.mkIf config.services.sync {
