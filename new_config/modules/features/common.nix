@@ -54,7 +54,7 @@
           environment.systemPackages = with pkgs; [
             # Obsidian with Wayland support
             (obsidian.override {
-              platformArgs = [ "--ozone-platform=wayland" ];
+              commandLineArgs = [ "--ozone-platform=wayland" ];
             })
             wineWow64Packages.waylandFull
           ];
