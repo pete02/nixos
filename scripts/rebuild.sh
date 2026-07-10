@@ -73,8 +73,12 @@ handle_success(){
     fi
 }
 
-rebuild_function(){
-    sudo nixos-rebuild switch --flake "$CONFIG_FOLDER#$HOSTNAME" --impure
+rebuild_function() {
+    if [[ $EUID -eq 0 ]]; then
+        nixos-rebuild switch --flake "$CONFIG_FOLDER#$HOSTNAME" --impure
+    else
+        sudo nixos-rebuild switch --flake "$CONFIG_FOLDER#$HOSTNAME" --impure
+    fi
 }
 
 handle_failure(){
@@ -95,7 +99,7 @@ handle_failure(){
 
 cd $CONFIG_FOLDER
 validate_config
-git add "$CONFIG_FOLDER/."
+git_cmd add "$CONFIG_FOLDER/."
 
 # Shows your changes
 git_cmd diff -U0 '*.nix'
