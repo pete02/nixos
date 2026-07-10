@@ -50,6 +50,16 @@ for HOST in "${HOSTS[@]}"; do
         echo
         echo "Dry-build failed for $HOST."
         cleanup
+        if [[ -S "/run/user/$UID/bus" ]]; then
+            sudo -u "$GIT_USER" \
+                XDG_RUNTIME_DIR="/run/user/$UID" \
+                DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID/bus" \
+                notify-send \
+                "NixOS Updated" \
+                "Automatic update failed for $HOST."
+        fi
+
+
         exit 1
     fi
 done
