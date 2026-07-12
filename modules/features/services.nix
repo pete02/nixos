@@ -176,7 +176,7 @@
 
           fileSystems = {
             "/mnt/server" = {
-              device = "//192.168.88.241/private/";
+              device = "//aria.local/private/";
               fsType = "cifs";
               options =
                 let

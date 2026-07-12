@@ -117,7 +117,7 @@
               user git
 
             Host servu
-              hostname 192.168.88.241
+              hostname aria.local
               identityFile /run/secrets/ssh/${config.hostname}/servu
               port 22
               user pete
