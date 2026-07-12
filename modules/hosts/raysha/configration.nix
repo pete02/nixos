@@ -41,6 +41,7 @@
 
       services = {
         cleaner = true;
+        mDNS = true;
         sambaClient = true;
         autoUpdate = true;
       };
