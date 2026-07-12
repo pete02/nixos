@@ -28,6 +28,7 @@
       services = {
         cleaner = true;
         sambaServer = true;
+        mDNS=true;
         gitops = true;
         sshServer = true;
       };
