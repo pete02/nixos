@@ -15,6 +15,7 @@
         sshServer = lib.mkEnableOption "Enable the SSH service";
         sync = lib.mkEnableOption "Enable syncing to server";
         sambaClient = lib.mkEnableOption "enables router samba";
+        mDNS = lib.mkEnableOption "Enable mDNS service for publishing IP to local network";
         sambaServer = lib.mkEnableOption "enables samba server";
       };
 
@@ -51,6 +52,17 @@
               OnUnitActiveSec = "1h";
               RandomizedDelaySec = "10m";
               Persistent = true;
+            };
+          };
+        })
+
+        (lib.mkIf (config.services.mDNS) {
+          services.avahi = {
+            enable = true;
+            nssmdns4 = true;
+            publish = {
+              addresses = true;
+              enable = true;
             };
           };
         })

@@ -21,6 +21,7 @@
       hostname = "aria";
 
       management.ld = true;
+      management.gitClient = true;
 
       common-tools.books = true;
 

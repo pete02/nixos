@@ -19,6 +19,7 @@
         };
         management = {
           sshClient = lib.mkEnableOption "enables ssh client";
+          gitClient = lib.mkEnableOption "enables git client";
           powersave = lib.mkEnableOption "Enable power saving";
           ld = lib.mkEnableOption "enables nix-ld";
         };
@@ -93,15 +94,22 @@
           };
         })
 
+        (lib.mkIf (config.management.gitClient) {
+          sops.secrets."ssh/${config.hostname}/github" = {
+            owner = config.username;
+          };
+          environment.etc."ssh/ssh_config".text = ''
+            Host github.com
+              hostname github.com
+              identityFile /run/secrets/ssh/${config.hostname}/github
+              user git
+          '';
+        })
+
         (lib.mkIf (config.management.sshClient) {
           sops.secrets."ssh/${config.hostname}/servu" = {
             owner = config.username;
           };
-
-          sops.secrets."ssh/${config.hostname}/github" = {
-            owner = config.username;
-          };
-
           environment.etc."ssh/ssh_config".text = ''
             Host github.com
               hostname github.com
