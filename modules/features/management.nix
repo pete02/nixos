@@ -110,6 +110,9 @@
           sops.secrets."ssh/${config.hostname}/servu" = {
             owner = config.username;
           };
+          sops.secrets."ssh/${config.hostname}/github" = {
+            owner = config.username;
+          };
           environment.etc."ssh/ssh_config".text = ''
             Host github.com
               hostname github.com
