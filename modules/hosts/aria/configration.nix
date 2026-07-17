@@ -11,10 +11,7 @@
         self.nixosModules.sops
         self.nixosModules.dev
         self.nixosModules.common
-      ];
-
-      environment.systemPackages = with pkgs; [
-        mdadm
+        self.nixosModules.mdadm
       ];
 
       username = "pete";
@@ -24,6 +21,10 @@
       management.gitClient = true;
 
       common-tools.books = true;
+
+      environment.sessionVariables ={
+        MAILADDR="petrik.rasanen@gmail.com";
+      };
 
       services = {
         cleaner = true;

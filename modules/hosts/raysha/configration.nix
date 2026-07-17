@@ -13,12 +13,13 @@
         self.nixosModules.dev
         self.nixosModules.gaming
         self.nixosModules.common
+        self.nixosModules.mdadm
       ];
 
       environment.systemPackages = with pkgs; [
-        mdadm
         via
       ];
+
 
       hardware.keyboard.qmk.enable = true;
       services.udev.packages = with pkgs; [
