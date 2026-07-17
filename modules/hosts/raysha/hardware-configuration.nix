@@ -48,7 +48,12 @@
         efi.canTouchEfiVariables = true;
         timeout = 1;
       };
-      boot.swraid.enable = true;
+      boot.swraid = {
+        enable = true;
+        mdadmConf = ''
+          MAILADDR petrik.rasanen@gmail.com
+        '';
+      };
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
       hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
