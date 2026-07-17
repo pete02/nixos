@@ -55,5 +55,7 @@
       hardware.enableRedistributableFirmware = true;
       peripherals.nvidia = true;
       peripherals.logitech = true;
+
+      system.stateVersion = "25.05";
     };
 }

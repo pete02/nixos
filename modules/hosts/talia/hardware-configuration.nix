@@ -63,7 +63,7 @@
       # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
       networking.useDHCP = lib.mkDefault true;
       # networking.interfaces.wlp1s0.useDHCP = lib.mkDefault true;
-
+      system.stateVersion = "25.05";
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
       hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 

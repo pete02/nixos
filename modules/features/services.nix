@@ -195,10 +195,10 @@
           sops.secrets."samba/server" = { };
           services.samba = {
             enable = true;
-            securityType = "user";
             openFirewall = true;
             settings = {
               global = {
+                security = "user";
                 "workgroup" = "WORKGROUP";
                 "server string" = "smbnix";
                 "netbios name" = "smbnix";
