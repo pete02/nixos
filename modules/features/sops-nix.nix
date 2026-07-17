@@ -7,6 +7,6 @@
     environment.systemPackages = [ pkgs.sops ];
     sops.defaultSopsFile = "${self}/secrets/secrets.yaml";
     sops.defaultSopsFormat = "yaml";
-    sops.age.keyFile = "/home/${config.username}/.config/sops/age/keys.txt";
+    sops.age.keyFile = "/etc/sops/age/keys.txt";
   };
 }
