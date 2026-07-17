@@ -22,8 +22,8 @@
 
       common-tools.books = true;
 
-      environment.sessionVariables ={
-        MAILADDR="petrik.rasanen@gmail.com";
+      environment.sessionVariables = {
+        MAILADDR = "petrik.rasanen@gmail.com";
       };
 
       services = {

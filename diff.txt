@@ -1,5 +1,4 @@
-<<< /nix/var/nix/profiles/system-239-link
->>> /nix/var/nix/profiles/system-240-link
-Added packages:
-[A.]  #1  etc-xdg-xdg-desktop-portal-portals.conf  <none>
-Closure size: 2375 -> 2376 (5 paths added, 4 paths removed, delta +1, disk usage +720B).
+<<< /nix/var/nix/profiles/system-240-link
+>>> /nix/var/nix/profiles/system-241-link
+No version or selection state changes.
+Closure size: 2376 -> 2376 (16 paths added, 16 paths removed, delta +0, disk usage +680B).
