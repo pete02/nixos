@@ -54,9 +54,9 @@ validate_config() {
 handle_success(){
     echo "Rebuild successful"
 
-    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > $CONFIG_FOLDER/diff.txt
-    cat "$CONFIG_FOLDER/diff.txt"
-    git_cmd add "$CONFIG_FOLDER/diff.txt"
+    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > $CONFIG_FOLDER/$HOSTNAME-diff.txt
+    cat "$CONFIG_FOLDER/$HOSTNAME-diff.txt"
+    git_cmd add "$CONFIG_FOLDER/$HOSTNAME-diff.txt"
 
     if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
         git_cmd commit --amend --no-edit
