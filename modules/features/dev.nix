@@ -38,9 +38,9 @@
             enable = true;
             enableOnBoot = false;
             daemon.settings = {
-              features = {
-                cdi = true;
-              };
+              features.cdi = true;
+              registry-mirrors = [ "http://aria.local:5001" ];
+              insecure-registries = [ "aria.local:5001" ];
             };
           };
 
