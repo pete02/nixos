@@ -22,6 +22,10 @@
             direnv
           ];
 
+          programs.direnv = {
+            enable = true;
+            nix-direnv.enable = true;
+          };
           # Nix configuration
           nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
           nix.settings = {
