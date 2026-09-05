@@ -11,6 +11,7 @@
       hyprlandPkg = self.mkHyprlandPkg {
         inherit pkgs;
         extraConfig = config.hyprlandExtraConfig;
+        extraHyprPanelConfig = config.hyprpanelExtraConfig;
       };
     in
     {
@@ -19,6 +20,11 @@
         hyprlandExtraConfig = lib.mkOption {
           type = lib.types.lines;
           default = "";
+        };
+        hyprpanelExtraConfig = lib.mkOption {
+          type = lib.types.attrsOf lib.types.anything;
+          default = { };
+          description = "Extra hyprpanel config, merged into the base config.";
         };
       };
 

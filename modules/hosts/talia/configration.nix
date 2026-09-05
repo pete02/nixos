@@ -61,5 +61,16 @@
           disable_logs = false
         }
       '';
+
+      hyprpanelExtraConfig.layouts."*".right = [
+        "volume"
+        "netstat"
+        "clock"
+        "systray"
+        "notifications"
+        "network"
+        "bluetooth"
+        "battery"
+      ];
     };
 }

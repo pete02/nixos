@@ -133,11 +133,14 @@
           pkgs,
           extraConfig ? "",
           withHyprpanel ? true,
+          extraHyprPanelConfig ? { },
         }:
         let
           hyprpanelPkg =
             let
-              storeConfig = pkgs.writeText "config.json" (builtins.toJSON hyprpanelConfig);
+              storeConfig = pkgs.writeText "config.json" (
+                builtins.toJSON (lib.recursiveUpdate hyprpanelConfig extraHyprPanelConfig)
+              );
             in
             pkgs.writeShellScriptBin "hyprpanel" ''
               CONFIG_DIR="$XDG_RUNTIME_DIR/hyprpanel"
