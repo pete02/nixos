@@ -57,12 +57,6 @@
         bind = SUPER, right, movetoworkspace, 1
         bind = SUPER, left, movetoworkspace, 2
         bind = SUPER, n, exec, /home/pete/wallpapers/switch.sh
-        bind = SUPER, ö, exec, echo "hello"
-
-        debug {
-          full_cm_proto = true
-          disable_logs = false
-        }
       '';
     };
 }

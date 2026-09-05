@@ -59,6 +59,10 @@
           no_update_news = true
           no_donation_nag = true
         }
+        debug {
+          full_cm_proto = true
+          disable_logs = false
+        }
         bind = SUPER, SPACE, exec, rofi -show drun -show-icons
         bind = SUPER, C, killactive
         bind = SUPER, M, exit
