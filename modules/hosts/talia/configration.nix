@@ -57,7 +57,7 @@
 
       '';
 
-      hyprpanelExtraConfig.layouts."*".right = [
+      hyprpanelExtraConfig.bar.layouts."*".right = [
         "volume"
         "netstat"
         "clock"
