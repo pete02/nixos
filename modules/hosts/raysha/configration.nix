@@ -23,6 +23,7 @@
       hardware.keyboard.qmk.enable = true;
       services.udev.packages = with pkgs; [
         via
+        android-tools
       ];
 
       username = "pete";
