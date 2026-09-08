@@ -1,4 +1,248 @@
-<<< /nix/var/nix/profiles/system-229-link
->>> /nix/var/nix/profiles/system-230-link
-No version or selection state changes.
-Closure size: 1924 -> 1924 (20 paths added, 20 paths removed, delta +0, disk usage -104B).
+<<< /nix/var/nix/profiles/system-230-link
+>>> /nix/var/nix/profiles/system-231-link
+Version changes:
+[C.]  #01  binutils-wrapper  2.46 -> 2.46 x2
+[C.]  #02  blas              3 -> 3, 3-dev
+[C.]  #03  boost             1.89.0, 1.89.0-dev -> 1.89.0, 1.89.0-dev, 1.90.0
+[C*]  #04  curl              8.21.0 x3, 8.21.0-bin x2, 8.21.0-man x2 -> 8.21.0 x3, 8.21.0-bin x2, 8.21.0-dev, 8.21.0-man x2
+[C.]  #05  gcc               15.2.0-lib x3, 15.2.0-libgcc x3 -> 15.2.0, 15.2.0-lib x3, 15.2.0-libgcc x3
+[C.]  #06  gfortran          15.2.0-lib, 15.2.0-libgcc -> 15.2.0, 15.2.0-lib, 15.2.0-libgcc
+[C*]  #07  gnutar            1.35, 1.35-info -> 1.35 x2, 1.35-info
+[C.]  #08  gtest             1.17.0 x2 -> 1.17.0 x2, 1.17.0-dev
+[C.]  #09  icu4c             76.1 x2, 77.1 -> 76.1 x2, 76.1-dev, 77.1
+[C.]  #10  krb5              1.22.2, 1.22.2-lib x2 -> 1.22.2, 1.22.2-dev, 1.22.2-lib x2
+[C.]  #11  lapack            3 -> 3, 3-dev
+[C.]  #12  libidn2           2.3.8 x2 -> 2.3.8 x2, 2.3.8-bin, 2.3.8-dev
+[C.]  #13  libmpc            1.4.1 -> 1.4.1 x2
+[C.]  #14  libpsl            0.21.5 x2 -> 0.21.5 x2, 0.21.5-dev
+[C.]  #15  libssh2           1.11.1 x2 -> 1.11.1 x2, 1.11.1-dev
+[C.]  #16  libuv             1.52.1 x2 -> 1.52.1 x2, 1.52.1-dev
+[C.]  #17  libxmu            1.3.1 -> 1.3.1, 1.3.1-dev
+[C.]  #18  libxt             1.3.1 -> 1.3.1, 1.3.1-dev
+[C.]  #19  llhttp            9.4.2 -> 9.4.2, 9.4.2-dev
+[C.]  #20  mpfr              4.2.2 -> 4.2.2 x2
+[C.]  #21  nghttp2           1.69.0-lib x2 -> 1.69.0, 1.69.0-dev, 1.69.0-lib x2
+[C.]  #22  nghttp3           1.16.0 x2 -> 1.16.0 x2, 1.16.0-dev
+[C.]  #23  ngtcp2            1.23.0 x2, 1.24.0 -> 1.23.0 x2, 1.23.0-dev, 1.24.0
+[C.]  #24  pcre2             10.46 x2 -> 10.46 x2, 10.46-bin, 10.46-dev
+[C.]  #25  python3           3.14.6 x2, 3.14.6-env x7 -> 3.14.6 x2, 3.14.6-env x8
+[C.]  #26  readline          8.3p3 x2 -> 8.3p3 x2, 8.3p3-dev
+[C.]  #27  source            <none> x2 -> <none> x3
+[C.]  #28  sqlite            3.53.1 x2 -> 3.53.1 x2, 3.53.1-bin, 3.53.1-dev
+Added packages:
+[A.]  #001  R                                        4.6.0, 4.6.0-man, 4.6.0-tex, 4.6.0-wrapper
+[A.]  #002  ada                                      3.4.4
+[A.]  #003  c-ares                                   1.34.6 x2, 1.34.6-dev
+[A.]  #004  clang                                    21.1.8-lib
+[A.]  #005  deno                                     2.8.3
+[A.]  #006  esbuild                                  0.27.2
+[A.]  #007  gcc-wrapper                              15.2.0
+[A.]  #008  gfortran-wrapper                         15.2.0
+[A.]  #009  gmp                                      6.3.0
+[A.]  #010  gnumake                                  4.4.1
+[A.]  #011  hdrhistogram_c                           0.11.9
+[A.]  #012  hunspell-dict-cs-cz-libreoffice          6.3.0.4
+[A.]  #013  hunspell-dict-cy-gb                      25.03
+[A.]  #014  hunspell-dict-da-dk                      2.5.189
+[A.]  #015  hunspell-dict-de-at-j3e                  20161207
+[A.]  #016  hunspell-dict-de-ch-j3e                  20161207
+[A.]  #017  hunspell-dict-de-de-j3e                  20161207
+[A.]  #018  hunspell-dict-el-gr-libreoffice          6.3.0.4
+[A.]  #019  hunspell-dict-en-au-large-wordlist       2026.02.25
+[A.]  #020  hunspell-dict-en-ca-large-wordlist       2026.02.25
+[A.]  #021  hunspell-dict-en-gb-large-wordlist       2026.02.25
+[A.]  #022  hunspell-dict-en-us-large-wordlist       2026.02.25
+[A.]  #023  hunspell-dict-es-any-rla                 2.5
+[A.]  #024  hunspell-dict-es-ar-rla                  2.5
+[A.]  #025  hunspell-dict-es-bo-rla                  2.5
+[A.]  #026  hunspell-dict-es-cl-rla                  2.5
+[A.]  #027  hunspell-dict-es-co-rla                  2.5
+[A.]  #028  hunspell-dict-es-cr-rla                  2.5
+[A.]  #029  hunspell-dict-es-cu-rla                  2.5
+[A.]  #030  hunspell-dict-es-do-rla                  2.5
+[A.]  #031  hunspell-dict-es-ec-rla                  2.5
+[A.]  #032  hunspell-dict-es-es-rla                  2.5
+[A.]  #033  hunspell-dict-es-gt-rla                  2.5
+[A.]  #034  hunspell-dict-es-hn-rla                  2.5
+[A.]  #035  hunspell-dict-es-mx-rla                  2.5
+[A.]  #036  hunspell-dict-es-ni-rla                  2.5
+[A.]  #037  hunspell-dict-es-pa-rla                  2.5
+[A.]  #038  hunspell-dict-es-pe-rla                  2.5
+[A.]  #039  hunspell-dict-es-pr-rla                  2.5
+[A.]  #040  hunspell-dict-es-py-rla                  2.5
+[A.]  #041  hunspell-dict-es-sv-rla                  2.5
+[A.]  #042  hunspell-dict-es-uy-rla                  2.5
+[A.]  #043  hunspell-dict-es-ve-rla                  2.5
+[A.]  #044  hunspell-dict-et-ee                      <none>
+[A.]  #045  hunspell-dict-eu-es-xuxen                5-2015.11.10
+[A.]  #046  hunspell-dict-fa-ir-experimental         2022-09-04
+[A.]  #047  hunspell-dict-fr-any-dicollecte          5.3
+[A.]  #048  hunspell-dict-fr-classique-dicollecte    5.3
+[A.]  #049  hunspell-dict-fr-moderne-dicollecte      5.3
+[A.]  #050  hunspell-dict-fr-reforme1990-dicollecte  5.3
+[A.]  #051  hunspell-dict-he-il-libreoffice          6.3.0.4
+[A.]  #052  hunspell-dict-hr-hr-libreoffice          6.3.0.4
+[A.]  #053  hunspell-dict-hu-hu-libreoffice          6.3.0.4
+[A.]  #054  hunspell-dict-id-id-libreoffice          6.3.0.4
+[A.]  #055  hunspell-dict-it-it-linguistico          2.4
+[A.]  #056  hunspell-dict-ko-kr                      0.7.94
+[A.]  #057  hunspell-dict-nb-no-libreoffice          6.3.0.4
+[A.]  #058  hunspell-dict-nl-nl                      2.20.19
+[A.]  #059  hunspell-dict-nn-no-libreoffice          6.3.0.4
+[A.]  #060  hunspell-dict-pl-pl-libreoffice          6.3.0.4
+[A.]  #061  hunspell-dict-pt-br-libreoffice          6.3.0.4
+[A.]  #062  hunspell-dict-pt-pt-libreoffice          6.3.0.4
+[A.]  #063  hunspell-dict-ro-ro                      3.3.10
+[A.]  #064  hunspell-dict-ru-ru-libreoffice          6.3.0.4
+[A.]  #065  hunspell-dict-sk-sk-libreoffice          6.3.0.4
+[A.]  #066  hunspell-dict-sv-fi-dsso                 2.40
+[A.]  #067  hunspell-dict-sv-se-dsso                 2.40
+[A.]  #068  hunspell-dict-th-th                      0-unstable-2025-12-29
+[A.]  #069  hunspell-dict-tok                        20220829
+[A.]  #070  hunspell-dict-tr-tr                      1.1.1
+[A.]  #071  hunspell-dict-uk-ua                      6.5.3
+[A.]  #072  hunspell-dict-uz-uz                      0.1.0
+[A.]  #073  isl                                      0.20
+[A.]  #074  libargon2                                20190702
+[A.]  #075  libev                                    4.33
+[A.]  #076  nbytes                                   0.1.4
+[A.]  #077  nodejs                                   24.18.0
+[A.]  #078  nodejs-slim                              24.18.0, 24.18.0-corepack, 24.18.0-npm
+[A.]  #079  omp-checkPhase-hook                      <none>
+[A.]  #080  openjdk                                  21.0.12+2
+[A.]  #081  pandoc-cli                               3.7.0.2
+[A.]  #082  python3.14-anyio                         4.14.1
+[A.]  #083  python3.14-argon2-cffi                   25.1.0
+[A.]  #084  python3.14-argon2-cffi-bindings          25.1.0
+[A.]  #085  python3.14-arrow                         1.4.0
+[A.]  #086  python3.14-asgiref                       3.11.1
+[A.]  #087  python3.14-asttokens                     3.0.1
+[A.]  #088  python3.14-async-lru                     2.3.0
+[A.]  #089  python3.14-attrs                         26.1.0
+[A.]  #090  python3.14-babel                         2.18.0
+[A.]  #091  python3.14-bleach                        6.3.0
+[A.]  #092  python3.14-comm                          0.2.3
+[A.]  #093  python3.14-decorator                     5.2.1
+[A.]  #094  python3.14-executing                     2.2.1
+[A.]  #095  python3.14-fastjsonschema                2.21.2
+[A.]  #096  python3.14-fqdn                          1.5.1
+[A.]  #097  python3.14-h11                           0.16.0
+[A.]  #098  python3.14-httpcore                      1.0.9
+[A.]  #099  python3.14-httpx                         0.28.1
+[A.]  #100  python3.14-ipykernel                     7.1.0
+[A.]  #101  python3.14-ipython                       9.14.0, 9.14.0-man
+[A.]  #102  python3.14-ipython-pygments-lexers       1.1.1
+[A.]  #103  python3.14-ipywidgets                    8.1.8
+[A.]  #104  python3.14-isoduration                   20.11.0
+[A.]  #105  python3.14-jedi                          0.20.0
+[A.]  #106  python3.14-jinja2                        3.1.6
+[A.]  #107  python3.14-json5                         0.13.0
+[A.]  #108  python3.14-jsonpath-ng                   1.7.0
+[A.]  #109  python3.14-jsonpointer                   3.0.0
+[A.]  #110  python3.14-jsonschema                    4.26.0
+[A.]  #111  python3.14-jsonschema-specifications     2025.9.1
+[A.]  #112  python3.14-jupyter                       1.1.1
+[A.]  #113  python3.14-jupyter-client                8.8.0
+[A.]  #114  python3.14-jupyter-console               6.6.3
+[A.]  #115  python3.14-jupyter-core                  5.9.1
+[A.]  #116  python3.14-jupyter-events                0.12.0
+[A.]  #117  python3.14-jupyter-lsp                   2.3.0
+[A.]  #118  python3.14-jupyter-server                2.17.0
+[A.]  #119  python3.14-jupyter-server-terminals      0.5.4
+[A.]  #120  python3.14-jupyterlab                    4.5.8
+[A.]  #121  python3.14-jupyterlab-pygments           0.3.0
+[A.]  #122  python3.14-jupyterlab-server             2.28.0
+[A.]  #123  python3.14-jupyterlab-widgets            3.0.16
+[A.]  #124  python3.14-lark                          1.3.1
+[A.]  #125  python3.14-matplotlib-inline             0.2.1
+[A.]  #126  python3.14-mistune                       3.3.2
+[A.]  #127  python3.14-nbclient                      0.10.4
+[A.]  #128  python3.14-nbconvert                     7.17.1
+[A.]  #129  python3.14-nbformat                      5.10.4
+[A.]  #130  python3.14-nest-asyncio                  1.6.0
+[A.]  #131  python3.14-notebook                      7.5.6
+[A.]  #132  python3.14-notebook-shim                 0.2.4
+[A.]  #133  python3.14-overrides                     7.7.0
+[A.]  #134  python3.14-pandocfilters                 1.5.1
+[A.]  #135  python3.14-parso                         0.8.7
+[A.]  #136  python3.14-pexpect                       4.9.0
+[A.]  #137  python3.14-platformdirs                  4.9.6
+[A.]  #138  python3.14-ply                           3.11
+[A.]  #139  python3.14-prometheus-client             0.25.0
+[A.]  #140  python3.14-prompt-toolkit                3.0.52
+[A.]  #141  python3.14-psutil                        7.2.2
+[A.]  #142  python3.14-ptyprocess                    0.7.0
+[A.]  #143  python3.14-pure-eval                     0.2.3
+[A.]  #144  python3.14-pygments                      2.20.0
+[A.]  #145  python3.14-python-json-logger            4.0.0
+[A.]  #146  python3.14-pyzmq                         27.1.0
+[A.]  #147  python3.14-referencing                   0.37.0
+[A.]  #148  python3.14-rfc3339-validator             0.1.4
+[A.]  #149  python3.14-rfc3986-validator             0.1.1
+[A.]  #150  python3.14-rfc3987-syntax                1.1.0
+[A.]  #151  python3.14-rpds-py                       0.30.0
+[A.]  #152  python3.14-send2trash                    2.1.0
+[A.]  #153  python3.14-stack-data                    0.6.3
+[A.]  #154  python3.14-terminado                     0.18.1
+[A.]  #155  python3.14-tinycss2                      1.5.1
+[A.]  #156  python3.14-tornado                       6.5.7
+[A.]  #157  python3.14-traitlets                     5.14.3
+[A.]  #158  python3.14-types-python-dateutil         2.9.0.20251115
+[A.]  #159  python3.14-uri-template                  1.3.0
+[A.]  #160  python3.14-wcwidth                       0.7.0
+[A.]  #161  python3.14-webcolors                     25.10.0
+[A.]  #162  python3.14-websocket-client              1.9.0
+[A.]  #163  python3.14-widgetsnbextension            4.0.15
+[A.]  #164  quarto                                   1.9.37
+[A.]  #165  quarto-wrapper                           <none>
+[A.]  #166  r-KernSmooth                             2.23-26
+[A.]  #167  r-MASS                                   7.3-65
+[A.]  #168  r-Matrix                                 1.7-5
+[A.]  #169  r-R6                                     2.6.1
+[A.]  #170  r-base64enc                              0.1-6
+[A.]  #171  r-boot                                   1.3-32
+[A.]  #172  r-bslib                                  0.11.0
+[A.]  #173  r-cachem                                 1.1.0
+[A.]  #174  r-class                                  7.3-23
+[A.]  #175  r-cli                                    3.6.6
+[A.]  #176  r-cluster                                2.1.8.2
+[A.]  #177  r-codetools                              0.2-20
+[A.]  #178  r-digest                                 0.6.39
+[A.]  #179  r-evaluate                               1.0.5
+[A.]  #180  r-fastmap                                1.2.0
+[A.]  #181  r-fontawesome                            0.5.3
+[A.]  #182  r-foreign                                0.8-91
+[A.]  #183  r-fs                                     2.1.0
+[A.]  #184  r-highr                                  0.12
+[A.]  #185  r-htmltools                              0.5.9
+[A.]  #186  r-jquerylib                              0.1.4
+[A.]  #187  r-jsonlite                               2.0.0
+[A.]  #188  r-knitr                                  1.51
+[A.]  #189  r-lattice                                0.22-9
+[A.]  #190  r-lifecycle                              1.0.5
+[A.]  #191  r-memoise                                2.0.1
+[A.]  #192  r-mgcv                                   1.9-4
+[A.]  #193  r-mime                                   0.13
+[A.]  #194  r-nlme                                   3.1-169
+[A.]  #195  r-nnet                                   7.3-20
+[A.]  #196  r-rappdirs                               0.3.4
+[A.]  #197  r-rlang                                  1.2.0
+[A.]  #198  r-rmarkdown                              2.31
+[A.]  #199  r-rpart                                  4.1.27
+[A.]  #200  r-sass                                   0.4.10
+[A.]  #201  r-spatial                                7.3-18
+[A.]  #202  r-survival                               3.8-6
+[A.]  #203  r-tinytex                                0.59
+[A.]  #204  r-xfun                                   0.57
+[A.]  #205  r-yaml                                   2.3.12
+[A+]  #206  rstudio                                  2026.04.0+526
+[A.]  #207  set-java-classpath-hook                  <none>
+[A.]  #208  simdjson                                 4.6.4
+[A.]  #209  simdutf                                  6.5.0, 9.0.0
+[A.]  #210  soci                                     4.1.2
+[A.]  #211  tcl                                      8.6.16
+[A.]  #212  tk                                       8.6.16, 8.6.16-dev
+[A.]  #213  typst                                    0.15.0
+[A.]  #214  uvwasi                                   0.0.23
+[A.]  #215  zeromq                                   4.3.5
+Closure size: 1924 -> 2181 (270 paths added, 13 paths removed, delta +257, disk usage +3.2GiB).
