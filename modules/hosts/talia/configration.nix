@@ -16,6 +16,8 @@
 
       environment.systemPackages = with pkgs; [
         via
+        r-studio
+        tidyverse
       ];
 
       hardware.keyboard.qmk.enable = true;
