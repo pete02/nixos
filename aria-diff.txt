@@ -1,4 +1,7 @@
-<<< /nix/var/nix/profiles/system-49-link
->>> /nix/var/nix/profiles/system-50-link
-No version or selection state changes.
-Closure size: 1264 -> 1264 (12 paths added, 12 paths removed, delta +0, disk usage +72B).
+<<< /nix/var/nix/profiles/system-50-link
+>>> /nix/var/nix/profiles/system-51-link
+Added packages:
+[A.]  #1  etc-direnv-direnvrc        <none>
+[A.]  #2  etc-direnv-lib-zz-user.sh  <none>
+[A.]  #3  nix-direnv                 3.1.2
+Closure size: 1264 -> 1267 (24 paths added, 21 paths removed, delta +3, disk usage +37.0KiB).
