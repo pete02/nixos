@@ -253,9 +253,9 @@
             sessionFile = "${stateDir}/session-start";
             revokedFile = "${stateDir}/last-revoked";
 
-            maxSessionSecs = 60 * 60; # 1h
-            cooldownSecs = 72 * 60 * 60; # 72h
-            cutoffHour = 13; # 24h clock, local time
+            maxSessionSecs = 120; # 1h
+            cooldownSecs = 120; # 72h
+            cutoffHour = 21; # 24h clock, local time
 
             preexec = pkgs.writeShellScript "samba-timelock-preexec" ''
               set -euo pipefail
