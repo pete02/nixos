@@ -1,12 +1,4 @@
-<<< /nix/var/nix/profiles/system-51-link
->>> /nix/var/nix/profiles/system-52-link
-Added packages:
-[A.]  #1  samba-timelock-enforce                        <none>
-[A.]  #2  samba-timelock-postexec                       <none>
-[A.]  #3  samba-timelock-preexec                        <none>
-[A.]  #4  unit-samba-timelock-credentials.service       <none>
-[A.]  #5  unit-samba-timelock-enforce.service           <none>
-[A.]  #6  unit-samba-timelock-enforce.timer             <none>
-[A.]  #7  unit-script-samba-timelock-credentials-start  <none>
-[A.]  #8  unit-script-samba-timelock-enforce-start      <none>
-Closure size: 1267 -> 1275 (24 paths added, 16 paths removed, delta +8, disk usage +14.6KiB).
+<<< /nix/var/nix/profiles/system-52-link
+>>> /nix/var/nix/profiles/system-53-link
+No version or selection state changes.
+Closure size: 1275 -> 1275 (12 paths added, 12 paths removed, delta +0, disk usage +864B).
