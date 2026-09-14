@@ -294,21 +294,21 @@
               fi
             '';
 
-          enforce = pkgs.writeShellScript "samba-timelock-enforce" ''
-            set -euo pipefail
-            [ -f ${sessionFile} ] || exit 0
-            start=$(cat ${sessionFile})
-            now=$(date +%s)
-            hour=$(date +%-H)
-            elapsed=$(( now - start ))
+            enforce = pkgs.writeShellScript "samba-timelock-enforce" ''
+              set -euo pipefail
+              [ -f ${sessionFile} ] || exit 0
+              start=$(cat ${sessionFile})
+              now=$(date +%s)
+              hour=$(date +%-H)
+              elapsed=$(( now - start ))
 
-            if [ "$elapsed" -ge ${toString maxSessionSecs} ] || [ "$hour" -ge ${toString cutoffHour} ]; then
-              ${pkgs.util-linux}/bin/logger -t samba-timelock "LIMIT REACHED: force-closing share"
-              ${pkgs.samba}/bin/smbcontrol smbd close-share ${shareName} || true
-              date +%s > ${revokedFile}
-              rm -f ${sessionFile}
-            fi
-          '';
+              if [ "$elapsed" -ge ${toString maxSessionSecs} ] || [ "$hour" -ge ${toString cutoffHour} ]; then
+                ${pkgs.util-linux}/bin/logger -t samba-timelock "LIMIT REACHED: force-closing share"
+                ${pkgs.samba}/bin/smbcontrol smbd close-share ${shareName} || true
+                date +%s > ${revokedFile}
+                rm -f ${sessionFile}
+              fi
+            '';
           in
           {
             sops.secrets."samba/timelock" = { };
