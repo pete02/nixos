@@ -225,7 +225,6 @@
             description = "Set Samba password from sops secret";
             wantedBy = [ "multi-user.target" ];
             after = [
-              "sops-nix.service"
               "samba.service"
             ];
             requires = [ "sops-nix.service" ];
@@ -351,15 +350,8 @@
             systemd.services.samba-timelock-credentials = {
               description = "Set Samba password for timelock share from sops secret";
               wantedBy = [ "multi-user.target" ];
-              after = [
-                "sops-nix.service"
-                "samba.service"
-              ];
-              requires = [ "sops-nix.service" ];
-              serviceConfig = {
-                Type = "oneshot";
-                RemainAfterExit = true;
-              };
+              after = [ "samba.service" ];
+              serviceConfig = { Type = "oneshot"; RemainAfterExit = true; };
               script = ''
                 username=$(grep '^username=' /run/secrets/samba/timelock | cut -d= -f2)
                 password=$(grep '^password=' /run/secrets/samba/timelock | cut -d= -f2)
