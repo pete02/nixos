@@ -192,6 +192,30 @@
           };
         })
 
+        (lib.mkIf config.services.sambaClient {
+          systemd.tmpfiles.rules = [
+            "d /mnt/timelock 0755 pete pete -"
+          ];
+          environment.systemPackages = [ pkgs.cifs-utils ];
+          sops.secrets."samba/timelock" = { };
+
+          fileSystems = {
+            "/mnt/timelock" = {
+              device = "//aria.local/timelock/";
+              fsType = "cifs";
+              options =
+                let
+                  # this line prevents hanging on network split
+                  automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+                  creds = "credentials=/run/secrets/samba/timelock";
+                  vers = "vers=3.0";
+                  uidguid = "uid=1000,gid=1000";
+                in
+                [ "${automount_opts},${creds},${vers},${uidguid}" ];
+            };
+          };
+        })
+
         (lib.mkIf config.services.sambaServer {
           sops.secrets."samba/server" = { };
           services.samba = {
