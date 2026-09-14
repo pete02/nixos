@@ -17,6 +17,7 @@
         sambaClient = lib.mkEnableOption "enables router samba";
         mDNS = lib.mkEnableOption "Enable mDNS service for publishing IP to local network";
         sambaServer = lib.mkEnableOption "enables samba server";
+        timelockServer = lib.mkEnableOption "enables timelock server";
       };
 
       config = lib.mkMerge [
@@ -176,7 +177,7 @@
 
           fileSystems = {
             "/mnt/server" = {
-              device = "//aria.local/private/";
+              device = "//aria.local/server/";
               fsType = "cifs";
               options =
                 let
@@ -207,8 +208,8 @@
                 "guest account" = "nobody";
                 "map to guest" = "bad user";
               };
-              "private" = {
-                "path" = "/mnt/private";
+              "server" = {
+                "path" = "/mnt/server";
                 "browseable" = "yes";
                 "read only" = "no";
                 "guest ok" = "no";
