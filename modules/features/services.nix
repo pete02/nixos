@@ -314,6 +314,11 @@
           {
             sops.secrets."samba/timelock" = { };
 
+            users.users.timelock = {
+              isSystemUser = true;
+              group = "nogroup";
+            };
+
             systemd.tmpfiles.rules = [
               "d ${stateDir} 0750 root root -"
             ];
