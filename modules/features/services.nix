@@ -266,19 +266,19 @@
                 last=$(cat ${revokedFile})
                 elapsed=$(( now - last ))
                 if [ "$elapsed" -lt ${toString cooldownSecs} ]; then
-                  logger -t samba-timelock "DENY connect: cooldown active ($(( (${toString cooldownSecs} - elapsed) / 3600 ))h left)"
+                  ${pkgs.util-linux}/bin/logger -t samba-timelock "DENY connect: cooldown active ($(( (${toString cooldownSecs} - elapsed) / 3600 ))h left)"
                   exit 1
                 fi
               fi
 
               if [ "$hour" -ge ${toString cutoffHour} ]; then
-                logger -t samba-timelock "DENY connect: past cutoff (${toString cutoffHour}:00)"
+                ${pkgs.util-linux}/bin/logger -t samba-timelock "DENY connect: past cutoff (${toString cutoffHour}:00)"
                 exit 1
               fi
 
               if [ ! -f ${sessionFile} ]; then
                 echo "$now" > ${sessionFile}
-                logger -t samba-timelock "ACCESS GRANTED: session started"
+                ${pkgs.util-linux}/bin/logger -t samba-timelock "ACCESS GRANTED: session started"
               fi
               exit 0
             '';
@@ -290,25 +290,25 @@
               if [ "$remaining" -eq 0 ]; then
                 date +%s > ${revokedFile}
                 rm -f ${sessionFile}
-                logger -t samba-timelock "ACCESS ENDED: 72h cooldown started"
+                ${pkgs.util-linux}/bin/logger -t samba-timelock "ACCESS ENDED: 72h cooldown started"
               fi
             '';
 
-            enforce = pkgs.writeShellScript "samba-timelock-enforce" ''
-              set -euo pipefail
-              [ -f ${sessionFile} ] || exit 0
-              start=$(cat ${sessionFile})
-              now=$(date +%s)
-              hour=$(date +%-H)
-              elapsed=$(( now - start ))
+          enforce = pkgs.writeShellScript "samba-timelock-enforce" ''
+            set -euo pipefail
+            [ -f ${sessionFile} ] || exit 0
+            start=$(cat ${sessionFile})
+            now=$(date +%s)
+            hour=$(date +%-H)
+            elapsed=$(( now - start ))
 
-              if [ "$elapsed" -ge ${toString maxSessionSecs} ] || [ "$hour" -ge ${toString cutoffHour} ]; then
-                logger -t samba-timelock "LIMIT REACHED: force-closing share"
-                ${pkgs.samba}/bin/smbcontrol smbd close-share ${shareName} || true
-                date +%s > ${revokedFile}
-                rm -f ${sessionFile}
-              fi
-            '';
+            if [ "$elapsed" -ge ${toString maxSessionSecs} ] || [ "$hour" -ge ${toString cutoffHour} ]; then
+              ${pkgs.util-linux}/bin/logger -t samba-timelock "LIMIT REACHED: force-closing share"
+              ${pkgs.samba}/bin/smbcontrol smbd close-share ${shareName} || true
+              date +%s > ${revokedFile}
+              rm -f ${sessionFile}
+            fi
+          '';
           in
           {
             sops.secrets."samba/timelock" = { };
