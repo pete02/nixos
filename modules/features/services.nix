@@ -255,7 +255,7 @@
 
             maxSessionSecs = 60 * 60; # 1h
             cooldownSecs = 72 * 60 * 60; # 72h
-            cutoffHour = 21; # 24h clock, local time
+            cutoffHour = 13; # 24h clock, local time
 
             preexec = pkgs.writeShellScript "samba-timelock-preexec" ''
               set -euo pipefail
