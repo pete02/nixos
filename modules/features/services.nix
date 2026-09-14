@@ -17,7 +17,7 @@
         sambaClient = lib.mkEnableOption "enables router samba";
         mDNS = lib.mkEnableOption "Enable mDNS service for publishing IP to local network";
         sambaServer = lib.mkEnableOption "enables samba server";
-        timelockServer = lib.mkEnableOption "enables timelock server";
+        sambaTimelock = lib.mkEnableOption "enables timelock server";
       };
 
       config = lib.mkMerge [
