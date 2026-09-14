@@ -248,15 +248,15 @@
 
         (lib.mkIf config.services.sambaTimelock (
           let
-            shareName   = "timelock";
-            sharePath   = "/mnt/timelock";              # <-- adjust
-            stateDir    = "/var/lib/samba-timelock";
+            shareName = "timelock";
+            sharePath = "/mnt/timelock"; # <-- adjust
+            stateDir = "/var/lib/samba-timelock";
             sessionFile = "${stateDir}/session-start";
             revokedFile = "${stateDir}/last-revoked";
 
-            maxSessionSecs = 60 * 60;        # 1h
-            cooldownSecs   = 72 * 60 * 60;   # 72h
-            cutoffHour     = 21;             # 24h clock, local time
+            maxSessionSecs = 60 * 60; # 1h
+            cooldownSecs = 72 * 60 * 60; # 72h
+            cutoffHour = 21; # 24h clock, local time
 
             preexec = pkgs.writeShellScript "samba-timelock-preexec" ''
               set -euo pipefail
@@ -337,7 +337,7 @@
                   "force group" = "users";
 
                   "root preexec" = "${preexec}";
-                  "root preexec close" = "yes";   # non-zero exit from preexec => connection is closed
+                  "root preexec close" = "yes"; # non-zero exit from preexec => connection is closed
                   "root postexec" = "${postexec}";
                 };
               };
@@ -346,9 +346,15 @@
             systemd.services.samba-timelock-credentials = {
               description = "Set Samba password for timelock share from sops secret";
               wantedBy = [ "multi-user.target" ];
-              after = [ "sops-nix.service" "samba.service" ];
+              after = [
+                "sops-nix.service"
+                "samba.service"
+              ];
               requires = [ "sops-nix.service" ];
-              serviceConfig = { Type = "oneshot"; RemainAfterExit = true; };
+              serviceConfig = {
+                Type = "oneshot";
+                RemainAfterExit = true;
+              };
               script = ''
                 username=$(grep '^username=' /run/secrets/samba/timelock | cut -d= -f2)
                 password=$(grep '^password=' /run/secrets/samba/timelock | cut -d= -f2)

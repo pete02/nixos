@@ -1,7 +1,12 @@
-<<< /nix/var/nix/profiles/system-50-link
->>> /nix/var/nix/profiles/system-51-link
+<<< /nix/var/nix/profiles/system-51-link
+>>> /nix/var/nix/profiles/system-52-link
 Added packages:
-[A.]  #1  etc-direnv-direnvrc        <none>
-[A.]  #2  etc-direnv-lib-zz-user.sh  <none>
-[A.]  #3  nix-direnv                 3.1.2
-Closure size: 1264 -> 1267 (24 paths added, 21 paths removed, delta +3, disk usage +37.0KiB).
+[A.]  #1  samba-timelock-enforce                        <none>
+[A.]  #2  samba-timelock-postexec                       <none>
+[A.]  #3  samba-timelock-preexec                        <none>
+[A.]  #4  unit-samba-timelock-credentials.service       <none>
+[A.]  #5  unit-samba-timelock-enforce.service           <none>
+[A.]  #6  unit-samba-timelock-enforce.timer             <none>
+[A.]  #7  unit-script-samba-timelock-credentials-start  <none>
+[A.]  #8  unit-script-samba-timelock-enforce-start      <none>
+Closure size: 1267 -> 1275 (24 paths added, 16 paths removed, delta +8, disk usage +14.6KiB).
