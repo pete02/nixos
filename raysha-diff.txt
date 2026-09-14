@@ -1,4 +1,7 @@
-<<< /nix/var/nix/profiles/system-246-link
->>> /nix/var/nix/profiles/system-247-link
-No version or selection state changes.
-Closure size: 2376 -> 2376 (9 paths added, 9 paths removed, delta +0, disk usage +80B).
+<<< /nix/var/nix/profiles/system-248-link
+>>> /nix/var/nix/profiles/system-249-link
+Added packages:
+[A.]  #1  etc-direnv-direnvrc        <none>
+[A.]  #2  etc-direnv-lib-zz-user.sh  <none>
+[A.]  #3  nix-direnv                 3.1.2
+Closure size: 2376 -> 2379 (24 paths added, 21 paths removed, delta +3, disk usage +36.9KiB).
