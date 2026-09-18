@@ -18,10 +18,8 @@
 
       environment.systemPackages = with pkgs; [
         via
-        inputs.self.packages.${pkgs.system}.raysha-filter
       ];
 
-      sops.secrets."agh" = { };
       hardware.keyboard.qmk.enable = true;
       services.udev.packages = with pkgs; [
         via
