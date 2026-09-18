@@ -1,4 +1,4 @@
-<<< /nix/var/nix/profiles/system-250-link
->>> /nix/var/nix/profiles/system-251-link
+<<< /nix/var/nix/profiles/system-251-link
+>>> /nix/var/nix/profiles/system-252-link
 No version or selection state changes.
-Closure size: 2379 -> 2379 (9 paths added, 9 paths removed, delta +0, disk usage +8.8KiB).
+Closure size: 2379 -> 2379 (9 paths added, 9 paths removed, delta +0, disk usage +0B).

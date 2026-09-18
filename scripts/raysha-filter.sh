@@ -9,7 +9,7 @@ CLIENT_MAC="@CLIENT_MAC@"
 #   2. /run/secret/agh
 #
 # The secret file is deliberately only read at runtime, never by check().
-AGH_SECRET_FILE="/run/secret/agh"
+AGH_SECRET_FILE="/run/secrets/agh"
 
 check() {
     echo "Checking curl..."
