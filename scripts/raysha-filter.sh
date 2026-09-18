@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CLIENT_NAME="raysha.local"
-CLIENT_MAC="88:d8:2e:ba:62:29"
+CLIENT_NAME="@CLIENT_NAME@"
+CLIENT_MAC="@CLIENT_MAC@"
 
 # Runtime configuration:
 #   1. Explicitly exported environment variables
@@ -23,9 +23,6 @@ check() {
 
     echo "Checking awk..."
     command -v awk >/dev/null || return 1
-
-    echo "Checking mktemp..."
-    command -v mktemp >/dev/null || return 1
 
     echo "Checking chmod..."
     command -v chmod >/dev/null || return 1
@@ -228,17 +225,6 @@ main() {
 
     CLIENT_IP="$(resolve_client_ip)"
     API="${AGH_URL%/}/control"
-
-    local netrc
-    netrc="$(mktemp)"
-    trap 'rm -f "$netrc"' EXIT
-    chmod 600 "$netrc"
-
-    cat > "$netrc" <<EOF
-machine ${AGH_URL#*://}
-login $AGH_USERNAME
-password $AGH_PASSWORD
-EOF
 
     case "${1:-}" in
         on)
