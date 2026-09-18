@@ -20,10 +20,12 @@
         via
       ];
 
+      sops.secrets."agh" = { };
       hardware.keyboard.qmk.enable = true;
       services.udev.packages = with pkgs; [
         via
         android-tools
+        inputs.self.packages.${pkgs.system}.raysha-filter
       ];
 
       username = "pete";
