@@ -1,36 +1,71 @@
-
 #!/usr/bin/env bash
 set -euo pipefail
-
-# Configuration
-AGH_URL="${AGH_URL:-http://aria.local:8081}"
-AGH_USERNAME="${AGH_USERNAME:-pete}"
-AGH_PASSWORD="${AGH_PASSWORD:?AGH_PASSWORD must be set}"
 
 CLIENT_NAME="raysha.local"
 CLIENT_MAC="88:d8:2e:ba:62:29"
 
+# Runtime configuration:
+#   1. Explicitly exported environment variables
+#   2. /run/secret/agh
+#
+# The secret file is deliberately only read at runtime, never by check().
+AGH_SECRET_FILE="/run/secret/agh"
+
+check() {
+    echo "Checking curl..."
+    command -v curl >/dev/null || return 1
+
+    echo "Checking jq..."
+    command -v jq >/dev/null || return 1
+
+    echo "Checking getent..."
+    command -v getent >/dev/null || return 1
+
+    echo "Checking awk..."
+    command -v awk >/dev/null || return 1
+
+    echo "Checking mktemp..."
+    command -v mktemp >/dev/null || return 1
+
+    echo "Checking chmod..."
+    command -v chmod >/dev/null || return 1
+}
+
+load_config() {
+    # Environment variables take precedence over the secret file.
+    if [[ -f "$AGH_SECRET_FILE" ]]; then
+        # shellcheck disable=SC1090
+        source "$AGH_SECRET_FILE"
+    fi
+
+    AGH_URL="${AGH_URL:-http://aria.local:8081}"
+    AGH_USERNAME="${AGH_USERNAME:-}"
+    AGH_PASSWORD="${AGH_PASSWORD:-}"
+
+    if [[ -z "$AGH_USERNAME" ]]; then
+        echo "Error: AGH_USERNAME is not configured." >&2
+        exit 1
+    fi
+
+    if [[ -z "$AGH_PASSWORD" ]]; then
+        echo "Error: AGH_PASSWORD is not configured." >&2
+        exit 1
+    fi
+}
+
 # Resolve the current IPv4 address of raysha.local.
-CLIENT_IP="$(getent ahostsv4 "$CLIENT_NAME" | awk 'NR==1 {print $1}')"
+resolve_client_ip() {
+    local ip
 
-if [[ -z "$CLIENT_IP" ]]; then
-    echo "Error: could not resolve $CLIENT_NAME to an IPv4 address." >&2
-    exit 1
-fi
+    ip="$(getent ahostsv4 "$CLIENT_NAME" | awk 'NR==1 {print $1}')"
 
-API="${AGH_URL%/}/control"
+    if [[ -z "$ip" ]]; then
+        echo "Error: could not resolve $CLIENT_NAME to an IPv4 address." >&2
+        exit 1
+    fi
 
-# Use a temporary netrc file so the password isn't passed directly as a
-# command-line argument to curl.
-NETRC="$(mktemp)"
-trap 'rm -f "$NETRC"' EXIT
-chmod 600 "$NETRC"
-
-cat > "$NETRC" <<EOF
-machine ${AGH_URL#*://}
-login $AGH_USERNAME
-password $AGH_PASSWORD
-EOF
+    printf '%s\n' "$ip"
+}
 
 curl_agh() {
     curl \
@@ -184,11 +219,27 @@ usage() {
     echo "Usage: $0 {on|off|status}"
     echo
     echo "  on      Enable parental filtering and Safe Search"
-    echo "  off     Disable parental filtering, keep Safe Search enabled"
+    echo "  off     Disable parental filtering and Safe Search"
     echo "  status  Show the current configuration"
 }
 
 main() {
+    load_config
+
+    CLIENT_IP="$(resolve_client_ip)"
+    API="${AGH_URL%/}/control"
+
+    local netrc
+    netrc="$(mktemp)"
+    trap 'rm -f "$netrc"' EXIT
+    chmod 600 "$netrc"
+
+    cat > "$netrc" <<EOF
+machine ${AGH_URL#*://}
+login $AGH_USERNAME
+password $AGH_PASSWORD
+EOF
+
     case "${1:-}" in
         on)
             local client
@@ -204,7 +255,7 @@ main() {
             client="$(ensure_client)"
 
             update_client false "$client"
-
+            clear_cache
             echo "raysha.local: parental filtering OFF, Safe Search OFF"
             ;;
 
@@ -215,6 +266,12 @@ main() {
             show_status "$client"
             ;;
 
+        --check)
+            # This branch is intentionally unreachable because check mode
+            # is handled before main().
+            exit 0
+            ;;
+
         *)
             usage >&2
             exit 2
@@ -222,5 +279,9 @@ main() {
     esac
 }
 
-main "$@"
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
+fi
 
+main "$@"

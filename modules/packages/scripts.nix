@@ -1,29 +1,54 @@
-{...}:{
-  description = "Test packaging for raysha-filter";
+{
+  inputs,
+  ...
+}:
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  };
-
-  outputs = { self, nixpkgs }:
+{
+  config =
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-    in
-    {
-      packages.${system}.raysha-filter =
-        pkgs.writeShellApplication {
+      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+
+      mkScript =
+        {
+          name,
+          src,
+          runtimeInputs ? [ ],
+        }:
+
+        let
+          script = pkgs.writeShellApplication {
+            inherit name runtimeInputs;
+            text = builtins.readFile src;
+          };
+        in
+        pkgs.runCommand "${name}-checked" { } ''
+          echo "Checking ${name}..."
+
+          if ! ${script}/bin/${name} --check; then
+            echo "ERROR: ${name} dependency check failed"
+            exit 1
+          fi
+
+          mkdir -p "$out/bin"
+          ln -s ${script}/bin/${name} "$out/bin/${name}"
+        '';
+
+      scripts = {
+        raysha-filter = mkScript {
           name = "raysha-filter";
+          src = ../../scripts/raysha-filter.sh;
 
           runtimeInputs = with pkgs; [
             curl
             jq
+            glibc.getent
+            gawk
           ];
-
-          text = builtins.readFile ./scripts/raysha-filter.sh;
         };
+      };
 
-      packages.${system}.default =
-        self.packages.${system}.raysha-filter;
+    in
+    {
+      flake.packages.x86_64-linux = scripts;
     };
 }
