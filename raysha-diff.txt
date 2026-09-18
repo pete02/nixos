@@ -1,4 +1,6 @@
-<<< /nix/var/nix/profiles/system-251-link
->>> /nix/var/nix/profiles/system-252-link
-No version or selection state changes.
-Closure size: 2379 -> 2379 (9 paths added, 9 paths removed, delta +0, disk usage +0B).
+<<< /nix/var/nix/profiles/system-252-link
+>>> /nix/var/nix/profiles/system-253-link
+Added packages:
+[A.]  #1  raysha-filter          <none>
+[A+]  #2  raysha-filter-checked  <none>
+Closure size: 2379 -> 2381 (19 paths added, 17 paths removed, delta +2, disk usage +8.2KiB).

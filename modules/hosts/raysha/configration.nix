@@ -18,6 +18,7 @@
 
       environment.systemPackages = with pkgs; [
         via
+        inputs.self.packages.${pkgs.system}.raysha-filter
       ];
 
       sops.secrets."agh" = { };
@@ -25,7 +26,6 @@
       services.udev.packages = with pkgs; [
         via
         android-tools
-        inputs.self.packages.${pkgs.system}.raysha-filter
       ];
 
       username = "pete";
