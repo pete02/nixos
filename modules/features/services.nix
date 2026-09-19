@@ -290,7 +290,8 @@
 
                 "root preexec" = "${self.packages.x86_64-linux.samba-timelock-preexec}/bin/samba-timelock-preexec";
                 "root preexec close" = "yes";
-                "root postexec" = "${self.packages.x86_64-linux.samba-timelock-postexec}/bin/samba-timelock-postexec";
+                "root postexec" =
+                  "${self.packages.x86_64-linux.samba-timelock-postexec}/bin/samba-timelock-postexec";
               };
             };
           };
@@ -314,8 +315,7 @@
             description = "Enforce samba timelock session limits";
             serviceConfig = {
               Type = "oneshot";
-              ExecStart =
-                "${self.packages.x86_64-linux.samba-timelock-enforce}/bin/samba-timelock-enforce";
+              ExecStart = "${self.packages.x86_64-linux.samba-timelock-enforce}/bin/samba-timelock-enforce";
             };
           };
 

@@ -159,7 +159,7 @@
           substitutions = {
             STATE_DIR = "/var/lib/samba-timelock";
             SHARE_NAME = "timelock";
-            MAX_SESSION_SECS = "${toString (2* 60)}";
+            MAX_SESSION_SECS = "${toString (2 * 60)}";
             CUTOFF_HOUR = "${toString 21}";
           };
         };
