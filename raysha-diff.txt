@@ -1,6 +1,12 @@
-<<< /nix/var/nix/profiles/system-253-link
->>> /nix/var/nix/profiles/system-254-link
+<<< /nix/var/nix/profiles/system-254-link
+>>> /nix/var/nix/profiles/system-255-link
+Selection state changes:
+[C-]  #1  rebuild  <none>
+Added packages:
+[A.]  #1  inetutils        2.7
+[A+]  #2  rebuild-checked  <none>
+[A.]  #3  update           <none>
+[A.]  #4  update-checked   <none>
 Removed packages:
-[R.]  #1  raysha-filter          <none>
-[R-]  #2  raysha-filter-checked  <none>
-Closure size: 2381 -> 2379 (13 paths added, 15 paths removed, delta -2, disk usage -8.5KiB).
+[R.]  #1  nixos-auto-update  <none>
+Closure size: 2379 -> 2382 (19 paths added, 16 paths removed, delta +3, disk usage +2.4MiB).

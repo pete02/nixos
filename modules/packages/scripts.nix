@@ -78,10 +78,15 @@
         rebuild = mkScript {
           name = "rebuild";
           src = ../../scripts/rebuild.sh;
-
           runtimeInputs = with pkgs; [
+            coreutils
+            findutils
             git
+            gnugrep
+            inetutils
             nixos-rebuild
+            nvd
+            sudo
             treefmt
           ];
         };

@@ -1,19 +1,35 @@
 set -euo pipefail
-if [[ "${1:-}" == "--check" ]]; then
-    echo "Checking git..."
-    command -v git >/dev/null || exit 1
 
-    echo "Checking nixos-rebuild..."
-    command -v nixos-rebuild >/dev/null || exit 1
+check() {
+    check_command() {
+        local name="$1"
 
-    echo "Checking treefmt..."
-    command -v treefmt >/dev/null || exit 1
+        echo "Checking ${name}..."
+        if ! command -v "$name" >/dev/null; then
+            echo "ERROR: ${name} not found in PATH"
+            return 1
+        fi
+    }
+
+    check_command git || return 1
+    check_command nixos-rebuild || return 1
+    check_command treefmt || return 1
+    check_command stat || return 1
+    check_command sudo || return 1
+    check_command find || return 1
+    check_command sort || return 1
+    check_command grep || return 1
+    check_command hostname || return 1
+    check_command nvd || return 1
+    check_command date || return 1
 
     echo "All checks passed."
-    exit 0
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
 fi
-
-
 
 HOSTNAME=$(hostname)
 UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
@@ -58,7 +74,7 @@ validate_config() {
     check_host_isolation
 
     echo "Running flake checks..."
-    nix flake check $CONFIG_FOLDER
+    nix flake check "$CONFIG_FOLDER"
     if ! treefmt --no-cache --tree-root "$CONFIG_FOLDER" &>/dev/null; then
         echo "treefmt failed:"
         treefmt --no-cache --tree-root "$CONFIG_FOLDER"
@@ -70,7 +86,21 @@ validate_config() {
 handle_success(){
     echo "Rebuild successful"
 
-    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > $CONFIG_FOLDER/$HOSTNAME-diff.txt
+    mapfile -t system_links < <(
+    find /nix/var/nix/profiles \
+        -maxdepth 1 \
+        -type l \
+        -name 'system-*-link' \
+        -printf '%p\n' |
+        sort -V
+    )
+
+    nvd diff \
+        "${system_links[-2]}" \
+        "${system_links[-1]}" \
+        > "${CONFIG_FOLDER}/${HOSTNAME}-diff.txt"
+
+
     cat "$CONFIG_FOLDER/$HOSTNAME-diff.txt"
     git_cmd add "$CONFIG_FOLDER/$HOSTNAME-diff.txt"
 
@@ -113,7 +143,7 @@ handle_failure(){
 }
 
 
-cd $CONFIG_FOLDER
+cd "$CONFIG_FOLDER"
 validate_config
 git_cmd add "$CONFIG_FOLDER/."
 
