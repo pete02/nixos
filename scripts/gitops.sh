@@ -19,7 +19,7 @@ export GIT_SSH_COMMAND="ssh -i /etc/ssh/id_server -o IdentitiesOnly=yes"
 cd /etc/nixos
 git fetch origin master
 LOCAL=$(git rev-parse @)
-REMOTE=$(git rev-parse @{u})
+REMOTE=$(git rev-parse "@{u}")
 
 if [[ "${1:-}" == "--check" ]]; then
     check
