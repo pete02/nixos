@@ -125,6 +125,7 @@
 
           runtimeInputs = with pkgs; [
             coreutils
+            logger
             raysha-filter
           ];
 
@@ -141,6 +142,7 @@
 
           runtimeInputs = with pkgs; [
             samba
+            logger
             coreutils
             raysha-filter
           ];
@@ -157,6 +159,7 @@
 
           runtimeInputs = with pkgs; [
             samba
+            logger
             coreutils
             raysha-filter
           ];
