@@ -1,4 +1,20 @@
 set -euo pipefail
+if [[ "${1:-}" == "--check" ]]; then
+    echo "Checking git..."
+    command -v git >/dev/null || exit 1
+
+    echo "Checking nixos-rebuild..."
+    command -v nixos-rebuild >/dev/null || exit 1
+
+    echo "Checking treefmt..."
+    command -v treefmt >/dev/null || exit 1
+
+    echo "All checks passed."
+    exit 0
+fi
+
+
+
 HOSTNAME=$(hostname)
 UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
 CONFIG_FOLDER=/etc/nixos
@@ -96,20 +112,6 @@ handle_failure(){
     git_cmd push -u origin "$UNSTABLE_BRANCH"
 }
 
-
-if [[ "${1:-}" == "--check" ]]; then
-    echo "Checking git..."
-    command -v git >/dev/null || exit 1
-
-    echo "Checking nixos-rebuild..."
-    command -v nixos-rebuild >/dev/null || exit 1
-
-    echo "Checking treefmt..."
-    command -v treefmt >/dev/null || exit 1
-
-    echo "All checks passed."
-    exit 0
-fi
 
 cd $CONFIG_FOLDER
 validate_config
