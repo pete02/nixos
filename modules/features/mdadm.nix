@@ -1,15 +1,11 @@
-{ inputs, ... }:
-{
-  flake.nixosModules.mdadm =
-    {
-      config,
-      pkgs,
-      ...
-    }:
-    {
-
-      environment.systemPackages = with pkgs; [
-        mdadm
-      ];
-    };
+{inputs, ...}: {
+  flake.nixosModules.mdadm = {
+    config,
+    pkgs,
+    ...
+  }: {
+    environment.systemPackages = with pkgs; [
+      mdadm
+    ];
+  };
 }

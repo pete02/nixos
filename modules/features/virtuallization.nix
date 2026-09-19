@@ -1,5 +1,13 @@
-{ self, inputs, ... }: {
-  flake.nixosModules.virtualization = { pkgs, config, ... }: {
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.virtualization = {
+    pkgs,
+    config,
+    ...
+  }: {
     boot.kernelModules = [
       "kvm-intel"
       "kvm-amd"
@@ -17,7 +25,7 @@
       };
     };
 
-    networking.firewall.trustedInterfaces = [ "virbr0" ];
+    networking.firewall.trustedInterfaces = ["virbr0"];
 
     environment.systemPackages = with pkgs; [
       virt-manager
@@ -35,6 +43,5 @@
     boot.kernel.sysctl = {
       "net.ipv4.ip_forward" = 1;
     };
-
   };
 }

@@ -12,8 +12,6 @@ check() {
     }
 
     check_command git || return 1
-    check_command nixos-rebuild || return 1
-    check_command treefmt || return 1
     check_command stat || return 1
     check_command sudo || return 1
     check_command find || return 1
@@ -76,11 +74,8 @@ validate_config() {
     echo "Running flake checks..."
     nix flake check "$CONFIG_FOLDER"
 
-    if ! treefmt --no-cache &>/dev/null; then
-        echo "treefmt failed:"
-        treefmt --no-cache
-        return 1
-    fi
+    echo "Formatting..."
+    nix fmt "$CONFIG_FOLDER"
 }
 
 handle_success(){

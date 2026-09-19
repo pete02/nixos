@@ -1,4 +1,8 @@
-{ self, inputs, ... }: {
+{
+  self,
+  inputs,
+  ...
+}: {
   flake.nixosConfigurations.aria = self.lib.mkHost {
     system = "x86_64-linux";
     modules = [

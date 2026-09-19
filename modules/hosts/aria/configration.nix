@@ -1,38 +1,40 @@
-{ self, inputs, ... }: {
-  flake.nixosModules.ariaConfiguration =
-    {
-      pkgs,
-      lib,
-      config,
-      ...
-    }:
-    {
-      imports = [
-        self.nixosModules.sops
-        self.nixosModules.dev
-        self.nixosModules.common
-        self.nixosModules.mdadm
-      ];
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.ariaConfiguration = {
+    pkgs,
+    lib,
+    config,
+    ...
+  }: {
+    imports = [
+      self.nixosModules.sops
+      self.nixosModules.dev
+      self.nixosModules.common
+      self.nixosModules.mdadm
+    ];
 
-      username = "pete";
-      hostname = "aria";
+    username = "pete";
+    hostname = "aria";
 
-      management.ld = true;
-      management.gitClient = true;
+    management.ld = true;
+    management.gitClient = true;
 
-      common-tools.books = true;
+    common-tools.books = true;
 
-      environment.sessionVariables = {
-        MAILADDR = "petrik.rasanen@gmail.com";
-      };
-
-      services = {
-        cleaner = true;
-        sambaServer = true;
-        sambaTimelock = true;
-        mDNS = true;
-        gitops = true;
-        sshServer = true;
-      };
+    environment.sessionVariables = {
+      MAILADDR = "petrik.rasanen@gmail.com";
     };
+
+    services = {
+      cleaner = true;
+      sambaServer = true;
+      sambaTimelock = true;
+      mDNS = true;
+      gitops = true;
+      sshServer = true;
+    };
+  };
 }

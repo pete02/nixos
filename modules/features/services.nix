@@ -1,336 +1,330 @@
-{ self, inputs, ... }: {
-  flake.nixosModules.services =
-    {
-      lib,
-      pkgs,
-      config,
-      ...
-    }:
-    {
-      options.services = {
-        cleaner = lib.mkEnableOption "Enable the cleaner service";
-        gitops = lib.mkEnableOption "Enable the gitops service";
-        autoUpdate = lib.mkEnableOption "Enables weekly automatic Nixos update and rebuild";
-        gpucooler = lib.mkEnableOption "Enable the GPU cooler service";
-        sshServer = lib.mkEnableOption "Enable the SSH service";
-        sync = lib.mkEnableOption "Enable syncing to server";
-        sambaClient = lib.mkEnableOption "enables router samba";
-        mDNS = lib.mkEnableOption "Enable mDNS service for publishing IP to local network";
-        sambaServer = lib.mkEnableOption "enables samba server";
-        sambaTimelock = lib.mkEnableOption "enables timelock server";
-      };
-
-      config = lib.mkMerge [
-        (lib.mkIf (config.services.cleaner) {
-          systemd.services.cleaner = {
-            description = "Clean Downloads and Trash at shutdown";
-            wantedBy = [ "multi-user.target" ];
-            before = [ "shutdown.target" ]; # run at shutdown
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*'";
-            };
-          };
-        })
-
-        (lib.mkIf (config.services.gitops) {
-          systemd.services.gitops = {
-            description = "Check remote NixOS config repo for updates";
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = "${self.packages.x86_64-linux.gitops}/bin/gitops";
-            };
-          };
-
-          systemd.timers.gitops = {
-            description = "Timer for auto-updating NixOS from git";
-            wantedBy = [ "timers.target" ];
-            timerConfig = {
-              OnBootSec = "5m";
-              OnUnitActiveSec = "1h";
-              RandomizedDelaySec = "10m";
-              Persistent = true;
-            };
-          };
-        })
-
-        (lib.mkIf (config.services.mDNS) {
-          services.avahi = {
-            enable = true;
-            nssmdns4 = true;
-            publish = {
-              addresses = true;
-              enable = true;
-            };
-          };
-        })
-
-        (lib.mkIf config.services.autoUpdate {
-          systemd.services.nixos-auto-update = {
-            description = "Update flake inputs and rebuild NixOS";
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = "${self.packages.x86_64-linux.update}/bin/update";
-            };
-          };
-
-          systemd.timers.nixos-auto-update = {
-            description = "Weekly automatic NixOS update";
-            wantedBy = [ "timers.target" ];
-            after = [ "network-online.target" ];
-            wants = [ "network-online.target" ];
-            timerConfig = {
-              OnBootSec = "15m";
-              OnCalendar = "weekly";
-              RandomizedDelaySec = "1h";
-              Persistent = true;
-            };
-          };
-        })
-
-        (lib.mkIf (config.services.gpucooler) {
-          systemd.services.gpu-fan-control = {
-            description = "GPU Fan Control Service";
-            wantedBy = [ "multi-user.target" ];
-            after = [ "multi-user.target" ];
-
-            serviceConfig = {
-              ExecStart = "${self.packages.x86_64-linux.gpu-cooler}/bin/gpu-cooler";
-              Restart = "always";
-              RestartSec = 1;
-            };
-          };
-        })
-
-        (lib.mkIf config.services.sshServer {
-          services.openssh = {
-            enable = true;
-            ports = [ 22 ];
-            settings = {
-              PasswordAuthentication = false;
-              KbdInteractiveAuthentication = false;
-              PermitRootLogin = "no";
-              AllowUsers = [ config.username ];
-              AuthorizedKeysFile = "/run/secrets/ssh/${config.hostname}/authorized_keys";
-            };
-          };
-          sops.secrets."ssh/${config.hostname}/authorized_keys" = {
-            owner = config.username;
-          };
-
-        })
-
-        (lib.mkIf config.services.sync {
-          environment.systemPackages = [ pkgs.rsync ];
-          systemd.services.syncrestore = {
-            description = "Restores desktop files.";
-            after = [
-              "network-online.target"
-              "mnt-server.mount"
-            ];
-            wants = [
-              "network-online.target"
-              "mnt-server.mount"
-            ];
-            wantedBy = [ "multi-user.target" ];
-
-            serviceConfig = {
-              User = config.username;
-              Type = "oneshot";
-              ExecStart = ''
-                ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/code /home/pete
-              '';
-            };
-          };
-
-          systemd.services.sync = {
-            description = "sync desktop files.";
-            wantedBy = [ "multi-user.target" ];
-            before = [ "shutdown.target" ];
-
-            serviceConfig = {
-              User = config.username;
-              Type = "oneshot";
-              ExecStart = "${self.packages.x86_64-linux.sync}/bin/sync";
-            };
-          };
-
-        })
-
-        (lib.mkIf config.services.sambaClient {
-          systemd.tmpfiles.rules = [
-            "d /mnt/router 0755 pete pete -"
-          ];
-          environment.systemPackages = [ pkgs.cifs-utils ];
-          sops.secrets."samba/server" = { };
-
-          fileSystems = {
-            "/mnt/server" = {
-              device = "//aria.local/server/";
-              fsType = "cifs";
-              options =
-                let
-                  # this line prevents hanging on network split
-                  automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-                  creds = "credentials=/run/secrets/samba/server";
-                  vers = "vers=3.0";
-                  uidguid = "uid=1000,gid=1000";
-                in
-                [ "${automount_opts},${creds},${vers},${uidguid}" ];
-            };
-          };
-        })
-
-        (lib.mkIf config.services.sambaClient {
-          systemd.tmpfiles.rules = [
-            "d /mnt/timelock 0755 pete pete -"
-          ];
-          environment.systemPackages = [ pkgs.cifs-utils ];
-          sops.secrets."samba/timelock" = { };
-
-          fileSystems = {
-            "/mnt/timelock" = {
-              device = "//aria.local/timelock/";
-              fsType = "cifs";
-              options =
-                let
-                  # this line prevents hanging on network split
-                  automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-                  creds = "credentials=/run/secrets/samba/timelock";
-                  vers = "vers=3.0";
-                  uidguid = "uid=1000,gid=1000";
-                in
-                [ "${automount_opts},${creds},${vers},${uidguid}" ];
-            };
-          };
-        })
-
-        (lib.mkIf config.services.sambaServer {
-          sops.secrets."samba/server" = { };
-          services.samba = {
-            enable = true;
-            openFirewall = true;
-            settings = {
-              global = {
-                security = "user";
-                "workgroup" = "WORKGROUP";
-                "server string" = "smbnix";
-                "netbios name" = "smbnix";
-                "hosts allow" = "192.168.88.0/24 10.0.0.0/24 127.0.0.1 localhost";
-                "hosts deny" = "0.0.0.0/0";
-                "guest account" = "nobody";
-                "map to guest" = "bad user";
-              };
-              "server" = {
-                "path" = "/mnt/server";
-                "browseable" = "yes";
-                "read only" = "no";
-                "guest ok" = "no";
-                "create mask" = "0644";
-                "directory mask" = "0755";
-                "force user" = config.username;
-                "force group" = "users";
-              };
-            };
-          };
-
-          systemd.services.samba-credentials = {
-            description = "Set Samba password from sops secret";
-            wantedBy = [ "multi-user.target" ];
-            after = [
-              "samba.service"
-            ];
-            requires = [ "sops-nix.service" ];
-
-            serviceConfig = {
-              Type = "oneshot";
-              RemainAfterExit = true;
-            };
-
-            script = ''
-              # Parse credentials file
-              username=$(grep '^username=' /run/secrets/samba/server | cut -d= -f2)
-              password=$(grep '^password=' /run/secrets/samba/server | cut -d= -f2)
-
-              # Set samba password
-              echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
-            '';
-          };
-        })
-
-        (lib.mkIf config.services.sambaTimelock {
-          sops.secrets."samba/timelock" = { };
-          sops.secrets."agh" = { };
-
-          users.users.timelock = {
-            isSystemUser = true;
-            group = "nogroup";
-          };
-
-          systemd.tmpfiles.rules = [
-            "d /var/lib/samba-timelock 0750 root root -"
-          ];
-
-          services.samba = {
-            enable = true;
-            openFirewall = true;
-            settings = {
-              global = {
-                security = "user";
-                "workgroup" = "WORKGROUP";
-              };
-              "timelock" = {
-                path = "/mnt/timelock";
-                browseable = "yes";
-                "read only" = "no";
-                "guest ok" = "no";
-                "create mask" = "0644";
-                "directory mask" = "0755";
-                "force user" = config.username;
-                "force group" = "users";
-
-                "root preexec" = "${self.packages.x86_64-linux.samba-timelock-preexec}/bin/samba-timelock-preexec";
-                "root preexec close" = "yes";
-                "root postexec" =
-                  "${self.packages.x86_64-linux.samba-timelock-postexec}/bin/samba-timelock-postexec";
-              };
-            };
-          };
-
-          systemd.services.samba-timelock-credentials = {
-            description = "Set Samba password for timelock share from sops secret";
-            wantedBy = [ "multi-user.target" ];
-            after = [ "samba.service" ];
-            serviceConfig = {
-              Type = "oneshot";
-              RemainAfterExit = true;
-            };
-            script = ''
-              username=$(grep '^username=' /run/secrets/samba/timelock | cut -d= -f2)
-              password=$(grep '^password=' /run/secrets/samba/timelock | cut -d= -f2)
-              echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
-            '';
-          };
-
-          systemd.services.samba-timelock-enforce = {
-            description = "Enforce samba timelock session limits";
-            serviceConfig = {
-              Type = "oneshot";
-              ExecStart = "${self.packages.x86_64-linux.samba-timelock-enforce}/bin/samba-timelock-enforce";
-            };
-          };
-
-          systemd.timers.samba-timelock-enforce = {
-            description = "Periodic check for samba timelock enforcement";
-            wantedBy = [ "timers.target" ];
-            timerConfig = {
-              OnBootSec = "1m";
-              OnUnitActiveSec = "30s";
-              AccuracySec = "5s";
-            };
-          };
-        })
-
-      ];
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.services = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: {
+    options.services = {
+      cleaner = lib.mkEnableOption "Enable the cleaner service";
+      gitops = lib.mkEnableOption "Enable the gitops service";
+      autoUpdate = lib.mkEnableOption "Enables weekly automatic Nixos update and rebuild";
+      gpucooler = lib.mkEnableOption "Enable the GPU cooler service";
+      sshServer = lib.mkEnableOption "Enable the SSH service";
+      sync = lib.mkEnableOption "Enable syncing to server";
+      sambaClient = lib.mkEnableOption "enables router samba";
+      mDNS = lib.mkEnableOption "Enable mDNS service for publishing IP to local network";
+      sambaServer = lib.mkEnableOption "enables samba server";
+      sambaTimelock = lib.mkEnableOption "enables timelock server";
     };
+
+    config = lib.mkMerge [
+      (lib.mkIf (config.services.cleaner) {
+        systemd.services.cleaner = {
+          description = "Clean Downloads and Trash at shutdown";
+          wantedBy = ["multi-user.target"];
+          before = ["shutdown.target"]; # run at shutdown
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*'";
+          };
+        };
+      })
+
+      (lib.mkIf (config.services.gitops) {
+        systemd.services.gitops = {
+          description = "Check remote NixOS config repo for updates";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${self.packages.x86_64-linux.gitops}/bin/gitops";
+          };
+        };
+
+        systemd.timers.gitops = {
+          description = "Timer for auto-updating NixOS from git";
+          wantedBy = ["timers.target"];
+          timerConfig = {
+            OnBootSec = "5m";
+            OnUnitActiveSec = "1h";
+            RandomizedDelaySec = "10m";
+            Persistent = true;
+          };
+        };
+      })
+
+      (lib.mkIf (config.services.mDNS) {
+        services.avahi = {
+          enable = true;
+          nssmdns4 = true;
+          publish = {
+            addresses = true;
+            enable = true;
+          };
+        };
+      })
+
+      (lib.mkIf config.services.autoUpdate {
+        systemd.services.nixos-auto-update = {
+          description = "Update flake inputs and rebuild NixOS";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${self.packages.x86_64-linux.update}/bin/update";
+          };
+        };
+
+        systemd.timers.nixos-auto-update = {
+          description = "Weekly automatic NixOS update";
+          wantedBy = ["timers.target"];
+          after = ["network-online.target"];
+          wants = ["network-online.target"];
+          timerConfig = {
+            OnBootSec = "15m";
+            OnCalendar = "weekly";
+            RandomizedDelaySec = "1h";
+            Persistent = true;
+          };
+        };
+      })
+
+      (lib.mkIf (config.services.gpucooler) {
+        systemd.services.gpu-fan-control = {
+          description = "GPU Fan Control Service";
+          wantedBy = ["multi-user.target"];
+          after = ["multi-user.target"];
+
+          serviceConfig = {
+            ExecStart = "${self.packages.x86_64-linux.gpu-cooler}/bin/gpu-cooler";
+            Restart = "always";
+            RestartSec = 1;
+          };
+        };
+      })
+
+      (lib.mkIf config.services.sshServer {
+        services.openssh = {
+          enable = true;
+          ports = [22];
+          settings = {
+            PasswordAuthentication = false;
+            KbdInteractiveAuthentication = false;
+            PermitRootLogin = "no";
+            AllowUsers = [config.username];
+            AuthorizedKeysFile = "/run/secrets/ssh/${config.hostname}/authorized_keys";
+          };
+        };
+        sops.secrets."ssh/${config.hostname}/authorized_keys" = {
+          owner = config.username;
+        };
+      })
+
+      (lib.mkIf config.services.sync {
+        environment.systemPackages = [pkgs.rsync];
+        systemd.services.syncrestore = {
+          description = "Restores desktop files.";
+          after = [
+            "network-online.target"
+            "mnt-server.mount"
+          ];
+          wants = [
+            "network-online.target"
+            "mnt-server.mount"
+          ];
+          wantedBy = ["multi-user.target"];
+
+          serviceConfig = {
+            User = config.username;
+            Type = "oneshot";
+            ExecStart = ''
+              ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/code /home/pete
+            '';
+          };
+        };
+
+        systemd.services.sync = {
+          description = "sync desktop files.";
+          wantedBy = ["multi-user.target"];
+          before = ["shutdown.target"];
+
+          serviceConfig = {
+            User = config.username;
+            Type = "oneshot";
+            ExecStart = "${self.packages.x86_64-linux.sync}/bin/sync";
+          };
+        };
+      })
+
+      (lib.mkIf config.services.sambaClient {
+        systemd.tmpfiles.rules = [
+          "d /mnt/router 0755 pete pete -"
+        ];
+        environment.systemPackages = [pkgs.cifs-utils];
+        sops.secrets."samba/server" = {};
+
+        fileSystems = {
+          "/mnt/server" = {
+            device = "//aria.local/server/";
+            fsType = "cifs";
+            options = let
+              # this line prevents hanging on network split
+              automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+              creds = "credentials=/run/secrets/samba/server";
+              vers = "vers=3.0";
+              uidguid = "uid=1000,gid=1000";
+            in ["${automount_opts},${creds},${vers},${uidguid}"];
+          };
+        };
+      })
+
+      (lib.mkIf config.services.sambaClient {
+        systemd.tmpfiles.rules = [
+          "d /mnt/timelock 0755 pete pete -"
+        ];
+        environment.systemPackages = [pkgs.cifs-utils];
+        sops.secrets."samba/timelock" = {};
+
+        fileSystems = {
+          "/mnt/timelock" = {
+            device = "//aria.local/timelock/";
+            fsType = "cifs";
+            options = let
+              # this line prevents hanging on network split
+              automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+              creds = "credentials=/run/secrets/samba/timelock";
+              vers = "vers=3.0";
+              uidguid = "uid=1000,gid=1000";
+            in ["${automount_opts},${creds},${vers},${uidguid}"];
+          };
+        };
+      })
+
+      (lib.mkIf config.services.sambaServer {
+        sops.secrets."samba/server" = {};
+        services.samba = {
+          enable = true;
+          openFirewall = true;
+          settings = {
+            global = {
+              security = "user";
+              "workgroup" = "WORKGROUP";
+              "server string" = "smbnix";
+              "netbios name" = "smbnix";
+              "hosts allow" = "192.168.88.0/24 10.0.0.0/24 127.0.0.1 localhost";
+              "hosts deny" = "0.0.0.0/0";
+              "guest account" = "nobody";
+              "map to guest" = "bad user";
+            };
+            "server" = {
+              "path" = "/mnt/server";
+              "browseable" = "yes";
+              "read only" = "no";
+              "guest ok" = "no";
+              "create mask" = "0644";
+              "directory mask" = "0755";
+              "force user" = config.username;
+              "force group" = "users";
+            };
+          };
+        };
+
+        systemd.services.samba-credentials = {
+          description = "Set Samba password from sops secret";
+          wantedBy = ["multi-user.target"];
+          after = [
+            "samba.service"
+          ];
+          requires = ["sops-nix.service"];
+
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+          };
+
+          script = ''
+            # Parse credentials file
+            username=$(grep '^username=' /run/secrets/samba/server | cut -d= -f2)
+            password=$(grep '^password=' /run/secrets/samba/server | cut -d= -f2)
+
+            # Set samba password
+            echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
+          '';
+        };
+      })
+
+      (lib.mkIf config.services.sambaTimelock {
+        sops.secrets."samba/timelock" = {};
+        sops.secrets."agh" = {};
+
+        users.users.timelock = {
+          isSystemUser = true;
+          group = "nogroup";
+        };
+
+        systemd.tmpfiles.rules = [
+          "d /var/lib/samba-timelock 0750 root root -"
+        ];
+
+        services.samba = {
+          enable = true;
+          openFirewall = true;
+          settings = {
+            global = {
+              security = "user";
+              "workgroup" = "WORKGROUP";
+            };
+            "timelock" = {
+              path = "/mnt/timelock";
+              browseable = "yes";
+              "read only" = "no";
+              "guest ok" = "no";
+              "create mask" = "0644";
+              "directory mask" = "0755";
+              "force user" = config.username;
+              "force group" = "users";
+
+              "root preexec" = "${self.packages.x86_64-linux.samba-timelock-preexec}/bin/samba-timelock-preexec";
+              "root preexec close" = "yes";
+              "root postexec" = "${self.packages.x86_64-linux.samba-timelock-postexec}/bin/samba-timelock-postexec";
+            };
+          };
+        };
+
+        systemd.services.samba-timelock-credentials = {
+          description = "Set Samba password for timelock share from sops secret";
+          wantedBy = ["multi-user.target"];
+          after = ["samba.service"];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+          };
+          script = ''
+            username=$(grep '^username=' /run/secrets/samba/timelock | cut -d= -f2)
+            password=$(grep '^password=' /run/secrets/samba/timelock | cut -d= -f2)
+            echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
+          '';
+        };
+
+        systemd.services.samba-timelock-enforce = {
+          description = "Enforce samba timelock session limits";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${self.packages.x86_64-linux.samba-timelock-enforce}/bin/samba-timelock-enforce";
+          };
+        };
+
+        systemd.timers.samba-timelock-enforce = {
+          description = "Periodic check for samba timelock enforcement";
+          wantedBy = ["timers.target"];
+          timerConfig = {
+            OnBootSec = "1m";
+            OnUnitActiveSec = "30s";
+            AccuracySec = "5s";
+          };
+        };
+      })
+    ];
+  };
 }
