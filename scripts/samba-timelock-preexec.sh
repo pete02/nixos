@@ -36,7 +36,7 @@ if [[ -f "${REVOKED_FILE}" ]]; then
     last=$(cat "${REVOKED_FILE}")
     elapsed=$(( now - last ))
     if [[ "$elapsed" -lt "${COOLDOWN_SECS}" ]]; then
-        logger -t samba-timelock "DENY connect: cooldown active ($(( (${COOLDOWN_SECS} - elapsed) / 3600 ))h left)"
+        logger -t samba-timelock "DENY connect: cooldown active ($(( (COOLDOWN_SECS - elapsed) / 3600 ))h left)"
         exit 1
     fi
 fi
