@@ -45,6 +45,7 @@
           runtimeInputs = with pkgs; [
             curl
             jq
+            logger
             glibc.getent
             gawk
           ];

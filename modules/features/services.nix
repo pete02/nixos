@@ -260,6 +260,8 @@
 
         (lib.mkIf config.services.sambaTimelock {
           sops.secrets."samba/timelock" = { };
+          sops.secrets."agh" = { };
+
 
           users.users.timelock = {
             isSystemUser = true;

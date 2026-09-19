@@ -21,11 +21,18 @@ check() {
     echo "Checking getent..."
     command -v getent >/dev/null || return 1
 
+    echo "Checking logger..."
+    command -v logger >/dev/null || return 1
+
     echo "Checking awk..."
     command -v awk >/dev/null || return 1
 
     echo "Checking chmod..."
     command -v chmod >/dev/null || return 1
+}
+
+log() {
+    logger -t raysha-filter -- "$*"
 }
 
 load_config() {
@@ -97,6 +104,8 @@ ensure_client() {
         return
     fi
 
+    log "Client $CLIENT_NAME ($CLIENT_IP) not configured; creating AdGuard Home client"
+
     echo "raysha.local is not configured in AdGuard Home; creating client..." >&2
 
     curl_agh \
@@ -129,6 +138,7 @@ ensure_client() {
             }
         ')" >/dev/null
 
+    log "Client $CLIENT_NAME created"
     get_client
 }
 
@@ -229,20 +239,34 @@ main() {
     case "${1:-}" in
         on)
             local client
+
+            log "Switching $CLIENT_NAME ($CLIENT_IP) -> ON"
+
             client="$(ensure_client)"
 
-            update_client true "$client"
-            clear_cache
-            echo "raysha.local: parental filtering ON, Safe Search ON"
+            if update_client true "$client" && clear_cache; then
+                log "Switched $CLIENT_NAME -> parental filtering ON, Safe Search ON"
+                echo "raysha.local: parental filtering ON, Safe Search ON"
+            else
+                log "ERROR: Failed to switch $CLIENT_NAME -> ON"
+                exit 1
+            fi
             ;;
 
         off)
             local client
+
+            log "Switching $CLIENT_NAME ($CLIENT_IP) -> OFF"
+
             client="$(ensure_client)"
 
-            update_client false "$client"
-            clear_cache
-            echo "raysha.local: parental filtering OFF, Safe Search OFF"
+            if update_client false "$client" && clear_cache; then
+                log "Switched $CLIENT_NAME -> parental filtering OFF, Safe Search OFF"
+                echo "raysha.local: parental filtering OFF, Safe Search OFF"
+            else
+                log "ERROR: Failed to switch $CLIENT_NAME -> OFF"
+                exit 1
+            fi
             ;;
 
         status)
