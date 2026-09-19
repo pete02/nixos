@@ -7,9 +7,6 @@ check() {
 
     echo "Checking git..."
     command -v git >/dev/null || return 1
-
-    echo "Checking nixos-rebuild..."
-    command -v nixos-rebuild >/dev/null || return 1
 }
 
 if [[ "${1:-}" == "--check" ]]; then
