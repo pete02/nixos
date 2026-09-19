@@ -41,7 +41,7 @@ elapsed=$(( now - start ))
 
 if [[ "$elapsed" -ge "${MAX_SESSION_SECS}" ]] || [[ "$hour" -ge "${CUTOFF_HOUR}" ]]; then
     logger -t samba-timelock "LIMIT REACHED: force-closing share"
-    ${pkgs.samba}/bin/smbcontrol smbd close-share "${SHARE_NAME}" || true
+    smbcontrol smbd close-share "${SHARE_NAME}" || true
     date +%s > "${REVOKED_FILE}"
     rm -f "${SESSION_FILE}"
     raysha-filter on

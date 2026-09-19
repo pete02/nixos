@@ -29,7 +29,7 @@ if [[ "${1:-}" == "--check" ]]; then
 fi
 
 # Only finalize once every connection to the share is actually gone
-remaining=$(${pkgs.samba}/bin/smbstatus -S 2>/dev/null | awk -v s="${SHARE_NAME}" '$1==s' | wc -l)
+remaining=$(smbstatus -S 2>/dev/null | awk -v s="${SHARE_NAME}" '$1==s' | wc -l)
 if [[ "$remaining" -eq 0 ]]; then
     date +%s > "${REVOKED_FILE}"
     rm -f "${SESSION_FILE}"
