@@ -1,8 +1,64 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONFIG_FOLDER=/etc/nixos
-GIT_USER=$(stat -c '%U' "$CONFIG_FOLDER/.git")
+CONFIG_FOLDER="@CONFIG_FOLDER@"
+
+check() {
+    echo "Checking git..."
+    command -v git >/dev/null || return 1
+
+    echo "Checking nixos-rebuild..."
+    command -v nixos-rebuild >/dev/null || return 1
+
+    echo "Checking treefmt..."
+    command -v treefmt >/dev/null || return 1
+
+    echo "Checking sudo..."
+    command -v sudo >/dev/null || return 1
+
+    echo "Checking stat..."
+    command -v stat >/dev/null || return 1
+
+    echo "Checking find..."
+    command -v find >/dev/null || return 1
+
+    echo "Checking sort..."
+    command -v sort >/dev/null || return 1
+
+    echo "Checking rm..."
+    command -v rm >/dev/null || return 1
+
+    echo "Checking notify-send..."
+    command -v notify-send >/dev/null || return 1
+
+    echo "All dependencies available."
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
+fi
+
+
+[[ -d "${CONFIG_FOLDER}" ]] || {
+    echo "ERROR: CONFIG_FOLDER does not exist: ${CONFIG_FOLDER}" >&2
+    exit 1
+}
+
+[[ -d "${CONFIG_FOLDER}/.git" ]] || {
+    echo "ERROR: ${CONFIG_FOLDER} is not a Git repository." >&2
+    exit 1
+}
+
+[[ -d "${CONFIG_FOLDER}/modules/hosts" ]] || {
+    echo "ERROR: Host configuration directory missing." >&2
+    exit 1
+}
+
+[[ -x /run/current-system/sw/bin/rebuild ]] || {
+    echo "ERROR: rebuild command not found." >&2
+    exit 1
+}
 
 git_cmd() {
     if [[ $EUID -eq 0 ]]; then
@@ -14,7 +70,7 @@ git_cmd() {
 
 
 
-
+GIT_USER=$(stat -c '%U' "$CONFIG_FOLDER/.git")
 cd "$CONFIG_FOLDER"
 
 # Save current state so we can roll back if necessary

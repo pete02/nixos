@@ -1,4 +1,17 @@
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
+
+check() {
+    echo "Checking curl..."
+    command -v curl >/dev/null || return 1
+
+    echo "Checking git..."
+    command -v git >/dev/null || return 1
+
+    echo "Checking nixos-rebuild..."
+    command -v nixos-rebuild >/dev/null || return 1
+}
+
 TIMESTAMP_FILE="/var/lib/gitops/last-sync"
 mkdir -p /var/lib/gitops
 
@@ -7,6 +20,11 @@ cd /etc/nixos
 git fetch origin master
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse @{u})
+
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
+fi
 
 if [ "$LOCAL" != "$REMOTE" ]; then
 echo "Remote has updates, triggering autoupdater"

@@ -1,7 +1,23 @@
-    #!/bin/bash
-    echo 1 > /sys/class/hwmon/hwmon1/pwm2_enable
-    echo 1 > /sys/class/hwmon/hwmon1/pwm5_enable
-    while true; do
+    #!/usr/bin/env bash
+set -euo pipefail
+
+check() {
+    echo "Checking nvidia-smi..."
+    command -v nvidia-smi >/dev/null || return 1
+
+    echo "Checking awk..."
+    command -v awk >/dev/null || return 1
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
+fi
+
+echo 1 > /sys/class/hwmon/hwmon1/pwm2_enable
+echo 1 > /sys/class/hwmon/hwmon1/pwm5_enable
+
+while true; do
     temp=$(/run/current-system/sw/bin/nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 
     

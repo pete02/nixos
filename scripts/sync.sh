@@ -1,3 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+check() {
+    echo "Checking rsync..."
+    command -v rsync >/dev/null || return 1
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
+fi
+
 [ -d /mnt/server/desktopsync ] || exit 0
 /run/current-system/sw/bin/rsync -a \
     --exclude 'node_modules/' \

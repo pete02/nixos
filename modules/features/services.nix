@@ -38,10 +38,7 @@
             description = "Check remote NixOS config repo for updates";
             serviceConfig = {
               Type = "oneshot";
-              Environment = "PATH=${pkgs.git}/bin:${pkgs.nixos-rebuild}/bin:/run/current-system/sw/bin";
-              ExecStart = pkgs.writeShellScript "check-nixos-updates" (
-                builtins.readFile "${self}/scripts/gitops.sh"
-              );
+              ExecStart = "${self.packages.x86_64-linux.gitops}/bin/gitops";
             };
           };
 
@@ -71,23 +68,17 @@
         (lib.mkIf config.services.autoUpdate {
           systemd.services.nixos-auto-update = {
             description = "Update flake inputs and rebuild NixOS";
-
             serviceConfig = {
               Type = "oneshot";
-              Environment = "PATH=${pkgs.git}/bin:${pkgs.nixos-rebuild}/bin:/run/current-system/sw/bin";
-              ExecStart = pkgs.writeShellScript "nixos-auto-update" (
-                builtins.readFile "${self}/scripts/update.sh"
-              );
+              ExecStart = "${self.packages.x86_64-linux.update}/bin/update";
             };
           };
 
           systemd.timers.nixos-auto-update = {
             description = "Weekly automatic NixOS update";
-
             wantedBy = [ "timers.target" ];
             after = [ "network-online.target" ];
             wants = [ "network-online.target" ];
-
             timerConfig = {
               OnBootSec = "15m";
               OnCalendar = "weekly";
@@ -104,9 +95,7 @@
             after = [ "multi-user.target" ];
 
             serviceConfig = {
-              ExecStart = pkgs.writeShellScript "gpu-fan-control" (
-                builtins.readFile "${self}/scripts/gpu-cooler.sh"
-              );
+              ExecStart = "${self.packages.x86_64-linux.gpu-cooler}/bin/gpu-cooler";
               Restart = "always";
               RestartSec = 1;
             };
@@ -148,7 +137,7 @@
             serviceConfig = {
               User = config.username;
               Type = "oneshot";
-              ExecStart = pkgs.writeShellScript "desktop-syncrestore" ''
+              ExecStart = ''
                 ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/code /home/pete
               '';
             };
@@ -162,7 +151,7 @@
             serviceConfig = {
               User = config.username;
               Type = "oneshot";
-              ExecStart = pkgs.writeShellScript "desktop-sync" (builtins.readFile "${self}/scripts/sync.sh");
+              ExecStart = "${self.packages.x86_64-linux.sync}/bin/sync";
             };
           };
 
@@ -269,140 +258,74 @@
           };
         })
 
-        (lib.mkIf config.services.sambaTimelock (
-          let
-            shareName = "timelock";
-            sharePath = "/mnt/timelock"; # <-- adjust
-            stateDir = "/var/lib/samba-timelock";
-            sessionFile = "${stateDir}/session-start";
-            revokedFile = "${stateDir}/last-revoked";
+        (lib.mkIf config.services.sambaTimelock {
+          sops.secrets."samba/timelock" = { };
 
-            maxSessionSecs = 60 * 60; # 1h
-            cooldownSecs = 72 * 60 * 60; # 72h
-            cutoffHour = 21; # 24h clock, local time
+          users.users.timelock = {
+            isSystemUser = true;
+            group = "nogroup";
+          };
 
-            preexec = pkgs.writeShellScript "samba-timelock-preexec" ''
-              set -euo pipefail
-              now=$(date +%s)
-              hour=$(date +%-H)   # %-H, not %H: avoids "08"/"09" being read as octal
+          systemd.tmpfiles.rules = [
+            "d /var/lib/samba-timelock 0750 root root -"
+          ];
 
-              if [ -f ${revokedFile} ]; then
-                last=$(cat ${revokedFile})
-                elapsed=$(( now - last ))
-                if [ "$elapsed" -lt ${toString cooldownSecs} ]; then
-                  ${pkgs.util-linux}/bin/logger -t samba-timelock "DENY connect: cooldown active ($(( (${toString cooldownSecs} - elapsed) / 3600 ))h left)"
-                  exit 1
-                fi
-              fi
+          services.samba = {
+            enable = true;
+            openFirewall = true;
+            settings = {
+              global = {
+                security = "user";
+                "workgroup" = "WORKGROUP";
+              };
+              "timelock" = {
+                path = "/mnt/timelock";
+                browseable = "yes";
+                "read only" = "no";
+                "guest ok" = "no";
+                "create mask" = "0644";
+                "directory mask" = "0755";
+                "force user" = config.username;
+                "force group" = "users";
 
-              if [ "$hour" -ge ${toString cutoffHour} ]; then
-                ${pkgs.util-linux}/bin/logger -t samba-timelock "DENY connect: past cutoff (${toString cutoffHour}:00)"
-                exit 1
-              fi
-
-              if [ ! -f ${sessionFile} ]; then
-                echo "$now" > ${sessionFile}
-                ${pkgs.util-linux}/bin/logger -t samba-timelock "ACCESS GRANTED: session started"
-              fi
-              exit 0
-            '';
-
-            postexec = pkgs.writeShellScript "samba-timelock-postexec" ''
-              set -euo pipefail
-              # Only finalize once every connection to the share is actually gone
-              remaining=$(${pkgs.samba}/bin/smbstatus -S 2>/dev/null | awk -v s=${shareName} '$1==s' | wc -l)
-              if [ "$remaining" -eq 0 ]; then
-                date +%s > ${revokedFile}
-                rm -f ${sessionFile}
-                ${pkgs.util-linux}/bin/logger -t samba-timelock "ACCESS ENDED: 72h cooldown started"
-              fi
-            '';
-
-            enforce = pkgs.writeShellScript "samba-timelock-enforce" ''
-              set -euo pipefail
-              [ -f ${sessionFile} ] || exit 0
-              start=$(cat ${sessionFile})
-              now=$(date +%s)
-              hour=$(date +%-H)
-              elapsed=$(( now - start ))
-
-              if [ "$elapsed" -ge ${toString maxSessionSecs} ] || [ "$hour" -ge ${toString cutoffHour} ]; then
-                ${pkgs.util-linux}/bin/logger -t samba-timelock "LIMIT REACHED: force-closing share"
-                ${pkgs.samba}/bin/smbcontrol smbd close-share ${shareName} || true
-                date +%s > ${revokedFile}
-                rm -f ${sessionFile}
-              fi
-            '';
-          in
-          {
-            sops.secrets."samba/timelock" = { };
-
-            users.users.timelock = {
-              isSystemUser = true;
-              group = "nogroup";
-            };
-
-            systemd.tmpfiles.rules = [
-              "d ${stateDir} 0750 root root -"
-            ];
-
-            services.samba = {
-              enable = true;
-              openFirewall = true;
-              settings = {
-                global = {
-                  security = "user";
-                  "workgroup" = "WORKGROUP";
-                };
-                "${shareName}" = {
-                  path = sharePath;
-                  browseable = "yes";
-                  "read only" = "no";
-                  "guest ok" = "no";
-                  "create mask" = "0644";
-                  "directory mask" = "0755";
-                  "force user" = config.username;
-                  "force group" = "users";
-
-                  "root preexec" = "${preexec}";
-                  "root preexec close" = "yes"; # non-zero exit from preexec => connection is closed
-                  "root postexec" = "${postexec}";
-                };
+                "root preexec" = "${self.packages.x86_64-linux.samba-timelock-preexec}/bin/samba-timelock-preexec";
+                "root preexec close" = "yes";
+                "root postexec" = "${self.packages.x86_64-linux.samba-timelock-postexec}/bin/samba-timelock-postexec";
               };
             };
+          };
 
-            systemd.services.samba-timelock-credentials = {
-              description = "Set Samba password for timelock share from sops secret";
-              wantedBy = [ "multi-user.target" ];
-              after = [ "samba.service" ];
-              serviceConfig = {
-                Type = "oneshot";
-                RemainAfterExit = true;
-              };
-              script = ''
-                username=$(grep '^username=' /run/secrets/samba/timelock | cut -d= -f2)
-                password=$(grep '^password=' /run/secrets/samba/timelock | cut -d= -f2)
-                echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
-              '';
+          systemd.services.samba-timelock-credentials = {
+            description = "Set Samba password for timelock share from sops secret";
+            wantedBy = [ "multi-user.target" ];
+            after = [ "samba.service" ];
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
             };
+            script = ''
+              username=$(grep '^username=' /run/secrets/samba/timelock | cut -d= -f2)
+              password=$(grep '^password=' /run/secrets/samba/timelock | cut -d= -f2)
+              echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
+            '';
+          };
 
-            systemd.services.samba-timelock-enforce = {
-              description = "Enforce samba timelock session limits";
-              serviceConfig.Type = "oneshot";
-              script = "${enforce}";
-            };
+          systemd.services.samba-timelock-enforce = {
+            description = "Enforce samba timelock session limits";
+            serviceConfig.Type = "oneshot";
+            ExecStart = "${self.packages.x86_64-linux.samba-timelock-enforce}/bin/samba-timelock-enforce";
+          };
 
-            systemd.timers.samba-timelock-enforce = {
-              description = "Periodic check for samba timelock enforcement";
-              wantedBy = [ "timers.target" ];
-              timerConfig = {
-                OnBootSec = "1m";
-                OnUnitActiveSec = "30s";
-                AccuracySec = "5s";
-              };
+          systemd.timers.samba-timelock-enforce = {
+            description = "Periodic check for samba timelock enforcement";
+            wantedBy = [ "timers.target" ];
+            timerConfig = {
+              OnBootSec = "1m";
+              OnUnitActiveSec = "30s";
+              AccuracySec = "5s";
             };
-          }
-        ))
+          };
+        })
 
       ];
     };
