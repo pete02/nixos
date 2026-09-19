@@ -27,7 +27,7 @@ check() {
 }
 
 if [[ "${1:-}" == "--check" ]]; then
-    check()
+    check
     exit $?
 fi
 
