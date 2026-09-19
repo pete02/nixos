@@ -1,40 +1,34 @@
 set -euo pipefail
-if [[ "${1:-}" == "--check" ]]; then
-    echo "Checking git..."
-    command -v git >/dev/null || exit 1
 
-    echo "Checking nixos-rebuild..."
-    command -v nixos-rebuild >/dev/null || exit 1
+check() {
+    check_command() {
+        local name="$1"
 
-    echo "Checking treefmt..."
-    command -v treefmt >/dev/null || exit 1
+        echo "Checking ${name}..."
+        if ! command -v "$name" >/dev/null; then
+            echo "ERROR: ${name} not found in PATH"
+            return 1
+        fi
+    }
 
-    echo "Checking stat..."
-    command -v stat >/dev/null || exit 1
-
-    echo "Checking sudo..."
-    command -v sudo >/dev/null || exit 1
-
-    echo "Checking find..."
-    command -v find >/dev/null || exit 1
-
-    echo "Checking sort..."
-    command -v sort >/dev/null || exit 1
-
-    echo "Checking grep..."
-    command -v grep >/dev/null || exit 1
-
-    echo "Checking hostname..."
-    command -v hostname >/dev/null || exit 1
-
-    echo "Checking nvd..."
-    command -v nvd >/dev/null || exit 1
-
-    echo "Checking date..."
-    command -v date >/dev/null || exit 1
+    check_command git || return 1
+    check_command nixos-rebuild || return 1
+    check_command treefmt || return 1
+    check_command stat || return 1
+    check_command sudo || return 1
+    check_command find || return 1
+    check_command sort || return 1
+    check_command grep || return 1
+    check_command hostname || return 1
+    check_command nvd || return 1
+    check_command date || return 1
 
     echo "All checks passed."
-    exit 0
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    check()
+    exit $?
 fi
 
 HOSTNAME=$(hostname)
