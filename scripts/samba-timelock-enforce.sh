@@ -23,6 +23,9 @@ check() {
 
     echo "Checking rm..."
     command -v rm >/dev/null || return 1
+
+    echo "Checking raysha-filter..."
+    command -v raysha-filter >/dev/null || return 1
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -41,4 +44,5 @@ if [[ "$elapsed" -ge "${MAX_SESSION_SECS}" ]] || [[ "$hour" -ge "${CUTOFF_HOUR}"
     ${pkgs.samba}/bin/smbcontrol smbd close-share "${SHARE_NAME}" || true
     date +%s > "${REVOKED_FILE}"
     rm -f "${SESSION_FILE}"
+    raysha-filter on
 fi

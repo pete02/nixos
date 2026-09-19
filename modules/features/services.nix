@@ -312,8 +312,11 @@
 
           systemd.services.samba-timelock-enforce = {
             description = "Enforce samba timelock session limits";
-            serviceConfig.Type = "oneshot";
-            ExecStart = "${self.packages.x86_64-linux.samba-timelock-enforce}/bin/samba-timelock-enforce";
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart =
+                "${self.packages.x86_64-linux.samba-timelock-enforce}/bin/samba-timelock-enforce";
+            };
           };
 
           systemd.timers.samba-timelock-enforce = {

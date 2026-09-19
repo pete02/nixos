@@ -53,7 +53,7 @@
             vulnix
             lm_sensors
             fastfetch
-            (writeShellScriptBin "rebuild" (builtins.readFile "${self}/scripts/rebuild.sh"))
+            self.packages.x86_64-linux.rebuild
           ];
 
           nix.gc = {

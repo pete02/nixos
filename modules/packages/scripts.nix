@@ -37,7 +37,7 @@
           ln -s ${script}/bin/${name} "$out/bin/${name}"
         '';
 
-      scripts = {
+      scripts = rec {
         raysha-filter = mkScript {
           name = "raysha-filter";
           src = ../../scripts/raysha-filter.sh;
@@ -70,7 +70,7 @@
           src = ../../scripts/gpu-cooler.sh;
 
           runtimeInputs = with pkgs; [
-            nvidia-smi
+            python313Packages.gputil
             gawk
           ];
         };
@@ -120,11 +120,12 @@
 
           runtimeInputs = with pkgs; [
             coreutils
+            raysha-filter
           ];
 
           substitutions = {
             STATE_DIR = "/var/lib/samba-timelock";
-            COOLDOWN_SECS = "${toString (72 * 60 * 60)}";
+            COOLDOWN_SECS = "${toString (2 * 60)}";
             CUTOFF_HOUR = "${toString 21}";
           };
         };
@@ -136,6 +137,7 @@
           runtimeInputs = with pkgs; [
             samba
             coreutils
+            raysha-filter
           ];
 
           substitutions = {
@@ -151,12 +153,13 @@
           runtimeInputs = with pkgs; [
             samba
             coreutils
+            raysha-filter
           ];
 
           substitutions = {
             STATE_DIR = "/var/lib/samba-timelock";
             SHARE_NAME = "timelock";
-            MAX_SESSION_SECS = "${toString (60 * 60)}";
+            MAX_SESSION_SECS = "${toString (2* 60)}";
             CUTOFF_HOUR = "${toString 21}";
           };
         };

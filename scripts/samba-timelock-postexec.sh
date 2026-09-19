@@ -18,6 +18,9 @@ check() {
 
     echo "Checking smbstatus..."
     command -v smbstatus >/dev/null || return 1
+
+    echo "Checking raysha-filter..."
+    command -v raysha-filter >/dev/null || return 1
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -30,5 +33,6 @@ remaining=$(${pkgs.samba}/bin/smbstatus -S 2>/dev/null | awk -v s="${SHARE_NAME}
 if [[ "$remaining" -eq 0 ]]; then
     date +%s > "${REVOKED_FILE}"
     rm -f "${SESSION_FILE}"
+    raysha-filter on
     logger -t samba-timelock "ACCESS ENDED: 72h cooldown started"
 fi
