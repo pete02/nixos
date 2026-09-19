@@ -1,5 +1,0 @@
-<<< /nix/var/nix/profiles/system-60-link
->>> /nix/var/nix/profiles/system-61-link
-Added packages:
-[A+]  #1  kitty  0.47.4-terminfo
-Closure size: 1283 -> 1284 (24 paths added, 23 paths removed, delta +1, disk usage +51.8KiB).
