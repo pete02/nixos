@@ -12,6 +12,13 @@ check() {
     command -v nixos-rebuild >/dev/null || return 1
 }
 
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
+fi
+
+
+
 TIMESTAMP_FILE="/var/lib/gitops/last-sync"
 mkdir -p /var/lib/gitops
 
@@ -21,10 +28,6 @@ git fetch origin master
 LOCAL="$(git rev-parse @)"
 REMOTE="$(git rev-parse "@{u}")"
 
-if [[ "${1:-}" == "--check" ]]; then
-    check
-    exit $?
-fi
 
 if [ "$LOCAL" != "$REMOTE" ]; then
 echo "Remote has updates, triggering autoupdater"
