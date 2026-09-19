@@ -28,6 +28,10 @@
       MAILADDR = "petrik.rasanen@gmail.com";
     };
 
+    environment.systemPackages = with pkgs; [
+      kitty.terminfo
+    ];
+
     services = {
       cleaner = true;
       sambaServer = true;
