@@ -83,6 +83,7 @@
             findutils
             git
             gnugrep
+            inetutils
             nixos-rebuild
             nvd
             sudo
