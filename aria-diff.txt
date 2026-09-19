@@ -1,19 +1,5 @@
-<<< /nix/var/nix/profiles/system-58-link
->>> /nix/var/nix/profiles/system-59-link
-Selection state changes:
-[C-]  #1  rebuild  <none>
+<<< /nix/var/nix/profiles/system-60-link
+>>> /nix/var/nix/profiles/system-61-link
 Added packages:
-[A.]  #01  gitops                           <none>
-[A.]  #02  gitops-checked                   <none>
-[A.]  #03  inetutils                        2.7
-[A.]  #04  logger-util-linux                2.42.2
-[A.]  #05  raysha-filter                    <none>
-[A.]  #06  raysha-filter-checked            <none>
-[A+]  #07  rebuild-checked                  <none>
-[A.]  #08  samba-timelock-enforce-checked   <none>
-[A.]  #09  samba-timelock-postexec-checked  <none>
-[A.]  #10  samba-timelock-preexec-checked   <none>
-Removed packages:
-[R.]  #1  check-nixos-updates                       <none>
-[R.]  #2  unit-script-samba-timelock-enforce-start  <none>
-Closure size: 1275 -> 1283 (34 paths added, 26 paths removed, delta +8, disk usage +2.5MiB).
+[A+]  #1  kitty  0.47.4-terminfo
+Closure size: 1283 -> 1284 (24 paths added, 23 paths removed, delta +1, disk usage +51.8KiB).
