@@ -18,8 +18,8 @@ mkdir -p /var/lib/gitops
 export GIT_SSH_COMMAND="ssh -i /etc/ssh/id_server -o IdentitiesOnly=yes"
 cd /etc/nixos
 git fetch origin master
-LOCAL=$(git rev-parse @)
-REMOTE=$(git rev-parse "@{u}")
+LOCAL="$(git rev-parse @)"
+REMOTE="$(git rev-parse "@{u}")"
 
 if [[ "${1:-}" == "--check" ]]; then
     check
@@ -30,7 +30,7 @@ if [ "$LOCAL" != "$REMOTE" ]; then
 echo "Remote has updates, triggering autoupdater"
 git reset --hard origin/master
 git pull
-nixos-rebuild switch --flake /etc/nixos#$HOSTNAME || echo "Rebuild had warnings/errors, continuing anyway"
+nixos-rebuild switch --flake "/etc/nixos#$HOSTNAME" || echo "Rebuild had warnings/errors, continuing anyway"
 date -Iseconds > "$TIMESTAMP_FILE"
 
 if [ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ] || \

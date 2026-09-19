@@ -33,8 +33,8 @@ while true; do
         speed=255
     fi
     # TODO: write PWM to correct hwmon path
-    echo $speed > /sys/class/hwmon/hwmon1/pwm2
-    echo $speed > /sys/class/hwmon/hwmon1/pwm5
+    echo "$speed" > /sys/class/hwmon/hwmon1/pwm2
+    echo "$speed" > /sys/class/hwmon/hwmon1/pwm5
 
     sleep 1
     done
