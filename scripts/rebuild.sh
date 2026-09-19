@@ -75,13 +75,13 @@ validate_config() {
 
     echo "Running flake checks..."
     nix flake check "$CONFIG_FOLDER"
-    if ! treefmt --no-cache --tree-root "$CONFIG_FOLDER" &>/dev/null; then
+
+    if ! treefmt --no-cache &>/dev/null; then
         echo "treefmt failed:"
-        treefmt --no-cache --tree-root "$CONFIG_FOLDER"
+        treefmt --no-cache
         return 1
     fi
 }
-
 
 handle_success(){
     echo "Rebuild successful"

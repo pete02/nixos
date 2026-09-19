@@ -262,7 +262,6 @@
           sops.secrets."samba/timelock" = { };
           sops.secrets."agh" = { };
 
-
           users.users.timelock = {
             isSystemUser = true;
             group = "nogroup";

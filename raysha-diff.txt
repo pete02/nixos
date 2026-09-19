@@ -1,12 +1,4 @@
-<<< /nix/var/nix/profiles/system-254-link
->>> /nix/var/nix/profiles/system-255-link
-Selection state changes:
-[C-]  #1  rebuild  <none>
-Added packages:
-[A.]  #1  inetutils        2.7
-[A+]  #2  rebuild-checked  <none>
-[A.]  #3  update           <none>
-[A.]  #4  update-checked   <none>
-Removed packages:
-[R.]  #1  nixos-auto-update  <none>
-Closure size: 2379 -> 2382 (19 paths added, 16 paths removed, delta +3, disk usage +2.4MiB).
+<<< /nix/var/nix/profiles/system-255-link
+>>> /nix/var/nix/profiles/system-256-link
+No version or selection state changes.
+Closure size: 2382 -> 2382 (15 paths added, 15 paths removed, delta +0, disk usage +1.5KiB).
