@@ -9,11 +9,33 @@ if [[ "${1:-}" == "--check" ]]; then
     echo "Checking treefmt..."
     command -v treefmt >/dev/null || exit 1
 
+    echo "Checking stat..."
+    command -v stat >/dev/null || exit 1
+
+    echo "Checking sudo..."
+    command -v sudo >/dev/null || exit 1
+
+    echo "Checking find..."
+    command -v find >/dev/null || exit 1
+
+    echo "Checking sort..."
+    command -v sort >/dev/null || exit 1
+
+    echo "Checking grep..."
+    command -v grep >/dev/null || exit 1
+
+    echo "Checking hostname..."
+    command -v hostname >/dev/null || exit 1
+
+    echo "Checking nvd..."
+    command -v nvd >/dev/null || exit 1
+
+    echo "Checking date..."
+    command -v date >/dev/null || exit 1
+
     echo "All checks passed."
     exit 0
 fi
-
-
 
 HOSTNAME=$(hostname)
 UNSTABLE_BRANCH="rebuild-unstable/$HOSTNAME"
@@ -58,7 +80,7 @@ validate_config() {
     check_host_isolation
 
     echo "Running flake checks..."
-    nix flake check $CONFIG_FOLDER
+    nix flake check "$CONFIG_FOLDER"
     if ! treefmt --no-cache --tree-root "$CONFIG_FOLDER" &>/dev/null; then
         echo "treefmt failed:"
         treefmt --no-cache --tree-root "$CONFIG_FOLDER"
@@ -70,7 +92,21 @@ validate_config() {
 handle_success(){
     echo "Rebuild successful"
 
-    nvd diff $(ls -d1v /nix/var/nix/profiles/system-*-link|tail -n 2) > $CONFIG_FOLDER/$HOSTNAME-diff.txt
+    mapfile -t system_links < <(
+    find /nix/var/nix/profiles \
+        -maxdepth 1 \
+        -type l \
+        -name 'system-*-link' \
+        -printf '%p\n' |
+        sort -V
+    )
+
+    nvd diff \
+        "${system_links[-2]}" \
+        "${system_links[-1]}" \
+        > "${CONFIG_FOLDER}/${HOSTNAME}-diff.txt"
+
+
     cat "$CONFIG_FOLDER/$HOSTNAME-diff.txt"
     git_cmd add "$CONFIG_FOLDER/$HOSTNAME-diff.txt"
 
@@ -113,7 +149,7 @@ handle_failure(){
 }
 
 
-cd $CONFIG_FOLDER
+cd "$CONFIG_FOLDER"
 validate_config
 git_cmd add "$CONFIG_FOLDER/."
 
