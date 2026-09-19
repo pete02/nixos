@@ -13,7 +13,6 @@ check() {
 
     check_command git || return 1
     check_command stat || return 1
-    check_command sudo || return 1
     check_command find || return 1
     check_command sort || return 1
     check_command grep || return 1

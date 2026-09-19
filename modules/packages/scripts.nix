@@ -82,7 +82,6 @@
           inetutils
           nixos-rebuild
           nvd
-          sudo
         ];
       };
 
