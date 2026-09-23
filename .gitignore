@@ -1,3 +1,5 @@
 .gitattributes
 
 result
+.direnv
+.direnv/*
