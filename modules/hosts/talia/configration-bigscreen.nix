@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.taliaConfiguration = {
+  flake.nixosModules.taliaConfigurationBigscreen = {
     pkgs,
     lib,
     config,

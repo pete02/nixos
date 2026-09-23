@@ -17,7 +17,7 @@
     system = "x86_64-linux";
     modules = [
       self.nixosModules.taliaHardware
-      self.nixosModules.taliaConfiguration
+      self.nixosModules.taliaConfigurationBigscreen
       self.nixosModules.connectivity
       self.nixosModules.services
       self.nixosModules.management
