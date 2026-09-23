@@ -11,18 +11,11 @@
   }: let
     plasmaBigscreenPkg = self.mkPlasmaBigscreenPkg {
       inherit pkgs;
-      extraPackages = config.plasmaBigscreenExtraPackages;
     };
   in {
     options = {
       username = lib.mkOption {
         type = lib.types.str;
-      };
-
-      plasmaBigscreenExtraPackages = lib.mkOption {
-        type = lib.types.listOf lib.types.package;
-        default = [];
-        description = "Additional packages included in the Plasma Bigscreen environment.";
       };
     };
 
@@ -33,6 +26,9 @@
 
       xdg.portal = {
         enable = true;
+        extraPortals = [
+          pkgs.kdePackages.xdg-desktop-portal-kde
+        ];
         configPackages = [
           pkgs.kdePackages.plasma-bigscreen
         ];
@@ -41,7 +37,7 @@
       services.displayManager = {
         defaultSession = "plasma-bigscreen-wayland";
         sessionPackages = [
-          pkgs.kdePackages.plasma-bigscreen
+          plasmaBigscreenPkg
         ];
 
         sddm = {
@@ -61,7 +57,6 @@
       };
 
       security.rtkit.enable = true;
-
       services.upower.enable = true;
     };
   };
