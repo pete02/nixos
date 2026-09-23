@@ -13,7 +13,7 @@
       self.nixosModules.management
     ];
   };
-    flake.nixosConfigurations.talia-bigscreen = self.lib.mkHost {
+  flake.nixosConfigurations.talia-bigscreen = self.lib.mkHost {
     system = "x86_64-linux";
     modules = [
       self.nixosModules.taliaHardware
