@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.rayshaConfiguration = {
+  flake.nixosModules.raysha-bigscreenConfiguration = {
     pkgs,
     lib,
     config,
