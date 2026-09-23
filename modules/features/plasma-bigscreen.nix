@@ -38,7 +38,7 @@
         defaultSession = "plasma-bigscreen-wayland";
 
         sessionPackages = [
-          plasmaBigscreenPkg
+          pkgs.kdePackages.plasma-bigscreen
         ];
 
         sddm = {
