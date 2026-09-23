@@ -1,4 +1,276 @@
-<<< /nix/var/nix/profiles/system-257-link
->>> /nix/var/nix/profiles/system-258-link
-No version or selection state changes.
-Closure size: 2382 -> 2382 (15 paths added, 15 paths removed, delta +0, disk usage -152B).
+<<< /nix/var/nix/profiles/system-262-link
+>>> /nix/var/nix/profiles/system-263-link
+Version changes:
+[C.]  #01  at-spi2-core     2.60.4 x2 -> 2.60.4 x2, 2.60.4-dev
+[C.]  #02  cups             2.4.19 x2, 2.4.19-lib x2, 2.4.19-man -> 2.4.19 x2, 2.4.19-dev, 2.4.19-lib x2, 2.4.19-man
+[C.]  #03  ffmpeg           6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 8.1.2-data, 8.1.2-lib -> 6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 7.1.5-data, 7.1.5-lib, 8.1.2-data, 8.1.2-lib
+[C.]  #04  fribidi          1.0.16 x2 -> 1.0.16 x2, 1.0.16-dev
+[C.]  #05  gcc              15.2.0, 15.2.0-lib x3, 15.2.0-libgcc x3, 15.2.0-man -> 15.2.0, 15.2.0-lib x4, 15.2.0-libgcc x4, 15.2.0-man
+[C.]  #06  gmp-with-cxx     6.3.0 x4 -> 6.3.0 x4, 6.3.0-dev
+[C.]  #07  graphite2        1.3.15 x2 -> 1.3.15 x2, 1.3.15-dev
+[C.]  #08  gtk+3            3.24.52 x2 -> 3.24.52 x2, 3.24.52-dev
+[C.]  #09  harfbuzz         13.2.1 x2 -> 13.2.1 x2, 13.2.1-dev
+[C.]  #10  icu4c            76.1 x2 -> 76.1 x2, 77.1
+[C+]  #11  imagemagick      7.1.2-27 -> 7.1.2-27, 7.1.2-27-doc
+[C.]  #12  imlib2           1.12.6 -> 1.12.6 x2
+[C.]  #13  libbluray        1.4.1 x2 -> 1.4.1 x3
+[C.]  #14  libcanberra      0.30 x2 -> 0.30 x3
+[C.]  #15  libdisplay-info  0.2.0, 0.3.0 x2 -> 0.3.0 x2
+[C.]  #16  libglvnd         1.7.0 x2 -> 1.7.0 x2, 1.7.0-dev
+[C.]  #17  libice           1.1.2 x2 -> 1.1.2 x2, 1.1.2-dev
+[C+]  #18  libinput         1.31.3 -> 1.31.3, 1.31.3-bin
+[C.]  #19  libmpc           1.4.1 -> 1.4.1 x2
+[C.]  #20  libsm            1.2.6 x2 -> 1.2.6 x2, 1.2.6-dev
+[C.]  #21  libxcomposite    0.4.7 x2 -> 0.4.7 x2, 0.4.7-dev
+[C.]  #22  libxcursor       1.2.3 x2 -> 1.2.3 x2, 1.2.3-dev
+[C.]  #23  libxdamage       1.1.7 x2 -> 1.1.7 x2, 1.1.7-dev
+[C.]  #24  libxfixes        6.0.2 x2 -> 6.0.2 x2, 6.0.2-dev
+[C.]  #25  libxft           2.3.9 x2 -> 2.3.9 x2, 2.3.9-dev
+[C.]  #26  libxi            1.8.3 x2, 1.8.3-man -> 1.8.3 x2, 1.8.3-dev, 1.8.3-man
+[C.]  #27  libxinerama      1.1.6 x2 -> 1.1.6 x2, 1.1.6-dev
+[C.]  #28  libxrandr        1.5.5 x2 -> 1.5.5 x2, 1.5.5-dev
+[C.]  #29  lua              5.2.4, 5.4.7 x2 -> 5.2.4, 5.4.7, 5.5.0
+[C*]  #30  ncurses          6.6 x2, 6.6-man -> 6.6 x2, 6.6-dev, 6.6-man
+[C.]  #31  nss              3.112.5 x2, 3.112.5-man -> 3.112.5 x2, 3.112.5-man, 3.125
+[C.]  #32  pango            1.57.1 x2, 1.57.1-bin -> 1.57.1 x2, 1.57.1-bin, 1.57.1-dev
+[C.]  #33  python3          3.14.6 x2, 3.14.6-env x4 -> 3.14.6 x2, 3.14.6-env x8
+[C.]  #34  qtdeclarative    5.15.19, 6.11.1 -> 5.15.19, 5.15.19-bin, 6.11.1
+[C.]  #35  qtsvg            6.11.1 -> 5.15.19, 5.15.19-bin, 6.11.1
+[C.]  #36  qtwayland        6.11.1 -> 5.15.19, 5.15.19-bin, 6.11.1
+[C.]  #37  sdl3             3.4.10-lib x3 -> 3.4.10-lib x2
+[C.]  #38  taglib           2.2.1 x2 -> 1.13.1, 2.2.1 x2
+Selection state changes:
+[C+]  #1  xrandr  1.5.4
+Added packages:
+[A.]  #001  Hyprland                                 <none>
+[A.]  #002  appmenu-glib-translator                  25.04
+[A.]  #003  aquamarine                               0.12.1
+[A.]  #004  astal-apps                               0-unstable-2026-06-21
+[A.]  #005  astal-astal3                             0-unstable-2026-06-21
+[A.]  #006  astal-astal4                             0-unstable-2026-06-21
+[A.]  #007  astal-battery                            0-unstable-2026-06-21
+[A.]  #008  astal-bluetooth                          0-unstable-2026-06-21
+[A.]  #009  astal-cava                               0-unstable-2026-06-21
+[A.]  #010  astal-gjs                                0-unstable-2026-06-21
+[A.]  #011  astal-hyprland                           0-unstable-2026-06-21
+[A.]  #012  astal-io                                 0-unstable-2026-06-21
+[A.]  #013  astal-mpris                              0-unstable-2026-06-21
+[A.]  #014  astal-network                            0-unstable-2026-06-21
+[A.]  #015  astal-notifd                             0-unstable-2026-06-21
+[A.]  #016  astal-powerprofiles                      0-unstable-2026-06-21
+[A.]  #017  astal-quarrel                            0-unstable-2026-06-21
+[A.]  #018  astal-tray                               0-unstable-2026-06-21
+[A.]  #019  astal-wireplumber                        0-unstable-2026-06-21
+[A+]  #020  awww                                     0.12.1
+[A.]  #021  babl                                     0.1.126
+[A.]  #022  baloo-widgets                            26.04.3
+[A.]  #023  bc                                       1.08.2
+[A.]  #024  blas                                     3
+[A.]  #025  bluez-tools                              0-unstable-2020-10-24
+[A+]  #026  brave                                    1.91.180
+[A+]  #027  brightnessctl                            0.5.1
+[A.]  #028  btop                                     1.4.7
+[A.]  #029  cfitsio                                  4.6.4
+[A.]  #030  config.json                              <none>
+[A.]  #031  dart-sass                                1.101.0
+[A.]  #032  dmenu                                    5.4
+[A+]  #033  dolphin                                  26.04.3
+[A.]  #034  etc-xdg-xdg-desktop-portal-portals.conf  <none>
+[A.]  #035  exfat                                    1.4.0
+[A.]  #036  f2fs-tools                               1.16.0, 1.16.0-lib
+[A+]  #037  feh                                      3.12.2, 3.12.2-doc, 3.12.2-man
+[A+]  #038  firefox                                  152.0.5
+[A.]  #039  firefox-policies.json                    <none>
+[A.]  #040  firefox-unwrapped                        152.0.5
+[A.]  #041  fzf                                      0.74.0
+[A.]  #042  gegl                                     0.4.70
+[A.]  #043  getopt-util-linux                        2.42.2
+[A.]  #044  gexiv2                                   0.14.6
+[A.]  #045  gfortran                                 15.2.0-lib, 15.2.0-libgcc
+[A.]  #046  ghostscript-with-X                       10.07.1, 10.07.1-fonts
+[A+]  #047  gimp                                     3.2.4, 3.2.4-man
+[A.]  #048  gjs                                      1.88.0
+[A.]  #049  glslang                                  16.3.0
+[A.]  #050  gnome-bluetooth                          47.2
+[A.]  #051  gnome-settings-daemon                    50.1-gsettings-schemas
+[A.]  #052  gpu-screen-recorder                      5.13.9
+[A.]  #053  graphviz                                 14.1.2
+[A.]  #054  greetd                                   0.10.3
+[A.]  #055  greetd.pam                               <none>
+[A.]  #056  greetd.toml                              <none>
+[A+]  #057  grim                                     1.5.0
+[A.]  #058  grimblast                                0.1-unstable-2026-06-30
+[A.]  #059  gsound                                   1.0.3
+[A.]  #060  gtk-layer-shell                          0.10.1, 0.10.1-dev
+[A.]  #061  gtk4-layer-shell                         1.3.0
+[A.]  #062  gts                                      0.7.6
+[A.]  #063  gvfs                                     1.60.1
+[A.]  #064  hypr.conf                                <none>
+[A.]  #065  hyprcursor                               0.1.13-lib
+[A.]  #066  hyprgraphics                             0.5.1
+[A.]  #067  hyprland                                 0.55.4
+[A.]  #068  hyprland-qt-support                      0.1.0
+[A.]  #069  hyprland-qtutils                         0.1.5
+[A+]  #070  hyprland-with-hyprpanel                  <none>
+[A.]  #071  hyprland.conf                            <none>
+[A.]  #072  hyprlang                                 0.6.8
+[A.]  #073  hyprpanel                                <none>, 0-unstable-2026-04-23
+[A.]  #074  hyprpicker                               0.4.7
+[A.]  #075  hyprutils                                0.13.1
+[A.]  #076  hyprwire                                 0.3.1
+[A.]  #077  ijs                                      10.07.1
+[A.]  #078  iniparser                                4.2.6
+[A.]  #079  jbig2dec                                 0.20
+[A.]  #080  jpegexiforient-unstable                  2002-02-17
+[A+]  #081  kcalc                                    26.04.3
+[A+]  #082  kitty                                    0.47.4, 0.47.4-terminfo
+[A.]  #083  lapack                                   3
+[A.]  #084  libaacs                                  0.11.1
+[A.]  #085  libatasmart                              0.19
+[A.]  #086  libbdplus                                0.2.0
+[A.]  #087  libblockdev                              3.5.0
+[A.]  #088  libbytesize                              2.12
+[A.]  #089  libcava                                  0.10.7
+[A.]  #090  libcdio-paranoia                         2.0.2
+[A.]  #091  libdovi                                  3.3.1
+[A.]  #092  libdvbpsi                                1.3.3
+[A.]  #093  libebml                                  1.4.5
+[A.]  #094  libgtop                                  2.41.3
+[A.]  #095  libiff                                   0-unstable-2024-03-02
+[A.]  #096  libilbm                                  0-unstable-2024-03-02
+[A.]  #097  libkate                                  0.4.3
+[A.]  #098  libmatroska                              1.7.1
+[A.]  #099  libmicrodns                              0.2.0
+[A.]  #100  libmng                                   2.0.3
+[A.]  #101  libmypaint                               1.6.1
+[A.]  #102  libndctl                                 83, 83-man
+[A.]  #103  libnfs                                   6.0.2
+[A.]  #104  libnvme                                  1.16.1
+[A.]  #105  libplacebo                               5.264.1
+[A.]  #106  libspectre                               0.2.12
+[A.]  #107  libstartup-notification                  0.12
+[A.]  #108  libtiger                                 0.3.4
+[A.]  #109  libtraceevent                            1.9
+[A.]  #110  libtracefs                               1.8.3
+[A.]  #111  libupnp                                  1.14.25
+[A.]  #112  libwmf                                   0.2.15
+[A.]  #113  libxcb-errors                            1.0.1
+[A.]  #114  live555                                  2026.01.12
+[A+]  #115  mako                                     1.11.0
+[A.]  #116  matugen                                  4.1.0
+[A.]  #117  metis                                    5.2.1
+[A.]  #118  muparser                                 2.3.5
+[A.]  #119  mypaint-brushes                          2.0.2
+[A.]  #120  nerd-fonts-arimo                         3.4.0+1.33
+[A.]  #121  nilfs-utils                              2.2.12
+[A.]  #122  ntfs3g                                   2026.2.25
+[A.]  #123  openblas                                 0.3.33
+[A.]  #124  openjdk-minimal-jre                      21.0.12+2
+[A.]  #125  parted                                   3.7
+[A.]  #126  pkgconf                                  2.5.1, 2.5.1-lib
+[A.]  #127  pkgconf-wrapper                          2.5.1
+[A+]  #128  playerctl                                2.4.1
+[A.]  #129  poly2tri-c                               0.1.0
+[A.]  #130  python3.14-libevdev                      0.13.1
+[A.]  #131  python3.14-pydbus                        0.6.0
+[A.]  #132  python3.14-pyudev                        0.24.4
+[A.]  #133  pywal16                                  3.8.15
+[A.]  #134  qtquickcontrols                          5.15.19
+[A.]  #135  qtx11extras                              5.15.19
+[A.]  #136  re2                                      2025-11-05
+[A+]  #137  rofi                                     2.0.0
+[A.]  #138  rofi-unwrapped                           2.0.0
+[A.]  #139  schroedinger                             1.0.11
+[A.]  #140  shaderc                                  2026.1-lib
+[A+]  #141  slurp                                    1.5.0
+[A.]  #142  spidermonkey                             140.11.0
+[A.]  #143  suitesparse                              5.13.0
+[A+]  #144  swaylock                                 1.8.5
+[A.]  #145  swaylock.pam                             <none>
+[A.]  #146  swww                                     <none>
+[A.]  #147  swww-daemon                              <none>
+[A.]  #148  thin-provisioning-tools                  1.3.2
+[A.]  #149  tomlplusplus                             3.4.0
+[A.]  #150  udisks                                   2.11.1
+[A.]  #151  unit-autovt-tty1.service-disabled        <none>
+[A.]  #152  unit-greetd.service                      <none>
+[A.]  #153  uwsm                                     0.26.6
+[A+]  #154  vlc                                      3.0.23-2, 3.0.23-2-doc, 3.0.23-2-man
+[A.]  #155  volume_key                               0.3.11
+[A+]  #156  wl-clipboard                             2.3.0
+[A.]  #157  xcb-imdkit                               1.0.9
+[A+]  #158  xdg-desktop-portal-gtk                   1.15.3
+Removed packages:
+[R.]  #01  aml                                1.0.0
+[R.]  #02  appstream-qt                       1.1.3
+[R.]  #03  aurorae                            6.7.2
+[R.]  #04  bluez-qt                           6.27.0
+[R.]  #05  breeze                             6.7.2
+[R.]  #06  editorconfig-core-c                0.12.11
+[R.]  #07  frameworkintegration               6.27.0
+[R.]  #08  freerdp                            3.27.1
+[R.]  #09  gnuplot                            6.0.4
+[R.]  #10  gpsd                               3.27.5
+[R.]  #11  kdeclarative                       6.27.0
+[R.]  #12  kdecoration                        6.7.2
+[R.]  #13  kglobalacceld                      6.7.2
+[R.]  #14  kholidays                          6.27.0
+[R.]  #15  kirigami-addons                    1.12.1
+[R.]  #16  kitemmodels                        6.27.0
+[R.]  #17  knighttime                         6.7.2
+[R.]  #18  kpipewire                          6.7.2
+[R.]  #19  kquickcharts                       6.27.0
+[R.]  #20  krunner                            6.27.0
+[R.]  #21  kscreenlocker                      6.7.2
+[R.]  #22  kstatusnotifieritem                6.27.0
+[R.]  #23  ksvg                               6.27.0
+[R.]  #24  ktexteditor                        6.27.0
+[R.]  #25  kunitconversion                    6.27.0
+[R.]  #26  kwayland                           6.7.2
+[R.]  #27  kwin                               6.7.2
+[R.]  #28  layer-shell-qt                     6.7.2
+[R.]  #29  libcec                             7.1.1
+[R.]  #30  libcerf                            3.3
+[R.]  #31  libdmtx                            0.7.8
+[R.]  #32  libkscreen                         6.7.2
+[R.]  #33  libksysguard                       6.7.2
+[R.]  #34  libplasma                          6.7.2
+[R.]  #35  libqaccessibilityclient            0.6.0
+[R.]  #36  libqalculate                       5.11.0
+[R.]  #37  lsof                               4.99.7
+[R.]  #38  mcpp                               2.7.2.3
+[R.]  #39  milou                              6.7.2
+[R.]  #40  neatvnc                            1.0.0
+[R.]  #41  networkmanager-qt                  6.27.0
+[R.]  #42  oxygen-icons                       6.27.0
+[R-]  #43  plasma-bigscreen                   6.7.2
+[R.]  #44  plasma-nano                        6.7.2
+[R-]  #45  plasma-workspace                   6.7.2
+[R.]  #46  plasma5support                     6.7.2
+[R.]  #47  plutosvg                           0.0.8
+[R.]  #48  plutovg                            1.3.3
+[R.]  #49  prison                             6.27.0
+[R.]  #50  python3.14-pyserial                3.5
+[R.]  #51  qqc2-breeze-style                  6.7.2
+[R.]  #52  qtlocation                         6.11.1
+[R.]  #53  qtsensors                          6.11.1
+[R.]  #54  qtvirtualkeyboard                  6.11.1
+[R.]  #55  sddm-autologin.pam                 <none>
+[R.]  #56  sddm-greeter.pam                   <none>
+[R.]  #57  sddm-unwrapped                     0.21.0, 0.21.0-man
+[R-]  #58  sddm-wrapped                       <none>
+[R-]  #59  sddm-wrapped-man                   <none>
+[R.]  #60  sddm.conf                          <none>
+[R.]  #61  sddm.pam                           <none>
+[R.]  #62  sdl3-ttf                           3.2.2
+[R.]  #63  set-gdfontpath-from-fontconfig.sh  <none>
+[R.]  #64  unit-display-manager.service       <none>
+[R.]  #65  unit-script-display-manager-start  <none>
+[R.]  #66  uriparser                          1.0.2
+[R.]  #67  weston                             15.0.1
+[R.]  #68  weston.ini                         <none>
+[R.]  #69  xbitmaps                           1.1.3
+[R-]  #70  xdg-desktop-portal-kde             6.7.2
+[R.]  #71  xmessage                           1.0.7
+[R.]  #72  xrdb                               1.2.2
+Closure size: 2244 -> 2382 (249 paths added, 111 paths removed, delta +138, disk usage +1.4GiB).

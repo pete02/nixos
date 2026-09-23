@@ -21,7 +21,8 @@
 
     config = {
       environment.systemPackages = [
-        plasmaBigscreenPkg
+        pkgs.kdePackages.plasma-workspace
+        pkgs.kdePackages.plasma-bigscreen
       ];
 
       xdg.portal = {
