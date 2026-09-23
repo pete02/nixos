@@ -36,6 +36,7 @@
 
       services.displayManager = {
         defaultSession = "plasma-bigscreen-wayland";
+
         sessionPackages = [
           plasmaBigscreenPkg
         ];
