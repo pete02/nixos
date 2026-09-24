@@ -10,6 +10,10 @@
     pkgs,
     ...
   }: {
+    environment.systemPackages = with pkgs; [
+      kdePackages.plasma-bigscreen
+    ];
+
     services = {
       desktopManager.plasma6.enable = true;
 
@@ -22,10 +26,6 @@
           user = "${config.username}";
         };
       };
-
-      environment.systemPackages = with pkgs; [
-        kdePackages.plasma-bigscreen
-      ];
     };
   };
 }
