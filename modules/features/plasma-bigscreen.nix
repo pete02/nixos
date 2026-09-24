@@ -1,7 +1,7 @@
 {
   self,
   inputs,
-  pkgs
+  pkgs,
   ...
 }: {
   flake.nixosModules.plasmaBigscreen = {
@@ -24,7 +24,7 @@
 
         environment.systemPackages = with pkgs; [
           kdePackages.plasma-bigscreen
-        ]
+        ];
       };
     };
   };
