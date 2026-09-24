@@ -37,7 +37,7 @@
       sambaTimelock = true;
       gitops = true;
       sshServer = true;
-      mDNS=true;
+      mDNS = true;
     };
   };
 }

@@ -35,7 +35,7 @@
 
     management = {
       sshClient = true;
-      gitClient=true;
+      gitClient = true;
       ld = true;
     };
 
@@ -44,7 +44,7 @@
 
     services = {
       cleaner = true;
-      mDNS=true;
+      mDNS = true;
       sambaClient = true;
     };
   };
