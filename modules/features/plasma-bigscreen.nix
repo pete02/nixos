@@ -35,5 +35,5 @@
       wl-clipboard # Wayland copy/paste support
       vlc # Media player
     ];
-  }
+  };
 }
