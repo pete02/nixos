@@ -21,11 +21,11 @@
           enable = true;
           user = "${config.username}";
         };
-
-        environment.systemPackages = with pkgs; [
-          kdePackages.plasma-bigscreen
-        ];
       };
+
+      environment.systemPackages = with pkgs; [
+        kdePackages.plasma-bigscreen
+      ];
     };
   };
 }
