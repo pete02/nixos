@@ -1,6 +1,7 @@
 {
   self,
   inputs,
+  pkgs
   ...
 }: {
   flake.nixosModules.plasmaBigscreen = {
@@ -20,6 +21,10 @@
           enable = true;
           user = "${config.username}";
         };
+
+        environment.systemPackages = with pkgs; [
+          kdePackages.plasma-bigscreen
+        ]
       };
     };
   };
