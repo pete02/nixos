@@ -16,7 +16,9 @@
 
     services = {
       desktopManager.plasma6.enable = true;
-
+      xserver.xkb = {
+        layout = "fi";
+      };
       displayManager.sddm = {
         enable = true;
         wayland.enable = true;
