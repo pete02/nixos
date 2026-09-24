@@ -17,7 +17,6 @@
     ];
 
     username = "pete";
-    hostname = "aria";
 
     management.ld = true;
     management.gitClient = true;

@@ -4,6 +4,7 @@
   ...
 }: {
   flake.nixosConfigurations.talia = self.lib.mkHost {
+    hostname = "talia";
     system = "x86_64-linux";
     modules = [
       self.nixosModules.taliaHardware
@@ -14,6 +15,7 @@
     ];
   };
   flake.nixosConfigurations.talia-bigscreen = self.lib.mkHost {
+    hostname = "talia";
     system = "x86_64-linux";
     modules = [
       self.nixosModules.taliaHardware

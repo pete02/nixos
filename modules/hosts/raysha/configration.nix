@@ -29,7 +29,7 @@
     ];
 
     username = "pete";
-    hostname = "raysha";
+
     connectivity = {
       bluetooth = true;
       wireless = true;
@@ -37,6 +37,7 @@
 
     management = {
       sshClient = true;
+      gitClient = true;
       ld = true;
     };
 

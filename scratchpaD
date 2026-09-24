@@ -1,0 +1,23 @@
+hello: Welcome to SOPS! Edit this file as you please!
+samba:
+    server: |
+        username=pete
+        password=Oma2025#Samba
+    timelock: |
+        username=timelock
+        password=Oma2602#TimeLocSuLongperPass
+ssh:
+    authorized_keys: |
+        ssh-ed25519
+    aria:
+    raysha:
+        private_key: |
+            -----BEGIN OPENSSH PRIVATE KEY-----
+    talia:
+        private_key: |
+            -----BEGIN OPENSSH PRIVATE KEY-----
+services:
+    wireguard:
+        private_key: ***
+    github: |
+        -----BEGIN OPENSSH PRIVATE KEY-----

@@ -17,7 +17,23 @@
         perSystem = {pkgs, ...}: {
           formatter = pkgs.alejandra;
         };
+
+        flake.lib.hosts = {
+          aria = {
+            sshServer = true;
+          };
+
+          raysha = {
+            sshServer = false;
+          };
+
+          talia = {
+            sshServer = true;
+          };
+        };
+
         flake.lib.mkHost = {
+          hostname,
           system,
           modules,
           extraArgs ? {},
@@ -30,7 +46,15 @@
                 selfPkgs = self.packages.${system};
               }
               // extraArgs;
-            inherit modules;
+            modules =
+              modules
+              ++ [
+                {
+                  inherit hostname;
+                  services.sshServer =
+                    self.lib.hosts.${hostname}.sshServer or false;
+                }
+              ];
           };
       }
     );

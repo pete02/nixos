@@ -96,36 +96,35 @@
       })
 
       (lib.mkIf (config.management.gitClient) {
-        sops.secrets."ssh/${config.hostname}/github" = {
+        sops.secrets."services/github" = {
           owner = config.username;
         };
         environment.etc."ssh/ssh_config".text = ''
           Host github.com
             hostname github.com
-            identityFile /run/secrets/ssh/${config.hostname}/github
+            identityFile /run/secrets/services/github
             user git
         '';
       })
 
-      (lib.mkIf (config.management.sshClient) {
-        sops.secrets."ssh/${config.hostname}/servu" = {
+      (lib.mkIf config.management.sshClient {
+        sops.secrets."ssh/${config.hostname}/private_key" = {
           owner = config.username;
         };
-        sops.secrets."ssh/${config.hostname}/github" = {
-          owner = config.username;
-        };
-        environment.etc."ssh/ssh_config".text = ''
-          Host github.com
-            hostname github.com
-            identityFile /run/secrets/ssh/${config.hostname}/github
-            user git
 
-          Host servu
-            hostname aria.local
-            identityFile /run/secrets/ssh/${config.hostname}/servu
-            port 22
-            user pete
-        '';
+        environment.etc."ssh/ssh_config".text =
+          lib.concatMapStringsSep "\n\n"
+          (hostname: ''
+            Host ${hostname}
+              HostName ${hostname}.local
+              IdentityFile /run/secrets/ssh/${config.hostname}/private_key
+              Port 22
+              User pete
+          '')
+          (
+            builtins.attrNames
+            (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts)
+          );
       })
     ];
   };

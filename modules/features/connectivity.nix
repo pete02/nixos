@@ -122,7 +122,7 @@
           users.users.${config.username}.extraGroups = ["networkmanager"];
         })
         (lib.mkIf cfg.wireguard {
-          sops.secrets."wireguard/private_key" = {
+          sops.secrets."services/wireguard/private_key" = {
             owner = config.username;
           };
 

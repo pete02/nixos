@@ -113,10 +113,10 @@
             KbdInteractiveAuthentication = false;
             PermitRootLogin = "no";
             AllowUsers = [config.username];
-            AuthorizedKeysFile = "/run/secrets/ssh/${config.hostname}/authorized_keys";
+            AuthorizedKeysFile = "/run/secrets/ssh/authorized_keys";
           };
         };
-        sops.secrets."ssh/${config.hostname}/authorized_keys" = {
+        sops.secrets."ssh/authorized_keys" = {
           owner = config.username;
         };
       })
