@@ -13,20 +13,20 @@
     environment.systemPackages = with pkgs; [
       kdePackages.plasma-bigscreen
     ];
-    services = {
-      desktopManager.plasma6.enable = true;
+    services.displayManager = {
+      sessionPackages = [
+        pkgs.kdePackages.plasma-bigscreen
+      ];
 
-      displayManager = {
-        defaultSession = "plasma-bigscreen-wayland";
+      defaultSession = "plasma-bigscreen-wayland";
 
-        sddm = {
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+
+        autoLogin = {
           enable = true;
-          wayland.enable = true;
-
-          autoLogin = {
-            enable = true;
-            user = "${config.username}";
-          };
+          user = config.username;
         };
       };
     };
