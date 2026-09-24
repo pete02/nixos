@@ -13,6 +13,7 @@
     environment.systemPackages = with pkgs; [
       kdePackages.plasma-bigscreen
       kdePackages.plasma-workspace
+      kdePackages.kdeconnect-kde
     ];
     services = {
       desktopManager.plasma6.enable = true;
