@@ -45,6 +45,7 @@
     services = {
       cleaner = true;
       sambaClient = true;
+      mDNS = true;
     };
 
     hyprlandExtraConfig = ''
