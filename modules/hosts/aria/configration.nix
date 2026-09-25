@@ -36,7 +36,7 @@
       sambaServer = true;
       sambaTimelock = true;
       gitops = true;
-      mDNS=true;
+      mDNS = true;
     };
   };
 }

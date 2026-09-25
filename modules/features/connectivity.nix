@@ -134,7 +134,7 @@
           '';
 
           networking.networkmanager.ensureProfiles = {
-            environmentFiles = [ config.sops.templates."wifi-env".path ];
+            environmentFiles = [config.sops.templates."wifi-env".path];
             profiles = lib.mkIf (cfg.wifiSsid != null) {
               home-wifi = {
                 connection = {

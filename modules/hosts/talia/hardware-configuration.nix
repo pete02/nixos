@@ -67,7 +67,7 @@
     system.stateVersion = "25.05";
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
+    boot.binfmt.emulatedSystems = ["aarch64-linux"];
     # lazy-start firewall
     hardware = {
       enableAllFirmware = true;

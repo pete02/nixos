@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
     wrappers.url = "github:Lassulus/wrappers";
@@ -19,9 +19,9 @@
         };
 
         flake.lib.hosts = {
-          alanna={
+          alanna = {
             sshServer = true;
-          }
+          };
           aria = {
             sshServer = true;
           };

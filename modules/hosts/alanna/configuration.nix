@@ -14,14 +14,13 @@
     connectivity = {
       bluetooth = false;
       wireless = true;
-      wifiSsid = "Pete"
+      wifiSsid = "Pete";
     };
 
     management = {
       gitClient = true;
     };
 
-    services.mDNS=true;
-
+    services.mDNS = true;
   };
 }
