@@ -61,7 +61,7 @@
     hardware.enableRedistributableFirmware = true;
     peripherals.nvidia = true;
     peripherals.logitech = true;
-
+    boot.binfmt.emulatedSystems = ["aarch64-linux"];
     system.stateVersion = "25.05";
   };
 }
