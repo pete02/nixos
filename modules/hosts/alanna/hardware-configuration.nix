@@ -1,19 +1,17 @@
 {inputs, ...}: {
-  flake.nixosModules.alannaHardware = {
-    lib,
-    pkgs,
-    modulesPath,
-    ...
-  }: {
-    imports = [
-      inputs.nixos-hardware.nixosModules.raspberry-pi-5
-      "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
+  flake.nixosModules.alannaHardware = {modulesPath, ...}: {
+    imports = with inputs.nixos-raspberrypi.nixosModules; [
+      raspberry-pi-5.base
+      raspberry-pi-5.page-size-16k
+      raspberry-pi-5.display-vc4
+      raspberry-pi-5.bluetooth
+      sd-image
     ];
 
-    # rpi5 boots via u-boot + extlinux, not grub
-    boot.loader.grub.enable = false;
-    boot.loader.generic-extlinux-compatible.enable = true;
-
-    hardware.enableRedistributableFirmware = true;
+    boot.loader.raspberry-pi.bootloader = "kernel";
+    fileSystems."/" = {
+      device = "/dev/disk/by-label/NIXOS_SD";
+      fsType = "ext4";
+    };
   };
 }

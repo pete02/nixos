@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
     wrappers.url = "github:Lassulus/wrappers";
@@ -10,6 +10,16 @@
     sops-nix.url = "github:Mic92/sops-nix";
   };
 
+  nixConfig = {
+    extra-substituters = [
+      "https://nix-community.cachix.org"
+      "https://nixos-raspberrypi.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+    ];
+  };
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} (
       {self, ...}: {
@@ -40,15 +50,18 @@
           system,
           modules,
           extraArgs ? {},
+          nixosSystem ? inputs.nixpkgs.lib.nixosSystem,
         }:
-          inputs.nixpkgs.lib.nixosSystem {
+          nixosSystem {
             inherit system;
+
             specialArgs =
               {
                 inherit inputs self;
                 selfPkgs = self.packages.${system};
               }
               // extraArgs;
+
             modules =
               modules
               ++ [

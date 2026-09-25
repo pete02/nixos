@@ -190,13 +190,16 @@
           "/mnt/timelock" = {
             device = "//aria.local/timelock/";
             fsType = "cifs";
-            options = let
-              # this line prevents hanging on network split
-              automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-              creds = "credentials=/run/secrets/samba/timelock";
-              vers = "vers=3.0";
-              uidguid = "uid=1000,gid=1000";
-            in ["${automount_opts},${creds},${vers},${uidguid}"];
+            options = [
+              "noauto"
+              "user"
+              "x-systemd.device-timeout=5s"
+              "x-systemd.mount-timeout=5s"
+              "credentials=/run/secrets/samba/timelock"
+              "vers=3.0"
+              "uid=1000"
+              "gid=1000"
+            ];
           };
         };
       })
