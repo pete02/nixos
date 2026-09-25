@@ -14,6 +14,11 @@
         bluetooth = lib.mkEnableOption "bluetooth";
         wireless = lib.mkEnableOption "wireless via NetworkManager";
         wireguard = lib.mkEnableOption "enables wireguard client";
+        wifiSsid = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          description = "SSID to autoconnect to on boot";
+        };
 
         managed = {
           enable = lib.mkEnableOption "managed wired networking via networkd";
@@ -120,7 +125,38 @@
           };
           systemd.services.NetworkManager-wait-online.enable = false;
           users.users.${config.username}.extraGroups = ["networkmanager"];
+
+          sops.secrets."wifi/psk" = {
+          };
+
+          sops.templates."wifi-env".content = ''
+            WIFI_PSK=${config.sops.placeholder."wifi/psk"}
+          '';
+
+          networking.networkmanager.ensureProfiles = {
+            environmentFiles = [ config.sops.templates."wifi-env".path ];
+            profiles = lib.mkIf (cfg.wifiSsid != null) {
+              home-wifi = {
+                connection = {
+                  id = "home-wifi";
+                  type = "wifi";
+                  autoconnect = true;
+                };
+                wifi = {
+                  mode = "infrastructure";
+                  ssid = cfg.wifiSsid;
+                };
+                wifi-security = {
+                  key-mgmt = "wpa-psk";
+                  psk = "$WIFI_PSK"; # substituted from environmentFiles at activation
+                };
+                ipv4.method = "auto";
+                ipv6.method = "auto";
+              };
+            };
+          };
         })
+
         (lib.mkIf cfg.wireguard {
           sops.secrets."services/wireguard/private_key" = {
             owner = config.username;
