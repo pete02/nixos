@@ -121,10 +121,15 @@
           lib.nameValuePair "ssh/hosts/${hostname}/public_key" {})
         (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts);
 
-        sops.templates."authorized_keys".content =
-          lib.concatMapStringsSep "\n"
-          (hostname: config.sops.placeholder."ssh/hosts/${hostname}/public_key")
-          (builtins.attrNames (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts));
+        sops.templates."authorized_keys" = {
+          content =
+            lib.concatMapStringsSep "\n"
+            (hostname: config.sops.placeholder."ssh/hosts/${hostname}/public_key")
+            (builtins.attrNames (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts));
+
+          owner = config.username;
+          mode = "0400";
+        };
       })
 
       (lib.mkIf config.services.sync {
