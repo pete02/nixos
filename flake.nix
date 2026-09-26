@@ -74,6 +74,7 @@
                 {
                   inherit hostname;
                   services.sshServer = self.lib.hosts.${hostname}.sshServer or false;
+                  nixbuilders.buildServer = self.lib.hosts.${hostname}.buildServer or false;
                 }
               ];
           };

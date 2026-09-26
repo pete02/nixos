@@ -11,6 +11,7 @@
       self.nixosModules.taliaConfiguration
       self.nixosModules.connectivity
       self.nixosModules.services
+      self.nixosModules.nixBuilders
       self.nixosModules.management
     ];
   };
@@ -22,6 +23,7 @@
       self.nixosModules.taliaConfigurationBigscreen
       self.nixosModules.connectivity
       self.nixosModules.services
+      self.nixosModules.nixBuilders
       self.nixosModules.management
     ];
   };
