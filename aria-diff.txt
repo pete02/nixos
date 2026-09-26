@@ -1,10 +1,8 @@
-<<< /nix/var/nix/profiles/system-69-link
->>> /nix/var/nix/profiles/system-70-link
-Version changes:
-[C.]  #1  gnupg  2.4.9 x2 -> 2.4.9
+<<< /nix/var/nix/profiles/system-70-link
+>>> /nix/var/nix/profiles/system-71-link
 Removed packages:
-[R.]  #1  cyrus-sasl                     2.1.28
-[R.]  #2  libksba                        1.8.0
-[R.]  #3  openldap                       2.6.13
-[R.]  #4  unit-script-sshd-keygen-start  <none>
-Closure size: 1289 -> 1284 (9 paths added, 14 paths removed, delta -5, disk usage -18.1MiB).
+[R.]  #1  X-Restart-Triggers-systemd-binfmt  <none>
+[R.]  #2  qemu-aarch64-binfmt-P              <none>
+[R.]  #3  qemu-user                          11.0.1
+[R.]  #4  unit-systemd-binfmt.service        <none>
+Closure size: 1284 -> 1280 (14 paths added, 18 paths removed, delta -4, disk usage -123.8MiB).
