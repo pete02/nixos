@@ -10,9 +10,7 @@
     ...
   }: {
     username = "pete";
-    imports =[
-      self.nixosModules.plasmaBigscreen
-    ];
+
 
     connectivity = {
       bluetooth = false;

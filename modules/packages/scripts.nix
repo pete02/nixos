@@ -1,10 +1,11 @@
 {
   inputs,
   lib,
+  system,
   ...
 }: {
   config = let
-    pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+    pkgs = inputs.nixpkgs.legacyPackages.${system};
 
     mkScript = {
       name,
@@ -167,6 +168,6 @@
       };
     };
   in {
-    flake.packages.x86_64-linux = scripts;
+    flake.packages.${system} = scripts;
   };
 }

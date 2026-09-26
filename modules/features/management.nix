@@ -1,6 +1,7 @@
 {
   self,
   inputs,
+  system,
   ...
 }: {
   flake.nixosModules.management = {
@@ -51,7 +52,7 @@
         environment.systemPackages = with pkgs; [
           libnotify
           fastfetch
-          self.packages.x86_64-linux.rebuild
+          self.packages.${system}.rebuild
         ];
 
         nix.gc = {
