@@ -31,17 +31,20 @@
         flake.lib.hosts = {
           alanna = {
             sshServer = true;
+            sshClient = true;
           };
           aria = {
             sshServer = true;
+            sshClient = false;
           };
-
           raysha = {
             sshServer = true;
+            sshClient = false;
           };
 
           talia = {
             sshServer = true;
+            sshClient = true;
           };
         };
 
@@ -67,8 +70,8 @@
               ++ [
                 {
                   inherit hostname;
-                  services.sshServer =
-                    self.lib.hosts.${hostname}.sshServer or false;
+                  services.sshServer =self.lib.hosts.${hostname}.sshServer or false;
+                  management.sshClient = self.lib.hosts.${hostname}.sshClient or false;
                 }
               ];
           };
