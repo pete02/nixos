@@ -107,12 +107,12 @@
         sops.secrets =
           {"ssh/hosts/${config.hostname}/private_key" = {owner = config.username;};}
           // lib.mapAttrs' (hostname: _:
-            lib.nameValuePair "ssh/hosts/${hostname}/host_key" {})
+            lib.nameValuePair "ssh/hosts/${hostname}/host_key/public" {})
           (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts);
 
         sops.templates."ssh_known_hosts".content =
           lib.concatMapStringsSep "\n"
-          (hostname: "${hostname}.local ${config.sops.placeholder."ssh/hosts/${hostname}/host_key"}")
+          (hostname: "${hostname}.local ${config.sops.placeholder."ssh/hosts/${hostname}/host_key/public"}")
           (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts));
 
         environment.etc."ssh/ssh_config".text =

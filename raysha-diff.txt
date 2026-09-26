@@ -1,6 +1,5 @@
-<<< /nix/var/nix/profiles/system-268-link
->>> /nix/var/nix/profiles/system-269-link
-Added packages:
-[A.]  #1  authorized_keys  <none>
-[A.]  #2  ssh_known_hosts  <none>
-Closure size: 2397 -> 2399 (19 paths added, 17 paths removed, delta +2, disk usage +14.3KiB).
+<<< /nix/var/nix/profiles/system-269-link
+>>> /nix/var/nix/profiles/system-270-link
+Removed packages:
+[R.]  #1  unit-script-sshd-keygen-start  <none>
+Closure size: 2399 -> 2398 (10 paths added, 11 paths removed, delta -1, disk usage +4.3KiB).
