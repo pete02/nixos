@@ -110,10 +110,15 @@
             lib.nameValuePair "ssh/hosts/${hostname}/host_key/public" {})
           (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts);
 
-        sops.templates."ssh_known_hosts".content =
-          lib.concatMapStringsSep "\n"
-          (hostname: "${hostname}.local ${config.sops.placeholder."ssh/hosts/${hostname}/host_key/public"}")
-          (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts));
+        sops.templates."ssh_known_hosts" = {
+          content =
+            lib.concatMapStringsSep "\n"
+            (hostname: "${hostname}.local ${config.sops.placeholder."ssh/hosts/${hostname}/host_key/public"}")
+            (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts));
+
+          owner = config.username;
+          mode = "0400";
+        };
 
         environment.etc."ssh/ssh_config".text =
           lib.concatMapStringsSep "\n\n"
