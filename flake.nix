@@ -39,7 +39,7 @@
           };
           raysha = {
             sshServer = true;
-            sshClient = false;
+            sshClient = true;
           };
 
           talia = {
