@@ -70,7 +70,7 @@
               ++ [
                 {
                   inherit hostname;
-                  services.sshServer =self.lib.hosts.${hostname}.sshServer or false;
+                  services.sshServer = self.lib.hosts.${hostname}.sshServer or false;
                   management.sshClient = self.lib.hosts.${hostname}.sshClient or false;
                 }
               ];
