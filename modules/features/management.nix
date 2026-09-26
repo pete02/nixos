@@ -104,23 +104,28 @@
       })
 
       (lib.mkIf config.management.sshClient {
-        sops.secrets."ssh/${config.hostname}/private_key" = {
-          owner = config.username;
-        };
+        sops.secrets =
+          {"ssh/hosts/${config.hostname}/private_key" = {owner = config.username;};}
+          // lib.mapAttrs' (hostname: _:
+            lib.nameValuePair "ssh/hosts/${hostname}/host_key" {})
+          (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts);
+
+        sops.templates."ssh_known_hosts".content =
+          lib.concatMapStringsSep "\n"
+          (hostname: "${hostname}.local ${config.sops.placeholder."ssh/hosts/${hostname}/host_key"}")
+          (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts));
 
         environment.etc."ssh/ssh_config".text =
           lib.concatMapStringsSep "\n\n"
           (hostname: ''
             Host ${hostname}
               HostName ${hostname}.local
-              IdentityFile /run/secrets/ssh/${config.hostname}/private_key
+              IdentityFile /run/secrets/ssh/hosts/${config.hostname}/private_key
+              UserKnownHostsFile ${config.sops.templates."ssh_known_hosts".path}
               Port 22
               User pete
           '')
-          (
-            builtins.attrNames
-            (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts)
-          );
+          (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts));
       })
     ];
   };

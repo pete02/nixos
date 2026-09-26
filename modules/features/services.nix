@@ -113,12 +113,18 @@
             KbdInteractiveAuthentication = false;
             PermitRootLogin = "no";
             AllowUsers = [config.username];
-            AuthorizedKeysFile = "/run/secrets/ssh/authorized_keys";
+            AuthorizedKeysFile = config.sops.templates."authorized_keys".path;
           };
         };
-        sops.secrets."ssh/authorized_keys" = {
-          owner = config.username;
-        };
+
+        sops.secrets = lib.mapAttrs' (hostname: _:
+          lib.nameValuePair "ssh/hosts/${hostname}/public_key" {})
+        (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts);
+
+        sops.templates."authorized_keys".content =
+          lib.concatMapStringsSep "\n"
+          (hostname: config.sops.placeholder."ssh/hosts/${hostname}/public_key")
+          (builtins.attrNames (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts));
       })
 
       (lib.mkIf config.services.sync {
