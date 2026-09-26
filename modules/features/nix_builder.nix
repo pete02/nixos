@@ -5,6 +5,18 @@
     pkgs,
     ...
   }: {
+    options = {
+      nixbuilders = {
+        usesBuilders = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+        };
+        buildServer = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+        };
+      };
+    };
     config = lib.mkMerge [
       (lib.mkIf (config.nixbuilders.usesBuilders or false) {
         nix.distributedBuilds = true;

@@ -29,21 +29,21 @@
         };
 
         flake.lib.hosts = let
-          rawHosts={
-          alanna = {
-            sshServer = true;
-          };
-          aria = {
-            buildServer=true;
-          };
-          raysha = {
-            buildServer=true;
-          };
+          rawHosts = {
+            alanna = {
+              sshServer = true;
+            };
+            aria = {
+              buildServer = true;
+            };
+            raysha = {
+              buildServer = true;
+            };
 
-          talia = {
-            sshServer = true;
+            talia = {
+              sshServer = true;
+            };
           };
-        };
         in
           builtins.mapAttrs (_: host:
             host // {sshServer = host.sshServer or false || host.buildServer or false;})
@@ -72,7 +72,6 @@
                 {
                   inherit hostname;
                   services.sshServer = self.lib.hosts.${hostname}.sshServer or false;
-                  management.sshClient = self.lib.hosts.${hostname}.sshClient or false;
                 }
               ];
           };
