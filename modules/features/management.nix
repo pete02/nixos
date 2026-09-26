@@ -92,6 +92,9 @@
       })
 
       (lib.mkIf (config.management.gitClient) {
+        environment.systemPackages=[
+          pkgs.git
+        ];
         sops.secrets."services/github" = {
           owner = config.username;
         };
