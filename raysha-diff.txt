@@ -1,19 +1,6 @@
-<<< /nix/var/nix/profiles/system-265-link
->>> /nix/var/nix/profiles/system-266-link
+<<< /nix/var/nix/profiles/system-268-link
+>>> /nix/var/nix/profiles/system-269-link
 Added packages:
-[A.]  #01  X-Restart-Triggers-sshd            <none>
-[A.]  #02  X-Restart-Triggers-systemd-binfmt  <none>
-[A.]  #03  qemu-aarch64-binfmt-P              <none>
-[A.]  #04  qemu-user                          11.0.1
-[A.]  #05  ssh-root-provision.conf            <none>
-[A.]  #06  sshd.conf-final                    <none>
-[A.]  #07  sshd.pam                           <none>
-[A.]  #08  unit-script-sshd-keygen-start      <none>
-[A.]  #09  unit-sshd-.service                 <none>
-[A.]  #10  unit-sshd-keygen.service           <none>
-[A.]  #11  unit-sshd-vsock-.service           <none>
-[A.]  #12  unit-sshd-vsock.socket             <none>
-[A.]  #13  unit-sshd.service                  <none>
-[A.]  #14  unit-systemd-binfmt.service        <none>
-[A.]  #15  wifi-env                           <none>
-Closure size: 2382 -> 2397 (43 paths added, 28 paths removed, delta +15, disk usage +123.8MiB).
+[A.]  #1  authorized_keys  <none>
+[A.]  #2  ssh_known_hosts  <none>
+Closure size: 2397 -> 2399 (19 paths added, 17 paths removed, delta +2, disk usage +14.3KiB).
