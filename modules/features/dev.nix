@@ -20,8 +20,12 @@
         # Development tools
         environment.systemPackages = with pkgs; [
           nixd
+          nixfmt-tree
           vscode
+          vulnix
+          lm_sensors
           direnv
+          nvd
         ];
 
         programs.direnv = {

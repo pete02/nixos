@@ -49,11 +49,7 @@
 
         nixpkgs.config.allowUnfree = true;
         environment.systemPackages = with pkgs; [
-          nixfmt-tree
           libnotify
-          nvd
-          vulnix
-          lm_sensors
           fastfetch
           self.packages.x86_64-linux.rebuild
         ];
