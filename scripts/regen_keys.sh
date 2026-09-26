@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Regenerate SSH keypairs for every host and merge them into secrets.yaml
-# under ssh.hosts.<host>.{private_key,public_key}, leaving everything else
-# in the file untouched.
+# Regenerate SSH keypairs for every host and merge them into secrets.yaml:
+#   - ssh.hosts.<host>.{private_key,public_key}   client identity, all hosts
+#   - ssh.hosts.<host>.host_key.{private,public}  sshd identity, hosts with
+#                                                  sshServer = true only
+# Leaves everything else in the file untouched.
 #
-# Requires: ssh-keygen, sops, python3 with pyyaml
-#   (nix-shell -p python3 python3Packages.pyyaml   if not already available)
+# Requires: ssh-keygen, sops, python3 with pyyaml, nix
+#   (nix-shell -p python3 python3Packages.pyyaml   if pyyaml not available)
 #
 # Usage: ./regen_keys.sh [path/to/secrets.yaml]
 
@@ -23,7 +25,7 @@ if [[ ! -d "$HOSTS_DIR" ]]; then
   exit 1
 fi
 
-for cmd in ssh-keygen sops python3; do
+for cmd in ssh-keygen sops python3 nix; do
   command -v "$cmd" >/dev/null || { echo "error: $cmd not found in PATH" >&2; exit 1; }
 done
 
@@ -44,6 +46,32 @@ fi
 
 echo "Discovered hosts: ${HOSTS[*]}"
 
+# Which of these hosts run sshd and therefore need a host_key regenerated?
+# Ask the flake directly (self.lib.hosts.<host>.sshServer) so this never
+# drifts out of sync with the real source of truth. If nix eval can't be
+# run right now (wrong directory, sandboxed, flake errors, etc.), fall back
+# to generating host keys for every discovered host — harmless, since an
+# unused host_key in secrets.yaml just sits there unreferenced.
+SERVER_HOSTS_JSON="$(
+  nix eval --json '.#lib.hosts' \
+    --apply 'hosts: builtins.filter (h: hosts.${h}.sshServer or false) (builtins.attrNames hosts)' \
+    2>/dev/null || true
+)"
+
+if [[ -z "$SERVER_HOSTS_JSON" ]]; then
+  echo "warning: could not evaluate self.lib.hosts via nix eval — generating" >&2
+  echo "  host keys for ALL discovered hosts instead of just sshServer ones." >&2
+  SERVER_HOSTS=("${HOSTS[@]}")
+else
+  mapfile -t SERVER_HOSTS < <(python3 -c '
+import json, sys
+for h in json.loads(sys.argv[1]):
+    print(h)
+' "$SERVER_HOSTS_JSON")
+fi
+
+echo "Hosts needing host_key (sshServer): ${SERVER_HOSTS[*]:-none}"
+
 WORKDIR="$(mktemp -d)"
 trap 'find "$WORKDIR" -type f -exec shred -u {} \; ; rm -rf "$WORKDIR"' EXIT
 
@@ -51,18 +79,19 @@ CURRENT_YAML="$WORKDIR/current.yaml"
 MERGED_YAML="$WORKDIR/merged.yaml"
 KEYS_JSON="$WORKDIR/keys.json"
 
-# --- 1. Generate fresh keypairs, collect into a small JSON manifest ---
+# --- 1. Generate fresh client-identity keypairs for every host ---
 
-echo "{" > "$KEYS_JSON"
+IDENTITY_JSON="$WORKDIR/identity.json"
+echo "{" > "$IDENTITY_JSON"
 first=true
 for host in "${HOSTS[@]}"; do
   priv_path="$WORKDIR/${host}_identity"
   ssh-keygen -t ed25519 -f "$priv_path" -N "" -C "$host" -q
 
-  $first || echo "," >> "$KEYS_JSON"
+  $first || echo "," >> "$IDENTITY_JSON"
   first=false
 
-  python3 - "$host" "$priv_path" "${priv_path}.pub" >> "$KEYS_JSON" <<'PYEOF'
+  python3 - "$host" "$priv_path" "${priv_path}.pub" >> "$IDENTITY_JSON" <<'PYEOF'
 import json, sys
 host, priv_path, pub_path = sys.argv[1:4]
 with open(priv_path) as f:
@@ -72,9 +101,49 @@ with open(pub_path) as f:
 sys.stdout.write(json.dumps(host) + ": " + json.dumps({"private_key": priv, "public_key": pub}))
 PYEOF
 
-  echo "  generated keypair for $host"
+  echo "  generated identity keypair for $host"
 done
-echo "}" >> "$KEYS_JSON"
+echo "}" >> "$IDENTITY_JSON"
+
+# --- 1b. Generate fresh host-key (sshd identity) keypairs for server hosts ---
+
+HOSTKEY_JSON="$WORKDIR/hostkey.json"
+echo "{" > "$HOSTKEY_JSON"
+first=true
+for host in "${SERVER_HOSTS[@]:-}"; do
+  [[ -z "$host" ]] && continue
+  priv_path="$WORKDIR/${host}_hostkey"
+  ssh-keygen -t ed25519 -f "$priv_path" -N "" -C "" -q
+
+  $first || echo "," >> "$HOSTKEY_JSON"
+  first=false
+
+  python3 - "$host" "$priv_path" "${priv_path}.pub" >> "$HOSTKEY_JSON" <<'PYEOF'
+import json, sys
+host, priv_path, pub_path = sys.argv[1:4]
+with open(priv_path) as f:
+    priv = f.read()
+with open(pub_path) as f:
+    pub = f.read().strip()
+sys.stdout.write(json.dumps(host) + ": " + json.dumps({"private": priv, "public": pub}))
+PYEOF
+
+  echo "  generated host_key keypair for $host"
+done
+echo "}" >> "$HOSTKEY_JSON"
+
+# --- 1c. Combine both manifests into one JSON file for the merge step ---
+
+python3 - "$IDENTITY_JSON" "$HOSTKEY_JSON" "$KEYS_JSON" <<'PYEOF'
+import json, sys
+identity_path, hostkey_path, out_path = sys.argv[1:4]
+with open(identity_path) as f:
+    identity = json.load(f)
+with open(hostkey_path) as f:
+    hostkey = json.load(f)
+with open(out_path, "w") as f:
+    json.dump({"identity": identity, "host_key": hostkey}, f)
+PYEOF
 
 # --- 2. Decrypt current secrets, deep-merge new ssh.hosts.* over it ---
 
@@ -89,17 +158,27 @@ with open(current_path) as f:
     data = yaml.safe_load(f) or {}
 
 with open(keys_json_path) as f:
-    new_hosts = json.load(f)
+    manifest = json.load(f)
+
+identity = manifest["identity"]
+host_key = manifest["host_key"]
 
 data.setdefault("ssh", {}).setdefault("hosts", {})
-for host, keys in new_hosts.items():
-    data["ssh"]["hosts"][host] = {
-        "private_key": keys["private_key"],
-        "public_key": keys["public_key"],
+
+for host, keys in identity.items():
+    entry = data["ssh"]["hosts"].setdefault(host, {})
+    entry["private_key"] = keys["private_key"]
+    entry["public_key"] = keys["public_key"]
+
+for host, keys in host_key.items():
+    entry = data["ssh"]["hosts"].setdefault(host, {})
+    entry["host_key"] = {
+        "private": keys["private"],
+        "public": keys["public"],
     }
 
-# Render private_key as a literal block scalar ("|"), matching the style
-# used elsewhere in secrets.yaml, instead of an escaped one-liner.
+# Render private key material as literal block scalars ("|"), matching the
+# style used elsewhere in secrets.yaml, instead of escaped one-liners.
 class LiteralStr(str):
     pass
 
@@ -108,9 +187,14 @@ def literal_str_representer(dumper, data):
 
 yaml.add_representer(LiteralStr, literal_str_representer)
 
-for host in new_hosts:
+for host in identity:
     data["ssh"]["hosts"][host]["private_key"] = LiteralStr(
         data["ssh"]["hosts"][host]["private_key"]
+    )
+
+for host in host_key:
+    data["ssh"]["hosts"][host]["host_key"]["private"] = LiteralStr(
+        data["ssh"]["hosts"][host]["host_key"]["private"]
     )
 
 with open(merged_path, "w") as f:
@@ -145,8 +229,11 @@ fi
 
 mv "$ENCRYPTED_TMP" "$SECRETS_FILE"
 
-echo "Done. New keys merged into $SECRETS_FILE for: ${HOSTS[*]}"
+echo "Done."
+echo "  identity keys regenerated for: ${HOSTS[*]}"
+echo "  host_key regenerated for:      ${SERVER_HOSTS[*]:-none}"
 echo "Review with: sops -d $SECRETS_FILE"
 echo ""
-echo "Next: rebuild servers (aria, raysha) before clients, so authorized_keys"
-echo "and known_hosts templates pick up the new values in the right order."
+echo "Next: rebuild servers (aria, raysha) before clients — servers need their"
+echo "new host_key live (and to trust clients' new public_key) before clients"
+echo "rebuild their known_hosts / start using their new private_key against them."

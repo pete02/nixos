@@ -108,6 +108,7 @@
         services.openssh = {
           enable = true;
           ports = [22];
+          hostKeys = []; # stop NixOS auto-generating one; sops provides it below
           settings = {
             PasswordAuthentication = false;
             KbdInteractiveAuthentication = false;
@@ -117,9 +118,19 @@
           };
         };
 
-        sops.secrets = lib.mapAttrs' (hostname: _:
-          lib.nameValuePair "ssh/hosts/${hostname}/public_key" {})
-        (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts);
+        sops.secrets =
+          lib.mapAttrs' (hostname: _:
+            lib.nameValuePair "ssh/hosts/${hostname}/public_key" {})
+          (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts)
+          // {
+            "ssh/hosts/${config.hostname}/host_key/private" = {
+              path = "/etc/ssh/ssh_host_ed25519_key";
+              owner = "root";
+              group = "root";
+              mode = "0600";
+              restartUnits = ["sshd.service"];
+            };
+          };
 
         sops.templates."authorized_keys" = {
           content =
