@@ -93,7 +93,7 @@
       })
 
       (lib.mkIf (config.management.gitClient) {
-        environment.systemPackages=[
+        environment.systemPackages = [
           pkgs.git
         ];
         sops.secrets."services/github" = {

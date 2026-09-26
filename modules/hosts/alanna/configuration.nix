@@ -11,7 +11,6 @@
   }: {
     username = "pete";
 
-
     connectivity = {
       bluetooth = false;
       wireless = true;

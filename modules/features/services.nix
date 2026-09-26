@@ -1,12 +1,14 @@
 {
   self,
   inputs,
+  system,
   ...
 }: {
   flake.nixosModules.services = {
     lib,
     pkgs,
     config,
+    system,
     ...
   }: {
     options.services = {
@@ -40,7 +42,7 @@
           description = "Check remote NixOS config repo for updates";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${self.packages.x86_64-linux.gitops}/bin/gitops";
+            ExecStart = "${self.packages.${system}.gitops}/bin/gitops";
           };
         };
 
@@ -72,7 +74,7 @@
           description = "Update flake inputs and rebuild NixOS";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${self.packages.x86_64-linux.update}/bin/update";
+            ExecStart = "${self.packages.${system}.update}/bin/update";
           };
         };
 
@@ -97,7 +99,7 @@
           after = ["multi-user.target"];
 
           serviceConfig = {
-            ExecStart = "${self.packages.x86_64-linux.gpu-cooler}/bin/gpu-cooler";
+            ExecStart = "${self.packages.${system}.gpu-cooler}/bin/gpu-cooler";
             Restart = "always";
             RestartSec = 1;
           };
@@ -174,7 +176,7 @@
           serviceConfig = {
             User = config.username;
             Type = "oneshot";
-            ExecStart = "${self.packages.x86_64-linux.sync}/bin/sync";
+            ExecStart = "${self.packages.${system}.sync}/bin/sync";
           };
         };
       })

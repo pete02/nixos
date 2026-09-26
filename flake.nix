@@ -1,7 +1,10 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+    nixos-raspberrypi = {
+      url = "github:nvmd/nixos-raspberrypi/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
     wrappers.url = "github:Lassulus/wrappers";
@@ -59,7 +62,7 @@
 
             specialArgs =
               {
-                inherit inputs self;
+                inherit inputs self system;
                 inherit (inputs) nixos-raspberrypi;
                 selfPkgs = self.packages.${system};
               }
