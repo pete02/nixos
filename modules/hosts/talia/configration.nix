@@ -35,6 +35,7 @@
 
     management = {
       gitClient = true;
+      sshclient=true;
       ld = true;
     };
 

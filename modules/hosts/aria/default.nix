@@ -12,6 +12,7 @@
       self.nixosModules.connectivity
       self.nixosModules.services
       self.nixosModules.management
+      self.nixosModules.nixBuilders
     ];
   };
 }

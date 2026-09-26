@@ -28,25 +28,26 @@
           formatter = pkgs.alejandra;
         };
 
-        flake.lib.hosts = {
+        flake.lib.hosts = let
+          rawHosts={
           alanna = {
             sshServer = true;
-            sshClient = true;
           };
           aria = {
-            sshServer = true;
-            sshClient = false;
+            buildServer=true;
           };
           raysha = {
-            sshServer = true;
-            sshClient = true;
+            buildServer=true;
           };
 
           talia = {
             sshServer = true;
-            sshClient = true;
           };
         };
+        in
+          builtins.mapAttrs (_: host:
+            host // {sshServer = host.sshServer or false || host.buildServer or false;})
+          rawHosts;
 
         flake.lib.mkHost = {
           hostname,

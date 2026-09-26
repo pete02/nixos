@@ -16,6 +16,7 @@
       self.nixosModules.services
       self.nixosModules.management
       self.nixosModules.common
+      self.nixosModules.nixBuilders
     ];
   };
 }

@@ -19,8 +19,9 @@
 
     management = {
       gitClient = true;
+      sshclient=true;
     };
-
+    nixbuilders.usesBuilders=true;
     services.mDNS = true;
   };
 }

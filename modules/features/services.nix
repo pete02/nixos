@@ -121,7 +121,7 @@
         sops.secrets =
           lib.mapAttrs' (hostname: _:
             lib.nameValuePair "ssh/hosts/${hostname}/public_key" {})
-          (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts)
+          self.lib.hosts
           // {
             "ssh/hosts/${config.hostname}/host_key/private" = {
               path = "/etc/ssh/ssh_host_ed25519_key";
@@ -136,7 +136,7 @@
           content =
             lib.concatMapStringsSep "\n"
             (hostname: config.sops.placeholder."ssh/hosts/${hostname}/public_key")
-            (builtins.attrNames (lib.filterAttrs (_: host: host.sshClient) self.lib.hosts));
+            (builtins.attrNames self.lib.hosts);
 
           owner = config.username;
           mode = "0400";
