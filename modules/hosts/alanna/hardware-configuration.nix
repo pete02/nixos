@@ -8,12 +8,12 @@
     ];
     boot.loader.raspberry-pi.bootloader = "kernel";
     fileSystems."/" = {
-      device = "/dev/disk/by-uuid/dedc855b-b0f4-4ebb-b15e-bed84eecf9ee";
+      device = "/dev/disk/by-label/NIXOS_SD";
       fsType = "ext4";
     };
 
     fileSystems."/boot/firmware" = {
-      device = "/dev/disk/by-uuid/2175-794E";  # unchanged, still the SD card
+      device = "/dev/disk/by-label/FIRMWARE";
       fsType = "vfat";
     };
     system.stateVersion = "26.05";
