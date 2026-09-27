@@ -1,7 +1,6 @@
 {inputs, ...}: {
   flake.nixosModules.alannaHardware = {modulesPath, ...}: {
     imports = with inputs.nixos-raspberrypi.nixosModules; [
-      nixpkgs-rpi
       raspberry-pi-5.base
       raspberry-pi-5.page-size-16k
       raspberry-pi-5.display-vc4
