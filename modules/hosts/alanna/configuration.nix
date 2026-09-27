@@ -21,7 +21,6 @@
       gitClient = true;
       sshClient = true;
     };
-    nixbuilders.usesBuilders = true;
     services.mDNS = true;
   };
 }
