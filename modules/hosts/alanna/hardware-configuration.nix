@@ -19,5 +19,11 @@
       fsType = "vfat";
     };
     system.stateVersion = "26.05";
+    swapDevices = [
+      {
+        device = "/swapfile";
+        size = 8192; # MiB = 8GB
+      }
+  ];
   };
 }
