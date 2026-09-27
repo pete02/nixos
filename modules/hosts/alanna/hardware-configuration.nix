@@ -1,12 +1,12 @@
 {inputs, ...}: {
   flake.nixosModules.alannaHardware = {modulesPath, ...}: {
     imports = with inputs.nixos-raspberrypi.nixosModules; [
+      nixpkgs-rpi
       raspberry-pi-5.base
       raspberry-pi-5.page-size-16k
       raspberry-pi-5.display-vc4
       raspberry-pi-5.bluetooth
     ];
-    nixpkgs.overlays = [ inputs.nixos-raspberrypi.overlays.pkgs ];
     boot.loader.raspberry-pi.bootloader = "kernel";
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/dedc855b-b0f4-4ebb-b15e-bed84eecf9ee";
