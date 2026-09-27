@@ -6,7 +6,7 @@
       raspberry-pi-5.display-vc4
       raspberry-pi-5.bluetooth
     ];
-
+    nixpkgs.overlays = [ inputs.nixos-raspberrypi.overlays.pkgs ];
     boot.loader.raspberry-pi.bootloader = "kernel";
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/dedc855b-b0f4-4ebb-b15e-bed84eecf9ee";
