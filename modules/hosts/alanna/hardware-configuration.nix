@@ -5,7 +5,6 @@
       raspberry-pi-5.page-size-16k
       raspberry-pi-5.display-vc4
       raspberry-pi-5.bluetooth
-      sd-image
     ];
 
     boot.loader.raspberry-pi.bootloader = "kernel";
