@@ -1,8 +1,6 @@
-<<< /nix/var/nix/profiles/system-72-link
->>> /nix/var/nix/profiles/system-73-link
+<<< /nix/var/nix/profiles/system-73-link
+>>> /nix/var/nix/profiles/system-74-link
 Added packages:
-[A.]  #1  X-Restart-Triggers-systemd-binfmt  <none>
-[A.]  #2  qemu-aarch64-binfmt-P              <none>
-[A.]  #3  qemu-user                          11.0.1
-[A.]  #4  unit-systemd-binfmt.service        <none>
-Closure size: 1280 -> 1284 (17 paths added, 13 paths removed, delta +4, disk usage +123.8MiB).
+[A.]  #1  alanna-filter          <none>
+[A.]  #2  alanna-filter-checked  <none>
+Closure size: 1284 -> 1286 (24 paths added, 22 paths removed, delta +2, disk usage -15.0KiB).
