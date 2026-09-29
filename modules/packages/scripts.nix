@@ -48,7 +48,7 @@
       };
 
       alanna-filter = mkScript {
-        name = "raysha-filter";
+        name = "alanna-filter";
         src = ../../scripts/agh-filter.sh;
 
         runtimeInputs = with pkgs; [
