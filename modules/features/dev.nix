@@ -27,7 +27,7 @@
           direnv
           nvd
         ];
-
+        environment.variables.SOPS_EDITOR = "code --wait";
         programs.direnv = {
           enable = true;
           nix-direnv.enable = true;

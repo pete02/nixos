@@ -1,8 +1,4 @@
-<<< /nix/var/nix/profiles/system-274-link
->>> /nix/var/nix/profiles/system-275-link
-Added packages:
-[A.]  #1  X-Restart-Triggers-systemd-binfmt  <none>
-[A.]  #2  qemu-aarch64-binfmt-P              <none>
-[A.]  #3  qemu-user                          11.0.1
-[A.]  #4  unit-systemd-binfmt.service        <none>
-Closure size: 2394 -> 2398 (17 paths added, 13 paths removed, delta +4, disk usage +123.8MiB).
+<<< /nix/var/nix/profiles/system-2-link
+>>> /nix/var/nix/profiles/system-3-link
+No version or selection state changes.
+Closure size: 2398 -> 2398 (6 paths added, 6 paths removed, delta +0, disk usage -18.9KiB).
