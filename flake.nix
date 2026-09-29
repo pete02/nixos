@@ -48,7 +48,6 @@
             specialArgs =
               {
                 inherit inputs self system;
-                inherit (inputs) nixos-raspberrypi;
                 selfPkgs = self.packages.${system};
               }
               // extraArgs;
