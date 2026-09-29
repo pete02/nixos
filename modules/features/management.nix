@@ -135,7 +135,13 @@
               Port 22
               User pete
           '')
-          (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts));
+          (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts))
+          + ''
+            Host alanna
+              HostName alanna.local
+              IdentityFile /run/secrets/ssh/hosts/raysha/private_key
+              User pete
+          '';
       })
     ];
   };
