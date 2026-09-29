@@ -19,9 +19,6 @@
 
         flake.lib.hosts = let
           rawHosts = {
-            alanna = {
-              sshServer = true;
-            };
             aria = {
               buildServer = true;
             };
