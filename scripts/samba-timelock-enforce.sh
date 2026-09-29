@@ -26,6 +26,9 @@ check() {
 
     echo "Checking raysha-filter..."
     command -v raysha-filter >/dev/null || return 1
+
+    echo "Checking alanna-filter..."
+    command -v raysha-filter >/dev/null || return 1
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -45,4 +48,5 @@ if [[ "$elapsed" -ge "${MAX_SESSION_SECS}" ]] || [[ "$hour" -ge "${CUTOFF_HOUR}"
     date +%s > "${REVOKED_FILE}"
     rm -f "${SESSION_FILE}"
     raysha-filter on
+    alanna-filter on
 fi

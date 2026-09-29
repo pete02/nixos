@@ -21,6 +21,9 @@ check() {
 
     echo "Checking raysha-filter..."
     command -v raysha-filter >/dev/null || return 1
+
+    echo "Checking alanna-filter..."
+    command -v alanna-filter >/dev/null || return 1
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -34,5 +37,6 @@ if [[ "$remaining" -eq 0 ]]; then
     date +%s > "${REVOKED_FILE}"
     rm -f "${SESSION_FILE}"
     raysha-filter on
+    alanna-filter on
     logger -t samba-timelock "ACCESS ENDED: 72h cooldown started"
 fi

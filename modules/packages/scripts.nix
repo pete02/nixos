@@ -31,7 +31,7 @@
       # goes here unchanged.
       raysha-filter = mkScript {
         name = "raysha-filter";
-        src = ../../scripts/raysha-filter.sh;
+        src = ../../scripts/agh-filter.sh;
 
         runtimeInputs = with pkgs; [
           curl
@@ -44,6 +44,24 @@
         substitutions = {
           CLIENT_NAME = "raysha.local";
           CLIENT_MAC = "88:d8:2e:ba:62:29";
+        };
+      };
+
+      alanna-filter = mkScript {
+        name = "raysha-filter";
+        src = ../../scripts/agh-filter.sh;
+
+        runtimeInputs = with pkgs; [
+          curl
+          jq
+          logger
+          glibc.getent
+          gawk
+        ];
+
+        substitutions = {
+          CLIENT_NAME = "alanna.local";
+          CLIENT_MAC = "2C:CF:67:DA:15:86";
         };
       };
 
@@ -152,6 +170,7 @@
           logger
           coreutils
           raysha-filter
+          alanna-filter
         ];
 
         substitutions = {

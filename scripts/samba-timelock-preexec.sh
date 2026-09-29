@@ -22,6 +22,10 @@ check() {
 
     echo "Checking raysha-filter..."
     command -v raysha-filter >/dev/null || return 1
+
+
+    echo "Checking alanna-filter..."
+    command -v raysha-filter >/dev/null || return 1
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -50,5 +54,6 @@ if [[ ! -f "${SESSION_FILE}" ]]; then
     echo "$now" > "${SESSION_FILE}"
     logger -t samba-timelock "ACCESS GRANTED: session started"
     raysha-filter off
+    alanna-filter off
 fi
 exit 0
