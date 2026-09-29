@@ -135,6 +135,7 @@
           coreutils
           logger
           raysha-filter
+          alanna-filter
         ];
 
         substitutions = {
@@ -153,6 +154,7 @@
           logger
           coreutils
           raysha-filter
+          alanna-filter
         ];
 
         substitutions = {
