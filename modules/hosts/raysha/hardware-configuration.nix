@@ -19,22 +19,16 @@
     ];
 
     fileSystems."/" = {
-      device = "/dev/disk/by-label/nixroot";
-      fsType = "btrfs";
-      options = ["subvol=@"];
+      device = "/dev/disk/by-label/nixos";
+      fsType = "ext4";
     };
     fileSystems."/boot" = {
-      device = "/dev/disk/by-uuid/12CE-A600";
+      device = "/dev/disk/by-uuid/BDEA-EDC0";
       fsType = "vfat";
       options = [
         "fmask=0022"
         "dmask=0022"
       ];
-    };
-    fileSystems."/home" = {
-      device = "/dev/disk/by-label/nixroot";
-      fsType = "btrfs";
-      options = ["subvol=@home"];
     };
 
     swapDevices = [];
