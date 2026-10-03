@@ -1,6 +1,4 @@
-<<< /nix/var/nix/profiles/system-73-link
->>> /nix/var/nix/profiles/system-74-link
-Added packages:
-[A.]  #1  alanna-filter          <none>
-[A.]  #2  alanna-filter-checked  <none>
-Closure size: 1284 -> 1286 (24 paths added, 22 paths removed, delta +2, disk usage -15.0KiB).
+<<< /nix/var/nix/profiles/system-74-link
+>>> /nix/var/nix/profiles/system-75-link
+No version or selection state changes.
+Closure size: 1286 -> 1286 (23 paths added, 23 paths removed, delta +0, disk usage +128B).
