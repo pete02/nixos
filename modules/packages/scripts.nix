@@ -141,7 +141,7 @@
         substitutions = {
           STATE_DIR = "/var/lib/samba-timelock";
           COOLDOWN_SECS = "${toString (72 * 60 * 60)}";
-          CUTOFF_HOUR = "${toString 22}";
+          CUTOFF_HOUR = "${toString 23}";
         };
       };
 

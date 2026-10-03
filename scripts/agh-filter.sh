@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CLIENT_NAME="@CLIENT_NAME@"
-CLIENT_MAC="@CLIENT_MAC@"
+CLIENT_NAME="alanna.local"
+CLIENT_MAC="2C:CF:67:DA:15:86"
+AGH_URL='http://192.168.88.241:8081'
+AGH_USERNAME='pete'
+AGH_PASSWORD='Oma2025#Adguard'
+
 
 # Runtime configuration:
 #   1. Explicitly exported environment variables
