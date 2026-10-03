@@ -179,7 +179,7 @@
           STATE_DIR = "/var/lib/samba-timelock";
           SHARE_NAME = "timelock";
           MAX_SESSION_SECS = "${toString (90 * 60)}";
-          CUTOFF_HOUR = "${toString 22}";
+          CUTOFF_HOUR = "${toString 23}";
         };
       };
     };
