@@ -1,17 +1,16 @@
 {
   self,
   inputs,
-  system,
   ...
-}: let
-  stable = inputs.nixpkgs-stable.legacyPackages.${system};
-in {
+}: {
   flake.nixosModules.gaming = {
     lib,
     pkgs,
     config,
     ...
-  }: {
+  }: let
+    stable = inputs.nixpkgs-stable.legacyPackages.${pkgs.system};
+  in {
     programs.steam = {
       enable = true;
       gamescopeSession.enable = true;
