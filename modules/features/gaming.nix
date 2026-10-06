@@ -1,8 +1,11 @@
 {
   self,
   inputs,
+  system,
   ...
-}: {
+}: let
+  stable = inputs.nixpkgs-stable.legacyPackages.${system};
+in {
   flake.nixosModules.gaming = {
     lib,
     pkgs,
@@ -19,14 +22,18 @@
       capSysNice = false;
     };
 
-    environment.systemPackages = with pkgs; [
-      mangohud
-      wineWow64Packages.waylandFull
-      mesa-demos
-      protonup-ng
-      lutris
-      umu-launcher
-    ];
+    environment.systemPackages = with pkgs;
+      [
+        mangohud
+        wineWow64Packages.waylandFull
+        mesa-demos
+        protonup-ng
+        lutris
+        umu-launcher
+      ]
+      ++ [
+        stable.rpcs3
+      ];
 
     nixpkgs.config.packageOverrides = pkgs: {
       steam = pkgs.steam.override {
