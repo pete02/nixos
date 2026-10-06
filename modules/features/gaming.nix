@@ -9,7 +9,13 @@
     config,
     ...
   }: let
-    stable = inputs.nixpkgs-stable.legacyPackages.${pkgs.system};
+    stable = import inputs.nixpkgs-stable {
+      system = pkgs.stdenv.hostPlatform.system;
+      config.allowUnfreePredicate = pkg:
+        builtins.elem (lib.getName pkg) [
+          "rpcs3"
+        ];
+    };
   in {
     programs.steam = {
       enable = true;
