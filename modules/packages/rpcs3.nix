@@ -88,7 +88,12 @@
 
       postInstall = ''
         mkdir -p $out/share/fonts
-        cp -r ${pkgs.liberation_ttf}/share/fonts/truetype/. $out/share/fonts/
+
+        cp ${pkgs.liberation_ttf}/share/fonts/truetype/LiberationSans-Regular.ttf \
+          $out/share/fonts/Arial.ttf
+
+        cp ${pkgs.liberation_ttf}/share/fonts/truetype/LiberationSans-Regular.ttf \
+          $out/share/fonts/arial.ttf
       '';
 
       postPatch = ''
