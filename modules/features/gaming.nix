@@ -34,7 +34,7 @@
       protonup-ng
       lutris
       umu-launcher
-      stable.rpcs3
+      self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
     ];
 
     nixpkgs.config.packageOverrides = pkgs: {
