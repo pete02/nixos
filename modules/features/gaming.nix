@@ -34,6 +34,7 @@
       protonup-ng
       lutris
       umu-launcher
+      dejavu_fonts
       self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
     ];
 

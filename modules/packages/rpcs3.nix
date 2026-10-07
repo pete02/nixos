@@ -79,7 +79,17 @@
     pkgs.rpcs3.overrideAttrs (old: {
       src = rpcs3Src;
 
+      propagatedBuildInputs =
+        (old.propagatedBuildInputs or [])
+        ++ [
+          pkgs.liberation_ttf
+        ];
       version = "0.0.40-fixed";
+
+      postInstall = ''
+        mkdir -p $out/share/fonts
+        cp -r ${pkgs.liberation_ttf}/share/fonts/truetype/. $out/share/fonts/
+      '';
 
       postPatch = ''
         rm -rf 3rdparty/7zip/7zip
@@ -113,6 +123,7 @@
         rm -rf 3rdparty/feralinteractive/feralinteractive
         mkdir -p 3rdparty/feralinteractive/feralinteractive
         cp -r ${feralinteractiveSrc}/. 3rdparty/feralinteractive/feralinteractive/
+
 
         echo "=== RPCS3 submodules ==="
         find 3rdparty/yaml-cpp/yaml-cpp -maxdepth 1 -type f -print
