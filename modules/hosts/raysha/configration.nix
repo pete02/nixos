@@ -42,7 +42,7 @@
     };
 
     common-tools.books = true;
-
+    gaming.sunshine.enable = true;
     services = {
       cleaner = true;
       mDNS = true;
