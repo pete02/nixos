@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+if [[ "${1:-}" == "--check" ]]; then
+    exit 0
+fi
+
+
 
 rpcs3 --no-gui "/home/pete/ps3_isos/LEGO Indiana Jones 2 - The Adventure Continues (Europe) (En,Fr,De,Es,It,Da).iso" &
 pid=$!
