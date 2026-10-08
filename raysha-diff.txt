@@ -1,6 +1,4 @@
-<<< /nix/var/nix/profiles/system-26-link
->>> /nix/var/nix/profiles/system-27-link
-Added packages:
-[A.]  #1  sunshine-kill-rpcs3          <none>
-[A+]  #2  sunshine-kill-rpcs3-checked  <none>
-Closure size: 2780 -> 2782 (15 paths added, 13 paths removed, delta +2, disk usage +2.1KiB).
+<<< /nix/var/nix/profiles/system-27-link
+>>> /nix/var/nix/profiles/system-28-link
+No version or selection state changes.
+Closure size: 2782 -> 2782 (15 paths added, 15 paths removed, delta +0, disk usage +88B).
