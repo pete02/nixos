@@ -55,13 +55,12 @@
     hyprlandExtraConfig = ''
       exec-once = hyprctl output create headless game
       monitor = desc:Dell Inc. AW3425DW DD5H274, 3440x1440@175, 0x0, 1, bitdepth, 10
-      monitor = desc:Eizo Nanao Corporation EV2436W 38144035, 1920x1080, 3440x0, 1
+      monitor = desc:AOC Q32G1WG4 0x00000669, 2560x1440@120, 3440x0, 1
       monitor = game, 3840x2160@60, 0x0, 1
+      workspace = 10, monitor:game
+      windowrule = match:title ^(RPCS3 .*)$, workspace 10
 
-      windowrule {
-        match:title = ^(RPCS3 .*)$
-        workspace = 10
-      }
+
       misc {
         force_default_wallpaper = 2
       }
