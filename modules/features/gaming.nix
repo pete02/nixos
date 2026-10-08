@@ -72,6 +72,10 @@
         enable = true;
         capSysAdmin = true;
         openFirewall = true;
+
+        settings = {
+          output_name = "game";
+        };
       };
 
       systemd.user.services.sunshine = lib.mkIf cfg.enable {
