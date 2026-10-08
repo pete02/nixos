@@ -68,14 +68,15 @@
       programs.gamemode.enable = true;
       services.seatd.enable = false;
 
-      hardware.display.edid.modelines = lib.mkIf cfg.enable {
-        sun4k60 = ''
-          533.00  3840 3888 3920 4000  2160 2163 2168 2222  +hsync -vsync
-        '';
-      };
+      hardware.firmware = lib.mkIf cfg.enable [
+        (pkgs.runCommand "philips-edid" {} ''
+          mkdir -p $out/lib/firmware/edid
+          cp ${./files/edid/philips.bin} $out/lib/firmware/edid/philips.bin
+        '')
+      ];
 
       boot.kernelParams = lib.mkIf cfg.enable [
-        "drm.edid_firmware=HDMI-A-1:edid/sun4k60.bin"
+        "drm.edid_firmware=HDMI-A-1:edid/philips.bin"
         "video=HDMI-A-1:e"
       ];
 
