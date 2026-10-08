@@ -1,4 +1,11 @@
-<<< /nix/var/nix/profiles/system-19-link
->>> /nix/var/nix/profiles/system-20-link
-No version or selection state changes.
-Closure size: 2778 -> 2778 (18 paths added, 18 paths removed, delta +0, disk usage +160B).
+<<< /nix/var/nix/profiles/system-20-link
+>>> /nix/var/nix/profiles/system-21-link
+Added packages:
+[A.]  #1  sunshine-start          <none>
+[A+]  #2  sunshine-start-checked  <none>
+[A.]  #3  sunshine-stop           <none>
+[A+]  #4  sunshine-stop-checked   <none>
+Removed packages:
+[R.]  #1  sunshine-launcher          <none>
+[R-]  #2  sunshine-launcher-checked  <none>
+Closure size: 2778 -> 2780 (17 paths added, 15 paths removed, delta +2, disk usage +1.1KiB).
