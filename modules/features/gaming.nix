@@ -71,7 +71,7 @@
       hardware.firmware = lib.mkIf cfg.enable [
         (pkgs.runCommand "philips-edid" {} ''
           mkdir -p $out/lib/firmware/edid
-          cp ${./files/edid/philips.bin} $out/lib/firmware/edid/philips.bin
+          cp ${./files/edid/philips.edid} $out/lib/firmware/edid/philips.bin
         '')
       ];
 
