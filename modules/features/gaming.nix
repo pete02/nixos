@@ -32,16 +32,20 @@
         capSysNice = false;
       };
 
-      environment.systemPackages = with pkgs; [
-        mangohud
-        wineWow64Packages.waylandFull
-        mesa-demos
-        protonup-ng
-        lutris
-        umu-launcher
-        dejavu_fonts
-        self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
-      ];
+      environment.systemPackages = with pkgs;
+        [
+          mangohud
+          wineWow64Packages.waylandFull
+          mesa-demos
+          protonup-ng
+          lutris
+          umu-launcher
+          dejavu_fonts
+          self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
+        ]
+        ++ lib.optionals cfg.enable [
+          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-launcher
+        ];
 
       nixpkgs.config.packageOverrides = pkgs: {
         steam = pkgs.steam.override {

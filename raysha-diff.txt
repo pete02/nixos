@@ -1,4 +1,6 @@
-<<< /nix/var/nix/profiles/system-10-link
->>> /nix/var/nix/profiles/system-11-link
-No version or selection state changes.
-Closure size: 2774 -> 2774 (18 paths added, 18 paths removed, delta +0, disk usage -88B).
+<<< /nix/var/nix/profiles/system-11-link
+>>> /nix/var/nix/profiles/system-12-link
+Added packages:
+[A.]  #1  sunshine-launcher          <none>
+[A+]  #2  sunshine-launcher-checked  <none>
+Closure size: 2774 -> 2776 (20 paths added, 18 paths removed, delta +2, disk usage +4.1KiB).
