@@ -53,13 +53,15 @@
     users.users.pete.extraGroups = ["adbusers"];
 
     hyprlandExtraConfig = ''
+      exec-once = hyprctl output create headless HEADLESS-1
       monitor = desc:Dell Inc. AW3425DW DD5H274, 3440x1440@175, 0x0, 1, bitdepth, 10
       monitor = desc:Eizo Nanao Corporation EV2436W 38144035, 1920x1080, 3440x0, 1
       monitor = HEADLESS-1, 3840x2160@60, 0x0, 1
 
-      workspace = 10, monitor:HEADLESS-1
-      windowrule = workspace 10, title:^(RPCS3 .*)
-
+      windowrule {
+        match:title = ^(RPCS3 .*)$
+        workspace = 10
+      }
       misc {
         force_default_wallpaper = 2
       }
