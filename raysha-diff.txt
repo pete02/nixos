@@ -1,8 +1,4 @@
-<<< /nix/var/nix/profiles/system-18-link
->>> /nix/var/nix/profiles/system-19-link
-Added packages:
-[A.]  #1  philips-edid-zstd  <none>
-Removed packages:
-[R.]  #1  edid-generator-master  2023-11-20
-[R.]  #2  firmware-edid          <none>
-Closure size: 2779 -> 2778 (8 paths added, 9 paths removed, delta -1, disk usage -527.7KiB).
+<<< /nix/var/nix/profiles/system-19-link
+>>> /nix/var/nix/profiles/system-20-link
+No version or selection state changes.
+Closure size: 2778 -> 2778 (18 paths added, 18 paths removed, delta +0, disk usage +160B).
