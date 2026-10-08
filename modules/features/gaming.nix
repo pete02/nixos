@@ -47,6 +47,7 @@
           self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-start
           self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-stop
           self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-kill-rpcs3
+          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-launch-indy
         ];
 
       nixpkgs.config.packageOverrides = pkgs: {
