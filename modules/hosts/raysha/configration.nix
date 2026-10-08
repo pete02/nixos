@@ -64,8 +64,8 @@
         force_default_wallpaper = 2
       }
 
-      bind = SUPER, right, movetoworkspace, 1
-      bind = SUPER, left, movetoworkspace, 2
+      bind = SUPER, left, movetoworkspace, 1
+      bind = SUPER, right, movetoworkspace, 2
       bind = SUPER, n, exec, /home/pete/wallpapers/switch.sh
       exec-once = hyprctl dispatch workspace 1
 
