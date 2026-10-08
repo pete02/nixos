@@ -27,11 +27,17 @@
       '';
 
     scripts = rec {
-      sunshine-launcher = mkScript {
-        name = "sunshine-launcher";
-        src = ../../scripts/sunshine-launcher.sh;
+      sunshine-start = mkScript {
+        name = "sunshine-start";
+        src = ../../scripts/sunshine-start.sh;
         runtimeInputs = with pkgs; [
-          jq
+          hyprland
+        ];
+      };
+      sunshine-stop = mkScript {
+        name = "sunshine-stop";
+        src = ../../scripts/sunshine-stop.sh;
+        runtimeInputs = with pkgs; [
           hyprland
         ];
       };
