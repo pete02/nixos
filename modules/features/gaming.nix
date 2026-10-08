@@ -44,7 +44,8 @@
           self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
         ]
         ++ lib.optionals cfg.enable [
-          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-launcher
+          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-start
+          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-stop
         ];
 
       nixpkgs.config.packageOverrides = pkgs: {
