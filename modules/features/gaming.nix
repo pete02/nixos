@@ -68,13 +68,24 @@
       programs.gamemode.enable = true;
       services.seatd.enable = false;
 
+      hardware.display.edid.modelines = lib.mkIf cfg.enable {
+        sunshine-4k60 = ''
+          533.00  3840 3888 3920 4000  2160 2163 2168 2222  +hsync -vsync
+        '';
+      };
+
+      boot.kernelParams = lib.mkIf cfg.enable [
+        "drm.edid_firmware=HDMI-A-1:edid/sunshine-4k60.bin"
+        "video=HDMI-A-1:e"
+      ];
+
       services.sunshine = lib.mkIf cfg.enable {
         enable = true;
         capSysAdmin = true;
         openFirewall = true;
 
         settings = {
-          output_name = "game";
+          capture = "wlr";
         };
       };
 
