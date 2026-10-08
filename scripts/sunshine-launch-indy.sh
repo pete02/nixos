@@ -18,5 +18,5 @@ for _ in {1..50}; do
 done
 
 hyprctl dispatch focuswindow "pid:$pid"
-hyprctl dispatch fullscreen
+hyprctl dispatch fullscreenstate 2 2
 wait "$pid"
