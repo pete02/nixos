@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+check() {
+    echo "Checking jq..."
+    command -v jq >/dev/null || return 1
+    echo "Checking hyprctl..."
+    command -v hyprctl >/dev/null || return 1
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
+fi
+
+
 if (($# == 0)); then
     echo "Usage: sunshine-launcher <command> [args...]" >&2
     exit 1
