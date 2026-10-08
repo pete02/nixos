@@ -1,4 +1,6 @@
-<<< /nix/var/nix/profiles/system-29-link
->>> /nix/var/nix/profiles/system-30-link
-No version or selection state changes.
-Closure size: 2782 -> 2782 (15 paths added, 15 paths removed, delta +0, disk usage +0B).
+<<< /nix/var/nix/profiles/system-30-link
+>>> /nix/var/nix/profiles/system-31-link
+Added packages:
+[A.]  #1  sunshine-launch-indy          <none>
+[A+]  #2  sunshine-launch-indy-checked  <none>
+Closure size: 2782 -> 2784 (15 paths added, 13 paths removed, delta +2, disk usage +2.7KiB).
