@@ -12,7 +12,7 @@ if [[ "${1:-}" == "--check" ]]; then
     exit $?
 fi
 
-
+pkill -f '\.hyprpanel-wrapped' || true
 hyprctl keyword monitor DP-2,disable
 hyprctl keyword monitor DP-1,disable
 
