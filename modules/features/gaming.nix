@@ -66,9 +66,12 @@
 
       services.sunshine = lib.mkIf cfg.enable {
         enable = true;
-        autoStart = true;
         capSysAdmin = true;
         openFirewall = true;
+      };
+
+      systemd.user.services.sunshine = lib.mkIf cfg.enable {
+        wantedBy = ["default.target"];
       };
 
       hardware.uinput.enable = lib.mkIf cfg.enable true;
