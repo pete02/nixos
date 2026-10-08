@@ -43,8 +43,8 @@
           dejavu_fonts
           self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
         ]
-        ++ lib.mkIf cfg.enable [
-          self.packages.x86_64-linux.sunshine-launcher
+        ++ lib.optionals cfg.enable [
+          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-launcher
         ];
 
       nixpkgs.config.packageOverrides = pkgs: {
