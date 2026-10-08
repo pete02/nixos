@@ -55,7 +55,7 @@
     hyprlandExtraConfig = ''
       monitor = desc:Dell Inc. AW3425DW DD5H274, 3440x1440@175, 0x0, 1, bitdepth, 10
       monitor = desc:AOC Q32G1WG4 0x00000669, 2560x1440@120, 3440x0, 1
-      monitor = HDMI-A-1,disable
+      monitor = HDMI-A-1,3840x2160@59.97,7000x0,1
 
       workspace = 10, monitor:HDMI-A-1
       misc {

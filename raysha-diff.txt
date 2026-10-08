@@ -1,4 +1,4 @@
-<<< /nix/var/nix/profiles/system-21-link
->>> /nix/var/nix/profiles/system-22-link
+<<< /nix/var/nix/profiles/system-22-link
+>>> /nix/var/nix/profiles/system-23-link
 No version or selection state changes.
-Closure size: 2780 -> 2780 (15 paths added, 15 paths removed, delta +0, disk usage +280B).
+Closure size: 2780 -> 2780 (22 paths added, 22 paths removed, delta +0, disk usage -504B).

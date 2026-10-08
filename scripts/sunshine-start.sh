@@ -15,5 +15,3 @@ fi
 
 hyprctl keyword monitor DP-2,disable
 hyprctl keyword monitor DP-1,disable
-hyprctl keyword monitor HDMI-A-1,3840x2160@59.97,auto,1 
-hyprctl dispatch moveworkspacetomonitor 10 HDMI-A-1
