@@ -1,6 +1,4 @@
-<<< /nix/var/nix/profiles/system-16-link
->>> /nix/var/nix/profiles/system-17-link
-Added packages:
-[A.]  #1  edid-generator-master  2023-11-20
-[A.]  #2  firmware-edid          <none>
-Closure size: 2777 -> 2779 (25 paths added, 23 paths removed, delta +2, disk usage +378.3KiB).
+<<< /nix/var/nix/profiles/system-17-link
+>>> /nix/var/nix/profiles/system-18-link
+No version or selection state changes.
+Closure size: 2779 -> 2779 (18 paths added, 18 paths removed, delta +0, disk usage +144B).
