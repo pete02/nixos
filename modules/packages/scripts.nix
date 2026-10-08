@@ -34,6 +34,10 @@
           hyprland
         ];
       };
+      sunshine-kill-rpcs3 = mkScript {
+        name = "sunshine-kill-rpcs3";
+        src = ../../scripts/sunshine-kill-rpcs3.sh;
+      };
       sunshine-stop = mkScript {
         name = "sunshine-stop";
         src = ../../scripts/sunshine-stop.sh;
