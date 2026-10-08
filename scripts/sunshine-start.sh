@@ -13,7 +13,7 @@ if [[ "${1:-}" == "--check" ]]; then
 fi
 
 
-#hyprctl keyword monitor DP-2,disable
-#hyprctl keyword monitor DP-1,disable
+hyprctl keyword monitor DP-2,disable
+hyprctl keyword monitor DP-1,disable
 
 sleep 0.5
