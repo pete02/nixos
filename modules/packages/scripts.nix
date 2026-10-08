@@ -27,11 +27,10 @@
       '';
 
     scripts = rec {
-      
       sunshine-launcher = mkScript {
         name = "sunshine-launcher";
         src = ../../scripts/sunshine-launcher.sh;
-        runtimeInputs = with pkgs;[
+        runtimeInputs = with pkgs; [
           jq
           hyprland
         ];

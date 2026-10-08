@@ -32,16 +32,20 @@
         capSysNice = false;
       };
 
-      environment.systemPackages = with pkgs; [
-        mangohud
-        wineWow64Packages.waylandFull
-        mesa-demos
-        protonup-ng
-        lutris
-        umu-launcher
-        dejavu_fonts
-        self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
-      ];
+      environment.systemPackages = with pkgs;
+        [
+          mangohud
+          wineWow64Packages.waylandFull
+          mesa-demos
+          protonup-ng
+          lutris
+          umu-launcher
+          dejavu_fonts
+          self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
+        ]
+        ++ lib.mkIf cfg.enable [
+          self.packages.x86_64-linux.sunshine-launcher
+        ];
 
       nixpkgs.config.packageOverrides = pkgs: {
         steam = pkgs.steam.override {
@@ -69,9 +73,7 @@
         capSysAdmin = true;
         openFirewall = true;
       };
-      environment.SystemPackages=  lib.mkIf cfg.enable[
-        self.packages.x86_64-linux.sunshine-launcher
-      ];
+
       systemd.user.services.sunshine = lib.mkIf cfg.enable {
         wantedBy = ["default.target"];
       };
