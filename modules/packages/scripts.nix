@@ -27,8 +27,16 @@
       '';
 
     scripts = rec {
-      # Everything from your existing `scripts = rec { ... };`
-      # goes here unchanged.
+      
+      sunshine-launcher = mkScript {
+        name = "sunshine-launcher";
+        src = ../../scripts/sunshine-launcher.sh;
+        runtimeInputs = with pkgs;[
+          jq
+          hyprland
+        ];
+      };
+
       raysha-filter = mkScript {
         name = "raysha-filter";
         src = ../../scripts/agh-filter.sh;

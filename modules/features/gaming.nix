@@ -69,7 +69,9 @@
         capSysAdmin = true;
         openFirewall = true;
       };
-
+      environment.SystemPackages=  lib.mkIf cfg.enable[
+        self.packages.x86_64-linux.sunshine-launcher
+      ];
       systemd.user.services.sunshine = lib.mkIf cfg.enable {
         wantedBy = ["default.target"];
       };
