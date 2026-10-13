@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-NTFY_URL=${NTFY_URL:-https://ntfy.lumilukko.com/Server}
+NTFY_URL=${NTFY_URL:-https://ntfy.lumilukko.com/Aria}
 LOGFILE=${LOGFILE:-/var/log/health-check/bcachefs_check.log}
 EXPECT=${EXPECT:-}
 
