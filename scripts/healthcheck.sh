@@ -92,7 +92,7 @@ notify() {
 
 package_check() {
     local bad=0 cmd
-    local -a cmds=(smartctl memtester grep sleep date)
+    local -a cmds=(smartctl memtester grep sleep date log)
 
     if [[ -n $NTFY_URL ]]; then
         cmds+=(curl)
@@ -153,10 +153,6 @@ if (( TEST_NOTIFY )); then
         exit 1
     }
 
-    command -v log >/dev/null 2>&1 || {
-        echo "curl is not installed" >&2
-        exit 1
-    }
 
     code=$(curl -sS -o /dev/null -w '%{http_code}' \
         -H "Title: servu health check TEST" \
