@@ -30,6 +30,14 @@
     services.health-check = {
       enable = true;
       devices = ["/dev/sda" "/dev/sdb" "/dev/nvme0n1"];
+      bcachefs = {
+        enable = true;
+        devices = [
+          "sda"
+          "sdb1"
+          "nvme0n1p2"
+        ];
+      };
     };
 
     environment.systemPackages = with pkgs; [

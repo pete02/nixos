@@ -5,6 +5,7 @@
       src,
       runtimeInputs ? [],
       substitutions ? {},
+      checkSetup ? "",
     }: let
       script = pkgs.writeShellApplication {
         inherit name runtimeInputs;
@@ -16,6 +17,8 @@
     in
       pkgs.runCommand "${name}-checked" {} ''
         echo "Checking ${name}..."
+
+        ${checkSetup}
 
         if ! ${script}/bin/${name} --check; then
           echo "ERROR: ${name} dependency check failed"
@@ -202,6 +205,43 @@
           MAX_SESSION_SECS = "${toString (90 * 60)}";
           CUTOFF_HOUR = "${toString 23}";
         };
+      };
+
+      healthCheck = mkScript {
+        name = "health_check";
+        src = ../../scripts/healthcheck.sh;
+        runtimeInputs = with pkgs; [
+          smartmontools
+          memtester
+          curl
+          gnugrep
+          coreutils
+          gnused
+        ];
+      };
+
+      bcachefsCheck = mkScript {
+        name = "bcachefs_check";
+        src = ../../scripts/bcachefs_check.sh;
+        runtimeInputs = with pkgs; [
+          bcachefs-tools
+          curl
+          util-linux
+          coreutils
+        ];
+      };
+      mdadmCheck = mkScript {
+        name = "mdadm_check";
+        src = ../../scripts/mdadm_check.sh;
+        runtimeInputs = with pkgs; [
+          curl
+          coreutils
+          gnused
+        ];
+        checkSetup = ''
+          export SYS="$TMPDIR/sys"
+          mkdir -p "$SYS/block"
+        '';
       };
     };
   in {
