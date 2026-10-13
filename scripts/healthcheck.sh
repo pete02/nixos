@@ -33,6 +33,8 @@ CHECK_ONLY=0
 TEST_NOTIFY=0
 cli_devs=()
 
+
+
 while (( $# )); do
     case $1 in
         --check)
@@ -71,6 +73,10 @@ if (( ${#cli_devs[@]} )); then
 fi
 
 # ---------------------------------------------------------------- helpers
+
+log() {
+  printf '[%s] %s\n' "$(date '+%F %T')" "$*"
+}
 
 notify() {
     # notify <title> <message>
