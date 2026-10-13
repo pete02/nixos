@@ -1,4 +1,14 @@
-<<< /nix/var/nix/profiles/system-75-link
->>> /nix/var/nix/profiles/system-76-link
-No version or selection state changes.
-Closure size: 1286 -> 1286 (8 paths added, 8 paths removed, delta +0, disk usage -56B).
+<<< /nix/var/nix/profiles/system-76-link
+>>> /nix/var/nix/profiles/system-77-link
+Added packages:
+[A.]  #01  bcachefs_check               <none>
+[A.]  #02  bcachefs_check-checked       <none>
+[A.]  #03  health_check                 <none>
+[A.]  #04  health_check-checked         <none>
+[A.]  #05  memtester                    4.7.1
+[A.]  #06  smartmontools                7.5
+[A.]  #07  unit-bcachefs-check.service  <none>
+[A.]  #08  unit-bcachefs-check.timer    <none>
+[A.]  #09  unit-health-check.service    <none>
+[A.]  #10  unit-health-check.timer      <none>
+Closure size: 1286 -> 1296 (40 paths added, 30 paths removed, delta +10, disk usage +2.4MiB).
