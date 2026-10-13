@@ -30,6 +30,12 @@
 
     username = "pete";
 
+    services.health-check = {
+      enable = true;
+      devices = ["/dev/sda" "/dev/nvme0n1" "/dev/nvme1n1"];
+      memSize = "1G";
+    };
+
     connectivity = {
       bluetooth = true;
       wireless = true;

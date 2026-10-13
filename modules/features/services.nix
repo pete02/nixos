@@ -22,6 +22,25 @@
       mDNS = lib.mkEnableOption "Enable mDNS service for publishing IP to local network";
       sambaServer = lib.mkEnableOption "enables samba server";
       sambaTimelock = lib.mkEnableOption "enables timelock server";
+      health-check = {
+        enable = lib.mkEnableOption "scheduled disk and RAM health check";
+        devices = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [];
+        };
+        memSize = lib.mkOption {
+          type = lib.types.str;
+          default = "100M";
+        };
+        ntfyUrl = lib.mkOption {
+          type = lib.types.str;
+          default = "";
+        };
+        schedule = lib.mkOption {
+          type = lib.types.str;
+          default = "Sun 03:00";
+        };
+      };
     };
 
     config = lib.mkMerge [
@@ -278,6 +297,22 @@
             # Set samba password
             echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
           '';
+        };
+      })
+      (lib.mkIf config.services.health-check.enable {
+        systemd.services.health-check = {
+          path = with pkgs; [smartmontools memtester curl gnugrep coreutils];
+          environment = {
+            DEVICES = lib.concatStringsSep " " config.services.health-check.devices;
+            MEMSIZE = config.services.health-check.memSize;
+            NTFY_URL = config.services.health-check.ntfyUrl;
+          };
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.bash}/bin/bash ${../../scripts/healthcheck.sh}";
+            LogsDirectory = "health-check"; # /var/log/health-check, matches the script's default
+          };
+          startAt = config.services.health-check.schedule;
         };
       })
 

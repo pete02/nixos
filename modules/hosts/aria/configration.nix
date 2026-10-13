@@ -27,6 +27,11 @@
       MAILADDR = "petrik.rasanen@gmail.com";
     };
 
+    services.health-check = {
+      enable = true;
+      devices = ["/dev/sda" "/dev/sdb" "/dev/nvme0n1"];
+    };
+
     environment.systemPackages = with pkgs; [
       kitty.terminfo
     ];
