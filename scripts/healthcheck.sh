@@ -221,13 +221,21 @@ fi
 # Wait for each SMART test to finish, then read the results.
 deadline=$(( SECONDS + SMART_WAIT_MAX ))
 
+```bash
 for dev in "${devs[@]}"; do
-    while smartctl -c "$dev" | grep -q "Self-test routine in progress" &&
+    while smartctl -c "$dev" 2>&1 | grep -q "Self-test routine in progress" &&
           (( SECONDS < deadline )); do
         sleep 10
     done
 
-    line=$(smartctl -l selftest "$dev" | grep -m1 '^# 1' || true)
+    log_output=$(smartctl -l selftest "$dev" 2>&1 || true)
+
+    # ATA logs use entries such as "# 1 ..."; NVMe logs use
+    # numbered rows such as " 0   Short ...".
+    line=$(
+        grep -m1 -E '^# *1[[:space:]]|^[[:space:]]*0[[:space:]]+Short[[:space:]]' \
+            <<< "$log_output" || true
+    )
 
     if [[ -z $line ]]; then
         problems+=("Disk $dev: no SMART self-test result found")
@@ -235,9 +243,10 @@ for dev in "${devs[@]}"; do
         problems+=("Disk $dev: self-test did not complete cleanly: $line")
     fi
 
-    smartctl -H "$dev" | grep -q "PASSED" ||
+    smartctl -H "$dev" 2>&1 | grep -q "PASSED" ||
         problems+=("Disk $dev: overall SMART health is not PASSED")
 done
+```
 
 # ---------------------------------------------------------------- report
 
