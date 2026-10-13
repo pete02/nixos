@@ -1,14 +1,4 @@
-<<< /nix/var/nix/profiles/system-34-link
->>> /nix/var/nix/profiles/system-35-link
-Added packages:
-[A.]  #01  health_check               <none>
-[A.]  #02  health_check-checked       <none>
-[A.]  #03  mdadm_check                <none>
-[A.]  #04  mdadm_check-checked        <none>
-[A.]  #05  memtester                  4.7.1
-[A.]  #06  smartmontools              7.5
-[A.]  #07  unit-health-check.service  <none>
-[A.]  #08  unit-health-check.timer    <none>
-[A.]  #09  unit-mdadm-check.service   <none>
-[A.]  #10  unit-mdadm-check.timer     <none>
-Closure size: 2784 -> 2794 (30 paths added, 20 paths removed, delta +10, disk usage +2.4MiB).
+<<< /nix/var/nix/profiles/system-35-link
+>>> /nix/var/nix/profiles/system-36-link
+No version or selection state changes.
+Closure size: 2794 -> 2794 (9 paths added, 9 paths removed, delta +0, disk usage +1.1KiB).
