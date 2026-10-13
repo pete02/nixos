@@ -221,7 +221,7 @@ fi
 # Wait for each SMART test to finish, then read the results.
 deadline=$(( SECONDS + SMART_WAIT_MAX ))
 
-```bash
+
 for dev in "${devs[@]}"; do
     while smartctl -c "$dev" 2>&1 | grep -q "Self-test routine in progress" &&
           (( SECONDS < deadline )); do
@@ -248,7 +248,7 @@ for dev in "${devs[@]}"; do
         problems+=("Disk $dev: overall SMART health is not PASSED")
     fi
 done
-```
+
 
 
 # ---------------------------------------------------------------- report
