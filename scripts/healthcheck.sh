@@ -243,8 +243,10 @@ for dev in "${devs[@]}"; do
         problems+=("Disk $dev: self-test did not complete cleanly: $line")
     fi
 
-    smartctl -H "$dev" 2>&1 | grep -q "PASSED" ||
+    if ! smartctl -H "$dev" 2>&1 |
+        grep -qE '^SMART overall-health self-assessment test result: PASSED$'; then
         problems+=("Disk $dev: overall SMART health is not PASSED")
+    fi
 done
 ```
 
