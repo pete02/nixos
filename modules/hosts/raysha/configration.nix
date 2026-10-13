@@ -34,6 +34,7 @@
       enable = true;
       devices = ["/dev/sda" "/dev/nvme0n1" "/dev/nvme1n1"];
       memSize = "1G";
+      ntfyUrl = "https://ntfy.lumilukko.com/Raysha";
       mdadm = {
         enable = true;
         devices = ["md127"];
