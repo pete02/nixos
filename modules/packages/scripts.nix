@@ -213,7 +213,7 @@
         runtimeInputs = with pkgs; [
           smartmontools
           memtester
-          log
+          logger
           curl
           gnugrep
           coreutils
