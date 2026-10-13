@@ -243,8 +243,14 @@ for dev in "${devs[@]}"; do
         problems+=("Disk $dev: self-test did not complete cleanly: $line")
     fi
 
-    if ! smartctl -H "$dev" 2>&1 |
-        grep -qE '^SMART overall-health self-assessment test result: PASSED$'; then
+    health_output=$(smartctl -H "$dev" 2>&1 || true)
+
+    if grep -qE '^SMART overall-health self-assessment test result: PASSED$' \
+        <<< "$health_output"; then
+        if grep -q 'marginal Attributes' <<< "$health_output"; then
+            log "WARNING: Disk $dev: SMART passed, but reports marginal attributes"
+        fi
+    else
         problems+=("Disk $dev: overall SMART health is not PASSED")
     fi
 done
