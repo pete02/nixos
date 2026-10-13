@@ -147,6 +147,11 @@ if (( TEST_NOTIFY )); then
         exit 1
     }
 
+    command -v log >/dev/null 2>&1 || {
+        echo "curl is not installed" >&2
+        exit 1
+    }
+
     code=$(curl -sS -o /dev/null -w '%{http_code}' \
         -H "Title: servu health check TEST" \
         -H "Priority: high" \
