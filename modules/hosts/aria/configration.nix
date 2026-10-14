@@ -42,9 +42,9 @@
 
     services.bitwarden-backup = {
       enable = true;
-      dataDir =  "/mnt/server/Serversetup/data/vaultwarden";
+      dataDir = "/mnt/server/Serversetup/data/vaultwarden";
       containerName = "vaultwarden";
-      ntfyUrl="https://ntfy.lumilukko.com/Aria";
+      ntfyUrl = "https://ntfy.lumilukko.com/Aria";
       rcloneConfigFile = config.sops.secrets.rclone-gdrive-config.path;
     };
 
