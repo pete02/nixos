@@ -18,7 +18,7 @@
     sops.age.keyFile = "/etc/sops/age/keys.txt";
 
     sops.secrets.rclone-gdrive-config = {
-      sopsFile = ../../secrets/rclone-gdrive.conf;
+      sopsFile = ../../secrets/rclone-gdrive.conf.enc;
       format = "ini";
       key = "";
     };
