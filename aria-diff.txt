@@ -1,13 +1,4 @@
-<<< /nix/var/nix/profiles/system-83-link
->>> /nix/var/nix/profiles/system-84-link
-Version changes:
-[C.]  #1  fuse  3.18.2 -> 3.18.2, 3.18.2-bin
-Added packages:
-[A.]  #1  bitwarden_backup               <none>
-[A.]  #2  bitwarden_backup-checked       <none>
-[A.]  #3  rclone                         1.74.3
-[A.]  #4  rclone-gdrive.conf.enc         <none>
-[A.]  #5  unit-bitwarden-backup.service  <none>
-[A.]  #6  unit-bitwarden-backup.timer    <none>
-[A.]  #7  zip                            3.0
-Closure size: 1296 -> 1304 (13 paths added, 5 paths removed, delta +8, disk usage +98.9MiB).
+<<< /nix/var/nix/profiles/system-84-link
+>>> /nix/var/nix/profiles/system-85-link
+No version or selection state changes.
+Closure size: 1304 -> 1304 (3 paths added, 3 paths removed, delta +0, disk usage +408B).
