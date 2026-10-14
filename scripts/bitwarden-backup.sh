@@ -143,7 +143,7 @@ cleanup() {
 
     # Prevent recursive EXIT handling during cleanup.
     trap - EXIT
-    CLEANING_UP=1
+    
 
     if [[ "$STOPPED" -eq 1 ]]; then
         log "Starting Bitwarden again..."
