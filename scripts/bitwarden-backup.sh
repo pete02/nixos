@@ -3,7 +3,7 @@
 # bitwarden-backup: stop Bitwarden -> zip its data folder -> upload to Google Drive
 #                   -> keep only the newest N backups.
 #
-# Standalone: needs docker (or systemctl), zip, rclone, grep and coreutils on PATH.
+# Standalone: needs docker (or systemctl), zip, rclone, grep, coreutils and curl on PATH.
 # All configuration comes from environment variables.
 #
 # Usage:
@@ -16,82 +16,61 @@
 #   SYSTEMD_UNIT          if set, stop/start this unit via systemctl instead of docker
 #   RCLONE_REMOTE         rclone destination, remote:folder              [gdrive:bitwarden-backups]
 #   KEEP                  how many backups to keep                       [5]
+#   NTFY_URL              ntfy notification URL                           [https://ntfy.lumilukko.com/Raysha]
 #
-# rclone credentials (optional; if none are given, an existing rclone config is used):
-#   RCLONE_TOKEN_FILE          file containing the Google Drive OAuth token JSON
-#   RCLONE_CLIENT_ID_FILE      file containing your own OAuth client id (optional)
-#   RCLONE_CLIENT_SECRET_FILE  file containing your own OAuth client secret (optional)
-# When RCLONE_TOKEN_FILE is set, the remote named in RCLONE_REMOTE is defined on the
-# fly through rclone's RCLONE_CONFIG_<NAME>_* variables, so no rclone.conf is needed.
+# rclone credentials:
+#   RCLONE_CONFIG         optional path to an existing rclone configuration
+#   RCLONE_TOKEN_FILE     optional file containing the Google Drive OAuth token JSON
+#   RCLONE_CLIENT_ID_FILE optional file containing your own OAuth client id
+#   RCLONE_CLIENT_SECRET_FILE optional file containing your own OAuth client secret
+#
+# When RCLONE_CONFIG is set, rclone uses that configuration file directly.
+# Otherwise, if RCLONE_TOKEN_FILE is set, the remote is configured using
+# rclone's RCLONE_CONFIG_<NAME>_* environment variables.
 
-set -euo pipefail
+set -Eeuo pipefail
 
 DATA_DIR="${DATA_DIR:-/opt/bitwarden/data}"
 CONTAINER_NAME="${CONTAINER_NAME:-bitwarden}"
 SYSTEMD_UNIT="${SYSTEMD_UNIT:-}"
 RCLONE_REMOTE="${RCLONE_REMOTE:-gdrive:bitwarden-backups}"
 KEEP="${KEEP:-5}"
+NTFY_URL="${NTFY_URL:-https://ntfy.lumilukko.com/Aria}"
 
-log() { echo "[$(date '+%F %T')] $*"; }
+WORK_DIR=""
+BACKUP_NAME=""
+BACKUP_PATH=""
+STOPPED=0
+FAILURE_CONTEXT="Backup failed before completion"
+NOTIFICATION_SENT=0
+CLEANING_UP=0
 
-NTFY_URL="${NTFY_URL:-https://ntfy.lumilukko.com/Raysha}"
+log() {
+    echo "[$(date '+%F %T')] $*"
+}
 
 notify() {
+    local title="${1:-Bitwarden backup notification}"
+    local message="${2:-No details provided}"
+
     [[ -n "$NTFY_URL" ]] || return 0
     command -v curl >/dev/null 2>&1 || return 0
 
     curl -fsS \
         --connect-timeout 5 \
         --max-time 10 \
-        -H "Title: $1" \
+        -H "Title: $title" \
         -H "Priority: high" \
-        -d "$2" \
-        "$NTFY_URL" >/dev/null || true
+        -d "$message" \
+        "$NTFY_URL" >/dev/null || {
+            log "WARNING: failed to send ntfy notification"
+            return 0
+        }
 }
-
-FAILURE_CONTEXT="Backup failed before completion"
-
-on_error() {
-    local status=$1 line=$2
-    FAILURE_CONTEXT="Failed at line $line (exit status $status)"
-}
-
-cleanup() {
-    local status=$?
-
-    # Prevent recursive EXIT handling while cleanup runs.
-    trap - EXIT
-
-    if [[ "$STOPPED" -eq 1 ]]; then
-        log "Starting Bitwarden again..."
-        if start_service; then
-            STOPPED=0
-        else
-            log "ERROR: failed to restart Bitwarden!"
-            notify "Bitwarden restart FAILED" \
-                "The backup script could not restart Bitwarden on $(hostname). Check the systemd journal."
-            status=1
-        fi
-    fi
-
-    rm -rf "$WORK_DIR"
-
-    if [[ "$status" -ne 0 ]]; then
-        log "ERROR: $FAILURE_CONTEXT"
-        notify "Bitwarden backup FAILED" \
-            "Host: $(hostname)
-Context: $FAILURE_CONTEXT
-Exit status: $status
-Check: journalctl -u bitwarden-backup.service"
-    fi
-
-    exit "$status"
-}
-
 
 check_dependencies() {
     local missing=0 cmd
-    local required=(zip rclone grep sort head date mktemp rm dirname)
+    local required=(zip rclone grep sort head date mktemp rm hostname)
 
     if [[ -n "$SYSTEMD_UNIT" ]]; then
         required+=(systemctl)
@@ -105,6 +84,8 @@ check_dependencies() {
             missing=1
         fi
     done
+
+    # Notifications are best-effort; curl is not required for the backup itself.
     return "$missing"
 }
 
@@ -122,6 +103,7 @@ setup_rclone_remote() {
     if [[ -n "${RCLONE_CLIENT_ID_FILE:-}" ]]; then
         export "RCLONE_CONFIG_${upper}_CLIENT_ID=$(< "$RCLONE_CLIENT_ID_FILE")"
     fi
+
     if [[ -n "${RCLONE_CLIENT_SECRET_FILE:-}" ]]; then
         export "RCLONE_CONFIG_${upper}_CLIENT_SECRET=$(< "$RCLONE_CLIENT_SECRET_FILE")"
     fi
@@ -143,13 +125,76 @@ start_service() {
     fi
 }
 
+on_error() {
+    local status=$1
+    local line=$2
+    local command=$3
+
+    # Preserve the first failure as the primary cause.
+    if [[ "$FAILURE_CONTEXT" == "Backup failed before completion" ]]; then
+        FAILURE_CONTEXT="Command failed at line $line (exit status $status): $command"
+    fi
+
+    return "$status"
+}
+
+cleanup() {
+    local status=$?
+
+    # Prevent recursive EXIT handling during cleanup.
+    trap - EXIT
+    CLEANING_UP=1
+
+    if [[ "$STOPPED" -eq 1 ]]; then
+        log "Starting Bitwarden again..."
+
+        if start_service; then
+            STOPPED=0
+            log "Bitwarden restarted successfully."
+        else
+            log "ERROR: failed to restart Bitwarden!"
+            notify \
+                "Bitwarden restart FAILED" \
+                "Host: $(hostname)
+The backup script could not restart Bitwarden.
+Primary failure: $FAILURE_CONTEXT
+Check: journalctl -u bitwarden-backup.service"
+
+            status=1
+        fi
+    fi
+
+    if [[ -n "$WORK_DIR" ]]; then
+        rm -rf -- "$WORK_DIR" || {
+            log "WARNING: failed to remove temporary directory: $WORK_DIR"
+            [[ "$status" -ne 0 ]] || status=1
+        }
+    fi
+
+    if [[ "$status" -ne 0 ]]; then
+        log "ERROR: $FAILURE_CONTEXT"
+
+        if [[ "$NOTIFICATION_SENT" -eq 0 ]]; then
+            NOTIFICATION_SENT=1
+            notify \
+                "Bitwarden backup FAILED" \
+                "Host: $(hostname)
+Context: $FAILURE_CONTEXT
+Exit status: $status
+Check: journalctl -u bitwarden-backup.service"
+        fi
+    fi
+
+    exit "$status"
+}
+
 case "${1:-}" in
     --check)
         check_dependencies
         exit 0
         ;;
     -h|--help)
-        sed -n '2,27p' "$0" | sed 's/^# \{0,1\}//'
+        sed -n '2,35p' "$0" | sed 's/^# \{0,1\}//'
         exit 0
         ;;
     "")
@@ -160,26 +205,34 @@ case "${1:-}" in
         ;;
 esac
 
+# Install traps before preflight checks so runtime failures are reported.
+trap 'on_error "$?" "$LINENO" "$BASH_COMMAND"' ERR
+trap cleanup EXIT
+
 check_dependencies
-[[ -d "$DATA_DIR" ]] || { echo "bitwarden-backup: data folder not found: $DATA_DIR" >&2; exit 1; }
-[[ "$KEEP" =~ ^[1-9][0-9]*$ ]] || { echo "bitwarden-backup: KEEP must be a positive integer" >&2; exit 1; }
+
+[[ -d "$DATA_DIR" ]] || {
+    echo "bitwarden-backup: data folder not found: $DATA_DIR" >&2
+    exit 1
+}
+
+[[ "$KEEP" =~ ^[1-9][0-9]*$ ]] || {
+    echo "bitwarden-backup: KEEP must be a positive integer" >&2
+    exit 1
+}
+
+if [[ -n "${RCLONE_TOKEN_FILE:-}" ]]; then
+    [[ -r "$RCLONE_TOKEN_FILE" ]] || {
+        echo "bitwarden-backup: token file is not readable" >&2
+        exit 1
+    }
+fi
 
 setup_rclone_remote
 
 WORK_DIR="$(mktemp -d)"
 BACKUP_NAME="bitwarden-backup-$(date +%Y-%m-%d_%H-%M-%S).zip"
 BACKUP_PATH="$WORK_DIR/$BACKUP_NAME"
-STOPPED=0
-
-# Always bring Bitwarden back and remove temp files, even if a step fails.
-cleanup() {
-    if [[ "$STOPPED" -eq 1 ]]; then
-        log "Starting Bitwarden again..."
-        start_service || log "WARNING: failed to start Bitwarden!"
-    fi
-    rm -rf "$WORK_DIR"
-}
-trap cleanup EXIT
 
 # 1. Stop Bitwarden
 log "Stopping Bitwarden..."
@@ -188,26 +241,48 @@ STOPPED=1
 
 # 2. Zip the data folder
 log "Creating $BACKUP_NAME..."
-(cd "$DATA_DIR" && zip -r -q "$BACKUP_PATH" .)
+(
+    cd "$DATA_DIR"
+    zip -r -q "$BACKUP_PATH" .
+)
 
-# The data is safely copied, so restart the service before uploading
+[[ -s "$BACKUP_PATH" ]] || {
+    echo "bitwarden-backup: archive is missing or empty" >&2
+    exit 1
+}
+
+# The data is safely copied, so restart the service before uploading.
 log "Starting Bitwarden..."
 start_service
 STOPPED=0
 
 # 3. Upload to Google Drive
 log "Uploading to $RCLONE_REMOTE..."
-rclone copy "$BACKUP_PATH" "$RCLONE_REMOTE"
+rclone copyto "$BACKUP_PATH" "$RCLONE_REMOTE/$BACKUP_NAME"
 
-# 4. Keep only the newest $KEEP backups (file names contain a sortable timestamp)
+# 4. Prune old backups, keeping the newest KEEP files.
 log "Pruning old backups (keeping $KEEP)..."
-rclone lsf --files-only "$RCLONE_REMOTE" \
-    | grep -E '^bitwarden-backup-.*\.zip$' \
-    | sort \
-    | head -n -"$KEEP" \
-    | while read -r old_file; do
+
+# Store the listing before pruning. This ensures listing failures are not
+# accidentally hidden by a pipeline or an empty grep result.
+REMOTE_FILES="$(rclone lsf --files-only "$RCLONE_REMOTE")"
+
+mapfile -t BACKUPS < <(
+    printf '%s\n' "$REMOTE_FILES" |
+        grep -E '^bitwarden-backup-.*\.zip$' |
+        sort || true
+)
+
+BACKUP_COUNT="${#BACKUPS[@]}"
+
+if (( BACKUP_COUNT > KEEP )); then
+    DELETE_COUNT=$((BACKUP_COUNT - KEEP))
+
+    for ((i = 0; i < DELETE_COUNT; i++)); do
+        old_file="${BACKUPS[$i]}"
         log "Deleting $old_file"
         rclone deletefile "$RCLONE_REMOTE/$old_file"
     done
+fi
 
 log "Backup finished successfully."
