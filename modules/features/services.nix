@@ -494,7 +494,7 @@
           };
         };
       })
-    
+
       (lib.mkIf config.services.bitwarden-backup.enable {
         systemd.services.bitwarden-backup = {
           environment = {
@@ -505,8 +505,8 @@
             RCLONE_CONFIG = config.services.bitwarden-backup.rcloneConfigFile;
             NTFY_URL = config.services.bitwarden-backup.ntfyUrl;
           };
-          after = [ "network-online.target" ];
-          wants = [ "network-online.target" ];
+          after = ["network-online.target"];
+          wants = ["network-online.target"];
 
           serviceConfig = {
             Type = "oneshot";
