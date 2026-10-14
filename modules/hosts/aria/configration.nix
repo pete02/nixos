@@ -40,6 +40,14 @@
       };
     };
 
+
+    services.bitwarden-backup = {
+      enable = true;
+      dataDir =  "/mnt/server/Serversetup/data/vaultwarden";
+      ntfyUrl="https://ntfy.lumilukko.com/Aria"
+      rcloneConfigFile = config.sops.secrets.rclone-gdrive-config.path;
+    };
+
     environment.systemPackages = with pkgs; [
       kitty.terminfo
     ];

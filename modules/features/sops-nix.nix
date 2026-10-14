@@ -16,5 +16,11 @@
     sops.defaultSopsFile = "${self}/secrets/secrets.yaml";
     sops.defaultSopsFormat = "yaml";
     sops.age.keyFile = "/etc/sops/age/keys.txt";
+
+    sops.secrets.rclone-gdrive-config = {
+      sopsFile = ../../secrets/rclone-gdrive.conf;
+      format = "ini";
+      key = "";
+    };
   };
 }

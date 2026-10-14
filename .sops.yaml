@@ -9,3 +9,8 @@ creation_rules:
       - age:
           - *raysha
           - *pete
+  - path_regex: secrets/rclone-gdrive\.conf$
+    key_groups:
+      - age:
+          - *raysha
+          - *pete

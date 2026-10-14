@@ -58,6 +58,63 @@
           };
         };
       };
+      bitwarden-backup = {
+        enable = lib.mkEnableOption "Bitwarden backup to Google Drive";
+
+        dataDir = lib.mkOption {
+          type = lib.types.str;
+          example = "/var/lib/bitwarden";
+          description = "Bitwarden data folder to back up.";
+        };
+
+        containerName = lib.mkOption {
+          type = lib.types.str;
+          default = "bitwarden";
+          description = "Docker container to stop/start (used when systemdUnit is null).";
+        };
+
+        systemdUnit = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          example = "docker-bitwarden.service";
+          description = ''
+            Set this if the container is managed by systemd (e.g. virtualisation.oci-containers).
+            Stopping through systemd stops the unit from restarting the container mid-backup.
+          '';
+        };
+
+        remote = lib.mkOption {
+          type = lib.types.str;
+          default = "gdrive:bitwarden-backups";
+          description = "rclone destination as remote:folder. The part before the colon names the remote.";
+        };
+
+        rcloneConfigFile = lib.mkOption {
+          type = lib.types.path;
+          description = ''
+            Path to the SOPS-managed rclone configuration file.
+            The decrypted file must remain outside the Nix store.
+          '';
+        };
+
+        keep = lib.mkOption {
+          type = lib.types.ints.positive;
+          default = 5;
+          description = "Number of most recent backups to keep.";
+        };
+
+        ntfyUrl = lib.mkOption {
+          type = lib.types.str;
+          default = "https://ntfy.lumilukko.com/Raysha";
+          description = "ntfy URL for backup failure notifications.";
+        };
+
+        schedule = lib.mkOption {
+          type = lib.types.str;
+          default = "03:00";
+          description = "systemd OnCalendar expression for when to run.";
+        };
+      };
     };
 
     config = lib.mkMerge [
@@ -435,6 +492,28 @@
             OnUnitActiveSec = "30s";
             AccuracySec = "5s";
           };
+        };
+      })
+    
+      (lib.mkIf config.services.bitwarden-backup.enable {
+        systemd.services.bitwarden-backup = {
+          environment = {
+            DATA_DIR = config.services.bitwarden-backup.dataDir;
+            CONTAINER_NAME = config.services.bitwarden-backup.containerName;
+            RCLONE_REMOTE = config.services.bitwarden-backup.remote;
+            KEEP = toString config.services.bitwarden-backup.keep;
+            RCLONE_CONFIG = config.services.bitwarden-backup.rcloneConfigFile;
+            NTFY_URL = config.services.bitwarden-backup.ntfyUrl;
+          };
+          after = [ "network-online.target" ];
+          wants = [ "network-online.target" ];
+
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${self.packages.x86_64-linux.bitwardenBackup}/bin/bitwarden_backup";
+          };
+
+          startAt = config.services.bitwarden-backup.schedule;
         };
       })
     ];
