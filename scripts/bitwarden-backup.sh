@@ -70,7 +70,7 @@ notify() {
 
 check_dependencies() {
     local missing=0 cmd
-    local required=(zip rclone grep sort head date mktemp rm hostname)
+    local required=(zip rclone grep sort head date mktemp rm)
 
     if [[ -n "$SYSTEMD_UNIT" ]]; then
         required+=(systemctl)
