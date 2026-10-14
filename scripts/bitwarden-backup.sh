@@ -43,7 +43,7 @@ BACKUP_PATH=""
 STOPPED=0
 FAILURE_CONTEXT="Backup failed before completion"
 NOTIFICATION_SENT=0
-CLEANING_UP=0
+
 
 log() {
     echo "[$(date '+%F %T')] $*"
