@@ -1,5 +1,4 @@
-<<< /nix/var/nix/profiles/system-37-link
->>> /nix/var/nix/profiles/system-38-link
-Added packages:
-[A.]  #1  rclone-gdrive.conf.enc  <none>
-Closure size: 2794 -> 2795 (10 paths added, 9 paths removed, delta +1, disk usage +19.6KiB).
+<<< /nix/var/nix/profiles/system-41-link
+>>> /nix/var/nix/profiles/system-42-link
+No version or selection state changes.
+Closure size: 2795 -> 2795 (8 paths added, 8 paths removed, delta +0, disk usage -336B).
