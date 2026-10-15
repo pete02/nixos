@@ -1,0 +1,82 @@
+name: NixOS CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - "**.diff"
+      - "**.patch"
+  workflow_dispatch:
+
+
+jobs:
+  validate:
+    name: Evaluate, build, and format
+    runs-on: nixos-ci
+
+    env:
+      CONFIG_FOLDER: "."
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify Nix
+        run: |
+          nix --version
+          git --version
+          nix flake metadata
+
+      - name: Check formatting
+        run: |
+          nix fmt "$CONFIG_FOLDER"
+          git diff --exit-code
+
+      - name: Build NixOS host closures
+        run: |
+          set -eu
+
+          for host in aria raysha talia; do
+            echo "::group::Building NixOS host: $host"
+
+            nix build \
+              --no-link \
+              ".#nixosConfigurations.${host}.config.system.build.toplevel"
+
+            echo "::endgroup::"
+          done
+
+      - name: Build every exported x86_64-linux package
+        run: |
+          set -eu
+
+          system=x86_64-linux
+
+          packages="$(
+            nix eval --raw \
+              --apply 'attrs: builtins.concatStringsSep "\n" (builtins.attrNames attrs)' \
+              ".#packages.${system}"
+          )"
+
+          if [ -z "$packages" ]; then
+            echo "No packages exported for $system"
+            exit 0
+          fi
+
+          while IFS= read -r package; do
+            [ -n "$package" ] || continue
+
+            echo "::group::Building package: $package"
+
+            nix build \
+              --no-link \
+              ".#packages.${system}.${package}"
+
+            echo "::endgroup::"
+          done <<EOF
+          $packages
+          EOF
