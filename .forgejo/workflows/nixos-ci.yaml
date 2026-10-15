@@ -10,7 +10,6 @@ on:
       - "docs/**"
       - "**.diff"
       - "**.patch"
-  workflow_dispatch:
 
 
 jobs:
