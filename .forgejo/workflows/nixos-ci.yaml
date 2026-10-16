@@ -13,11 +13,14 @@ on:
 
 jobs:
   validate:
-    name: Evaluate, build, and format
+    name: Evaluate, build, and push to cache
     runs-on: nixos-ci
 
     env:
       CONFIG_FOLDER: "."
+      NIX_CONFIG: |
+        extra-substituters = ${{ vars.ATTIC_URL }}
+        extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
 
     steps:
       - name: Checkout
@@ -33,11 +36,13 @@ jobs:
         run: |
           nix build \
             --no-link \
+            --print-out-paths \
             --keep-going \
             --max-jobs auto \
             .#nixosConfigurations.aria.config.system.build.toplevel \
             .#nixosConfigurations.raysha.config.system.build.toplevel \
-            .#nixosConfigurations.talia.config.system.build.toplevel
+            .#nixosConfigurations.talia.config.system.build.toplevel \
+            >> /tmp/out-paths
 
       - name: Build every exported x86_64-linux package
         run: |
@@ -66,6 +71,20 @@ jobs:
 
           nix build \
             --no-link \
+            --print-out-paths \
             --keep-going \
             --max-jobs auto \
-            "$@"
+            "$@" \
+            >> /tmp/out-paths
+
+      - name: Push to Attic
+        if: always()
+        env:
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+          ATTIC_URL: ${{ vars.ATTIC_URL }}
+        run: |
+          [ -s /tmp/out-paths ] || exit 0
+          server="${ATTIC_URL%/*}"      # http://aria.lan:8080
+          cache="${ATTIC_URL##*/}"      # main
+          attic login ci "$server" "$ATTIC_TOKEN"
+          xargs attic push "ci:$cache" < /tmp/out-paths
