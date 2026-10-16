@@ -50,7 +50,7 @@
 
   nixbuilders.cache.server = {
     enable = true;
-    apiEndpoint = "http://192.168.88.241:8080/";;
+    apiEndpoint = "http://192.168.88.241:8080/";
     envSecret = "services/attic/env";
     openFirewall = true; # restrict to LAN/docker subnet if you can
   };
