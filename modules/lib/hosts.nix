@@ -22,21 +22,21 @@
     common
     connectivity
     services
-    management
-    nixBuilder
+    nixbuilder
     base
     ssh
-    git
+    dev-git
     timelock
     sunshine
     healthcheck
     power
     samba
-    bitwardenBackup
+    bitwarden-backup
     hardware-gpus
     hardware-cachyosKernel
     hardware-peripherals
-    hardware-virtualization
+    dev-virtualization
+    dev-android
     hardware-mdadm
   ];
 in {

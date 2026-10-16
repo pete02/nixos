@@ -33,13 +33,13 @@
         active_opacity = 1.0
         inactive_opacity = 1.0
         shadow {
-          enabled = true
+          enable = true
           range = 4
           render_power = 3
           color = rgba(1a1a1aee)
         }
         blur {
-          enabled = true
+          enable = true
           size = 3
           passes = 1
           vibrancy = 0.1696
@@ -110,7 +110,7 @@
           };
           weather.unit = "metric";
         };
-        dashboard.directories.enabled = false;
+        dashboard.directories.enable = false;
       };
       theme = {
         bar.transparent = true;

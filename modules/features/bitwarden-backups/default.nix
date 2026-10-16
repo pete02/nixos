@@ -1,8 +1,8 @@
 {self, inputs, ...}:{
-  flake.nixosModules.bitwardenBackup={config, lib, pkgs, ...}:let 
-    bitwardenBackup = self.lib.mkScript pkgs {
-        name = "bitwardenBackup";
-        src = ./bitwardenBackup.sh;
+  flake.nixosModules.bitwarden-backup={config, lib, pkgs, ...}:let 
+    bitwarden-backup = self.lib.mkScript pkgs {
+        name = "bitwarden-backup";
+        src = ./bitwarden-backup.sh;
         runtimeInputs = with pkgs; [
           docker
           zip
@@ -14,7 +14,7 @@
         ];
       };
   in {
-    options.bitwardenBackup = {
+    options.bitwarden-backup = {
       enable = lib.mkEnableOption "Bitwarden backup to Google Drive";
 
       dataDir = lib.mkOption {
@@ -41,7 +41,7 @@
 
       remote = lib.mkOption {
         type = lib.types.str;
-        default = "gdrive:bitwardenBackups";
+        default = "gdrive:bitwarden-backups";
         description = "rclone destination as remote:folder. The part before the colon names the remote.";
       };
 
@@ -71,25 +71,25 @@
         description = "systemd OnCalendar expression for when to run.";
       };
     };
-    config= lib.mkIf config.bitwardenBackup.enable {
-        systemd.services.bitwardenBackup = {
+    config= lib.mkIf config.bitwarden-backup.enable {
+        systemd.services.bitwarden-backup = {
           environment = {
-            DATA_DIR = config.bitwardenBackup.dataDir;
-            CONTAINER_NAME = config.bitwardenBackup.containerName; 
-            RCLONE_REMOTE = config.bitwardenBackup.remote;
-            KEEP = toString config.bitwardenBackup.keep;
-            RCLONE_CONFIG = config.bitwardenBackup.rcloneConfigFile;
-            NTFY_URL = config.bitwardenBackup.ntfyUrl;
+            DATA_DIR = config.bitwarden-backup.dataDir;
+            CONTAINER_NAME = config.bitwarden-backup.containerName; 
+            RCLONE_REMOTE = config.bitwarden-backup.remote;
+            KEEP = toString config.bitwarden-backup.keep;
+            RCLONE_CONFIG = config.bitwarden-backup.rcloneConfigFile;
+            NTFY_URL = config.bitwarden-backup.ntfyUrl;
           };
           after = ["network-online.target"];
           wants = ["network-online.target"];
 
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${bitwardenBackup}/bin/bitwardeBbackup";
+            ExecStart = "${bitwarden-backup}/bin/bitwardeBbackup";
           };
 
-          startAt = config.bitwardenBackup.schedule;
+          startAt = config.bitwarden-backup.schedule;
         };
       };
   };

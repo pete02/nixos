@@ -27,12 +27,15 @@
     hostname = "talia";
     connectivity = {
       bluetooth = true;
-      wireless = true;
+      wifi.enable = true;
     };
     ssh.client=true;
-    git=true;
-    management = {
+    
+    dev = {
+      enable=true;
+      vscode=true;
       ld = true;
+      git=true;
     };
 
     common-tools.books = true;

@@ -122,11 +122,11 @@ ensure_client() {
                 name: $name,
                 ids: [$mac, $ip],
                 use_global_settings: false,
-                filtering_enabled: true,
-                parental_enabled: false,
-                safebrowsing_enabled: false,
+                filtering_enable: true,
+                parental_enable: false,
+                safebrowsing_enable: false,
                 safe_search: {
-                    enabled: true,
+                    enable: true,
                     bing: true,
                     duckduckgo: true,
                     ecosia: true,
@@ -145,12 +145,12 @@ ensure_client() {
 }
 
 update_client() {
-    local enabled="$1"
+    local enable="$1"
     local client="$2"
 
     echo "$client" |
         jq \
-            --argjson enabled "$enabled" \
+            --argjson enable "$enable" \
             --arg mac "$CLIENT_MAC" \
             --arg ip "$CLIENT_IP" '
             .ids = (
@@ -159,16 +159,16 @@ update_client() {
                 | unique
             )
             | .use_global_settings = false
-            | .parental_enabled = $enabled
+            | .parental_enable = $enable
             | .safe_search = {
-                enabled: $enabled,
-                bing: $enabled,
-                duckduckgo: $enabled,
-                ecosia: $enabled,
-                google: $enabled,
-                pixabay: $enabled,
-                yandex: $enabled,
-                youtube: $enabled
+                enable: $enable,
+                bing: $enable,
+                duckduckgo: $enable,
+                ecosia: $enable,
+                google: $enable,
+                pixabay: $enable,
+                yandex: $enable,
+                youtube: $enable
             }
         ' |
         jq --arg name "$CLIENT_NAME" '{
@@ -198,19 +198,19 @@ show_status() {
 
     echo "$client" | jq -r '
         "Filtering:   \(
-            if .filtering_enabled == true then "ON"
+            if .filtering_enable == true then "ON"
             else "OFF"
             end
         )",
 
         "Parental:    \(
-            if .parental_enabled == true then "ON"
+            if .parental_enable == true then "ON"
             else "OFF"
             end
         )",
 
         "Safe Search: \(
-            if .safe_search.enabled == true then "ON"
+            if .safe_search.enable == true then "ON"
             else "OFF"
             end
         )",

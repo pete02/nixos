@@ -67,7 +67,7 @@
           {
             assertion =
               lib.count lib.id [cfg.nvidia cfg.nvidia-legacy cfg.amd] <= 1;
-            message = "peripherals: only one of `nvidia`, `nvidia-legacy` and `amd` can be enabled at a time.";
+            message = "peripherals: only one of `nvidia`, `nvidia-legacy` and `amd` can be enable at a time.";
           }
         ];
       }

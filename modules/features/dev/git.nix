@@ -1,10 +1,10 @@
 {self,inputs,...}:{
-  flake.nixosModules.git={
+  flake.nixosModules.dev-git={
     config,lib,pkgs,...
   }:{
-    options.git=lib.mkEnableOption "enables git client";
+    options.dev.git=lib.mkEnableOption "enables git client";
     
-    config=lib.mkIf (config.git) {
+    config=lib.mkIf (config.dev.git) {
         environment.systemPackages = [
           pkgs.git
         ];

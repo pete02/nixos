@@ -11,9 +11,11 @@
   }: {
 
     username = "pete";
-
-    management.ld = true;
-    git=true;
+    dev={
+      enable=true;
+      ld=true;
+      git=true;
+    };
 
     common-tools.books = true;
 
@@ -34,7 +36,7 @@
       };
     };
 
-    bitwardenBackup = {
+    bitwarden-backup = {
       enable = true;
       dataDir = "/mnt/server/Serversetup/data/vaultwarden";
       containerName = "vaultwarden";
@@ -48,7 +50,6 @@
 
     sambaTimelock.server=true;
     samba.server=true;
-
 
     services = {
       cleaner = true;

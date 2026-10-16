@@ -12,7 +12,6 @@
     hardware.keyboard.qmk.enable = true;
     services.udev.packages = with pkgs; [
       via
-      android-tools
     ];
 
     username = "pete";
@@ -30,18 +29,23 @@
 
     connectivity = {
       bluetooth = true;
-      wireless = true;
+      wifi.enable = true;
     };
     ssh.client=true;
-    git=true;
-    management = {
-      ld = true;
-    };
+
     sambaTimelock.client=true;
 
     common-tools.books = true;
     sunshine.enable = true;
     samba.client=true;
+
+    dev={
+      enable=true;
+      vscode=true;
+      android=true;
+      ld=true;
+      git=true;
+    };
 
 
     services = {
@@ -50,7 +54,6 @@
       autoUpdate = true;
     };
 
-    users.users.pete.extraGroups = ["adbusers"];
 
     hyprlandExtraConfig = ''
       monitor = desc:Dell Inc. AW3425DW DD5H274, 3440x1440@175, 0x0, 1, bitdepth, 10

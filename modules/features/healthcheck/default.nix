@@ -2,7 +2,7 @@
   flake.nixosModules.healthcheck={
     pkgs, config, lib, ...
   }:let 
-      healthCheck = self.lib.mkScript pkgs {
+      health-check = self.lib.mkScript pkgs {
         name = "health_check";
         src = ./scripts/healthcheck.sh;
         runtimeInputs = with pkgs; [
@@ -14,9 +14,9 @@
           gnused
         ];
       };
-      mdadmCheck = self.lib.mkScript pkgs {
-        name = "mdadm_check";
-        src = ./scripts/mdadm_check.sh;
+      mdadm-check = self.lib.mkScript pkgs {
+        name = "mdadm-check";
+        src = ./scripts/mdadm-check.sh;
         runtimeInputs = with pkgs; [
           curl
           coreutils
@@ -27,9 +27,9 @@
           mkdir -p "$SYS/block"
         '';
       };
-      bcachefsCheck = self.lib.mkScript pkgs {
-        name = "bcachefs_check";
-        src = ./scripts/bcachefs_check.sh;
+      bcachefs-check = self.lib.mkScript pkgs {
+        name = "bcachefs-check";
+        src = ./scripts/bcachefs-check.sh;
         runtimeInputs = with pkgs; [
           bcachefs-tools
           curl
@@ -86,7 +86,7 @@
             };
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${healthCheck}/bin/health_check";
+              ExecStart = "${health-check}/bin/health_check";
               LogsDirectory = "health-check"; # /var/log/health-check, matches the script's default
             };
             startAt = config.health-check.schedule;
@@ -102,7 +102,7 @@
             };
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${mdadmCheck}/bin/mdadm_check";
+              ExecStart = "${mdadm-check}/bin/mdadm-check";
               LogsDirectory = "health-check";
             };
             startAt = "daily";
@@ -118,7 +118,7 @@
 
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${bcachefsCheck}/bin/bcachefs_check";
+              ExecStart = "${bcachefs-check}/bin/bcachefs-check";
               LogsDirectory = "health-check";
             };
 

@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.hardware-virtualization = {
+  flake.nixosModules.dev-virtualization = {
     pkgs,
     config,
     lib,
