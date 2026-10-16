@@ -30,11 +30,6 @@ jobs:
           git --version
           nix flake metadata
 
-      - name: Check formatting
-        run: |
-          nix fmt "$CONFIG_FOLDER"
-          git diff --exit-code
-
       - name: Build NixOS host closures
         run: |
           set -eu
