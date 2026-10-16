@@ -22,10 +22,9 @@ jobs:
 
     env:
       CONFIG_FOLDER: "."
-      ATTIC_URL: http://192.168.88.241:8080
       NIX_CONFIG: |
-        extra-substituters = http://192.168.88.241:8080/main
-        extra-trusted-public-keys = main:i1t81gc6fOtVfDvKgpiL1LG5HjrWF7AtHD21rmbr1OI=
+        extra-substituters = ${{ vars.ATTIC_URL }}/nixos
+        extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
         netrc-file = /tmp/netrc-attic
 
     steps:
@@ -41,6 +40,7 @@ jobs:
           printf 'machine %s login attic-token password %s\n' \
             "$host" "$ATTIC_TOKEN" > /tmp/netrc-attic
           nix store info --store http://192.168.88.241:8080/main
+
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -105,5 +105,6 @@ jobs:
           [ -s /tmp/out-paths ] || exit 0
           server="${ATTIC_URL%/*}"      # http://aria.local:8080
           cache="${ATTIC_URL##*/}"      # main
+          echo "${server}/${cache}"
           attic login ci "$server" "$ATTIC_TOKEN"
           xargs attic push "ci:$cache" < /tmp/out-paths
