@@ -57,8 +57,7 @@ jobs:
             --output /tmp/attic-cache-info \
             --write-out 'HTTP status: %{http_code}\n' \
             "$ATTIC_URL/nix-cache-info"
-
-    cat /tmp/attic-cache-info
+          cat /tmp/attic-cache-info
       - name: Checkout
         uses: actions/checkout@v4
 
