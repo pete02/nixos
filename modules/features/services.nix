@@ -33,27 +33,6 @@
         };
       })
 
-      (lib.mkIf (config.services.gitops) {
-        systemd.services.gitops = {
-          description = "Check remote NixOS config repo for updates";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${self.packages.${system}.gitops}/bin/gitops";
-          };
-        };
-
-        systemd.timers.gitops = {
-          description = "Timer for auto-updating NixOS from git";
-          wantedBy = ["timers.target"];
-          timerConfig = {
-            OnBootSec = "5m";
-            OnUnitActiveSec = "1h";
-            RandomizedDelaySec = "10m";
-            Persistent = true;
-          };
-        };
-      })
-
 
       (lib.mkIf config.services.sync {
         environment.systemPackages = [pkgs.rsync];

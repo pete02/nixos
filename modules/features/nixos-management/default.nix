@@ -1,6 +1,6 @@
 {self, inputs,...}:{
-  flake.nixosModules.nixos-management={}:let 
-    update=mkScript {
+  flake.nixosModules.nixos-management={lib,pkgs,config,...}:let 
+    update=self.lib.mkScript pkgs {
       name = "update";
       src = ./scripts/update.sh;
 
@@ -12,7 +12,7 @@
         REPOSITORY = "ssh://git@git.lumilukko.com:2222/Pete/nixos.git";
       };
     };
-    gitops = mkScript {
+    gitops = self.lib.mkScript pkgs {
       name = "gitops";
       src = ./scripts/gitops.sh;
 
@@ -22,7 +22,7 @@
       ];
     };
 
-    rebuild = mkScript {
+    rebuild = self.lib.mkScript pkgs {
       name = "rebuild";
       src = ./scripts/rebuild.sh;
       runtimeInputs = with pkgs; [
@@ -38,6 +38,7 @@
   in {
     options.nixos-management={
       auto-update=lib.mkEnableOption "Enables flake autoupdater";
+      gitops=lib.mkEnableOption "Enables nixos-gitops";
     };
     config=lib.mkMerge [
       ({
@@ -68,12 +69,12 @@
         };
       })
 
-      (lib.mkIf (config.services.gitops) {
+      (lib.mkIf (config.nixos-management.gitops) {
         systemd.services.gitops = {
           description = "Check remote NixOS config repo for updates";
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${self.packages.${system}.gitops}/bin/gitops";
+            ExecStart = "${gitops}/bin/gitops";
           };
         };
 

@@ -31,6 +31,7 @@
     samba
     hardware
     bitwarden-backup
+    nixos-management
   ];
 in {
   flake.lib.hosts = hosts;

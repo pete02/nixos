@@ -34,6 +34,7 @@
 
   nixos-management={
     auto-update=true;
+    gitops = true;
   };
 
   bitwarden-backup = {
@@ -53,6 +54,6 @@
 
   services = {
     cleaner = true;
-    gitops = true;
+    
   };
 }
