@@ -21,8 +21,18 @@ jobs:
       NIX_CONFIG: |
         extra-substituters = ${{ vars.ATTIC_URL }}
         extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
+        netrc-file = /tmp/netrc-attic
 
     steps:
+      - name: Configure cache credentials
+        env:
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+          ATTIC_URL: ${{ vars.ATTIC_URL }}
+        run: |
+          host="${ATTIC_URL#*://}"; host="${host%%[:/]*}"
+          umask 077
+          printf 'machine %s password %s\n' "$host" "$ATTIC_TOKEN" > /tmp/netrc-attic
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -84,7 +94,7 @@ jobs:
           ATTIC_URL: ${{ vars.ATTIC_URL }}
         run: |
           [ -s /tmp/out-paths ] || exit 0
-          server="${ATTIC_URL%/*}"      # http://aria.lan:8080
+          server="${ATTIC_URL%/*}"      # http://aria.local:8080
           cache="${ATTIC_URL##*/}"      # main
           attic login ci "$server" "$ATTIC_TOKEN"
           xargs attic push "ci:$cache" < /tmp/out-paths

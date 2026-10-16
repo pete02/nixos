@@ -50,7 +50,7 @@
 
   nixbuilders.cache.server = {
     enable = true;
-    apiEndpoint = "http://aria.lan:8080/";
+    apiEndpoint = "http://aria.local:8080/";
     envSecret = "services/attic/env";
     openFirewall = true; # restrict to LAN/docker subnet if you can
   };
