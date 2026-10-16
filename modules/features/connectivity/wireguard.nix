@@ -1,10 +1,19 @@
-{self,inputs,...}:{
-  flake.nixosModules.connectivity-wireguard={config, lib,pkgs, ...}:{
-     options = {
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.connectivity-wireguard = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
+    options = {
       connectivity.wireguard = lib.mkEnableOption "wireguard";
     };
 
-    config =lib.mkIf config.connectivity.wireguard {
+    config = lib.mkIf config.connectivity.wireguard {
       sops.secrets."services/wireguard/private_key" = {
         owner = "systemd-network";
         group = "systemd-network";

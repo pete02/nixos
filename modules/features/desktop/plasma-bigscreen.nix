@@ -1,4 +1,3 @@
-
 {
   self,
   inputs,
@@ -55,10 +54,9 @@
 in {
   flake.mkPlasmaBigscreenPkg = mkPlasmaBigscreenPkg;
 
-  flake.packages.x86_64-linux.plasmaBigscreen =
-    mkPlasmaBigscreenPkg {
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-    };
+  flake.packages.x86_64-linux.plasmaBigscreen = mkPlasmaBigscreenPkg {
+    pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+  };
 
   flake.nixosModules.desktop-plasma-bigscreen = {
     config,

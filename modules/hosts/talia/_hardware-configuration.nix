@@ -100,4 +100,3 @@
     timerConfig.Unit = "firewall.service";
   };
 }
-

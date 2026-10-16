@@ -4,7 +4,6 @@
   config,
   ...
 }: {
-
   environment.systemPackages = with pkgs; [
     via
     rstudio
@@ -20,20 +19,20 @@
   connectivity = {
     bluetooth = true;
     wifi.enable = true;
-    mDNS=true;
+    mDNS = true;
   };
-  ssh.client=true;
-  
+  ssh.client = true;
+
   dev = {
-    enable=true;
-    vscode=true;
+    enable = true;
+    vscode = true;
     ld = true;
-    git=true;
+    git = true;
   };
 
   common-tools.books = true;
   common-tools.school = true;
-  samba.client=true;
+  samba.client = true;
   desktop = {
     enable = true;
     services = {
@@ -72,4 +71,3 @@
     };
   };
 }
-

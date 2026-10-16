@@ -1,6 +1,11 @@
-
-{ ... }: {
-  flake.nixosModules.desktop-services = {pkgs,self,lib ,config, ...}: let 
+{...}: {
+  flake.nixosModules.desktop-services = {
+    pkgs,
+    self,
+    lib,
+    config,
+    ...
+  }: let
     sync = self.lib.mkScript pkgs {
       name = "sync";
       src = ./sync.sh;
@@ -10,15 +15,15 @@
       ];
     };
   in {
-    options.desktop={
-      enable=lib.mkEnableOption "Enables desktop";
-      services={
+    options.desktop = {
+      enable = lib.mkEnableOption "Enables desktop";
+      services = {
         cleaner = lib.mkEnableOption "Enable the cleaner service";
         sync = lib.mkEnableOption "Enable syncing to server";
       };
     };
-    config= lib.mkMerge[
-      (lib.mkIf config.desktop.enable{
+    config = lib.mkMerge [
+      (lib.mkIf config.desktop.enable {
         environment.systemPackages = with pkgs; [
           kitty
           mako

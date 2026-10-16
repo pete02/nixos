@@ -1,10 +1,18 @@
-{self,inputs,...}:{
-  flake.nixosModules.connectivity-bluetooth={config, lib, ...}:{
-     options = {
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.connectivity-bluetooth = {
+    config,
+    lib,
+    ...
+  }: {
+    options = {
       connectivity.bluetooth = lib.mkEnableOption "bluetooth";
     };
 
-    config =lib.mkIf config.connectivity.bluetooth {
+    config = lib.mkIf config.connectivity.bluetooth {
       hardware.bluetooth = {
         enable = true;
         powerOnBoot = true;

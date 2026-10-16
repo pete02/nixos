@@ -1,6 +1,10 @@
-
-{ ... }: {
-  flake.nixosModules.gaming-performance = { lib, pkgs, config, ... }: {
+{...}: {
+  flake.nixosModules.gaming-performance = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: {
     options.gaming.performance =
       lib.mkEnableOption "Gaming performance tools";
 

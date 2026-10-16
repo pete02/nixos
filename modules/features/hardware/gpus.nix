@@ -58,7 +58,6 @@
       nvidia = lib.mkEnableOption "NVIDIA GPU (stable driver)";
       nvidia-legacy = lib.mkEnableOption "NVIDIA GPU (legacy driver for GTX 900/1000 series)";
       amd = lib.mkEnableOption "AMD GPU";
-
     };
 
     config = lib.mkMerge [
@@ -94,7 +93,7 @@
             blacklistedKernelModules = nvidiaKernelModules;
           };
         }
-      ]))    
+      ]))
     ];
   };
 }

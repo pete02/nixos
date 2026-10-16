@@ -1,4 +1,8 @@
-{lib, config, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
     fsType = "ext4";
@@ -30,7 +34,7 @@
   hardware.enableRedistributableFirmware = true;
   peripherals.nvidia = true;
   peripherals.logitech = true;
-  filesystems.mdadm=true;
-  cachyosKernel=true;
+  filesystems.mdadm = true;
+  cachyosKernel = true;
   system.stateVersion = "25.05";
 }

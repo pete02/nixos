@@ -1,5 +1,10 @@
-{ ... }: {
-  flake.nixosModules.gaming-graphics = { lib, pkgs, config, ... }: {
+{...}: {
+  flake.nixosModules.gaming-graphics = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: {
     options.gaming.graphics =
       lib.mkEnableOption "Gaming graphics utilities";
 

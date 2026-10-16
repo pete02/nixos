@@ -1,9 +1,15 @@
-{self, inputs, ...}:{
-  flake.nixosModules.timelock={
-    lib, pkgs, config, ...
-  }:
-  let 
-    cfg=config.sambaTimelock;
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.timelock = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: let
+    cfg = config.sambaTimelock;
     raysha-filter = self.lib.mkScript pkgs {
       name = "raysha-filter";
       src = ./scripts/agh-filter.sh;
@@ -39,25 +45,25 @@
         CLIENT_MAC = "2C:CF:67:DA:15:86";
       };
     };
-          preexec = self.lib.mkScript pkgs {
-        name = "preexec";
-        src = ./scripts/preexec.sh;
+    preexec = self.lib.mkScript pkgs {
+      name = "preexec";
+      src = ./scripts/preexec.sh;
 
-        runtimeInputs = with pkgs; [
-          coreutils
-          logger
-          raysha-filter
-          alanna-filter
-        ];
+      runtimeInputs = with pkgs; [
+        coreutils
+        logger
+        raysha-filter
+        alanna-filter
+      ];
 
-        substitutions = {
-          STATE_DIR = "/var/lib/samba-timelock";
-          COOLDOWN_SECS = "${toString (72 * 60 * 60)}";
-          CUTOFF_HOUR = "${toString 23}";
-        };
+      substitutions = {
+        STATE_DIR = "/var/lib/samba-timelock";
+        COOLDOWN_SECS = "${toString (72 * 60 * 60)}";
+        CUTOFF_HOUR = "${toString 23}";
       };
+    };
 
-    postexec = self.lib.mkScript pkgs{
+    postexec = self.lib.mkScript pkgs {
       name = "postexec";
       src = ./scripts/postexec.sh;
 
@@ -94,17 +100,15 @@
         CUTOFF_HOUR = "${toString 23}";
       };
     };
-
-  in 
-  {
-    options.sambaTimelock={
-      server= lib.mkEnableOption "enables timelock server";
-      client= lib.mkEnableOption "enables timelock server";
+  in {
+    options.sambaTimelock = {
+      server = lib.mkEnableOption "enables timelock server";
+      client = lib.mkEnableOption "enables timelock server";
     };
 
-    config =lib.mkMerge[
-      (lib.mkIf (cfg.server){
-        environment.systemPackages=[
+    config = lib.mkMerge [
+      (lib.mkIf (cfg.server) {
+        environment.systemPackages = [
           alanna-filter
           raysha-filter
         ];
@@ -180,7 +184,7 @@
         };
       })
 
-      (lib.mkIf (cfg.client){
+      (lib.mkIf (cfg.client) {
         systemd.tmpfiles.rules = [
           "d /mnt/timelock 0755 pete pete -"
         ];

@@ -1,6 +1,15 @@
-{ pkgs, lib, ... }: {
-  flake.nixosModules.gaming-steam={lib,pkgs,config,...}:{
-    options.gaming.steam= lib.mkEnableOption "Enables Steam";
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  flake.nixosModules.gaming-steam = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: {
+    options.gaming.steam = lib.mkEnableOption "Enables Steam";
     config = lib.mkIf config.gaming.steam {
       programs.steam = {
         enable = true;

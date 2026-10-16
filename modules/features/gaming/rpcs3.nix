@@ -1,6 +1,14 @@
-
-{ self,inputs, ... }: {
-  flake.nixosModules.gaming-rpcs3 = { lib, pkgs, config, ... }: {
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.gaming-rpcs3 = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: {
     options.gaming.rpcs3 =
       lib.mkEnableOption "RPCS3 PlayStation 3 emulator";
 

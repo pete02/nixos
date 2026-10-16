@@ -1,9 +1,17 @@
-{self, inputs, lib,...}:{
-  flake.nixosModules.power={
-    lib,config,pkgs,...
-  }:{
+{
+  self,
+  inputs,
+  lib,
+  ...
+}: {
+  flake.nixosModules.power = {
+    lib,
+    config,
+    pkgs,
+    ...
+  }: {
     options.powersave = lib.mkEnableOption "Enable power saving";
-    config=lib.mkIf (config.powersave) {
+    config = lib.mkIf (config.powersave) {
       environment.systemPackages = with pkgs; [
         tlp
       ];

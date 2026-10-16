@@ -8,7 +8,8 @@
   }: let
     script = pkgs.writeShellApplication {
       inherit name runtimeInputs;
-      text = lib.replaceStrings
+      text =
+        lib.replaceStrings
         (map (k: "@${k}@") (builtins.attrNames substitutions))
         (builtins.attrValues substitutions)
         (builtins.readFile src);

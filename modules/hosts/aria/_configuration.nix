@@ -4,12 +4,11 @@
   config,
   ...
 }: {
-
   username = "pete";
-  dev={
-    enable=true;
-    ld=true;
-    git=true;
+  dev = {
+    enable = true;
+    ld = true;
+    git = true;
   };
 
   common-tools.books = true;
@@ -32,8 +31,8 @@
     };
   };
 
-  nixos-management={
-    auto-update=true;
+  nixos-management = {
+    auto-update = true;
     gitops = true;
   };
 
@@ -49,7 +48,12 @@
     kitty.terminfo
   ];
 
-  sambaTimelock.server=true;
-  samba.server=true;
+  nixbuilders.cache.server = {
+    enable = true;
+    apiEndpoint = "http://aria.lan:8080/";
+    openFirewall = true; # restrict to LAN/docker subnet if you can
+  };
 
+  sambaTimelock.server = true;
+  samba.server = true;
 }

@@ -1,5 +1,13 @@
-{self,inputs,...}:{
-  flake.nixosModules.connectivity-wired={config, lib, ...}:{
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.connectivity-wired = {
+    config,
+    lib,
+    ...
+  }: {
     options = {
       connectivity = {
         managed = {
@@ -32,7 +40,7 @@
       };
     };
 
-    config =lib.mkIf config.connectivity.managed.enable {
+    config = lib.mkIf config.connectivity.managed.enable {
       assertions =
         [
           {

@@ -1,9 +1,5 @@
-
-{ lib, ... }: {
-  flake.nixosModules.desktop-selection = {
-    config,
-    ...
-  }: {
+{lib, ...}: {
+  flake.nixosModules.desktop-selection = {config, ...}: {
     assertions = [
       {
         assertion =
@@ -12,7 +8,8 @@
               config.desktop.hyprland.enable
               config.desktop.plasma-bigscreen.enable
             ]
-          ) <= 1;
+          )
+          <= 1;
 
         message = ''
           Only one desktop environment can be enabled at a time.

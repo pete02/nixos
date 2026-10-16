@@ -5,8 +5,8 @@
     lib,
     ...
   }: {
-    options.filesystems.mdadm=lib.mkEnableOption "enables MDADM";
-    config= lib.mkIf config.filesystems.mdadm{
+    options.filesystems.mdadm = lib.mkEnableOption "enables MDADM";
+    config = lib.mkIf config.filesystems.mdadm {
       environment.systemPackages = with pkgs; [
         mdadm
       ];

@@ -1,6 +1,10 @@
-
-{ ... }: {
-  flake.nixosModules.gaming-compatibility = { lib, pkgs, config, ... }: {
+{...}: {
+  flake.nixosModules.gaming-compatibility = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: {
     options.gaming.compatibility =
       lib.mkEnableOption "Gaming compatibility tools";
 

@@ -1,13 +1,19 @@
-{self,inputs,...}:
 {
-  flake.nixosModules.samba={
-    lib,config,pkgs,...
-  }:{
-    options.samba={
-      server= lib.mkEnableOption "enables timelock server";
-      client= lib.mkEnableOption "enables timelock server";
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.samba = {
+    lib,
+    config,
+    pkgs,
+    ...
+  }: {
+    options.samba = {
+      server = lib.mkEnableOption "enables timelock server";
+      client = lib.mkEnableOption "enables timelock server";
     };
-    config=lib.mkMerge [
+    config = lib.mkMerge [
       (lib.mkIf config.samba.client {
         systemd.tmpfiles.rules = [
           "d /mnt/router 0755 pete pete -"

@@ -1,5 +1,4 @@
-
-{ ... }: {
+{...}: {
   flake.nixosModules.desktop-display-manager = {
     config,
     lib,
@@ -67,7 +66,8 @@
         assertions = [
           {
             assertion =
-              cfg.backend != "greetd"
+              cfg.backend
+              != "greetd"
               || cfg.sessionCommand != "";
             message = ''
               displayManager.sessionCommand must be set when
@@ -76,7 +76,8 @@
           }
           {
             assertion =
-              cfg.backend != "sddm"
+              cfg.backend
+              != "sddm"
               || cfg.sessionName != "";
             message = ''
               displayManager.sessionName must be set when
@@ -90,17 +91,19 @@
         services.greetd = {
           enable = true;
 
-          settings = {
-            default_session = {
-              command = cfg.greeterCommand;
-              user = "greeter";
+          settings =
+            {
+              default_session = {
+                command = cfg.greeterCommand;
+                user = "greeter";
+              };
+            }
+            // lib.optionalAttrs cfg.autoLogin {
+              initial_session = {
+                command = cfg.sessionCommand;
+                user = cfg.user;
+              };
             };
-          } // lib.optionalAttrs cfg.autoLogin {
-            initial_session = {
-              command = cfg.sessionCommand;
-              user = cfg.user;
-            };
-          };
         };
       })
 
@@ -113,7 +116,7 @@
 
           sessionPackages =
             lib.optional (cfg.sessionPackage != null)
-              cfg.sessionPackage;
+            cfg.sessionPackage;
 
           defaultSession = cfg.sessionName;
 

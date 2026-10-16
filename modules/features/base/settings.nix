@@ -1,6 +1,15 @@
-{self, inputs, ...}:{
-  flake.nixosModules.base-settings={lib,pkgs,config, ...}:{
-    options={
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.base-settings = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: {
+    options = {
       username = lib.mkOption {
         type = lib.types.str;
         description = "The username of the main user";
@@ -12,7 +21,7 @@
       };
     };
 
-    config={
+    config = {
       environment.systemPackages = with pkgs; [
         vim
         git
@@ -46,7 +55,6 @@
       networking.hostName = config.hostname;
 
       nixpkgs.config.allowUnfree = true;
-
 
       nix.gc = {
         automatic = true;

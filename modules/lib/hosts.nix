@@ -1,4 +1,9 @@
-{self, inputs, lib, ...}: let
+{
+  self,
+  inputs,
+  lib,
+  ...
+}: let
   # Facts about each machine that other modules read (ssh, builders).
   # Adding a machine: add it here, and add modules/hosts/<name>/.
   rawHosts = {
@@ -7,10 +12,9 @@
     talia.sshServer = true;
   };
 
-  hosts =
-    lib.mapAttrs (_: host:
-      host // {sshServer = host.sshServer or false || host.buildServer or false;})
-    rawHosts;
+  hosts = lib.mapAttrs (_: host:
+    host // {sshServer = host.sshServer or false || host.buildServer or false;})
+  rawHosts;
 
   # Imported into EVERY host. Each of these must be harmless when its
   # options are off (everything inside mkIf), or be wanted on all hosts.

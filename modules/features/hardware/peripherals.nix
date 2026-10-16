@@ -16,7 +16,6 @@
     };
 
     config = lib.mkMerge [
-
       # Logitech Device Support
       (lib.mkIf config.peripherals.logitech {
         environment.systemPackages = with pkgs; [

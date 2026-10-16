@@ -8,29 +8,28 @@
     config,
     pkgs,
     ...
-  }:
-  let
+  }: let
     cfg = config.desktop.wayle;
 
-    extraToml = pkgs.writeText
+    extraToml =
+      pkgs.writeText
       "wayle-extra.toml"
       cfg.extraConfig;
 
     wayleConfig = pkgs.runCommand "wayle-config" {} ''
-      mkdir -p "$out"
+            mkdir -p "$out"
 
-      cp ${./base.toml} "$out/base.toml"
-      cp ${extraToml} "$out/extra.toml"
+            cp ${./base.toml} "$out/base.toml"
+            cp ${extraToml} "$out/extra.toml"
 
-      cat > "$out/config.toml" <<'EOF'
-imports = [
-  "base.toml",
-  "extra.toml",
-]
-EOF
+            cat > "$out/config.toml" <<'EOF'
+      imports = [
+        "base.toml",
+        "extra.toml",
+      ]
+      EOF
     '';
-  in
-  {
+  in {
     options.desktop.wayle = {
       enable = lib.mkEnableOption "Wayle desktop shell";
 

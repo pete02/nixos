@@ -10,7 +10,7 @@
     kernelPackages = pkgs.linuxPackagesFor kernel;
   in {
     options.cachyosKernel = lib.mkEnableOption "Enable cachyos kernel";
-    config= lib.mkIf config.cachyosKernel{
+    config = lib.mkIf config.cachyosKernel {
       boot.kernelPackages = kernelPackages;
       boot.extraModulePackages = [kernelPackages.r8125];
     };

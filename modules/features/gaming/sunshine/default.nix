@@ -1,37 +1,40 @@
-{self, inputs, ...}:
 {
-  flake.nixosModules.gaming-sunshine={
-    lib,pkgs,config,...
-  }:
-  let 
-    sunshine-start= self.lib.mkScript pkgs{
-      name= "sunshine-start";
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.gaming-sunshine = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: let
+    sunshine-start = self.lib.mkScript pkgs {
+      name = "sunshine-start";
       src = ./scripts/start.sh;
       runtimeInputs = with pkgs; [
         hyprland
       ];
     };
-    sunshine-kill-rpcs3 = self.lib.mkScript pkgs{
+    sunshine-kill-rpcs3 = self.lib.mkScript pkgs {
       name = "sunshine-kill-rpcs3";
       src = ./scripts/kill-rpcs3.sh;
     };
-    sunshine-launch-indy = self.lib.mkScript pkgs{
+    sunshine-launch-indy = self.lib.mkScript pkgs {
       name = "sunshine-launch-indy";
       src = ./scripts/launch-indy.sh;
     };
-    sunshine-stop = self.lib.mkScript pkgs{
+    sunshine-stop = self.lib.mkScript pkgs {
       name = "sunshine-stop";
       src = ./scripts/stop.sh;
       runtimeInputs = with pkgs; [
         hyprland
       ];
     };
-  in 
-  {
+  in {
     options.gaming.sunshine = lib.mkEnableOption "Sunshine game streaming";
 
-    config= lib.mkIf config.gaming.sunshine {
-
+    config = lib.mkIf config.gaming.sunshine {
       environment.systemPackages = [
         sunshine-start
         sunshine-stop
@@ -49,24 +52,24 @@
         };
       };
 
-      systemd.user.services.sunshine ={
+      systemd.user.services.sunshine = {
         wantedBy = ["default.target"];
       };
 
-      hardware.uinput.enable =true;
+      hardware.uinput.enable = true;
 
-      users.users.${config.username}.extraGroups= [
+      users.users.${config.username}.extraGroups = [
         "uinput"
       ];
 
-      hardware.firmware =  [
+      hardware.firmware = [
         (pkgs.runCommand "philips-edid" {} ''
           mkdir -p $out/lib/firmware/edid
           cp ${./philips.edid} $out/lib/firmware/edid/philips.bin
         '')
       ];
 
-      boot.kernelParams =  [
+      boot.kernelParams = [
         "drm.edid_firmware=HDMI-A-1:edid/philips.bin"
         "video=HDMI-A-1:e"
       ];

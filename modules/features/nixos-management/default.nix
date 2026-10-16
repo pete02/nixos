@@ -1,6 +1,15 @@
-{self, inputs,...}:{
-  flake.nixosModules.nixos-management={lib,pkgs,config,...}:let 
-    update=self.lib.mkScript pkgs {
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.nixos-management = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: let
+    update = self.lib.mkScript pkgs {
       name = "update";
       src = ./scripts/update.sh;
 
@@ -36,16 +45,16 @@
       ];
     };
   in {
-    options.nixos-management={
-      auto-update=lib.mkEnableOption "Enables flake autoupdater";
-      gitops=lib.mkEnableOption "Enables nixos-gitops";
+    options.nixos-management = {
+      auto-update = lib.mkEnableOption "Enables flake autoupdater";
+      gitops = lib.mkEnableOption "Enables nixos-gitops";
     };
-    config=lib.mkMerge [
-      ({
-        environment.systemPackages=[
+    config = lib.mkMerge [
+      {
+        environment.systemPackages = [
           rebuild
         ];
-      })
+      }
       (lib.mkIf config.nixos-management.auto-update {
         systemd.services.nixos-auto-update = {
           description = "Update flake inputs and rebuild NixOS";
@@ -89,7 +98,6 @@
           };
         };
       })
-
     ];
   };
 }

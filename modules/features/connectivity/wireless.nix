@@ -1,6 +1,14 @@
-{self,inputs,...}:{
-  flake.nixosModules.connectivity-wifi={config, lib, ...}:{
-     options = {
+{
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.connectivity-wifi = {
+    config,
+    lib,
+    ...
+  }: {
+    options = {
       connectivity.wifi = {
         enable = lib.mkEnableOption "wireless via NetworkManager";
         Ssid = lib.mkOption {
@@ -11,7 +19,7 @@
       };
     };
 
-    config =lib.mkIf config.connectivity.wifi.enable {
+    config = lib.mkIf config.connectivity.wifi.enable {
       networking.networkmanager = {
         enable = lib.mkForce true;
         wifi.backend = "wpa_supplicant";
