@@ -55,7 +55,7 @@
           rebuild
         ];
       }
-      
+
       (lib.mkIf config.nixos-management.auto-update {
         systemd.services.nixos-auto-update = {
           description = "Update flake inputs and rebuild NixOS";
@@ -79,7 +79,7 @@
         };
       })
 
-      (lib.mkIf (config.nixos-management.gitops) {
+      (lib.mkIf config.nixos-management.gitops {
         systemd.services.gitops = {
           description = "Check remote NixOS config repo for updates";
           serviceConfig = {
@@ -89,11 +89,11 @@
         };
 
         systemd.timers.gitops = {
-          description = "Timer for auto-updating NixOS from git";
+          description = "Daily GitOps check and startup update";
           wantedBy = ["timers.target"];
           timerConfig = {
             OnBootSec = "5m";
-            OnUnitActiveSec = "1h";
+            OnCalendar = "daily";
             RandomizedDelaySec = "10m";
             Persistent = true;
           };
