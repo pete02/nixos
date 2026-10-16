@@ -41,7 +41,7 @@
     };
           preexec = self.lib.mkScript pkgs {
         name = "preexec";
-        src = ../../scripts/preexec.sh;
+        src = ./scripts/preexec.sh;
 
         runtimeInputs = with pkgs; [
           coreutils
