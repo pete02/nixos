@@ -21,7 +21,7 @@
       sambaClient = lib.mkEnableOption "enables router samba";
       mDNS = lib.mkEnableOption "Enable mDNS service for publishing IP to local network";
       sambaServer = lib.mkEnableOption "enables samba server";
-      sambaTimelock = lib.mkEnableOption "enables timelock server";
+
       health-check = {
         enable = lib.mkEnableOption "scheduled disk and RAM health check";
         devices = lib.mkOption {
@@ -296,31 +296,6 @@
         };
       })
 
-      (lib.mkIf config.services.sambaClient {
-        systemd.tmpfiles.rules = [
-          "d /mnt/timelock 0755 pete pete -"
-        ];
-        environment.systemPackages = [pkgs.cifs-utils];
-        sops.secrets."samba/timelock" = {};
-
-        fileSystems = {
-          "/mnt/timelock" = {
-            device = "//aria.local/timelock/";
-            fsType = "cifs";
-            options = [
-              "noauto"
-              "user"
-              "x-systemd.device-timeout=5s"
-              "x-systemd.mount-timeout=5s"
-              "credentials=/run/secrets/samba/timelock"
-              "vers=3.0"
-              "uid=1000"
-              "gid=1000"
-            ];
-          };
-        };
-      })
-
       (lib.mkIf config.services.sambaServer {
         sops.secrets."samba/server" = {};
         services.samba = {
@@ -423,83 +398,11 @@
         };
       })
 
-      (lib.mkIf config.services.sambaTimelock {
-        sops.secrets."samba/timelock" = {};
-        sops.secrets."agh" = {};
-
-        users.users.timelock = {
-          isSystemUser = true;
-          group = "nogroup";
-        };
-
-        systemd.tmpfiles.rules = [
-          "d /var/lib/samba-timelock 0750 root root -"
-        ];
-
-        services.samba = {
-          enable = true;
-          openFirewall = true;
-          settings = {
-            global = {
-              security = "user";
-              "workgroup" = "WORKGROUP";
-            };
-            "timelock" = {
-              path = "/mnt/timelock";
-              browseable = "yes";
-              "read only" = "no";
-              "guest ok" = "no";
-              "create mask" = "0644";
-              "directory mask" = "0755";
-              "force user" = config.username;
-              "force group" = "users";
-
-              "root preexec" = "${self.packages.x86_64-linux.samba-timelock-preexec}/bin/samba-timelock-preexec";
-              "root preexec close" = "yes";
-              "root postexec" = "${self.packages.x86_64-linux.samba-timelock-postexec}/bin/samba-timelock-postexec";
-            };
-          };
-        };
-
-        systemd.services.samba-timelock-credentials = {
-          description = "Set Samba password for timelock share from sops secret";
-          wantedBy = ["multi-user.target"];
-          after = ["samba.service"];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-          };
-          script = ''
-            username=$(grep '^username=' /run/secrets/samba/timelock | cut -d= -f2)
-            password=$(grep '^password=' /run/secrets/samba/timelock | cut -d= -f2)
-            echo -e "$password\n$password" | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
-          '';
-        };
-
-        systemd.services.samba-timelock-enforce = {
-          description = "Enforce samba timelock session limits";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${self.packages.x86_64-linux.samba-timelock-enforce}/bin/samba-timelock-enforce";
-          };
-        };
-
-        systemd.timers.samba-timelock-enforce = {
-          description = "Periodic check for samba timelock enforcement";
-          wantedBy = ["timers.target"];
-          timerConfig = {
-            OnBootSec = "1m";
-            OnUnitActiveSec = "30s";
-            AccuracySec = "5s";
-          };
-        };
-      })
-
       (lib.mkIf config.services.bitwarden-backup.enable {
         systemd.services.bitwarden-backup = {
           environment = {
             DATA_DIR = config.services.bitwarden-backup.dataDir;
-            CONTAINER_NAME = config.services.bitwarden-backup.containerName;
+            CONTAINER_NAME = config.services.bitwarden-backup.containerName; 
             RCLONE_REMOTE = config.services.bitwarden-backup.remote;
             KEEP = toString config.services.bitwarden-backup.keep;
             RCLONE_CONFIG = config.services.bitwarden-backup.rcloneConfigFile;

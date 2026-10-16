@@ -19,7 +19,6 @@
         ];
     };
   in {
-    options.gaming.sunshine.enable = lib.mkEnableOption "Sunshine game streaming";
 
     config = {
       programs.steam = {
@@ -42,12 +41,6 @@
           umu-launcher
           dejavu_fonts
           self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
-        ]
-        ++ lib.optionals cfg.enable [
-          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-start
-          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-stop
-          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-kill-rpcs3
-          self.packages.${pkgs.stdenv.hostPlatform.system}.sunshine-launch-indy
         ];
 
       nixpkgs.config.packageOverrides = pkgs: {
@@ -70,38 +63,6 @@
 
       programs.gamemode.enable = true;
       services.seatd.enable = false;
-
-      hardware.firmware = lib.mkIf cfg.enable [
-        (pkgs.runCommand "philips-edid" {} ''
-          mkdir -p $out/lib/firmware/edid
-          cp ${./files/edid/philips.edid} $out/lib/firmware/edid/philips.bin
-        '')
-      ];
-
-      boot.kernelParams = lib.mkIf cfg.enable [
-        "drm.edid_firmware=HDMI-A-1:edid/philips.bin"
-        "video=HDMI-A-1:e"
-      ];
-
-      services.sunshine = lib.mkIf cfg.enable {
-        enable = true;
-        capSysAdmin = true;
-        openFirewall = true;
-
-        settings = {
-          capture = "wlr";
-        };
-      };
-
-      systemd.user.services.sunshine = lib.mkIf cfg.enable {
-        wantedBy = ["default.target"];
-      };
-
-      hardware.uinput.enable = lib.mkIf cfg.enable true;
-
-      users.users.${config.username}.extraGroups = lib.mkIf cfg.enable [
-        "uinput"
-      ];
     };
   };
 }

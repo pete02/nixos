@@ -51,9 +51,11 @@
       sshClient = true;
       ld = true;
     };
+    sambaTimelock.client=true;
 
     common-tools.books = true;
-    gaming.sunshine.enable = true;
+    sunshine.enable = true;
+    
     services = {
       cleaner = true;
       mDNS = true;

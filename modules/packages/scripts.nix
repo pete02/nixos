@@ -30,65 +30,6 @@
       '';
 
     scripts = rec {
-      sunshine-start = mkScript {
-        name = "sunshine-start";
-        src = ../../scripts/sunshine-start.sh;
-        runtimeInputs = with pkgs; [
-          hyprland
-        ];
-      };
-      sunshine-kill-rpcs3 = mkScript {
-        name = "sunshine-kill-rpcs3";
-        src = ../../scripts/sunshine-kill-rpcs3.sh;
-      };
-      sunshine-launch-indy = mkScript {
-        name = "sunshine-launch-indy";
-        src = ../../scripts/sunshine-launch-indy.sh;
-      };
-      sunshine-stop = mkScript {
-        name = "sunshine-stop";
-        src = ../../scripts/sunshine-stop.sh;
-        runtimeInputs = with pkgs; [
-          hyprland
-        ];
-      };
-
-      raysha-filter = mkScript {
-        name = "raysha-filter";
-        src = ../../scripts/agh-filter.sh;
-
-        runtimeInputs = with pkgs; [
-          curl
-          jq
-          logger
-          glibc.getent
-          gawk
-        ];
-
-        substitutions = {
-          CLIENT_NAME = "raysha.local";
-          CLIENT_MAC = "88:d8:2e:ba:62:29";
-        };
-      };
-
-      alanna-filter = mkScript {
-        name = "alanna-filter";
-        src = ../../scripts/agh-filter.sh;
-
-        runtimeInputs = with pkgs; [
-          curl
-          jq
-          logger
-          glibc.getent
-          gawk
-        ];
-
-        substitutions = {
-          CLIENT_NAME = "alanna.local";
-          CLIENT_MAC = "2C:CF:67:DA:15:86";
-        };
-      };
-
       gitops = mkScript {
         name = "gitops";
         src = ../../scripts/gitops.sh;
@@ -148,62 +89,6 @@
 
         substitutions = {
           CONFIG_FOLDER = "/etc/nixos";
-        };
-      };
-
-      samba-timelock-preexec = mkScript {
-        name = "samba-timelock-preexec";
-        src = ../../scripts/samba-timelock-preexec.sh;
-
-        runtimeInputs = with pkgs; [
-          coreutils
-          logger
-          raysha-filter
-          alanna-filter
-        ];
-
-        substitutions = {
-          STATE_DIR = "/var/lib/samba-timelock";
-          COOLDOWN_SECS = "${toString (72 * 60 * 60)}";
-          CUTOFF_HOUR = "${toString 23}";
-        };
-      };
-
-      samba-timelock-postexec = mkScript {
-        name = "samba-timelock-postexec";
-        src = ../../scripts/samba-timelock-postexec.sh;
-
-        runtimeInputs = with pkgs; [
-          samba
-          logger
-          coreutils
-          raysha-filter
-          alanna-filter
-        ];
-
-        substitutions = {
-          STATE_DIR = "/var/lib/samba-timelock";
-          SHARE_NAME = "timelock";
-        };
-      };
-
-      samba-timelock-enforce = mkScript {
-        name = "samba-timelock-enforce";
-        src = ../../scripts/samba-timelock-enforce.sh;
-
-        runtimeInputs = with pkgs; [
-          samba
-          logger
-          coreutils
-          raysha-filter
-          alanna-filter
-        ];
-
-        substitutions = {
-          STATE_DIR = "/var/lib/samba-timelock";
-          SHARE_NAME = "timelock";
-          MAX_SESSION_SECS = "${toString (90 * 60)}";
-          CUTOFF_HOUR = "${toString 23}";
         };
       };
 

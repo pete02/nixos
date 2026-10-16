@@ -52,10 +52,11 @@
       kitty.terminfo
     ];
 
+    sambaTimelock.server=true;
+
     services = {
       cleaner = true;
       sambaServer = true;
-      sambaTimelock = true;
       gitops = true;
       mDNS = true;
     };

@@ -14,6 +14,8 @@
       self.nixosModules.services
       self.nixosModules.management
       self.nixosModules.nixBuilders
+      self.nixosModules.timelock
+      self.nixosModules.sunshine
     ];
   };
 }
