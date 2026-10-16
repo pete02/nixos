@@ -55,6 +55,7 @@
           rebuild
         ];
       }
+      
       (lib.mkIf config.nixos-management.auto-update {
         systemd.services.nixos-auto-update = {
           description = "Update flake inputs and rebuild NixOS";
@@ -65,13 +66,13 @@
         };
 
         systemd.timers.nixos-auto-update = {
-          description = "Weekly automatic NixOS update";
+          description = "Daily automatic NixOS update at 03:00";
           wantedBy = ["timers.target"];
           after = ["network-online.target"];
           wants = ["network-online.target"];
           timerConfig = {
             OnBootSec = "15m";
-            OnCalendar = "weekly";
+            OnCalendar = "03:00";
             RandomizedDelaySec = "1h";
             Persistent = true;
           };
