@@ -27,7 +27,7 @@
       MAILADDR = "petrik.rasanen@gmail.com";
     };
 
-    services.health-check = {
+    health-check = {
       enable = true;
       devices = ["/dev/sda" "/dev/sdb" "/dev/nvme0n1"];
       bcachefs = {

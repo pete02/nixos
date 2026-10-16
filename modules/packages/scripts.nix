@@ -92,29 +92,7 @@
         };
       };
 
-      healthCheck = mkScript {
-        name = "health_check";
-        src = ../../scripts/healthcheck.sh;
-        runtimeInputs = with pkgs; [
-          smartmontools
-          memtester
-          curl
-          gnugrep
-          coreutils
-          gnused
-        ];
-      };
 
-      bcachefsCheck = mkScript {
-        name = "bcachefs_check";
-        src = ../../scripts/bcachefs_check.sh;
-        runtimeInputs = with pkgs; [
-          bcachefs-tools
-          curl
-          util-linux
-          coreutils
-        ];
-      };
 
       bitwardenBackup = mkScript {
         name = "bitwarden_backup";
@@ -130,19 +108,7 @@
         ];
       };
 
-      mdadmCheck = mkScript {
-        name = "mdadm_check";
-        src = ../../scripts/mdadm_check.sh;
-        runtimeInputs = with pkgs; [
-          curl
-          coreutils
-          gnused
-        ];
-        checkSetup = ''
-          export SYS="$TMPDIR/sys"
-          mkdir -p "$SYS/block"
-        '';
-      };
+
     };
   in {
     packages = scripts;
