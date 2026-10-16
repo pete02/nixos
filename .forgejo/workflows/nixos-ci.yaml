@@ -22,9 +22,10 @@ jobs:
 
     env:
       CONFIG_FOLDER: "."
+      ATTIC_URL: http://192.168.88.241:8080
       NIX_CONFIG: |
-        extra-substituters = ${{ vars.ATTIC_URL }}/nixos
-        extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
+        extra-substituters = http://192.168.88.241:8080/main
+        extra-trusted-public-keys = main:i1t81gc6fOtVfDvKgpiL1LG5HjrWF7AtHD21rmbr1OI=
         netrc-file = /tmp/netrc-attic
 
     steps:
@@ -39,25 +40,8 @@ jobs:
           umask 077
           printf 'machine %s login attic-token password %s\n' \
             "$host" "$ATTIC_TOKEN" > /tmp/netrc-attic
+          nix store info --store http://192.168.88.241:8080/main
 
-
-      - name: Diagnose Attic authentication
-        env:
-          ATTIC_URL: ${{ vars.ATTIC_URL }}/nixos
-        run: |
-          set -eu
-
-          echo "Testing cache endpoint: $ATTIC_URL/nix-cache-info"
-          echo "Netrc file permissions:"
-          stat -c '%a %U:%G %n' /tmp/netrc-attic
-
-          echo "Testing authenticated request..."
-          curl --silent --show-error \
-            --netrc-file /tmp/netrc-attic \
-            --output /tmp/attic-cache-info \
-            --write-out 'HTTP status: %{http_code}\n' \
-            "$ATTIC_URL/nix-cache-info"
-          cat /tmp/attic-cache-info
       - name: Checkout
         uses: actions/checkout@v4
 
