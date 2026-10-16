@@ -32,6 +32,10 @@
     };
   };
 
+  nixos-management={
+    auto-update=true;
+  };
+
   bitwarden-backup = {
     enable = true;
     dataDir = "/mnt/server/Serversetup/data/vaultwarden";

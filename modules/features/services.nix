@@ -55,44 +55,6 @@
       })
 
 
-
-      (lib.mkIf config.services.autoUpdate {
-        systemd.services.nixos-auto-update = {
-          description = "Update flake inputs and rebuild NixOS";
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${self.packages.${system}.update}/bin/update";
-          };
-        };
-
-        systemd.timers.nixos-auto-update = {
-          description = "Weekly automatic NixOS update";
-          wantedBy = ["timers.target"];
-          after = ["network-online.target"];
-          wants = ["network-online.target"];
-          timerConfig = {
-            OnBootSec = "15m";
-            OnCalendar = "weekly";
-            RandomizedDelaySec = "1h";
-            Persistent = true;
-          };
-        };
-      })
-
-      (lib.mkIf (config.services.gpucooler) {
-        systemd.services.gpu-fan-control = {
-          description = "GPU Fan Control Service";
-          wantedBy = ["multi-user.target"];
-          after = ["multi-user.target"];
-
-          serviceConfig = {
-            ExecStart = "${self.packages.${system}.gpu-cooler}/bin/gpu-cooler";
-            Restart = "always";
-            RestartSec = 1;
-          };
-        };
-      })
-
       (lib.mkIf config.services.sync {
         environment.systemPackages = [pkgs.rsync];
         systemd.services.syncrestore = {

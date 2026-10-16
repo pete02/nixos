@@ -9,6 +9,7 @@
       hardware-cachyosKernel
       hardware-peripherals
       hardware-mdadm
+      hardware-gpucooler
     ];
   };
 }
