@@ -62,9 +62,8 @@ missing_expected() {
     done
 }
 
-preflight() {
+check_commands() {
     local verbose=$1 bad=0
-    local -a devices=()
 
     if [[ -n $NTFY_URL ]]; then
         if command -v curl >/dev/null 2>&1; then
@@ -74,19 +73,20 @@ preflight() {
             bad=1
         fi
     elif (( verbose )); then
-        echo "  note     NTFY_URL is empty: alerts are disabled"
+        echo "  note     NTFY_URL is empty: curl not required"
     fi
 
-    if [[ -d $SYS/block ]]; then
-        (( verbose )) && echo "  ok       $SYS/block readable"
-    else
+    return "$bad"
+}
+
+preflight() {
+    local bad=0
+
+    check_commands 0 || bad=1
+
+    if [[ ! -d $SYS/block ]]; then
         echo "  MISSING  $SYS/block"
         bad=1
-    fi
-
-    if (( verbose )); then
-        mapfile -t devices < <(md_devices)
-        echo "  found    ${#devices[@]} md array(s)"
     fi
 
     return "$bad"
@@ -117,22 +117,13 @@ if (( TEST_NOTIFY )); then
 fi
 
 if (( CHECK_ONLY )); then
-    echo "Preflight check:"
-    bad=0
-    preflight 1 || bad=1
-
-    while IFS= read -r n; do
-        [[ -n $n ]] || continue
-        echo "  MISSING  expected device $n"
-        bad=1
-    done < <(missing_expected)
-
-    if (( bad )); then
-        echo "Preflight FAILED."
-        exit 1
-    else
+    echo "Checking required commands:"
+    if check_commands 1; then
         echo "All good."
         exit 0
+    else
+        echo "Check FAILED."
+        exit 1
     fi
 fi
 

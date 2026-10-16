@@ -1,9 +1,8 @@
-{self, inputs,...}:
-{
+{self, inputs,...}:{
   flake.nixosModules.healthcheck={
     pkgs, config, lib, ...
   }:let 
-      healthCheck = mkScript {
+      healthCheck = self.lib.mkScript pkgs {
         name = "health_check";
         src = ./scripts/healthcheck.sh;
         runtimeInputs = with pkgs; [
@@ -15,7 +14,7 @@
           gnused
         ];
       };
-      mdadmCheck = flake.lib.mkScript pkgs {
+      mdadmCheck = self.lib.mkScript pkgs {
         name = "mdadm_check";
         src = ./scripts/mdadm_check.sh;
         runtimeInputs = with pkgs; [
@@ -28,7 +27,7 @@
           mkdir -p "$SYS/block"
         '';
       };
-      bcachefsCheck = mkScript {
+      bcachefsCheck = self.lib.mkScript pkgs {
         name = "bcachefs_check";
         src = ./scripts/bcachefs_check.sh;
         runtimeInputs = with pkgs; [
@@ -76,50 +75,50 @@
         };
       };
 
-      config=lib.mkMerge=[
-        (lib.mkIf config.services.health-check.enable {
+      config=lib.mkMerge [
+        (lib.mkIf config.health-check.enable {
           systemd.services.health-check = {
             path = with pkgs; [smartmontools memtester curl gnugrep coreutils];
             environment = {
-              DEVICES = lib.concatStringsSep " " config.services.health-check.devices;
-              MEMSIZE = config.services.health-check.memSize;
-              NTFY_URL = config.services.health-check.ntfyUrl;
+              DEVICES = lib.concatStringsSep " " config.health-check.devices;
+              MEMSIZE = config.health-check.memSize;
+              NTFY_URL = config.health-check.ntfyUrl;
             };
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${self.packages.x86_64-linux.healthCheck}/bin/health_check";
+              ExecStart = "${healthCheck}/bin/health_check";
               LogsDirectory = "health-check"; # /var/log/health-check, matches the script's default
             };
-            startAt = config.services.health-check.schedule;
+            startAt = config.health-check.schedule;
           };
         })
 
-        (lib.mkIf config.services.health-check.mdadm.enable {
+        (lib.mkIf config.health-check.mdadm.enable {
           systemd.services.mdadm-check = {
             path = with pkgs; [curl coreutils gnused];
             environment = {
-              EXPECT = lib.concatStringsSep " " config.services.health-check.mdadm.devices;
-              NTFY_URL = config.services.health-check.ntfyUrl;
+              EXPECT = lib.concatStringsSep " " config.health-check.mdadm.devices;
+              NTFY_URL = config.health-check.ntfyUrl;
             };
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${self.packages.x86_64-linux.mdadmCheck}/bin/mdadm_check";
+              ExecStart = "${mdadmCheck}/bin/mdadm_check";
               LogsDirectory = "health-check";
             };
             startAt = "daily";
           };
         })
 
-        (lib.mkIf config.services.health-check.bcachefs.enable {
+        (lib.mkIf config.health-check.bcachefs.enable {
           systemd.services.bcachefs-check = {
             environment = {
-              EXPECT = lib.concatStringsSep " " config.services.health-check.bcachefs.devices;
-              NTFY_URL = config.services.health-check.ntfyUrl;
+              EXPECT = lib.concatStringsSep " " config.health-check.bcachefs.devices;
+              NTFY_URL = config.health-check.ntfyUrl;
             };
 
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = "${self.packages.x86_64-linux.bcachefsCheck}/bin/bcachefs_check";
+              ExecStart = "${bcachefsCheck}/bin/bcachefs_check";
               LogsDirectory = "health-check";
             };
 
