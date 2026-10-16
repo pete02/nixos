@@ -54,16 +54,7 @@
         };
       })
 
-      (lib.mkIf (config.services.mDNS) {
-        services.avahi = {
-          enable = true;
-          nssmdns4 = true;
-          publish = {
-            addresses = true;
-            enable = true;
-          };
-        };
-      })
+
 
       (lib.mkIf config.services.autoUpdate {
         systemd.services.nixos-auto-update = {

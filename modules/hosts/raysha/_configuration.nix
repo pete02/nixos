@@ -30,6 +30,7 @@
     connectivity = {
       bluetooth = true;
       wifi.enable = true;
+      mDNS=true;
     };
     ssh.client=true;
 
@@ -50,7 +51,6 @@
 
     services = {
       cleaner = true;
-      mDNS = true;
       autoUpdate = true;
     };
 

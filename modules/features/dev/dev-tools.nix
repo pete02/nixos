@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.nixosModules.dev = {
+  flake.nixosModules.dev-tools = {
     lib,
     pkgs,
     config,
@@ -66,7 +66,7 @@
         virtualisation.podman = {
           enable = true;
           dockerCompat = true;
-          defaultNetwork.settings.dns_enable = true;
+          defaultNetwork.settings.dns_enabled = true;
         };
 
         environment.systemPackages = [pkgs.podman-compose];

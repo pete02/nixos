@@ -8,8 +8,8 @@
     system = "x86_64-linux";
 
     modules = [
-      self.nixosModules.ariaHardware
-      self.nixosModules.ariaConfiguration
+      ./_configuration.nix
+      ./_hardware-configuration.nix
     ];
   };
 }

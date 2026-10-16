@@ -19,25 +19,18 @@
   featureModules = with self.nixosModules; [
     sops
     dev
-    common
     connectivity
     services
     nixbuilder
     base
     ssh
-    dev-git
     timelock
     sunshine
     healthcheck
     power
     samba
+    hardware
     bitwarden-backup
-    hardware-gpus
-    hardware-cachyosKernel
-    hardware-peripherals
-    dev-virtualization
-    dev-android
-    hardware-mdadm
   ];
 in {
   flake.lib.hosts = hosts;

@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.common = {
+  flake.nixosModules.base-apps = {
     lib,
     pkgs,
     config,
