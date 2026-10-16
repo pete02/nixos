@@ -31,6 +31,11 @@
     };
   };
 
+
+  gaming={
+    sunshine=true;
+    compatibility = true;
+  };
   nixos-management = {
     auto-update = true;
     gitops = true;
