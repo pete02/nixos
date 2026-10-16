@@ -31,14 +31,15 @@ jobs:
       - name: Configure cache credentials
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
-          ATTIC_URL: ${{ vars.ATTIC_URL }}/nixos
         run: |
-          host="${ATTIC_URL#*://}"
-          host="${host%%[:/]*}"
-
+          set -eu
           umask 077
-          printf 'machine %s login attic-token password %s\n' \
-            "$host" "$ATTIC_TOKEN" > /tmp/netrc-attic
+          printf 'machine 192.168.88.241 login attic-token password %s\n' \
+            "$ATTIC_TOKEN" > /tmp/netrc-attic
+
+          curl --fail --silent --show-error \
+            --netrc-file /tmp/netrc-attic \
+            http://192.168.88.241:8080/main/nix-cache-info
           nix store info --store http://192.168.88.241:8080/main
 
 
@@ -95,18 +96,14 @@ jobs:
             --max-jobs auto \
             "$@" \
             >> /tmp/out-paths
-
+            
       - name: Push to Attic
         if: always()
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
-          ATTIC_URL: ${{ vars.ATTIC_URL }}
         run: |
           set -eu
           [ -s /tmp/out-paths ] || exit 0
 
-          server="${ATTIC_URL%/*}"
-          cache="${ATTIC_URL##*/}"
-
-          attic login ci-ip "$server" "$ATTIC_TOKEN"
-          xargs -r attic push "ci-ip:$cache" < /tmp/out-paths
+          attic login ci-ip http://192.168.88.241:8080 "$ATTIC_TOKEN"
+          xargs -r attic push ci-ip:main < /tmp/out-paths
