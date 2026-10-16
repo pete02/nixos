@@ -126,4 +126,4 @@ jobs:
           }
           trap cleanup EXIT
 
-          git push origin HEAD:refs/heads/stable
+          git push --force-with-lease origin HEAD:refs/heads/stable
