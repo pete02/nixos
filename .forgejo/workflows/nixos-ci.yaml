@@ -15,6 +15,10 @@ jobs:
   validate:
     name: Evaluate, build, and push to cache
     runs-on: nixos-ci
+    container:
+      image: lumilukko/nixos-ci:latest
+      volumes:
+        - nix-store:/nix
 
     env:
       CONFIG_FOLDER: "."
@@ -36,8 +40,25 @@ jobs:
           printf 'machine %s login attic-token password %s\n' \
             "$host" "$ATTIC_TOKEN" > /tmp/netrc-attic
 
-          curl --fail --netrc-file /tmp/netrc-attic \
+
+      - name: Diagnose Attic authentication
+        env:
+          ATTIC_URL: ${{ vars.ATTIC_URL }}/nixos
+        run: |
+          set -eu
+
+          echo "Testing cache endpoint: $ATTIC_URL/nix-cache-info"
+          echo "Netrc file permissions:"
+          stat -c '%a %U:%G %n' /tmp/netrc-attic
+
+          echo "Testing authenticated request..."
+          curl --silent --show-error \
+            --netrc-file /tmp/netrc-attic \
+            --output /tmp/attic-cache-info \
+            --write-out 'HTTP status: %{http_code}\n' \
             "$ATTIC_URL/nix-cache-info"
+
+    cat /tmp/attic-cache-info
       - name: Checkout
         uses: actions/checkout@v4
 
