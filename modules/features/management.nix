@@ -12,15 +12,6 @@
     ...
   }: {
     options = {
-      username = lib.mkOption {
-        type = lib.types.str;
-        description = "The username of the main user";
-      };
-
-      hostname = lib.mkOption {
-        type = lib.types.str;
-        description = "The hostname of the system";
-      };
       management = {
         gitClient = lib.mkEnableOption "enables git client";
         powersave = lib.mkEnableOption "Enable power saving";
@@ -28,40 +19,6 @@
       };
     };
     config = lib.mkMerge [
-      {
-        users.users.${config.username} = {
-          isNormalUser = true;
-          extraGroups = [
-            "wheel"
-            "seat"
-            "dialout"
-            "uucp"
-          ];
-        };
-        console.keyMap = "fi";
-        time.timeZone = "Europe/Helsinki";
-        i18n.defaultLocale = "fi_FI.UTF-8";
-
-        nix.settings.experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-        networking.hostName = config.hostname;
-
-        nixpkgs.config.allowUnfree = true;
-        environment.systemPackages = with pkgs; [
-          libnotify
-          fastfetch
-          self.packages.${system}.rebuild
-        ];
-
-        nix.gc = {
-          automatic = true;
-          dates = "daily";
-          options = "--delete-older-than 7d";
-        };
-        nix.settings.auto-optimise-store = true;
-      }
       (lib.mkIf (config.management.powersave) {
         environment.systemPackages = with pkgs; [
           tlp

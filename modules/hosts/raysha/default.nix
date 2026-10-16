@@ -18,6 +18,7 @@
       self.nixosModules.sunshine
       self.nixosModules.ssh
       self.nixosModules.healthcheck
+      self.nixosModules.base
     ];
   };
 }

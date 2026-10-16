@@ -23,19 +23,6 @@
     };
 
     config = lib.mkMerge [
-      {
-        environment.systemPackages = with pkgs; [
-          vim
-          git
-          tree
-          groff
-          htop
-          unzip
-          unrar
-          lshw
-        ];
-      }
-
       # 3D Modeling Tools
       (lib.mkIf config.common-tools.modeling {
         environment.systemPackages = with pkgs; [

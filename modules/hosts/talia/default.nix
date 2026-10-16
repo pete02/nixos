@@ -14,6 +14,7 @@
       self.nixosModules.nixBuilders
       self.nixosModules.management
       self.nixosModules.ssh
+      self.nixosModules.base
     ];
   };
 }
