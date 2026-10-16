@@ -23,7 +23,7 @@ jobs:
     env:
       CONFIG_FOLDER: "."
       NIX_CONFIG: |
-        extra-substituters = ${{ vars.ATTIC_URL }}/nixos
+        extra-substituters = ${{ vars.ATTIC_URL }}
         extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
         netrc-file = /tmp/netrc-attic
 
@@ -96,7 +96,7 @@ jobs:
             --max-jobs auto \
             "$@" \
             >> /tmp/out-paths
-            
+
       - name: Push to Attic
         if: always()
         env:
