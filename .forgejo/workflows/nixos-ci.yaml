@@ -107,3 +107,23 @@ jobs:
 
           attic login ci-ip http://192.168.88.241:8080 "$ATTIC_TOKEN"
           xargs -r attic push ci-ip:main < /tmp/out-paths
+      
+      - name: Promote tested commit to stable
+        if: success() && github.ref == 'refs/heads/master'
+        env:
+          TOKEN_FORGEJO: ${{ secrets.TOKEN_FORGEJO }}
+        run: |
+          set -eu
+
+          # Configure authentication without embedding the token in the remote URL.
+          auth="$(printf 'x-access-token:%s' "$TOKEN_FORGEJO" | base64 -w0)"
+          git config http.https://git.lumilukko.com/.extraheader \
+            "AUTHORIZATION: basic $auth"
+
+          cleanup() {
+            git config --unset-all \
+              http.https://git.lumilukko.com/.extraheader || true
+          }
+          trap cleanup EXIT
+
+          git push origin HEAD:refs/heads/stable
