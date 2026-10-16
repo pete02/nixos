@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPOSITORY="@REPOSITORY@"
-PULL_BRANCH="${PULL_BRANCH:-master}"
+PULL_BRANCH="${PULL_BRANCH:-stable}"
 PUSH_BRANCH="${PUSH_BRANCH:-master}"
 
 check() {
