@@ -23,7 +23,7 @@
     connectivity
     services
     management
-    nixBuilders
+    nixBuilder
     base
     ssh
     git
@@ -32,6 +32,12 @@
     healthcheck
     power
     samba
+    bitwardenBackup
+    hardware-gpus
+    hardware-cachyosKernel
+    hardware-peripherals
+    hardware-virtualization
+    hardware-mdadm
   ];
 in {
   flake.lib.hosts = hosts;

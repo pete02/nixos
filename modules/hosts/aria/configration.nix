@@ -34,7 +34,7 @@
       };
     };
 
-    services.bitwarden-backup = {
+    bitwardenBackup = {
       enable = true;
       dataDir = "/mnt/server/Serversetup/data/vaultwarden";
       containerName = "vaultwarden";

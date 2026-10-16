@@ -1,5 +1,5 @@
 {self, ...}: {
-  flake.nixosModules.nixBuilders = {
+  flake.nixosModules.nixBuilder = {
     config,
     lib,
     pkgs,

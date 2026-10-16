@@ -30,5 +30,7 @@
   hardware.enableRedistributableFirmware = true;
   peripherals.nvidia = true;
   peripherals.logitech = true;
+  filesystems.mdadm=true;
+  cachyosKernel=true;
   system.stateVersion = "25.05";
 }

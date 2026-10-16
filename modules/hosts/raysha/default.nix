@@ -10,8 +10,6 @@
       # once the module is converted and added to featureModules.
       self.nixosModules.hyprland
       self.nixosModules.gaming
-      self.nixosModules.mdadm
-      self.nixosModules.peripherals
     ];
   };
 }

@@ -37,11 +37,10 @@
 
     common-tools.books = true;
     common-tools.school = true;
-
+    samba.client=true;
     services = {
       cleaner = true;
       mDNS = true;
-      sambaClient = true;
     };
 
     hyprlandExtraConfig = ''

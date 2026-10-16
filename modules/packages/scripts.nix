@@ -91,24 +91,6 @@
           CONFIG_FOLDER = "/etc/nixos";
         };
       };
-
-
-
-      bitwardenBackup = mkScript {
-        name = "bitwarden_backup";
-        src = ../../scripts/bitwarden-backup.sh;
-        runtimeInputs = with pkgs; [
-          docker
-          zip
-          rclone
-          curl
-          gnugrep
-          coreutils
-          gnused
-        ];
-      };
-
-
     };
   in {
     packages = scripts;

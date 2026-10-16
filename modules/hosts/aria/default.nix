@@ -10,7 +10,6 @@
     modules = [
       self.nixosModules.ariaHardware
       self.nixosModules.ariaConfiguration
-      self.nixosModules.mdadm
     ];
   };
 }
