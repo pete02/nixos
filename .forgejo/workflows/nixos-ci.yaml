@@ -102,9 +102,11 @@ jobs:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
           ATTIC_URL: ${{ vars.ATTIC_URL }}
         run: |
+          set -eu
           [ -s /tmp/out-paths ] || exit 0
-          server="${ATTIC_URL%/*}"      # http://aria.local:8080
-          cache="${ATTIC_URL##*/}"      # main
-          echo "${server}/${cache}"
-          attic login ci "$server" "$ATTIC_TOKEN"
-          xargs attic push "ci:$cache" < /tmp/out-paths
+
+          server="${ATTIC_URL%/*}"
+          cache="${ATTIC_URL##*/}"
+
+          attic login ci-ip "$server" "$ATTIC_TOKEN"
+          xargs -r attic push "ci-ip:$cache" < /tmp/out-paths
