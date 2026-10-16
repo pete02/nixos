@@ -9,17 +9,11 @@
     config,
     ...
   }: {
-    imports = [
-      self.nixosModules.sops
-      self.nixosModules.dev
-      self.nixosModules.common
-      self.nixosModules.mdadm
-    ];
 
     username = "pete";
 
     management.ld = true;
-    management.gitClient = true;
+    git=true;
 
     common-tools.books = true;
 
@@ -53,12 +47,11 @@
     ];
 
     sambaTimelock.server=true;
-    
+    samba.server=true;
 
 
     services = {
       cleaner = true;
-      sambaServer = true;
       gitops = true;
       mDNS = true;
     };

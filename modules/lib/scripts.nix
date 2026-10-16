@@ -1,10 +1,4 @@
 {lib, ...}: {
-  # Declared once so any file can add to flake.lib.
-  options.flake.lib = lib.mkOption {
-    type = lib.types.lazyAttrsOf lib.types.raw;
-    default = {};
-  };
-
   config.flake.lib.mkScript = pkgs: {
     name,
     src,

@@ -11,58 +11,7 @@
   };
 
   outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} (
-      {self, ...}: {
-        imports = [(inputs.import-tree ./modules)];
-        perSystem = {pkgs, ...}: {
-          formatter = pkgs.alejandra;
-        };
-
-        flake.lib.hosts = let
-          rawHosts = {
-            aria = {
-              buildServer = true;
-            };
-            raysha = {
-              buildServer = true;
-            };
-
-            talia = {
-              sshServer = true;
-            };
-          };
-        in
-          builtins.mapAttrs (_: host:
-            host // {sshServer = host.sshServer or false || host.buildServer or false;})
-          rawHosts;
-
-        flake.lib.mkHost = {
-          hostname,
-          system,
-          modules,
-          extraArgs ? {},
-          nixosSystem ? inputs.nixpkgs.lib.nixosSystem,
-        }:
-          nixosSystem {
-            inherit system;
-
-            specialArgs =
-              {
-                inherit inputs self system;
-                selfPkgs = self.packages.${system};
-              }
-              // extraArgs;
-
-            modules =
-              modules
-              ++ [
-                {
-                  inherit hostname;
-                  ssh.server = self.lib.hosts.${hostname}.sshServer or false;
-                  nixbuilders.buildServer = self.lib.hosts.${hostname}.buildServer or false;
-                }
-              ];
-          };
-      }
-    );
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      imports = [(inputs.import-tree ./modules)];
+    };
 }

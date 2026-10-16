@@ -10,14 +10,7 @@
     modules = [
       self.nixosModules.ariaHardware
       self.nixosModules.ariaConfiguration
-      self.nixosModules.connectivity
-      self.nixosModules.services
-      self.nixosModules.management
-      self.nixosModules.nixBuilders
-      self.nixosModules.timelock
-      self.nixosModules.ssh
-      self.nixosModules.healthcheck
-      self.nixosModules.base
+      self.nixosModules.mdadm
     ];
   };
 }

@@ -1,22 +1,9 @@
-{
-  self,
-  inputs,
-  ...
-}: {
-  flake.nixosModules.rayshaConfiguration = {
+ {
     pkgs,
     lib,
     config,
     ...
   }: {
-    imports = [
-      self.nixosModules.hyprland
-      self.nixosModules.sops
-      self.nixosModules.dev
-      self.nixosModules.gaming
-      self.nixosModules.common
-      self.nixosModules.mdadm
-    ];
 
     environment.systemPackages = with pkgs; [
       via
@@ -46,19 +33,20 @@
       wireless = true;
     };
     ssh.client=true;
+    git=true;
     management = {
-      gitClient = true;
       ld = true;
     };
     sambaTimelock.client=true;
 
     common-tools.books = true;
     sunshine.enable = true;
-    
+    samba.client=true;
+
+
     services = {
       cleaner = true;
       mDNS = true;
-      sambaClient = true;
       autoUpdate = true;
     };
 
@@ -82,5 +70,4 @@
       exec-once = hyprctl dispatch workspace 1
 
     '';
-  };
-}
+  }

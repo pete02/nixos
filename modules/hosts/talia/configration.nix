@@ -11,9 +11,6 @@
   }: {
     imports = [
       self.nixosModules.hyprland
-      self.nixosModules.sops
-      self.nixosModules.dev
-      self.nixosModules.common
     ];
 
     environment.systemPackages = with pkgs; [
@@ -33,8 +30,8 @@
       wireless = true;
     };
     ssh.client=true;
+    git=true;
     management = {
-      gitClient = true;
       ld = true;
     };
 

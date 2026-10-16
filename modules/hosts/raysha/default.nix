@@ -1,24 +1,17 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{self, ...}: {
   flake.nixosConfigurations.raysha = self.lib.mkHost {
     hostname = "raysha";
     system = "x86_64-linux";
 
     modules = [
-      self.nixosModules.rayshaHardware
-      self.nixosModules.rayshaConfiguration
-      self.nixosModules.connectivity
-      self.nixosModules.services
-      self.nixosModules.management
-      self.nixosModules.nixBuilders
-      self.nixosModules.timelock
-      self.nixosModules.sunshine
-      self.nixosModules.ssh
-      self.nixosModules.healthcheck
-      self.nixosModules.base
+      ./_hardware.nix
+      ./_configuration.nix
+      # Not yet enable-gated, so still opted in per host. Delete each line
+      # once the module is converted and added to featureModules.
+      self.nixosModules.hyprland
+      self.nixosModules.gaming
+      self.nixosModules.mdadm
+      self.nixosModules.peripherals
     ];
   };
 }
