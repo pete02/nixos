@@ -27,7 +27,7 @@ jobs:
       - name: Configure cache credentials
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
-          ATTIC_URL: ${{ vars.ATTIC_URL }}
+          ATTIC_URL: ${{ vars.ATTIC_URL }}/nixos
         run: |
           host="${ATTIC_URL#*://}"; host="${host%%[:/]*}"
           umask 077
