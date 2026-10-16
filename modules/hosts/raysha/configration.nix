@@ -45,10 +45,9 @@
       bluetooth = true;
       wireless = true;
     };
-
+    ssh.client=true;
     management = {
       gitClient = true;
-      sshClient = true;
       ld = true;
     };
     sambaTimelock.client=true;

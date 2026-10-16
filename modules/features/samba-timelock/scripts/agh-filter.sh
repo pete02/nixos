@@ -1,48 +1,44 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CLIENT_NAME="alanna.local"
-CLIENT_MAC="2C:CF:67:DA:15:86"
-
-
-
+# Substituted at build time by mkScript (see the module's `substitutions`).
+CLIENT_NAME="@CLIENT_NAME@"
+CLIENT_MAC="@CLIENT_MAC@"
 
 # Runtime configuration:
 #   1. Explicitly exported environment variables
-#   2. /run/secret/agh
+#   2. /run/secrets/agh
 #
 # The secret file is deliberately only read at runtime, never by check().
 AGH_SECRET_FILE="/run/secrets/agh"
 
-check() {
-    echo "Checking curl..."
-    command -v curl >/dev/null || return 1
-
-    echo "Checking jq..."
-    command -v jq >/dev/null || return 1
-
-    echo "Checking getent..."
-    command -v getent >/dev/null || return 1
-
-    echo "Checking logger..."
-    command -v logger >/dev/null || return 1
-
-    echo "Checking awk..."
-    command -v awk >/dev/null || return 1
-
-    echo "Checking chmod..."
-    command -v chmod >/dev/null || return 1
+log() {
+    logger -t "${CLIENT_NAME}-filter" -- "$*"
 }
 
-log() {
-    logger -t raysha-filter -- "$*"
+# Runs at build time with an empty PATH: proves every command we need
+# was declared in runtimeInputs.
+check() {
+    local cmd
+    for cmd in curl jq getent logger awk; do
+        echo "Checking $cmd..."
+        command -v "$cmd" >/dev/null || {
+            echo "failed: $cmd missing" >&2
+            return 1
+        }
+    done
 }
 
 load_config() {
     # Environment variables take precedence over the secret file.
     if [[ -f "$AGH_SECRET_FILE" ]]; then
+        # Only source it for variables not already set in the environment.
+        local env_url="${AGH_URL:-}" env_user="${AGH_USERNAME:-}" env_pass="${AGH_PASSWORD:-}"
         # shellcheck disable=SC1090
         source "$AGH_SECRET_FILE"
+        AGH_URL="${env_url:-${AGH_URL:-}}"
+        AGH_USERNAME="${env_user:-${AGH_USERNAME:-}}"
+        AGH_PASSWORD="${env_pass:-${AGH_PASSWORD:-}}"
     fi
 
     AGH_URL="${AGH_URL:-http://aria.local:8081}"
@@ -60,7 +56,7 @@ load_config() {
     fi
 }
 
-# Resolve the current IPv4 address of raysha.local.
+# Resolve the current IPv4 address of $CLIENT_NAME.
 resolve_client_ip() {
     local ip
 
@@ -83,16 +79,19 @@ curl_agh() {
         "$@"
 }
 
+# Prints the first matching client object, or nothing if none matches.
 get_client() {
     curl_agh "$API/clients" |
-        jq --arg mac "$CLIENT_MAC" --arg ip "$CLIENT_IP" '
-            .clients[]
-            | select(
-                (.ids // [] | any(. == $mac))
-                or
-                (.ids // [] | any(. == $ip))
-                or
-                (.name == "raysha.local")
+        jq --arg mac "$CLIENT_MAC" --arg ip "$CLIENT_IP" --arg name "$CLIENT_NAME" '
+            first(
+                (.clients // [])[]
+                | select(
+                    (.ids // [] | any(. == $mac))
+                    or
+                    (.ids // [] | any(. == $ip))
+                    or
+                    (.name == $name)
+                )
             )
         '
 }
@@ -109,7 +108,7 @@ ensure_client() {
 
     log "Client $CLIENT_NAME ($CLIENT_IP) not configured; creating AdGuard Home client"
 
-    echo "raysha.local is not configured in AdGuard Home; creating client..." >&2
+    echo "$CLIENT_NAME is not configured in AdGuard Home; creating client..." >&2
 
     curl_agh \
         -X POST \
@@ -249,7 +248,7 @@ main() {
 
             if update_client true "$client" && clear_cache; then
                 log "Switched $CLIENT_NAME -> parental filtering ON, Safe Search ON"
-                echo "raysha.local: parental filtering ON, Safe Search ON"
+                echo "$CLIENT_NAME: parental filtering ON, Safe Search ON"
             else
                 log "ERROR: Failed to switch $CLIENT_NAME -> ON"
                 exit 1
@@ -265,7 +264,7 @@ main() {
 
             if update_client false "$client" && clear_cache; then
                 log "Switched $CLIENT_NAME -> parental filtering OFF, Safe Search OFF"
-                echo "raysha.local: parental filtering OFF, Safe Search OFF"
+                echo "$CLIENT_NAME: parental filtering OFF, Safe Search OFF"
             else
                 log "ERROR: Failed to switch $CLIENT_NAME -> OFF"
                 exit 1
@@ -274,15 +273,16 @@ main() {
 
         status)
             local client
-            client="$(ensure_client)"
+
+            # Read-only: never create the client as a side effect.
+            client="$(get_client || true)"
+
+            if [[ -z "$client" ]]; then
+                echo "$CLIENT_NAME is not configured in AdGuard Home." >&2
+                exit 1
+            fi
 
             show_status "$client"
-            ;;
-
-        --check)
-            # This branch is intentionally unreachable because check mode
-            # is handled before main().
-            exit 0
             ;;
 
         *)
@@ -292,6 +292,7 @@ main() {
     esac
 }
 
+# Handled before main() so check() needs no config or network.
 if [[ "${1:-}" == "--check" ]]; then
     check
     exit $?

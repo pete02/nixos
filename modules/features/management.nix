@@ -22,7 +22,6 @@
         description = "The hostname of the system";
       };
       management = {
-        sshClient = lib.mkEnableOption "enables ssh client";
         gitClient = lib.mkEnableOption "enables git client";
         powersave = lib.mkEnableOption "Enable power saving";
         ld = lib.mkEnableOption "enables nix-ld";
@@ -117,41 +116,6 @@
         '';
       })
 
-      (lib.mkIf config.management.sshClient {
-        sops.secrets =
-          {"ssh/hosts/${config.hostname}/private_key" = {owner = config.username;};}
-          // lib.mapAttrs' (hostname: _:
-            lib.nameValuePair "ssh/hosts/${hostname}/host_key/public" {})
-          (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts);
-
-        sops.templates."ssh_known_hosts" = {
-          content =
-            lib.concatMapStringsSep "\n"
-            (hostname: "${hostname}.local ${config.sops.placeholder."ssh/hosts/${hostname}/host_key/public"}")
-            (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts));
-
-          owner = config.username;
-          mode = "0400";
-        };
-
-        environment.etc."ssh/ssh_config".text =
-          lib.concatMapStringsSep "\n\n"
-          (hostname: ''
-            Host ${hostname}
-              HostName ${hostname}.local
-              IdentityFile /run/secrets/ssh/hosts/${config.hostname}/private_key
-              UserKnownHostsFile ${config.sops.templates."ssh_known_hosts".path}
-              Port 22
-              User pete
-          '')
-          (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts))
-          + ''
-            Host alanna
-              HostName alanna.local
-              IdentityFile /run/secrets/ssh/hosts/raysha/private_key
-              User pete
-          '';
-      })
     ];
   };
 }

@@ -11,7 +11,6 @@ on:
       - "**.diff"
       - "**.patch"
 
-
 jobs:
   validate:
     name: Evaluate, build, and format
@@ -32,17 +31,13 @@ jobs:
 
       - name: Build NixOS host closures
         run: |
-          set -eu
-
-          for host in aria raysha talia; do
-            echo "::group::Building NixOS host: $host"
-
-            nix build \
-              --no-link \
-              ".#nixosConfigurations.${host}.config.system.build.toplevel"
-
-            echo "::endgroup::"
-          done
+          nix build \
+            --no-link \
+            --keep-going \
+            --max-jobs auto \
+            .#nixosConfigurations.aria.config.system.build.toplevel \
+            .#nixosConfigurations.raysha.config.system.build.toplevel \
+            .#nixosConfigurations.talia.config.system.build.toplevel
 
       - name: Build every exported x86_64-linux package
         run: |
@@ -61,16 +56,16 @@ jobs:
             exit 0
           fi
 
+          set --
           while IFS= read -r package; do
             [ -n "$package" ] || continue
-
-            echo "::group::Building package: $package"
-
-            nix build \
-              --no-link \
-              ".#packages.${system}.${package}"
-
-            echo "::endgroup::"
+            set -- "$@" ".#packages.${system}.${package}"
           done <<EOF
           $packages
           EOF
+
+          nix build \
+            --no-link \
+            --keep-going \
+            --max-jobs auto \
+            "$@"

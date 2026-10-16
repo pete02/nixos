@@ -16,6 +16,7 @@
       self.nixosModules.nixBuilders
       self.nixosModules.timelock
       self.nixosModules.sunshine
+      self.nixosModules.ssh
     ];
   };
 }

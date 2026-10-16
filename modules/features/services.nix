@@ -16,7 +16,6 @@
       gitops = lib.mkEnableOption "Enable the gitops service";
       autoUpdate = lib.mkEnableOption "Enables weekly automatic Nixos update and rebuild";
       gpucooler = lib.mkEnableOption "Enable the GPU cooler service";
-      sshServer = lib.mkEnableOption "Enable the SSH service";
       sync = lib.mkEnableOption "Enable syncing to server";
       sambaClient = lib.mkEnableOption "enables router samba";
       mDNS = lib.mkEnableOption "Enable mDNS service for publishing IP to local network";
@@ -196,45 +195,6 @@
             Restart = "always";
             RestartSec = 1;
           };
-        };
-      })
-
-      (lib.mkIf config.services.sshServer {
-        services.openssh = {
-          enable = true;
-          ports = [22];
-          hostKeys = []; # stop NixOS auto-generating one; sops provides it below
-          settings = {
-            PasswordAuthentication = false;
-            KbdInteractiveAuthentication = false;
-            PermitRootLogin = "no";
-            AllowUsers = [config.username];
-            AuthorizedKeysFile = config.sops.templates."authorized_keys".path;
-          };
-        };
-
-        sops.secrets =
-          lib.mapAttrs' (hostname: _:
-            lib.nameValuePair "ssh/hosts/${hostname}/public_key" {})
-          self.lib.hosts
-          // {
-            "ssh/hosts/${config.hostname}/host_key/private" = {
-              path = "/etc/ssh/ssh_host_ed25519_key";
-              owner = "root";
-              group = "root";
-              mode = "0600";
-              restartUnits = ["sshd.service"];
-            };
-          };
-
-        sops.templates."authorized_keys" = {
-          content =
-            lib.concatMapStringsSep "\n"
-            (hostname: config.sops.placeholder."ssh/hosts/${hostname}/public_key")
-            (builtins.attrNames self.lib.hosts);
-
-          owner = config.username;
-          mode = "0400";
         };
       })
 

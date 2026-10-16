@@ -5,6 +5,7 @@
   }:
   let 
     sunshine-start= self.lib.mkScript pkgs{
+      name= "sunshine-start";
       src = ./scripts/start.sh;
       runtimeInputs = with pkgs; [
         hyprland
