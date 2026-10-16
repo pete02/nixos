@@ -1,0 +1,13 @@
+[[bar.layout]]
+monitor = "*"
+left = ["dashboard", "hyprland-workspaces"]
+center = ["media"]
+right = [
+    "volume",
+    "netstat",
+    "clock",
+    "systray",
+    "notifications",
+    "network",
+    "bluetooth",
+]

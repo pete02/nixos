@@ -1,8 +1,16 @@
-{
-  inputs,
-  self,
-  ...
-}: {
+
+{ self,inputs, ... }: {
+  flake.nixosModules.gaming-rpcs3 = { lib, pkgs, config, ... }: {
+    options.gaming.rpcs3 =
+      lib.mkEnableOption "RPCS3 PlayStation 3 emulator";
+
+    config = lib.mkIf config.gaming.rpcs3 {
+      environment.systemPackages = [
+        self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
+      ];
+    };
+  };
+
   flake.packages.x86_64-linux.rpcs3 = let
     system = "x86_64-linux";
 

@@ -52,8 +52,4 @@
   sambaTimelock.server=true;
   samba.server=true;
 
-  services = {
-    cleaner = true;
-    
-  };
 }

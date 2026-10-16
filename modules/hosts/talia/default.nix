@@ -9,7 +9,6 @@
     modules = [
       ./_hardware-configuration.nix
       ./_configuration.nix
-      self.nixosModules.hyprland
     ];
   };
 }

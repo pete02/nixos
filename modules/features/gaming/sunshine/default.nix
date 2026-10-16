@@ -1,6 +1,6 @@
 {self, inputs, ...}:
 {
-  flake.nixosModules.sunshine={
+  flake.nixosModules.gaming-sunshine={
     lib,pkgs,config,...
   }:
   let 
@@ -28,9 +28,9 @@
     };
   in 
   {
-    options.sunshine.enable = lib.mkEnableOption "Sunshine game streaming";
+    options.gaming.sunshine = lib.mkEnableOption "Sunshine game streaming";
 
-    config= lib.mkIf config.sunshine.enable {
+    config= lib.mkIf config.gaming.sunshine {
 
       environment.systemPackages = [
         sunshine-start

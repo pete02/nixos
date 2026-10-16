@@ -95,8 +95,8 @@ handle_success(){
         > "${CONFIG_FOLDER}/${HOSTNAME}-diff.txt"
 
 
-    cat "$CONFIG_FOLDER/$HOSTNAME-diff.txt"
-    git_cmd add "$CONFIG_FOLDER/$HOSTNAME-diff.txt"
+    cat "$CONFIG_FOLDER/diffs/$HOSTNAME-diff.txt"
+    git_cmd add "$CONFIG_FOLDER/diffs/$HOSTNAME-diff.txt"
 
     if [[ "$CURRENT_BRANCH" == "$UNSTABLE_BRANCH" ]]; then
         git_cmd commit --amend --no-edit

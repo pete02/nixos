@@ -24,7 +24,6 @@
         lshw
         libnotify
         fastfetch
-        self.packages.${system}.rebuild
       ];
       users.users.${config.username} = {
         isNormalUser = true;

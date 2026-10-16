@@ -4,7 +4,7 @@
       connectivity.mDNS = lib.mkEnableOption "bluetooth";
     };
 
-    config =lib.mkIf (config.services.mDNS) {
+    config =lib.mkIf (config.connectivity.mDNS) {
       services.avahi = {
         enable = true;
         nssmdns4 = true;

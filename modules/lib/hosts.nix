@@ -20,18 +20,18 @@
     sops
     dev
     connectivity
-    services
     nixbuilder
     base
     ssh
     timelock
-    sunshine
     healthcheck
     power
     samba
     hardware
     bitwarden-backup
     nixos-management
+    gaming
+    desktop
   ];
 in {
   flake.lib.hosts = hosts;
