@@ -13,6 +13,10 @@
       runtimeInputs = with pkgs; [
         rsync
       ];
+      substitutions = {
+        HOME = config.users.users.pete.home;
+        ENDPOINT = "/mnt/server/desktopsync";
+      };
     };
   in {
     options.desktop = {

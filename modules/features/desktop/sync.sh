@@ -1,9 +1,10 @@
+
 #!/usr/bin/env bash
 set -euo pipefail
 
 check() {
     echo "Checking rsync..."
-    command -v rsync >/dev/null || return 1
+    command -v rsync >/dev/null
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -11,8 +12,12 @@ if [[ "${1:-}" == "--check" ]]; then
     exit $?
 fi
 
-[ -d /mnt/server/desktopsync ] || exit 0
-/run/current-system/sw/bin/rsync -a \
+ENDPOINT="@ENDPOINT@"
+HOME_DIR="@HOME@"
+
+[ -d "$ENDPOINT" ] || exit 0
+
+rsync -a \
     --exclude 'node_modules/' \
     --exclude 'target/' \
     --exclude '.venv/' \
@@ -25,8 +30,10 @@ fi
     --exclude '/.*/' \
     --exclude 'dist/' \
     --info=progress2 \
---delete /home/pete/code /mnt/server/desktopsync
-/run/current-system/sw/bin/rsync -a \
+    --delete \
+    "$HOME_DIR/code" "$ENDPOINT"
+
+rsync -a \
     --exclude 'node_modules/' \
     --exclude 'target/' \
     --exclude '.venv/' \
@@ -37,4 +44,5 @@ fi
     --exclude '.cargo/' \
     --exclude 'dist/' \
     --info=progress2 \
---delete /home/pete/vaults /mnt/server/desktopsync
+    --delete \
+    "$HOME_DIR/vaults" "$ENDPOINT"
