@@ -35,6 +35,7 @@
     bitwarden-backup
     nixos-management
     gaming
+    timelock
     desktop
   ];
 in {

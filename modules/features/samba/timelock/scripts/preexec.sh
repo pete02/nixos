@@ -1,52 +1,53 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# preexec.sh - Called before a Samba session starts (user context)
-# This script unlocks the share and starts the session timer
+# preexec.sh - Samba connection authorization through generic timelock.
 
 STATE_DIR="@STATE_DIR@"
+MAX_SESSION_SECS="@MAX_SESSION_SECS@"
 COOLDOWN_SECS="@COOLDOWN_SECS@"
 CUTOFF_HOUR="@CUTOFF_HOUR@"
+NOOP_COMMAND="@NOOP_COMMAND@"
 
-# Get Samba environment variables
-SMB_USER="${SMB_USER:-}"
-SMB_PID="${SMB_PID:-$$}"
-SMB_SHARE="${SMB_SHARE:-}"
+check_commands() {
+    local missing=0
 
-if [[ -z "$SMB_USER" ]]; then
-    logger -t "samba-timelock" -- "Error: SMB_USER not set in preexec"
+    for cmd in date mkdir chmod mv flock logger timelock; do
+        if ! command -v "$cmd" >/dev/null 2>&1; then
+            echo "Missing required command: $cmd" >&2
+            missing=1
+        fi
+    done
+
+    if [[ ! -x "$NOOP_COMMAND" ]]; then
+        echo "Missing executable: $NOOP_COMMAND" >&2
+        missing=1
+    fi
+
+    return "$missing"
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    check_commands
+    exit $?
+fi
+
+if [[ $# -ne 0 ]]; then
+    echo "Usage: preexec [--check]" >&2
+    exit 2
+fi
+
+export TIMELOCK_STATE_DIR="$STATE_DIR"
+export TIMELOCK_MAX_SESSION_SECS="$MAX_SESSION_SECS"
+export TIMELOCK_COOLDOWN_SECS="$COOLDOWN_SECS"
+export TIMELOCK_CUTOFF_HOUR="$CUTOFF_HOUR"
+export TIMELOCK_LOCK_COMMAND="$NOOP_COMMAND"
+export TIMELOCK_UNLOCK_COMMAND="$NOOP_COMMAND"
+
+if ! check_commands; then
+    logger -t samba-timelock -- \
+        "Authorization failed: required command missing" || true
     exit 1
 fi
 
-log() {
-    logger -t "samba-timelock" -- "Preexec User $SMB_USER (PID $SMB_PID): $*"
-}
-
-# Source the lock-unlock script
-SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-source "${SCRIPT_DIR}/lock-unlock.sh"
-
-log "Preexec hook called for share $SMB_SHARE"
-
-# Check if user is already unlocked
-if is_unlocked "$SMB_USER"; then
-    current_time=$(date +%s)
-    unlock_time=$(get_unlock_time "$SMB_USER")
-    elapsed=$((current_time - unlock_time))
-    
-    if [[ "$elapsed" -lt "$COOLDOWN_SECS" ]]; then
-        remaining=$((COOLDOWN_SECS - elapsed))
-        log "User $SMB_USER already unlocked, cooldown active (${remaining}s remaining)"
-        exit 0
-    fi
-    
-    log "User $SMB_USER cooldown expired, re-locking"
-    lock_share "$SMB_USER"
-    stop_timer "$SMB_USER"
-fi
-
-# Unlock the share
-unlock_share "$SMB_USER"
-log "Share unlocked for user $SMB_USER"
-
-exit 0
+exec timelock samba check

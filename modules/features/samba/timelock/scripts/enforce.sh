@@ -5,17 +5,34 @@ set -euo pipefail
 # Checks all users and locks sessions that have expired
 
 STATE_DIR="@STATE_DIR@"
-SHARE_NAME="@SHARE_NAME@"
+
 MAX_SESSION_SECS="@MAX_SESSION_SECS@"
 CUTOFF_HOUR="@CUTOFF_HOUR@"
+
+# Check that all required commands are available
+check_commands() {
+    local missing=0
+    for cmd in date mkdir rm cat echo sleep logger lock-unlock; do
+        if ! command -v "$cmd" >/dev/null 2>&1; then
+            echo "Error: required command '$cmd' not found" >&2
+            missing=1
+        fi
+    done
+    return $missing
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    if check_commands; then
+        echo "All required commands are available"
+        exit 0
+    else
+        exit 1
+    fi
+fi
 
 log() {
     logger -t "samba-timelock" -- "Enforce: $*"
 }
-
-# Source the lock-unlock script
-SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-source "${SCRIPT_DIR}/lock-unlock.sh"
 
 log "Running enforcement check"
 
@@ -26,10 +43,10 @@ if [[ -d "$STATE_DIR" ]]; then
         
         user=$(basename "$state_file" .state)
         
-        if session_expired "$user"; then
+        # Check if session expired using lock-unlock
+        if ! lock-unlock --state-dir="$STATE_DIR" --max-session-secs="$MAX_SESSION_SECS" --cutoff-hour="$CUTOFF_HOUR" check --user="$user"; then
             log "Session expired for user $user, locking"
-            lock_share "$user"
-            stop_timer "$user"
+            lock-unlock --state-dir="$STATE_DIR" lock --user="$user"
         fi
     done
 fi

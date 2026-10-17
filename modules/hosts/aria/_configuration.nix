@@ -53,6 +53,7 @@
   environment.systemPackages = with pkgs; [
     kitty.terminfo
   ];
+  services.timelock.enable=true;
 
   nixbuilder.cache.server = {
     enable = true;
