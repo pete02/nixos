@@ -23,7 +23,7 @@
   };
 
   swapDevices = [];
-  peripherals.nvidia-legacy = true;
+  hardware-gpus.nvidia-legacy = true;
 
   boot.kernelModules = [
     "nvidia"

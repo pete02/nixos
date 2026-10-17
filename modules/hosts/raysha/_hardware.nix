@@ -32,7 +32,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.enableRedistributableFirmware = true;
-  peripherals.nvidia = true;
+  hardware-gpus.nvidia = true;
   peripherals.logitech = true;
   hardware.mdadm = true;
   hardware.cachyos-kernel = true;

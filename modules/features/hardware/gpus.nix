@@ -5,7 +5,7 @@
     config,
     ...
   }: let
-    cfg = config.hardware;
+    cfg = config.hardware-gpus;
 
     nvidiaKernelModules = [
       "nvidia"
@@ -53,7 +53,7 @@
         }
       ];
   in {
-    options.hardware = {
+    options.hardware-gpus = {
       # GPU (mutually exclusive, enforced by the assertions below)
       nvidia = lib.mkEnableOption "NVIDIA GPU (stable driver)";
       nvidia-legacy = lib.mkEnableOption "NVIDIA GPU (legacy driver for GTX 900/1000 series)";
@@ -66,7 +66,7 @@
           {
             assertion =
               lib.count lib.id [cfg.nvidia cfg.nvidia-legacy cfg.amd] <= 1;
-            message = "hardware: only one of `nvidia`, `nvidia-legacy` and `amd` can be enable at a time.";
+            message = "hardware-gpus: only one of `nvidia`, `nvidia-legacy` and `amd` can be enable at a time.";
           }
         ];
       }
