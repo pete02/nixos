@@ -1,4 +1,3 @@
-
 {
   self,
   inputs,
@@ -19,7 +18,7 @@
       baseConfig + "\n" + extraConfig
     );
 
-    wrappersModule = { ... }: {
+    wrappersModule = {...}: {
       args = [
         "--config"
         "${configFile}"
@@ -29,20 +28,20 @@
     rawPkg =
       (inputs.wrappers.wrapperModules.hyprland.apply {
         inherit pkgs;
-        imports = [ wrappersModule ];
+        imports = [wrappersModule];
       }).wrapper;
   in
     pkgs.symlinkJoin {
       name = "hyprland-custom";
-      paths = [ rawPkg ];
+      paths = [rawPkg];
 
       meta =
         rawPkg.meta
         // {
           outputsToInstall =
             builtins.filter
-              (o: o != "man")
-              (rawPkg.meta.outputsToInstall or [ "out" ]);
+            (o: o != "man")
+            (rawPkg.meta.outputsToInstall or ["out"]);
         };
 
       passthru =
@@ -60,10 +59,9 @@
 in {
   flake.mkHyprlandPkg = mkHyprlandPkg;
 
-  flake.packages.x86_64-linux.hyprland =
-    mkHyprlandPkg {
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-    };
+  flake.packages.x86_64-linux.hyprland = mkHyprlandPkg {
+    pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+  };
 
   flake.nixosModules.desktop-hyprland = {
     config,
@@ -95,15 +93,14 @@ in {
     };
 
     config = lib.mkIf cfg.enable {
-      environment.systemPackages = [ hyprlandPkg ];
+      environment.systemPackages = [hyprlandPkg];
 
       displayManager = {
         enable = true;
         backend = "greetd";
         autoLogin = true;
 
-        sessionCommand =
-          "${hyprlandPkg}/bin/start-hyprland --path ${hyprlandPkg}/bin/hyprland";
+        sessionCommand = "${hyprlandPkg}/bin/start-hyprland --path ${hyprlandPkg}/bin/hyprland";
       };
 
       desktop.wayle = {
