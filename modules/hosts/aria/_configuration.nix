@@ -23,10 +23,11 @@
     devices = ["/dev/sda" "/dev/sdb" "/dev/nvme0n1"];
     bcachefs = {
       enable = true;
+      uuid= "6efc72dc-a79e-4340-adf0-28ceb1be8769";
       devices = [
-        "sda"
-        "sdb1"
-        "nvme0n1p2"
+        "hdd.hdd1"
+        "hdd.hdd2"
+        "sdd.sdd1"
       ];
     };
   };

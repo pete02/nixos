@@ -41,6 +41,7 @@
         bcachefs-tools
         curl
         util-linux
+        hostname
         coreutils
       ];
     };
@@ -74,6 +75,10 @@
 
       bcachefs = {
         enable = lib.mkEnableOption "bcachefs health check";
+        uuid = lib.mkOption {
+          type = lib.type.str;
+          default = "";
+        };
         devices = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [];
@@ -101,6 +106,18 @@
       })
 
       (lib.mkIf config.health-check.mdadm.enable {
+        assertopns = [
+          {
+            assertion = config.health-check.mdadm.ntfyUrl = "";
+            message = "health-check.mdadm.ntfyUrl must not be empty when health-check.mdadm.enable is true.";
+          }
+          {
+            assertion = config.health-check.nmdadm.devices !=[];
+            message = "health-check.mdadm.devices must not be empty when health-check.mdadm.enable is true.";
+
+          }
+        ]
+
         systemd.services.mdadm-check = {
           path = with pkgs; [curl coreutils gnused];
           environment = {
@@ -117,9 +134,37 @@
       })
 
       (lib.mkIf config.health-check.bcachefs.enable {
+        assertions = [
+          {
+            assertion = config.health-check.ntfyUrl != "";
+            message = "health-check.ntfyUrl must not be empty when health-check.bcachefs.enable is true.";
+          }
+          {
+            assertion = config.health-check.bcachefs.devices != [];
+            message = "health-check.bcachefs.devices must not be empty when health-check.bcachefs.enable is true.";
+          }
+          {
+            assertion = config.health-check.bcachefs.uuid != "";
+            message = "health-check.bcachefs.uuid must not be empty when health-check.bcachefs.enable is true.";
+          }
+        ];
+
         systemd.services.bcachefs-check = {
+          path = with pkgs; [
+            curl
+            coreutils
+            util-linux
+            gawk
+            gnugrep
+            bcachefs-tools
+          ];
+
           environment = {
-            EXPECT = lib.concatStringsSep " " config.health-check.bcachefs.devices;
+            EXPECTED_UUID =config.health-check.bcachefs.uuid
+
+            EXPECTED_DEVICES =
+              lib.concatStringsSep " " config.health-check.bcachefs.devices;
+
             NTFY_URL = config.health-check.ntfyUrl;
           };
 

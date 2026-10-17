@@ -1,12 +1,23 @@
+
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
 NTFY_URL=${NTFY_URL:-https://ntfy.lumilukko.com/Aria}
 LOGFILE=${LOGFILE:-/var/log/health-check/bcachefs_check.log}
-EXPECT=${EXPECT:-}
+
+EXPECTED_UUID=${EXPECTED_UUID:-6efc72dc-a79e-4340-adf0-28ceb1be8769}
+EXPECTED_DEVICES=${EXPECTED_DEVICES:-"hdd.hdd1 hdd.hdd2 sdd.sdd1"}
 
 log() {
     printf '[%s] %s\n' "$(date --iso-8601=seconds)" "$*"
+}
+
+hostname_value() {
+    local name=""
+    if [[ -r /etc/hostname ]]; then
+        IFS= read -r name </etc/hostname || true
+    fi
+    printf '%s' "${name:-unknown-host}"
 }
 
 notify() {
@@ -21,7 +32,7 @@ notify() {
 check_dependencies() {
     local missing=0
 
-    for command in curl findmnt blkid bcachefs; do
+    for command in curl findmnt bcachefs awk grep date; do
         if ! command -v "$command" >/dev/null 2>&1; then
             printf 'Missing dependency: %s\n' "$command" >&2
             missing=1
@@ -37,7 +48,7 @@ if [[ ${1:-} == "--check" ]]; then
 fi
 
 if [[ ${1:-} == "--test-notify" ]]; then
-    notify "Test notification from bcachefs health check"
+    notify "Test notification from bcachefs health check on $(hostname_value)"
     exit $?
 fi
 
@@ -51,60 +62,70 @@ exec >>"$LOGFILE" 2>&1
 
 failed=0
 
-log "Starting bcachefs health check"
+log "Starting Bcachefs health check"
 
 if ! check_dependencies; then
-    notify "could not start bcachefs check"
     log "ERROR: Missing dependencies"
-    exit 1
-fi
-
-# Ensure at least one bcachefs filesystem is mounted.
-mapfile -t mountpoints < <(findmnt -rn -t bcachefs -o TARGET)
-
-if ((${#mountpoints[@]} == 0)); then
-    log "ERROR: No mounted bcachefs filesystems found"
-    failed=1
-fi
-
-# Ensure every configured device exists and contains bcachefs data.
-for device in $EXPECT; do
-    path="/dev/$device"
-
-    if [[ ! -b "$path" ]]; then
-        log "ERROR: Expected device $path does not exist"
-        failed=1
-        continue
-    fi
-
-    fstype=$(blkid -s TYPE -o value "$path" 2>/dev/null || true)
-    if [[ "$fstype" != "bcachefs" ]]; then
-        log "ERROR: $path has filesystem type '${fstype:-unknown}', expected bcachefs"
-        failed=1
-    else
-        log "OK: $path is a bcachefs device"
-    fi
-done
-
-# Query usage for each mounted filesystem. This checks that bcachefs
-# can report its current filesystem and per-device usage.
-for mountpoint in "${mountpoints[@]}"; do
-    log "Checking filesystem mounted at $mountpoint"
-
-    if bcachefs fs usage "$mountpoint"; then
-        log "OK: bcachefs usage query succeeded for $mountpoint"
-    else
-        log "ERROR: bcachefs usage query failed for $mountpoint"
-        failed=1
-    fi
-done
-
-if ((failed)); then
-    log "ERROR: bcachefs health check failed"
-    notify "ERROR: bcachefs health check failed on $(hostname)" || \
+    notify "ERROR: Could not start Bcachefs check on $(hostname_value)" ||
         log "WARNING: Failed to send ntfy notification"
     exit 1
 fi
 
-log "OK: bcachefs health check passed"
+mapfile -t mountpoints < <(findmnt -rn -t bcachefs -o TARGET)
+
+if ((${#mountpoints[@]} == 0)); then
+    log "ERROR: No mounted Bcachefs filesystems found"
+    failed=1
+fi
+
+for mountpoint in "${mountpoints[@]}"; do
+    log "Checking filesystem mounted at $mountpoint"
+
+    if ! usage=$(bcachefs fs usage "$mountpoint" 2>&1); then
+        log "ERROR: Bcachefs usage query failed for $mountpoint"
+        log "$usage"
+        failed=1
+        continue
+    fi
+
+    printf '%s\n' "$usage"
+
+    if ! grep -Fqx "Filesystem: $EXPECTED_UUID" <<<"$usage"; then
+        log "ERROR: Unexpected filesystem UUID at $mountpoint"
+        failed=1
+        continue
+    fi
+
+    log "OK: Filesystem UUID matches at $mountpoint"
+
+    if ! grep -Eq '^[[:space:]]*undegraded([[:space:]]|$)' <<<"$usage"; then
+        log "ERROR: Filesystem is not reported as undegraded at $mountpoint"
+        failed=1
+    else
+        log "OK: Filesystem reports undegraded at $mountpoint"
+    fi
+
+    for device in $EXPECTED_DEVICES; do
+        if awk -v label="$device" '
+            $1 == label && $2 == "(device" && $5 == "rw" {
+                found = 1
+            }
+            END { exit !found }
+        ' <<<"$usage"; then
+            log "OK: Bcachefs member $device is present and rw"
+        else
+            log "ERROR: Bcachefs member $device is missing or not rw"
+            failed=1
+        fi
+    done
+done
+
+if ((failed)); then
+    log "ERROR: Bcachefs health check failed"
+    notify "ERROR: Bcachefs health check failed on $(hostname_value)" ||
+        log "WARNING: Failed to send ntfy notification"
+    exit 1
+fi
+
+log "OK: Bcachefs health check passed"
 exit 0
