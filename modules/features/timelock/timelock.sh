@@ -22,7 +22,7 @@ log() {
 resource="$1"
 action="$2"
 
-if [[ "$resource" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+if [[  ! "$resource" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
     die "Invalid resource name"
 fi
 
