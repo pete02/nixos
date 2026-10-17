@@ -52,14 +52,13 @@
       runtimeInputs = with pkgs; [
         coreutils
         logger
-        raysha-filter
-        alanna-filter
+        lock-unlock
       ];
 
       substitutions = {
         STATE_DIR = "/var/lib/samba-timelock";
-        COOLDOWN_SECS = "${toString (72 * 60 * 60)}";
-        CUTOFF_HOUR = "${toString 23}";
+        COOLDOWN_SECS = "${toString (cfg.cooldownHours * 60 * 60)}";
+        CUTOFF_HOUR = "${toString cfg.cutoffHour}";
       };
     };
 
@@ -68,11 +67,9 @@
       src = ./scripts/postexec.sh;
 
       runtimeInputs = with pkgs; [
-        samba
         logger
         coreutils
-        raysha-filter
-        alanna-filter
+        lock-unlock
       ];
 
       substitutions = {
@@ -86,24 +83,53 @@
       src = ./scripts/enforce.sh;
 
       runtimeInputs = with pkgs; [
-        samba
         logger
         coreutils
-        raysha-filter
-        alanna-filter
+        lock-unlock
       ];
 
       substitutions = {
         STATE_DIR = "/var/lib/samba-timelock";
         SHARE_NAME = "timelock";
-        MAX_SESSION_SECS = "${toString (90 * 60)}";
-        CUTOFF_HOUR = "${toString 23}";
+        MAX_SESSION_SECS = "${toString (cfg.maxSessionMinutes * 60)}";
+        CUTOFF_HOUR = "${toString cfg.cutoffHour}";
+      };
+    };
+
+    lock-unlock = self.lib.mkScript pkgs {
+      name = "lock-unlock";
+      src = ./scripts/lock-unlock.sh;
+
+      runtimeInputs = with pkgs; [
+        coreutils
+        logger
+      ];
+
+      substitutions = {
+        STATE_DIR = "/var/lib/samba-timelock";
+        MAX_SESSION_SECS = "${toString (cfg.maxSessionMinutes * 60)}";
+        CUTOFF_HOUR = "${toString cfg.cutoffHour}";
       };
     };
   in {
     options.samba.timelock = {
       server = lib.mkEnableOption "enables timelock server";
       client = lib.mkEnableOption "enables timelock client";
+      cooldownHours = lib.mkOption {
+        type = lib.types.int;
+        default = 72;
+        description = "Cooldown period in hours before a user can re-access the share after being locked";
+      };
+      cutoffHour = lib.mkOption {
+        type = lib.types.int;
+        default = 23;
+        description = "Hour of the day (0-23) when sessions are automatically locked";
+      };
+      maxSessionMinutes = lib.mkOption {
+        type = lib.types.int;
+        default = 90;
+        description = "Maximum session duration in minutes before automatic lock";
+      };
     };
 
     config = lib.mkMerge [
@@ -143,9 +169,9 @@
               "force user" = config.username;
               "force group" = "users";
 
-              "root preexec" = "${preexec}/bin/preexec";
-              "root preexec close" = "yes";
-              "root postexec" = "${postexec}/bin/postexec";
+              "preexec" = "${preexec}/bin/preexec";
+              "preexec close" = "yes";
+              "postexec" = "${postexec}/bin/postexec";
             };
           };
         };
