@@ -58,7 +58,9 @@
       };
 
       systemd.user.services.sunshine = {
-        wantedBy = ["default.target"];
+        wantedBy = [ "graphical-session.target" ];
+        partOf = [ "graphical-session.target" ];
+        after = [ "graphical-session.target" ];
       };
 
       hardware.uinput.enable = true;

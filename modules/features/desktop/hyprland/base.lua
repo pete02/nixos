@@ -51,7 +51,16 @@ hl.config({
 -- Startup
 hl.on("hyprland.start", function()
     hl.exec_cmd("wayle shell")
-    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
+    hl.exec_cmd(
+        "systemctl --user import-environment " ..
+        "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP " ..
+        "HYPRLAND_INSTANCE_SIGNATURE XDG_SESSION_TYPE"
+    )
+    hl.exec_cmd(
+        "dbus-update-activation-environment --systemd " ..
+        "WAYLAND_DISPLAY XDG_CURRENT_DESKTOP " ..
+        "HYPRLAND_INSTANCE_SIGNATURE XDG_SESSION_TYPE"
+    )
 end)
 
 -- Application and window management
