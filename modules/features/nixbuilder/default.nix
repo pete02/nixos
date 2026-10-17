@@ -5,7 +5,7 @@
     pkgs,
     ...
   }: let
-    cfg = config.nixbuilders;
+    cfg = config.nixbuilder;
     client = cfg.cache.client;
     server = cfg.cache.server;
 
