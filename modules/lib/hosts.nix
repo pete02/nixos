@@ -65,7 +65,7 @@ in {
             inherit hostname;
             # mkDefault so a host can still override these.
             ssh.server = lib.mkDefault (hosts.${hostname}.sshServer or false);
-            nixbuilders.buildServer = lib.mkDefault (hosts.${hostname}.buildServer or false);
+            nixbuilder.buildServer = lib.mkDefault (hosts.${hostname}.buildServer or false);
           }
         ];
     };
