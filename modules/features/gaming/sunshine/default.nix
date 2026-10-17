@@ -22,7 +22,10 @@
     };
     sunshine-launch-indy = self.lib.mkScript pkgs {
       name = "sunshine-launch-indy";
-      src = ./scripts/launch-indy.sh;
+      src = ./scripts/launch-indy.sh;'
+      substitutions = {
+        HOME = config.users.users.pete.home;
+      };
     };
     sunshine-stop = self.lib.mkScript pkgs {
       name = "sunshine-stop";

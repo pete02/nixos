@@ -156,6 +156,7 @@
             util-linux
             gawk
             gnugrep
+            gnugrep
             bcachefs-tools
           ];
 
