@@ -52,6 +52,8 @@
 
         settings = {
           capture = "wlr";
+          csrf_allowed_origins = "192.168.88.239";
+
         };
       };
 

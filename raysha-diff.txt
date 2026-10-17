@@ -1,7 +1,0 @@
-<<< /nix/var/nix/profiles/system-48-link
->>> /nix/var/nix/profiles/system-49-link
-Added packages:
-[A.]  #1  hyprland.lua  <none>
-Removed packages:
-[R.]  #1  hyprland.conf  <none>
-Closure size: 2685 -> 2685 (18 paths added, 18 paths removed, delta +0, disk usage +4.7KiB).
