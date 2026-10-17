@@ -108,7 +108,7 @@
       (lib.mkIf config.health-check.mdadm.enable {
         assertopns = [
           {
-            assertion = config.health-check.mdadm.ntfyUrl = "";
+            assertion = config.health-check.mdadm.ntfyUrl != "";
             message = "health-check.mdadm.ntfyUrl must not be empty when health-check.mdadm.enable is true.";
           }
           {
