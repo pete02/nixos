@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.nixosModules.hardware-cachyosKernel = {
+  flake.nixosModules.hardware-cachyoskernel = {
     config,
     lib,
     pkgs,

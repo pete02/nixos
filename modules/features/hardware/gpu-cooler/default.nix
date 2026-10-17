@@ -1,11 +1,11 @@
-{inputs, ...}: {
+{inputs, self, ...}: {
   flake.nixosModules.hardware-gpucooler = {
     config,
     lib,
     pkgs,
     ...
   }: let
-    gpu-cooler = lib.mkScript pkgs {
+    gpu-cooler = self.lib.mkScript pkgs {
       name = "gpu-cooler";
       src = ./gpu-cooler.sh;
 

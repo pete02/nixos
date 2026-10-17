@@ -95,7 +95,7 @@
 
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${bitwarden-backup}/bin/bitwardeBbackup";
+          ExecStart = "${bitwarden-backup}/bin/bitwarden-backup";
         };
 
         startAt = config.bitwarden-backup.schedule;

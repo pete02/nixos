@@ -27,7 +27,7 @@
     nixbuilder
     base
     ssh
-    timelock
+    samba-timelock
     healthcheck
     power
     samba

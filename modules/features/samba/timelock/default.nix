@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.timelock = {
+  flake.nixosModules.samba-timelock = {
     lib,
     pkgs,
     config,

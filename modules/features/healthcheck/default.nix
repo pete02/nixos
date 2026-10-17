@@ -42,6 +42,8 @@
         curl
         util-linux
         hostname
+        gawk
+        gnugrep
         coreutils
       ];
     };
@@ -155,7 +157,6 @@
             coreutils
             util-linux
             gawk
-            gnugrep
             gnugrep
             bcachefs-tools
           ];

@@ -6,11 +6,11 @@
   flake.nixosModules.desktop = {
     imports = with self.nixosModules; [
       desktop-hyprland
-      desktop-plasma-bigscreen
+      desktop-bigscreen
       desktop-wayle
       desktop-selection
       desktop-services
-      desktop-display-manager
+      desktop-displaymanager
     ];
   };
 }

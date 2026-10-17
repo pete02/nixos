@@ -58,7 +58,7 @@ in {
     pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
   };
 
-  flake.nixosModules.desktop-plasma-bigscreen = {
+  flake.nixosModules.desktop-bigscreen = {
     config,
     pkgs,
     ...

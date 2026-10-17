@@ -6,7 +6,7 @@
   flake.nixosModules.hardware = {
     imports = with self.nixosModules; [
       hardware-gpus
-      hardware-cachyosKernel
+      hardware-cachyoskernel
       hardware-peripherals
       hardware-mdadm
       hardware-gpucooler
