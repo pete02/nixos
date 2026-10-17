@@ -111,7 +111,7 @@
         assertions = [
           {
             assertion = config.healthcheck.ntfyUrl != "";
-            message = "healthcheck.mdadm.ntfyUrl must not be empty when healthcheck.mdadm.enable is true.";
+            message = "healthcheck.ntfyUrl must not be empty when healthcheck.mdadm.enable is true.";
           }
           {
             assertion = config.healthcheck.mdadm.devices !=[];

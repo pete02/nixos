@@ -1,13 +1,4 @@
 {inputs, ...}: {
-
-  options = {
-    flake = inputs.flake-parts.lib.mkSubmoduleOptions {
-      wrappersModules = inputs.nixpkgs.lib.mkOption {
-        default = {};
-      };
-    };
-  };
-
   config = {
     perSystem = {pkgs, ...}: {formatter = pkgs.alejandra;};
     systems = [

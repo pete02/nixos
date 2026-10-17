@@ -14,7 +14,7 @@
         rsync
       ];
       substitutions = {
-        HOME = config.users.users.pete.home;
+        HOME = config.users.users.${config.username}.home;
         ENDPOINT = "/mnt/server/desktopsync";
       };
     };
