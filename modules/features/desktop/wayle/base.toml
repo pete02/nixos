@@ -1,3 +1,16 @@
+[bar]
+scale = 0.75
+padding = 0.15
+padding-ends = 0.3
+module-gap = 0.35
+
+button-icon-padding = 0.6
+button-label-padding = 0.4
+button-gap = 0.6
+
+button-group-padding = 0.0
+button-group-module-gap = 0.2
+
 [[bar.layout]]
 monitor = "*"
 left = ["dashboard", "hyprland-workspaces"]

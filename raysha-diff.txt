@@ -1,0 +1,4 @@
+<<< /nix/var/nix/profiles/system-45-link
+>>> /nix/var/nix/profiles/system-46-link
+No version or selection state changes.
+Closure size: 2685 -> 2685 (6 paths added, 6 paths removed, delta +0, disk usage -8B).

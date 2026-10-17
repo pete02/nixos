@@ -94,7 +94,7 @@
           before = ["shutdown.target"]; # run at shutdown
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/ ${config.username}/Downloads/* /home/ ${config.username}/.local/share/Trash/*'";
+            ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/${config.username}/Downloads/* /home/${config.username}/.local/share/Trash/*'";
           };
         };
       })
