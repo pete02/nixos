@@ -186,7 +186,7 @@
 
       (lib.mkIf (cfg.client) {
         systemd.tmpfiles.rules = [
-          "d /mnt/timelock 0755 pete pete -"
+          "d /mnt/timelock 0755  ${config.username}  ${config.username} -"
         ];
         environment.systemPackages = [pkgs.cifs-utils];
         sops.secrets."samba/timelock" = {};

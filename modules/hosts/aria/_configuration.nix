@@ -21,6 +21,7 @@
   health-check = {
     enable = true;
     devices = ["/dev/sda" "/dev/sdb" "/dev/nvme0n1"];
+    ntfyUrl = "https://ntfy.lumilukko.com/Raysha";
     bcachefs = {
       enable = true;
       uuid= "6efc72dc-a79e-4340-adf0-28ceb1be8769";

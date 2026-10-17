@@ -16,7 +16,7 @@
     config = lib.mkMerge [
       (lib.mkIf config.samba.client {
         systemd.tmpfiles.rules = [
-          "d /mnt/router 0755 pete pete -"
+          "d /mnt/router 0755  ${config.username}  ${config.username} -"
         ];
         environment.systemPackages = [pkgs.cifs-utils];
         sops.secrets."samba/server" = {};

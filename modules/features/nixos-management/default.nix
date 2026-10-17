@@ -18,7 +18,7 @@
       ];
 
       substitutions = {
-        REPOSITORY = "ssh://git@git.lumilukko.com:2222/Pete/nixos.git";
+        REPOSITORY = "ssh://git@git.lumilukko.com:2222/ ${config.username}/nixos.git";
       };
     };
     gitops = self.lib.mkScript pkgs {

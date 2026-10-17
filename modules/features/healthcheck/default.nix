@@ -76,7 +76,7 @@
       bcachefs = {
         enable = lib.mkEnableOption "bcachefs health check";
         uuid = lib.mkOption {
-          type = lib.type.str;
+          type = lib.types.str;
           default = "";
         };
         devices = lib.mkOption {
@@ -106,17 +106,17 @@
       })
 
       (lib.mkIf config.health-check.mdadm.enable {
-        assertopns = [
+        assertions = [
           {
-            assertion = config.health-check.mdadm.ntfyUrl != "";
+            assertion = config.health-check.ntfyUrl != "";
             message = "health-check.mdadm.ntfyUrl must not be empty when health-check.mdadm.enable is true.";
           }
           {
-            assertion = config.health-check.nmdadm.devices !=[];
+            assertion = config.health-check.mdadm.devices !=[];
             message = "health-check.mdadm.devices must not be empty when health-check.mdadm.enable is true.";
 
           }
-        ]
+        ];
 
         systemd.services.mdadm-check = {
           path = with pkgs; [curl coreutils gnused];
@@ -160,7 +160,7 @@
           ];
 
           environment = {
-            EXPECTED_UUID =config.health-check.bcachefs.uuid
+            EXPECTED_UUID =config.health-check.bcachefs.uuid;
 
             EXPECTED_DEVICES =
               lib.concatStringsSep " " config.health-check.bcachefs.devices;

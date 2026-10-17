@@ -90,7 +90,7 @@
           before = ["shutdown.target"]; # run at shutdown
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/pete/Downloads/* /home/pete/.local/share/Trash/*'";
+            ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/ ${config.username}/Downloads/* /home/ ${config.username}/.local/share/Trash/*'";
           };
         };
       })
@@ -112,7 +112,7 @@
             User = config.username;
             Type = "oneshot";
             ExecStart = ''
-              ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/code /home/pete
+              ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/code /home/ ${config.username}
             '';
           };
         };
