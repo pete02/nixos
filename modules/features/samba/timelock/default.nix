@@ -8,8 +8,7 @@
     pkgs,
     config,
     ...
-  }:
-  let
+  }: let
     cfg = config.samba.timelock;
 
     timelockPackage = self.packages.${pkgs.system}.timelock;
@@ -89,8 +88,7 @@
         NOOP_COMMAND = "${samba-noop}/bin/samba-timelock-noop";
       };
     };
-  in
-  {
+  in {
     options.samba.timelock = {
       server = lib.mkEnableOption "Samba timelock server";
       client = lib.mkEnableOption "Samba timelock client";
@@ -173,8 +171,8 @@
 
         systemd.services.credentials = {
           description = "Set Samba password for timelock share from SOPS secret";
-          wantedBy = [ "multi-user.target" ];
-          after = [ "samba.service" ];
+          wantedBy = ["multi-user.target"];
+          after = ["samba.service"];
 
           serviceConfig = {
             Type = "oneshot";

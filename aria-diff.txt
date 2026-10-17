@@ -1,0 +1,250 @@
+<<< /nix/var/nix/profiles/system-91-link
+>>> /nix/var/nix/profiles/system-92-link
+Version changes:
+[C.]  #01  binutils-wrapper   2.46 -> 2.46 x2
+[C.]  #02  ffmpeg             6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 9.0.1-data, 9.0.1-lib -> 6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 7.1.5-data, 7.1.5-lib, 9.0.1-data, 9.0.1-lib
+[C+]  #03  fuse               2.9.9, 2.9.9-bin, 3.18.2, 3.18.2-bin -> 2.9.9, 2.9.9-bin, 2.9.9-man, 3.18.2, 3.18.2-bin, 3.18.2-man
+[C.]  #04  gnupg              2.4.9 -> 2.4.9 x2
+[C.]  #05  gtksourceview      3.24.11 -> 3.24.11, 5.20.0
+[C.]  #06  icu4c              78.3 x2 -> 77.1, 78.3 x2
+[C+]  #07  imagemagick        7.1.2-31 -> 7.1.2-31, 7.1.2-31-doc
+[C*]  #08  kitty              0.49.2-terminfo -> 0.49.2, 0.49.2-terminfo
+[C.]  #09  libbluray          1.4.1 x2 -> 1.4.1 x3
+[C.]  #10  libcanberra        0.30 x2 -> 0.30 x3
+[C+]  #11  libinput           1.31.3 -> 1.31.3, 1.31.3-bin
+[C.]  #12  libmpc             1.4.1 -> 1.4.1 x2
+[C.]  #13  mpfr               4.2.2 -> 4.2.2 x2
+[C*]  #14  ncurses            6.6 x2, 6.6-man -> 6.6 x2, 6.6-dev, 6.6-man
+[C.]  #15  nss                3.112.5 x2, 3.112.5-man -> 3.112.5 x2, 3.112.5-man, 3.131
+[C+]  #16  pipewire           1.6.9 x2 -> 1.6.9 x2, 1.6.9-doc, 1.6.9-jack, 1.6.9-man
+[C+]  #17  polkit             127 x2 -> 127 x2, 127-bin
+[C.]  #18  python3            3.14.7 x2, 3.14.7-env x4 -> 3.14.7 x2, 3.14.7-env x6
+[C.]  #19  qtdeclarative      5.15.19, 6.11.2 -> 5.15.19, 5.15.19-bin, 6.11.2
+[C.]  #20  qtsvg              6.11.2 -> 5.15.19, 5.15.19-bin, 6.11.2
+[C.]  #21  qtwayland          6.11.2 -> 5.15.19, 5.15.19-bin, 6.11.2
+[C+]  #22  speech-dispatcher  0.12.1 -> 0.12.1 x2
+[C.]  #23  taglib             2.2.1 x2 -> 1.13.1, 2.2.1 x2
+Selection state changes:
+[C+]  #1  xdg-utils  1.2.1
+[C+]  #2  xrandr     1.5.4
+Added packages:
+[A.]  #001  Hyprland                                                <none>
+[A.]  #002  X-Reload-Triggers-polkit                                <none>
+[A.]  #003  X-Restart-Triggers-polkit                               <none>
+[A.]  #004  attica                                                  6.30.0
+[A+]  #005  awww                                                    0.12.1
+[A.]  #006  babl                                                    0.1.126
+[A.]  #007  baloo                                                   6.30.0
+[A.]  #008  baloo-widgets                                           26.08.2
+[A.]  #009  blas                                                    3
+[A+]  #010  brave                                                   1.97.56
+[A.]  #011  breeze-icons                                            6.30.0
+[A+]  #012  brightnessctl                                           0.5.1
+[A.]  #013  cfitsio                                                 4.7.0
+[A.]  #014  dejavu-fonts                                            2.37
+[A.]  #015  docbook-xml                                             4.5
+[A.]  #016  docbook-xsl-nons                                        1.79.2
+[A+]  #017  dolphin                                                 26.08.2
+[A.]  #018  dotconf                                                 1.4.1
+[A.]  #019  etc-UPower-UPower.conf                                  <none>
+[A.]  #020  etc-X11-xorg.conf.d                                     00-keyboard.conf
+[A.]  #021  etc-alsa-conf.d                                         49-pipewire-modules.conf
+[A.]  #022  etc-fuse.conf                                           <none>
+[A.]  #023  etc-polkit                                              1-rules.d-10-nixos.rules
+[A.]  #024  etc-xdg-xdg-desktop-portal-portals.conf                 <none>
+[A.]  #025  exiv2                                                   0.28.9, 0.28.9-lib
+[A+]  #026  feh                                                     3.13.1, 3.13.1-doc, 3.13.1-man
+[A.]  #027  find-xml-catalogs-hook                                  <none>
+[A+]  #028  firefox                                                 158.0
+[A.]  #029  firefox-policies.json                                   <none>
+[A.]  #030  firefox-unwrapped                                       158.0
+[A.]  #031  flatpak                                                 1.18.4
+[A.]  #032  freefont-ttf                                            20120503
+[A.]  #033  gegl                                                    0.4.70
+[A.]  #034  geoclue                                                 2.8.2
+[A.]  #035  gexiv2                                                  0.14.6
+[A.]  #036  gfortran                                                16.2.0, 16.2.0-lib, 16.2.0-libgcc
+[A.]  #037  gfortran-wrapper                                        16.2.0
+[A.]  #038  ghostscript-with-X                                      10.08.0, 10.08.0-fonts
+[A+]  #039  gimp                                                    3.2.6, 3.2.6-man
+[A.]  #040  gjs                                                     1.88.1
+[A.]  #041  gnome-settings-daemon                                   50.1-gsettings-schemas
+[A.]  #042  gpgme                                                   2.2.0
+[A.]  #043  gpgmepp                                                 2.2.0
+[A.]  #044  graphviz                                                15.1.1
+[A.]  #045  greetd                                                  0.10.3
+[A.]  #046  greetd.toml                                             <none>
+[A+]  #047  grim                                                    1.5.0
+[A.]  #048  gtk4-layer-shell                                        1.3.0
+[A.]  #049  gts                                                     0.7.6
+[A.]  #050  gyre-fonts                                              2.501
+[A.]  #051  hypr.conf                                               <none>
+[A+]  #052  hyprland-custom                                         <none>
+[A.]  #053  hyprland.lua                                            <none>
+[A.]  #054  ijs                                                     10.08.0
+[A.]  #055  imlib2                                                  1.12.6
+[A+]  #056  jack-libs                                               <none>
+[A.]  #057  jbig2dec                                                0.20
+[A.]  #058  jpegexiforient                                          0-unstable-2002-02-17
+[A.]  #059  kactivitymanagerd                                       6.7.5
+[A.]  #060  karchive                                                6.30.0
+[A.]  #061  kauth                                                   6.30.0
+[A.]  #062  kbookmarks                                              6.30.0
+[A+]  #063  kcalc                                                   26.08.2
+[A.]  #064  kcmutils                                                6.30.0
+[A.]  #065  kcodecs                                                 6.30.0
+[A.]  #066  kcolorscheme                                            6.30.0
+[A.]  #067  kcompletion                                             6.30.0
+[A.]  #068  kconfig                                                 6.30.0
+[A.]  #069  kconfigwidgets                                          6.30.0
+[A.]  #070  kcoreaddons                                             6.30.0
+[A.]  #071  kcrash                                                  6.30.0
+[A.]  #072  kdbusaddons                                             6.30.0
+[A.]  #073  kdegraphics-mobipocket                                  26.08.2
+[A.]  #074  kdnssd                                                  6.30.0
+[A.]  #075  kdoctools                                               6.30.0
+[A.]  #076  kdsoap                                                  2.2.0
+[A.]  #077  kdsoap-ws-discovery-client                              0.4.0
+[A.]  #078  kfilemetadata                                           6.30.0
+[A.]  #079  kglobalaccel                                            6.30.0
+[A.]  #080  kguiaddons                                              6.30.0
+[A.]  #081  ki18n                                                   6.30.0
+[A.]  #082  kiconthemes                                             6.30.0
+[A.]  #083  kidletime                                               6.30.0
+[A.]  #084  kio                                                     6.30.0
+[A.]  #085  kio-extras                                              26.08.2
+[A.]  #086  kirigami                                                6.30.0
+[A.]  #087  kitemviews                                              6.30.0
+[A.]  #088  kjobwidgets                                             6.30.0
+[A.]  #089  knewstuff                                               6.30.0
+[A.]  #090  knotifications                                          6.30.0
+[A.]  #091  kpackage                                                6.30.0
+[A.]  #092  kparts                                                  6.30.0
+[A.]  #093  kservice                                                6.30.0
+[A.]  #094  ktextwidgets                                            6.30.0
+[A.]  #095  kuserfeedback                                           6.30.0
+[A.]  #096  kwallet                                                 6.30.0
+[A.]  #097  kwidgetsaddons                                          6.30.0
+[A.]  #098  kwindowsystem                                           6.30.0
+[A.]  #099  kxmlgui                                                 6.30.0
+[A.]  #100  lapack                                                  3
+[A.]  #101  libaacs                                                 0.11.1
+[A.]  #102  libappimage                                             1.0.4-5
+[A.]  #103  libbdplus                                               0.2.0
+[A.]  #104  libdbusmenu-gtk3                                        16.04.0
+[A.]  #105  libdovi                                                 3.3.1
+[A.]  #106  libdvbpsi                                               1.3.3
+[A.]  #107  libebml                                                 1.4.7
+[A.]  #108  liberation-fonts                                        2.1.5
+[A.]  #109  libid3tag                                               0.16.4
+[A.]  #110  libiff                                                  0-unstable-2024-03-02
+[A.]  #111  libilbm                                                 0-unstable-2024-03-02
+[A.]  #112  libimobiledevice                                        1.4.0
+[A.]  #113  libimobiledevice-glue                                   1.3.2
+[A.]  #114  libkate                                                 0.4.3
+[A.]  #115  libkexiv2                                               26.08.2
+[A.]  #116  libksba                                                 1.8.0
+[A.]  #117  libmatroska                                             1.7.2
+[A.]  #118  libmicrodns                                             0.2.0
+[A.]  #119  libmng                                                  2.0.3
+[A.]  #120  libmypaint                                              1.6.1
+[A.]  #121  libplacebo                                              5.264.1
+[A.]  #122  libplist                                                2.7.0
+[A.]  #123  libspectre                                              0.2.12
+[A.]  #124  libstartup-notification                                 0.12
+[A.]  #125  libtatsu                                                1.0.5
+[A.]  #126  libtiger                                                0.3.4
+[A.]  #127  libupnp                                                 1.14.25
+[A.]  #128  libusbmuxd                                              2.1.1
+[A.]  #129  libwmf                                                  0.2.16
+[A.]  #130  limits.conf                                             <none>
+[A.]  #131  live555                                                 2026.01.12
+[A+]  #132  mako                                                    1.11.0
+[A.]  #133  malcontent                                              0.13.1-lib
+[A.]  #134  mypaint-brushes                                         2.0.2
+[A.]  #135  nerd-fonts-arimo                                        3.5.0+1.33
+[A+]  #136  nixos-icons                                             0-unstable-2025-06-28
+[A.]  #137  noto-fonts-cjk-sans                                     2.004
+[A.]  #138  noto-fonts-cjk-serif                                    2.003
+[A.]  #139  noto-fonts-color-emoji                                  2.051
+[A.]  #140  openblas                                                0.3.33
+[A.]  #141  openjdk-minimal-jre                                     21.0.12.1+1
+[A.]  #142  ostree                                                  2026.2
+[A.]  #143  packagekit-qt                                           1.1.4
+[A.]  #144  picotts                                                 0-unstable-2021-05-06
+[A.]  #145  pipewire-configs                                        <none>
+[A.]  #146  pipewire-ladspa-plugins                                 <none>
+[A.]  #147  pipewire-lv2-plugins                                    <none>
+[A.]  #148  plasma-activities                                       6.7.5
+[A.]  #149  plasma-activities-stats                                 6.7.5
+[A+]  #150  playerctl                                               2.4.1
+[A.]  #151  polkit-qt                                               1-0.201.1
+[A.]  #152  polkitd.conf                                            <none>
+[A.]  #153  poly2tri-c                                              0.1.0
+[A.]  #154  poppler-qt6                                             26.09.0
+[A.]  #155  python3.14-libevdev                                     0.13.1
+[A.]  #156  python3.14-pyudev                                       0.24.4
+[A.]  #157  qca                                                     2.3.10
+[A.]  #158  qqc2-desktop-style                                      6.30.0
+[A.]  #159  qt5compat                                               6.11.2
+[A.]  #160  qtquickcontrols                                         5.15.19
+[A.]  #161  qttools                                                 6.11.2
+[A.]  #162  qtx11extras                                             5.15.19
+[A+]  #163  rofi                                                    2.0.0
+[A.]  #164  rofi-unwrapped                                          2.0.0
+[A+]  #165  rtkit                                                   0.14
+[A.]  #166  samba-timelock-noop                                     <none>
+[A.]  #167  security-wrapper-fusermount-x86_64-unknown-linux-musl   <none>
+[A.]  #168  security-wrapper-fusermount3-x86_64-unknown-linux-musl  <none>
+[A.]  #169  shader-slang                                            2026.19
+[A.]  #170  shaderc                                                 2026.1-lib
+[A+]  #171  slurp                                                   1.5.0
+[A.]  #172  solid                                                   6.30.0
+[A.]  #173  sonnet                                                  6.30.0
+[A.]  #174  spidermonkey                                            140.14.0
+[A.]  #175  squashfuse                                              0.6.3
+[A.]  #176  suitesparse                                             7.10.0
+[A+]  #177  swaylock                                                1.8.6
+[A.]  #178  syndication                                             6.30.0
+[A.]  #179  syntax-highlighting                                     6.30.0
+[A+]  #180  timelock                                                <none>
+[A.]  #181  timelock-samba                                          <none>
+[A.]  #182  tuigreet                                                0.11.1
+[A.]  #183  umockdev                                                0.19.3
+[A.]  #184  unifont                                                 18.0.01
+[A.]  #185  unit-autovt-tty1.service-disabled                       <none>
+[A.]  #186  unit-filter-chain.service                               <none>
+[A.]  #187  unit-greetd.service                                     <none>
+[A.]  #188  unit-pipewire-pulse.service                             <none>
+[A.]  #189  unit-pipewire-pulse.socket                              <none>
+[A.]  #190  unit-pipewire.service                                   <none>
+[A.]  #191  unit-pipewire.socket                                    <none>
+[A.]  #192  unit-polkit-agent-helper-.service                       <none>
+[A.]  #193  unit-polkit-agent-helper.socket                         <none>
+[A.]  #194  unit-polkit.service                                     <none>
+[A.]  #195  unit-rtkit-daemon.service                               <none>
+[A.]  #196  unit-speech-dispatcher.socket                           <none>
+[A.]  #197  unit-timelock-samba-expiry.service                      <none>
+[A.]  #198  unit-timelock-samba-expiry.timer                        <none>
+[A.]  #199  unit-wireplumber.service                                <none>
+[A+]  #200  upower                                                  1.91.4
+[A+]  #201  vlc                                                     3.0.24, 3.0.24-doc, 3.0.24-man
+[A+]  #202  wayle                                                   0.7.0
+[A.]  #203  wayle-config                                            <none>
+[A+]  #204  wireplumber                                             0.5.18, 0.5.18-doc
+[A.]  #205  wireplumber-configs                                     <none>
+[A.]  #206  wireplumber-extra-config                                <none>
+[A.]  #207  wireplumber-extra-scrips                                <none>
+[A.]  #208  wireplumber-lv2-plugins                                 <none>
+[A+]  #209  wl-clipboard                                            2.3.0
+[A.]  #210  xcb-imdkit                                              1.0.9
+[A+]  #211  xdg-desktop-portal                                      1.22.1
+[A+]  #212  xdg-desktop-portal-gtk                                  1.15.3
+Removed packages:
+[R.]  #1  enforce               <none>
+[R.]  #2  enforce-checked       <none>
+[R.]  #3  postexec              <none>
+[R.]  #4  postexec-checked      <none>
+[R.]  #5  unit-enforce.service  <none>
+[R.]  #6  unit-enforce.timer    <none>
+Closure size: 1938 -> 2184 (299 paths added, 53 paths removed, delta +246, disk usage +2.8GiB).
