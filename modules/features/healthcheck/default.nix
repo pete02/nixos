@@ -114,9 +114,8 @@
             message = "healthcheck.ntfyUrl must not be empty when healthcheck.mdadm.enable is true.";
           }
           {
-            assertion = config.healthcheck.mdadm.devices !=[];
+            assertion = config.healthcheck.mdadm.devices != [];
             message = "healthcheck.mdadm.devices must not be empty when healthcheck.mdadm.enable is true.";
-
           }
         ];
 
@@ -162,7 +161,7 @@
           ];
 
           environment = {
-            EXPECTED_UUID =config.healthcheck.bcachefs.uuid;
+            EXPECTED_UUID = config.healthcheck.bcachefs.uuid;
 
             EXPECTED_DEVICES =
               lib.concatStringsSep " " config.healthcheck.bcachefs.devices;

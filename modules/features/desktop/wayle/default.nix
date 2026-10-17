@@ -60,7 +60,7 @@
           message = "desktop.wayle.configDir must be an absolute path.";
         }
       ];
-
+      environment.systemPackages = [pkgs.wayle];
       systemd.tmpfiles.rules = [
         "d ${cfg.configDir} 0755 ${config.username} users - -"
         "L+ ${cfg.configDir}/config.toml - - - - ${wayleConfig}/config.toml"

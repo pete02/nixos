@@ -24,7 +24,7 @@
     ntfyUrl = "https://ntfy.lumilukko.com/Raysha";
     bcachefs = {
       enable = true;
-      uuid= "6efc72dc-a79e-4340-adf0-28ceb1be8769";
+      uuid = "6efc72dc-a79e-4340-adf0-28ceb1be8769";
       devices = [
         "hdd.hdd1"
         "hdd.hdd2"
@@ -33,9 +33,8 @@
     };
   };
 
-
-  gaming={
-    sunshine=true;
+  gaming = {
+    sunshine = true;
     compatibility = true;
   };
   nixos-management = {
