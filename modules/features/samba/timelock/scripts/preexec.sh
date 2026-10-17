@@ -30,14 +30,12 @@ log "Preexec hook called for share $SMB_SHARE"
 
 # Check if user is already unlocked
 if is_unlocked "$SMB_USER"; then
-    local current_time
     current_time=$(date +%s)
-    local unlock_time
     unlock_time=$(get_unlock_time "$SMB_USER")
-    local elapsed=$((current_time - unlock_time))
+    elapsed=$((current_time - unlock_time))
     
     if [[ "$elapsed" -lt "$COOLDOWN_SECS" ]]; then
-        local remaining=$((COOLDOWN_SECS - elapsed))
+        remaining=$((COOLDOWN_SECS - elapsed))
         log "User $SMB_USER already unlocked, cooldown active (${remaining}s remaining)"
         exit 0
     fi

@@ -212,12 +212,10 @@ case "${1:-}" in
         ;;
     status)
         if is_unlocked "$SMB_USER"; then
-            local unlock_time
             unlock_time=$(get_unlock_time "$SMB_USER")
-            local expiry_time
             expiry_time=$(get_expiry_time "$SMB_USER")
-            echo "Unlocked at: $(date -d @$unlock_time)"
-            echo "Expires at: $(date -d @$expiry_time)"
+            echo "Unlocked at: $(date -d @"$unlock_time")"
+            echo "Expires at: $(date -d @"$expiry_time")"
             exit 0
         else
             echo "Locked"

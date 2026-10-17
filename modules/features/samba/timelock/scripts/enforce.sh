@@ -24,7 +24,6 @@ if [[ -d "$STATE_DIR" ]]; then
     for state_file in "${STATE_DIR}"/*.state; do
         [[ -f "$state_file" ]] || continue
         
-        local user
         user=$(basename "$state_file" .state)
         
         if session_expired "$user"; then
