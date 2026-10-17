@@ -15,7 +15,7 @@
 
   username = "pete";
 
-  health-check = {
+  healthcheck = {
     enable = true;
     devices = ["/dev/sda" "/dev/nvme0n1" "/dev/nvme1n1"];
     memSize = "1G";
@@ -33,7 +33,7 @@
   };
   ssh.client = true;
 
-  sambaTimelock.client = true;
+  samba.timelock.client = true;
 
   common-tools.books = true;
   samba.client = true;

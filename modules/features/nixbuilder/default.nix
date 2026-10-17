@@ -17,7 +17,7 @@
         ))
       ));
   in {
-    options.nixbuilders = {
+    options.nixbuilder = {
       usesBuilders = lib.mkOption {
         type = lib.types.bool;
         default = false;
@@ -122,7 +122,7 @@
         assertions = [
           {
             assertion = client.url != null && client.publicKey != null;
-            message = "nixbuilders.cache.client: url and publicKey must be set.";
+            message = "nixbuilder.cache.client: url and publicKey must be set.";
           }
         ];
 
@@ -150,7 +150,7 @@
         assertions = [
           {
             assertion = server.apiEndpoint != null;
-            message = "nixbuilders.cache.server.apiEndpoint must be set.";
+            message = "nixbuilder.cache.server.apiEndpoint must be set.";
           }
         ];
 

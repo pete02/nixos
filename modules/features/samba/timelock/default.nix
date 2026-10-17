@@ -9,7 +9,7 @@
     config,
     ...
   }: let
-    cfg = config.sambaTimelock;
+    cfg = config.samba.timelock;
     raysha-filter = self.lib.mkScript pkgs {
       name = "raysha-filter";
       src = ./scripts/agh-filter.sh;
@@ -101,9 +101,9 @@
       };
     };
   in {
-    options.sambaTimelock = {
+    options.samba.timelock = {
       server = lib.mkEnableOption "enables timelock server";
-      client = lib.mkEnableOption "enables timelock server";
+      client = lib.mkEnableOption "enables timelock client";
     };
 
     config = lib.mkMerge [

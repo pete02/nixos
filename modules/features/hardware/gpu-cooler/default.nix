@@ -15,8 +15,8 @@
       ];
     };
   in {
-    options.gpucooler = lib.mkEnableOption "Enable GPU cooler";
-    config = lib.mkIf config.gpucooler {
+    options.hardware.gpu-cooler = lib.mkEnableOption "Enable GPU cooler";
+    config = lib.mkIf config.hardware.gpu-cooler {
       systemd.services.gpu-fan-control = {
         description = "GPU Fan Control Service";
         wantedBy = ["multi-user.target"];

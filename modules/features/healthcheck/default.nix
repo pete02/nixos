@@ -48,7 +48,7 @@
       ];
     };
   in {
-    options.health-check = {
+    options.healthcheck = {
       enable = lib.mkEnableOption "scheduled disk and RAM health check";
       devices = lib.mkOption {
         type = lib.types.listOf lib.types.str;
@@ -90,32 +90,32 @@
     };
 
     config = lib.mkMerge [
-      (lib.mkIf config.health-check.enable {
+      (lib.mkIf config.healthcheck.enable {
         systemd.services.health-check = {
           path = with pkgs; [smartmontools memtester curl gnugrep coreutils];
           environment = {
-            DEVICES = lib.concatStringsSep " " config.health-check.devices;
-            MEMSIZE = config.health-check.memSize;
-            NTFY_URL = config.health-check.ntfyUrl;
+            DEVICES = lib.concatStringsSep " " config.healthcheck.devices;
+            MEMSIZE = config.healthcheck.memSize;
+            NTFY_URL = config.healthcheck.ntfyUrl;
           };
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${health-check}/bin/health_check";
             LogsDirectory = "health-check"; # /var/log/health-check, matches the script's default
           };
-          startAt = config.health-check.schedule;
+          startAt = config.healthcheck.schedule;
         };
       })
 
-      (lib.mkIf config.health-check.mdadm.enable {
+      (lib.mkIf config.healthcheck.mdadm.enable {
         assertions = [
           {
-            assertion = config.health-check.ntfyUrl != "";
-            message = "health-check.mdadm.ntfyUrl must not be empty when health-check.mdadm.enable is true.";
+            assertion = config.healthcheck.ntfyUrl != "";
+            message = "healthcheck.mdadm.ntfyUrl must not be empty when healthcheck.mdadm.enable is true.";
           }
           {
-            assertion = config.health-check.mdadm.devices !=[];
-            message = "health-check.mdadm.devices must not be empty when health-check.mdadm.enable is true.";
+            assertion = config.healthcheck.mdadm.devices !=[];
+            message = "healthcheck.mdadm.devices must not be empty when healthcheck.mdadm.enable is true.";
 
           }
         ];
@@ -123,8 +123,8 @@
         systemd.services.mdadm-check = {
           path = with pkgs; [curl coreutils gnused];
           environment = {
-            EXPECT = lib.concatStringsSep " " config.health-check.mdadm.devices;
-            NTFY_URL = config.health-check.ntfyUrl;
+            EXPECT = lib.concatStringsSep " " config.healthcheck.mdadm.devices;
+            NTFY_URL = config.healthcheck.ntfyUrl;
           };
           serviceConfig = {
             Type = "oneshot";
@@ -135,19 +135,19 @@
         };
       })
 
-      (lib.mkIf config.health-check.bcachefs.enable {
+      (lib.mkIf config.healthcheck.bcachefs.enable {
         assertions = [
           {
-            assertion = config.health-check.ntfyUrl != "";
-            message = "health-check.ntfyUrl must not be empty when health-check.bcachefs.enable is true.";
+            assertion = config.healthcheck.ntfyUrl != "";
+            message = "healthcheck.ntfyUrl must not be empty when healthcheck.bcachefs.enable is true.";
           }
           {
-            assertion = config.health-check.bcachefs.devices != [];
-            message = "health-check.bcachefs.devices must not be empty when health-check.bcachefs.enable is true.";
+            assertion = config.healthcheck.bcachefs.devices != [];
+            message = "healthcheck.bcachefs.devices must not be empty when healthcheck.bcachefs.enable is true.";
           }
           {
-            assertion = config.health-check.bcachefs.uuid != "";
-            message = "health-check.bcachefs.uuid must not be empty when health-check.bcachefs.enable is true.";
+            assertion = config.healthcheck.bcachefs.uuid != "";
+            message = "healthcheck.bcachefs.uuid must not be empty when healthcheck.bcachefs.enable is true.";
           }
         ];
 
@@ -162,12 +162,12 @@
           ];
 
           environment = {
-            EXPECTED_UUID =config.health-check.bcachefs.uuid;
+            EXPECTED_UUID =config.healthcheck.bcachefs.uuid;
 
             EXPECTED_DEVICES =
-              lib.concatStringsSep " " config.health-check.bcachefs.devices;
+              lib.concatStringsSep " " config.healthcheck.bcachefs.devices;
 
-            NTFY_URL = config.health-check.ntfyUrl;
+            NTFY_URL = config.healthcheck.ntfyUrl;
           };
 
           serviceConfig = {

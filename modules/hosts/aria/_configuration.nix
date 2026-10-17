@@ -18,7 +18,7 @@
     MAILADDR = "petrik.rasanen@gmail.com";
   };
 
-  health-check = {
+  healthcheck = {
     enable = true;
     devices = ["/dev/sda" "/dev/sdb" "/dev/nvme0n1"];
     ntfyUrl = "https://ntfy.lumilukko.com/Raysha";
@@ -55,13 +55,13 @@
     kitty.terminfo
   ];
 
-  nixbuilders.cache.server = {
+  nixbuilder.cache.server = {
     enable = true;
     apiEndpoint = "http://192.168.88.241:8080/";
     envSecret = "services/attic/env";
     openFirewall = true; # restrict to LAN/docker subnet if you can
   };
 
-  sambaTimelock.server = true;
+  samba.timelock.server = true;
   samba.server = true;
 }

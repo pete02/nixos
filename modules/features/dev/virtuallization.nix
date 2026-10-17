@@ -9,8 +9,8 @@
     lib,
     ...
   }: {
-    options.virtualization = lib.mkEnableOption "enables virtualization";
-    config = lib.mkIf config.virtualization {
+    options.dev.virtualization = lib.mkEnableOption "enables virtualization";
+    config = lib.mkIf config.dev.virtualization {
       boot.kernelModules = [
         "kvm-intel"
         "kvm-amd"
