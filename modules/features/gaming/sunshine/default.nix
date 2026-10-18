@@ -51,16 +51,15 @@
         openFirewall = true;
 
         settings = {
-          capture = "wlr";
+          capture = "kms";
           csrf_allowed_origins = "https://192.168.88.241:47990";
-
         };
       };
 
       systemd.user.services.sunshine = {
-        wantedBy = [ "graphical-session.target" ];
-        partOf = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
+        wantedBy = ["graphical-session.target"];
+        partOf = ["graphical-session.target"];
+        after = ["graphical-session.target"];
       };
 
       hardware.uinput.enable = true;

@@ -68,7 +68,7 @@ hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("rofi -show drun -show-icons"))
 hl.bind("SUPER + C", hl.dsp.window.close())
 hl.bind("SUPER + M", hl.dsp.exit())
 hl.bind("SUPER + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind("SUPER + UP", hl.dsp.window.fullscreen())
+hl.bind("SUPER + UP", hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind("SUPER + F", hl.dsp.window.fullscreen())
 
 -- Workspace navigation
