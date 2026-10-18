@@ -86,6 +86,7 @@
         COOLDOWN_SECS = toString (cfg.cooldownHours * 60 * 60);
         CUTOFF_HOUR = toString cfg.cutoffHour;
         NOOP_COMMAND = "${samba-noop}/bin/samba-timelock-noop";
+        STATE_USER ${config.username}
       };
     };
   in {
