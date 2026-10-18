@@ -113,11 +113,9 @@
             default = true,
         })
 
-        hl.bind("SUPER + LEFT",
-          hl.bind("SUPER + LEFT",  hl.dsp.window.move({ workspace = 1 }))
+        hl.bind("SUPER + LEFT",  hl.dsp.window.move({ workspace = 1 }))
 
-        hl.bind("SUPER + RIGHT",
-          hl.bind("SUPER + RIGHT", hl.dsp.window.move({ workspace = 2 }))
+        hl.bind("SUPER + RIGHT", hl.dsp.window.move({ workspace = 2 }))
 
         hl.bind("SUPER + N",
           hl.dsp.exec_cmd("/home/pete/wallpapers/switch.sh"))
