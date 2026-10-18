@@ -1,4 +1,4 @@
-```bash
+
 #!/usr/bin/env bash
 set -euo pipefail
 umask 077
@@ -16,9 +16,6 @@ die() {
     exit 2
 }
 
-log() {
-    logger -t timelock -- "$*" || true
-}
 
 [[ $# -eq 2 ]] || die "Usage: timelock RESOURCE ACTION"
 
@@ -323,4 +320,3 @@ case "$action" in
         die "Unknown action: $action"
         ;;
 esac
-```
