@@ -52,6 +52,7 @@
 
         settings = {
           capture = "kms";
+          encoder = "vulkan";
           csrf_allowed_origins = "https://192.168.88.241:47990";
         };
       };

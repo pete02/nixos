@@ -1,4 +1,8 @@
-<<< /nix/var/nix/profiles/system-53-link
->>> /nix/var/nix/profiles/system-54-link
-No version or selection state changes.
-Closure size: 2685 -> 2685 (18 paths added, 18 paths removed, delta +0, disk usage +0B).
+<<< /nix/var/nix/profiles/system-54-link
+>>> /nix/var/nix/profiles/system-55-link
+Version changes:
+[C.]  #1  ffmpeg      6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 7.1.5-data, 7.1.5-lib, 8.1.2-data, 8.1.2-lib, 9.0.1-data, 9.0.1-lib -> 6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 7.1.5-data, 7.1.5-lib, 8.1.2-data x2, 8.1.2-lib x2, 9.0.1-data, 9.0.1-lib
+[C.]  #2  libplacebo  5.264.1 -> 5.264.1, 7.360.1
+Added packages:
+[A+]  #1  moonlight-qt  6.1.0
+Closure size: 2685 -> 2689 (17 paths added, 13 paths removed, delta +4, disk usage +38.6MiB).

@@ -92,7 +92,7 @@ handle_success(){
     nvd diff \
         "${system_links[-2]}" \
         "${system_links[-1]}" \
-        > "${CONFIG_FOLDER}/${HOSTNAME}-diff.txt"
+        > "${CONFIG_FOLDER}/diffs/${HOSTNAME}-diff.txt"
 
 
     cat "$CONFIG_FOLDER/diffs/$HOSTNAME-diff.txt"
