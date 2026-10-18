@@ -25,19 +25,29 @@ log() {
 resource="$1"
 action="$2"
 
-[[ "$resource" =~ ^[a-zA-Z0-9_.-]+$ ]] ||
+if [[ ! "$resource" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
     die "Invalid resource name"
+fi
 
-[[ "$TIMELOCK_MAX_SESSION_SECS" =~ ^[0-9]+$ ]] &&
-    (( TIMELOCK_MAX_SESSION_SECS > 0 )) ||
+if [[ ! "$TIMELOCK_MAX_SESSION_SECS" =~ ^[0-9]+$ ]]; then
     die "Invalid maximum session duration"
+fi
 
-[[ "$TIMELOCK_COOLDOWN_SECS" =~ ^[0-9]+$ ]] ||
+if (( TIMELOCK_MAX_SESSION_SECS == 0 )); then
+    die "Invalid maximum session duration"
+fi
+
+if [[ ! "$TIMELOCK_COOLDOWN_SECS" =~ ^[0-9]+$ ]]; then
     die "Invalid cooldown duration"
+fi
 
-[[ "$TIMELOCK_CUTOFF_HOUR" =~ ^[0-9]+$ ]] &&
-    (( TIMELOCK_CUTOFF_HOUR <= 23 )) ||
+if [[ ! "$TIMELOCK_CUTOFF_HOUR" =~ ^[0-9]+$ ]]; then
     die "TIMELOCK_CUTOFF_HOUR must be an integer from 0 to 23"
+fi
+
+if (( TIMELOCK_CUTOFF_HOUR > 23 )); then
+    die "TIMELOCK_CUTOFF_HOUR must be an integer from 0 to 23"
+fi
 
 for command_path in \
     "$TIMELOCK_LOCK_COMMAND" \
@@ -55,7 +65,7 @@ if ! state_gid=$(id -g "$TIMELOCK_STATE_USER"); then
     die "Cannot resolve primary group for $TIMELOCK_STATE_USER"
 fi
 
-state_group=$(id -gn "$TIMELOCK_STATE_USER")
+
 
 # Only root and the designated user may operate on this resource.
 if (( EUID != 0 && EUID != state_uid )); then
