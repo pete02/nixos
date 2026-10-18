@@ -123,6 +123,7 @@
         environment.systemPackages = [
           alanna-filter
           raysha-filter
+          preexec
         ];
 
         sops.secrets."samba/timelock" = {};

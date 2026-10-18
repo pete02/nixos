@@ -214,8 +214,19 @@ case "$action" in
     unlock)
         read_state
 
-        [[ "$STATE" == "locked" ]] ||
-            die "$resource is already unlocked"
+        if [[ "$STATE" == "unlocked" ]]; then
+            deadline=$(expiry_time "$TIMESTAMP")
+
+            if (( $(now) < deadline )); then
+                # Already unlocked and still within the allowed session.
+                # Do not reset the session timestamp.
+                exit 0
+            fi
+
+            # The session has expired. Lock before considering an unlock.
+            apply_lock "session expired during unlock request"
+            read_state
+        fi
 
         if (( TIMESTAMP > 0 && $(now) < TIMESTAMP + TIMELOCK_COOLDOWN_SECS )); then
             die "$resource is still in its cooldown period"

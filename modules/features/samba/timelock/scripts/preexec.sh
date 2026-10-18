@@ -50,4 +50,4 @@ if ! check_commands; then
     exit 1
 fi
 
-exec timelock samba check
+exec timelock shared unlock
