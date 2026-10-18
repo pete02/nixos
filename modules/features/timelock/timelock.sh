@@ -186,6 +186,10 @@ write_state() {
     trap - RETURN
 }
 
+log() {
+    logger -t timelock -- "$*" || true
+}
+
 apply_lock() {
     local reason="$1"
     local timestamp
