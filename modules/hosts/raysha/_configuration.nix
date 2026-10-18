@@ -6,6 +6,7 @@
 }: {
   environment.systemPackages = with pkgs; [
     via
+    moonlight-qt
   ];
 
   hardware.keyboard.qmk.enable = true;
