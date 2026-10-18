@@ -26,17 +26,19 @@ if [[  ! "$resource" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
     die "Invalid resource name"
 fi
 
-if [[ "$TIMELOCK_MAX_SESSION_SECS" =~ ^[0-9]+$ ]] &&
-    (( TIMELOCK_MAX_SESSION_SECS > 0 )); then
+if [[ ! "$TIMELOCK_MAX_SESSION_SECS" =~ ^[0-9]+$ ]] ||
+    (( TIMELOCK_MAX_SESSION_SECS == 0 )); then
     die "Invalid maximum session duration"
 fi
-if [[ "$TIMELOCK_COOLDOWN_SECS" =~ ^[0-9]+$ ]]; then
+if [[ ! "$TIMELOCK_COOLDOWN_SECS" =~ ^[0-9]+$ ]]; then
     die "Invalid cooldown duration"
 fi
+
 if [[ ! "$TIMELOCK_CUTOFF_HOUR" =~ ^[0-9]+$ ]] ||
   (( TIMELOCK_CUTOFF_HOUR > 23 )); then
   die "TIMELOCK_CUTOFF_HOUR must be an integer from 0 to 23"
 fi
+
 for command_path in \
     "$TIMELOCK_LOCK_COMMAND" \
     "$TIMELOCK_UNLOCK_COMMAND"; do
