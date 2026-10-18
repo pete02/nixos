@@ -51,10 +51,11 @@
     mkResourceWrapper = name: resource:
       pkgs.writeShellScriptBin "timelock-${name}" ''
         export TIMELOCK_STATE_DIR=${lib.escapeShellArg cfg.stateDir}
+        export TIMELOCK_STATE_USER=${lib.escapeShellArg cfg.stateUser}
+
         export TIMELOCK_MAX_SESSION_SECS=${toString cfg.maxSessionSecs}
         export TIMELOCK_COOLDOWN_SECS=${toString cfg.cooldownSecs}
         export TIMELOCK_CUTOFF_HOUR=${toString cfg.cutoffHour}
-
         export TIMELOCK_LOCK_COMMAND=${lib.escapeShellArg (toString resource.lockCommand)}
         export TIMELOCK_UNLOCK_COMMAND=${lib.escapeShellArg (toString resource.unlockCommand)}
 
@@ -70,6 +71,12 @@
       stateDir = mkOption {
         type = types.str;
         default = "/var/lib/timelock";
+        description = "Directory for persistent timelock state.";
+      };
+
+      stateUser = mkOption {
+        type = types.str;
+        default = "${config.username}";
         description = "Directory for persistent timelock state.";
       };
 
