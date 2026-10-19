@@ -27,6 +27,13 @@
     };
   };
 
+  nixbuilder.cache.client = {
+    enable = true;
+    url = "http://192.168.88.241:8080/main";
+    publicKey = "main:i1t81gc6fOtVfDvKgpiL1LG5HjrWF7AtHD21rmbr1OI=";
+    pullTokenSecret = "services/attic/pull_token";
+  };
+
   connectivity = {
     bluetooth = true;
     wifi.enable = true;
