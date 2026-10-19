@@ -145,6 +145,40 @@
         '';
 
         nix.settings.netrc-file = config.sops.templates."attic-netrc".path;
+
+        sops.templates."attic-push-config".content = ''
+          default-server = "aria"
+
+          [servers.aria]
+          endpoint = "${lib.removeSuffix "/main" client.url}"
+          token-file = "${config.sops.secrets.${client.pullTokenSecret}.path}"
+        '';
+
+        nix.settings.post-build-hook =
+          pkgs.writeShellScript
+          "attic-post-build-hook" ''
+            set -u
+            set -f
+            export IFS=' '
+
+            if [ -z "''${OUT_PATHS:-}" ]; then
+              exit 0
+            fi
+
+            config_dir="$(mktemp -d)"
+            trap 'rm -rf "$config_dir"' EXIT
+
+            mkdir -p "$config_dir/attic"
+            cp ${config.sops.templates."attic-push-config".path} \
+              "$config_dir/attic/config.toml"
+
+            export XDG_CONFIG_HOME="$config_dir"
+
+            ${pkgs.attic-client}/bin/attic push aria:main $OUT_PATHS \
+              || echo "Warning: Attic upload failed; build outputs remain local." >&2
+
+            exit 0
+          '';
       })
 
       # ---- Attic server (one host, e.g. aria) ----

@@ -1,4 +1,7 @@
-<<< /nix/var/nix/profiles/system-57-link
->>> /nix/var/nix/profiles/system-58-link
-No version or selection state changes.
-Closure size: 2690 -> 2690 (4 paths added, 4 paths removed, delta +0, disk usage +56B).
+<<< /nix/var/nix/profiles/system-58-link
+>>> /nix/var/nix/profiles/system-59-link
+Added packages:
+[A.]  #1  attic                  0-unstable-2026-07-06
+[A.]  #2  attic-post-build-hook  <none>
+[A.]  #3  attic-push-config      <none>
+Closure size: 2690 -> 2693 (11 paths added, 8 paths removed, delta +3, disk usage +12.3MiB).
