@@ -1,5 +1,4 @@
-<<< /nix/var/nix/profiles/system-56-link
->>> /nix/var/nix/profiles/system-57-link
-Added packages:
-[A.]  #1  attic-netrc  <none>
-Closure size: 2689 -> 2690 (9 paths added, 8 paths removed, delta +1, disk usage -12.3KiB).
+<<< /nix/var/nix/profiles/system-57-link
+>>> /nix/var/nix/profiles/system-58-link
+No version or selection state changes.
+Closure size: 2690 -> 2690 (4 paths added, 4 paths removed, delta +0, disk usage +56B).

@@ -139,9 +139,11 @@
       # Optional pull token, so the cache needn't be public even on the LAN.
       (lib.mkIf (client.enable && client.pullTokenSecret != null) {
         sops.secrets.${client.pullTokenSecret} = {};
+
         sops.templates."attic-netrc".content = ''
-          machine ${urlHost client.url} password ${config.sops.placeholder.${client.pullTokenSecret}}
+          machine ${urlHost client.url} login attic-token password ${config.sops.placeholder.${client.pullTokenSecret}}
         '';
+
         nix.settings.netrc-file = config.sops.templates."attic-netrc".path;
       })
 
