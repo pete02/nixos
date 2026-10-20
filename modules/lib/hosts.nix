@@ -8,7 +8,7 @@
     aria.buildServer = true;
     raysha.buildServer = true;
     talia.sshServer = true;
-    rpi-test.rpi = true;
+    rpi3-test.rpi = true;
   };
 
   hosts = lib.mapAttrs (_: host:

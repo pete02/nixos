@@ -1,12 +1,12 @@
 {self, ...}: {
-  flake.nixosConfigurations.rpi-test = self.lib.mkRpiHost {
-    hostname = "rpi-test";
+  flake.nixosConfigurations.rpi3-test = self.lib.mkRpiHost {
+    hostname = "rpi3-test";
 
     modules = [
       ({pkgs, ...}: {
         system.stateVersion = "26.05";
         username="pete";
-        hostname="rpi-test";
+        hostname="rpi3-test";
         environment.systemPackages = with pkgs; [
           kitty.terminfo
           git
