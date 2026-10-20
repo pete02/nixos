@@ -8,7 +8,7 @@
     aria.buildServer = true;
     raysha.buildServer = true;
     talia.sshServer = true;
-    rpi3-test.rpi = true;
+    rpi-test.rpi = true;
   };
 
   hosts = lib.mapAttrs (_: host:
@@ -56,7 +56,7 @@
           ++ [
             {
               inherit hostname;
-              ssh.server = lib.mkDefault (hosts.${hostname}.sshServer or false);
+              ssh.server.enable = lib.mkDefault (hosts.${hostname}.sshServer or false);
               nixbuilder.buildServer = lib.mkDefault (hosts.${hostname}.buildServer or false);
             }
           ];

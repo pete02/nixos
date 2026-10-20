@@ -9,16 +9,19 @@
     config,
     ...
   }: {
-    options.ssh.server = lib.mkEnableOption "Enable the SSH service";
-    options.ssh.client = lib.mkEnableOption "Enable the SSH service";
+    options.ssh={
+      server.enable = lib.mkEnableOption "Enable the SSH service";
+      server.passwordlogin = lib.mkEnableOption "Enable the SSH password login. Use with care";
+    };
+    options.ssh.client.enable = lib.mkEnableOption "Enable the SSH service";
     config = lib.mkMerge [
-      (lib.mkIf (config.ssh.server) {
+      (lib.mkIf (config.ssh.server.enable) {
         services.openssh = {
           enable = true;
           ports = [22];
           hostKeys = []; # stop NixOS auto-generating one; sops provides it below
           settings = {
-            PasswordAuthentication = false;
+            PasswordAuthentication = config.ssh.server.passwordlogin;
             KbdInteractiveAuthentication = false;
             PermitRootLogin = "no";
             AllowUsers = [config.username];
@@ -50,7 +53,7 @@
           mode = "0400";
         };
       })
-      (lib.mkIf (config.ssh.client) {
+      (lib.mkIf (config.ssh.client.enable) {
         sops.secrets =
           {"ssh/hosts/${config.hostname}/private_key" = {owner = config.username;};}
           // lib.mapAttrs' (hostname: _:

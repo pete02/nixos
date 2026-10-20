@@ -21,7 +21,7 @@
     wifi.enable = true;
     mDNS = true;
   };
-  ssh.client = true;
+  ssh.client.enable = true;
 
   dev = {
     enable = true;
