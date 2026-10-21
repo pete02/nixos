@@ -32,7 +32,7 @@ TEMP_KEY="$TEMP_DIR/keys.txt"
 echo "Generating an age key using nixpkgs#age..."
 
 # This obtains age-keygen through Nix without requiring a permanent install.
-nix shell nixpkgs#age --command age-keygen -o "$TEMP_KEY"
+nix --extra-experimental-features 'nix-command flakes' shell nixpkgs#age --command age-keygen -o "$TEMP_KEY"
 
 # Install the private key with restrictive permissions.
 install -o root -g root -m 600 "$TEMP_KEY" "$KEY_FILE"
@@ -43,7 +43,7 @@ echo "Directory permissions: 700"
 echo "Key file permissions: 600"
 echo
 echo "Public key:"
-nix shell nixpkgs#age --command age-keygen -y "$KEY_FILE"
+nix --extra-experimental-features 'nix-command flakes' shell nixpkgs#age --command age-keygen -y "$KEY_FILE"
 
 echo
 echo "Done. No SOPS configuration or encrypted secrets were modified."
