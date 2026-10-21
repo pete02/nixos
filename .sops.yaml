@@ -2,7 +2,7 @@
 keys:
   - &raysha age17dee6h8khar4era7saad8xyar99zaxsw99t92dy2fzh7s5s0tdfq4x4ckc
   - &pete age1d9pqul9l5ry53zhd59frflwe4upk28d25dsj0s28nm3q0gvqtszs2x8l40
-  - &rpi3-test age1zuwcldg6swh2cu4wwmwsax28fs2rsgm2qrn2metgxwm05u8x2fzqy8muwl
+  - &rpi3-test age1fvy3f80hy3kn4jchczjr35uy7wa6n4gf83hwxzurrs0s44vvpqrsc37dgy
 
 creation_rules:
   - path_regex: secrets/.*\.yaml$
