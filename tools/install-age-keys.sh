@@ -1,61 +1,36 @@
-
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
-DEST="/etc/sops/age/keys.txt"
-FORCE=false
+KEY_DIR="/etc/sops/age"
+KEY_FILE="$KEY_DIR/keys.txt"
 
-usage() {
-  echo "Usage: $0 [--force] <age-keys-file>" >&2
-  exit 2
-}
-
-while (($#)); do
-  case "$1" in
-    --force)
-      FORCE=true
-      shift
-      ;;
-    -*)
-      usage
-      ;;
-    *)
-      break
-      ;;
-  esac
-done
-
-[[ $# -eq 1 ]] || usage
-SOURCE=$1
-
-if [[ ! -f "$SOURCE" || ! -r "$SOURCE" ]]; then
-  echo "Error: key file is not readable: $SOURCE" >&2
+if [[ $EUID -ne 0 ]]; then
+  echo "Run this script with sudo: sudo $0" >&2
   exit 1
 fi
 
-if ! grep -qE '^[[:space:]]*AGE-SECRET-KEY-' "$SOURCE"; then
-  echo "Error: no Age private key found in $SOURCE" >&2
+if [[ -e "$KEY_FILE" ]]; then
+  echo "Age key already exists at $KEY_FILE; leaving it unchanged."
+  exit 0
+fi
+
+if ! command -v age-keygen >/dev/null 2>&1; then
+  echo "age-keygen is not installed." >&2
+  echo "Install it with: nix shell nixpkgs#age" >&2
   exit 1
 fi
 
-if [[ -e "$DEST" && "$FORCE" != true ]]; then
-  echo "Error: $DEST already exists; refusing to overwrite." >&2
-  echo "Use --force to replace it." >&2
-  exit 1
-fi
+install -d -o root -g root -m 700 "$KEY_DIR"
 
-sudo install -d -o root -g root -m 700 "$(dirname "$DEST")"
+TEMP_KEY="$(mktemp)"
+trap 'rm -f "$TEMP_KEY"' EXIT
 
-TEMP=$(sudo mktemp "${DEST}.XXXXXX")
-cleanup() {
-  sudo rm -f "$TEMP"
-}
-trap cleanup EXIT
+age-keygen -o "$TEMP_KEY"
 
-sudo install -o root -g root -m 600 "$SOURCE" "$TEMP"
-sudo mv -f "$TEMP" "$DEST"
-trap - EXIT
+install -o root -g root -m 600 "$TEMP_KEY" "$KEY_FILE"
 
-echo "Age key installed at $DEST"
-echo "Permissions: root-only (0600)"
-echo "No SOPS files or NixOS configuration were modified."
+echo
+echo "Age key installed at $KEY_FILE"
+echo "Public key:"
+age-keygen -y "$KEY_FILE"
+
