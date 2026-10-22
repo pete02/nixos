@@ -1,12 +1,12 @@
 {self, ...}: {
-  flake.nixosConfigurations.tress = self.lib.mkRpiHost {
-    hostname = "tress";
+  flake.nixosConfigurations.eris = self.lib.mkRpiHost {
+    hostname = "eris";
 
     modules = [
       ({pkgs, ...}: {
         system.stateVersion = "26.05";
         username = "pete";
-        hostname = "tress";
+        hostname = "eris";
         nixbuilder.cache.client = {
           enable = true;
           url = "http://192.168.88.241:8080/main";
