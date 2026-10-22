@@ -70,7 +70,8 @@
     };
   };
 
-  samba.timelock.server = true;
+  samba.timelock.enable = true;
+  
   samba.servers.server = {
     enable = true;
     credentialsSecret = "samba/server";

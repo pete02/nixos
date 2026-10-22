@@ -90,8 +90,7 @@
     };
   in {
     options.samba.timelock = {
-      server = lib.mkEnableOption "Samba timelock server";
-      client = lib.mkEnableOption "Samba timelock client";
+      enable = lib.mkEnableOption "Samba timelock server";
 
       cooldownHours = lib.mkOption {
         type = lib.types.ints.positive;
@@ -113,7 +112,7 @@
     };
 
     config = lib.mkMerge [
-      (lib.mkIf cfg.server {
+      (lib.mkIf cfg.enable {
         environment.systemPackages = [
           alanna-filter
           raysha-filter
@@ -145,16 +144,6 @@
             lockCommand = "${samba-noop}/bin/samba-timelock-noop";
             unlockCommand = "${samba-noop}/bin/samba-timelock-noop";
           };
-        };
-      })
-
-      (lib.mkIf cfg.client {
-        samba.clients.timelock = {
-          enable = true;
-          host = "aria.local";
-          share = "timelock";
-          mountPoint = "/mnt/timelock";
-          credentialsSecret = "samba/timelock";
         };
       })
     ];
