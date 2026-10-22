@@ -1,3 +1,4 @@
+
 {
   self,
   inputs,
@@ -49,8 +50,6 @@
       };
     };
 
-    # Samba's authorization hook delegates policy to the generic controller.
-    # The no-op commands are intentional: Samba enforces access at connection time.
     samba-noop = pkgs.writeShellApplication {
       name = "samba-timelock-noop";
       runtimeInputs = [];
@@ -86,7 +85,7 @@
         COOLDOWN_SECS = toString (cfg.cooldownHours * 60 * 60);
         CUTOFF_HOUR = toString cfg.cutoffHour;
         NOOP_COMMAND = "${samba-noop}/bin/samba-timelock-noop";
-        STATE_USER = "${config.username}";
+        STATE_USER = config.username;
       };
     };
   in {
@@ -97,25 +96,19 @@
       cooldownHours = lib.mkOption {
         type = lib.types.ints.positive;
         default = 72;
-        description = ''
-          Cooldown period in hours before access can be granted again.
-        '';
+        description = "Cooldown period in hours before access can be granted again.";
       };
 
       cutoffHour = lib.mkOption {
         type = lib.types.ints.between 0 23;
         default = 23;
-        description = ''
-          Local hour (0-23) after which new sessions cannot be unlocked.
-        '';
+        description = "Local hour (0-23) after which new sessions cannot be unlocked.";
       };
 
       maxSessionMinutes = lib.mkOption {
         type = lib.types.ints.positive;
         default = 90;
-        description = ''
-          Maximum session duration in minutes before automatic locking.
-        '';
+        description = "Maximum session duration in minutes.";
       };
     };
 
@@ -126,9 +119,18 @@
           raysha-filter
           preexec
         ];
-
-        sops.secrets."samba/timelock" = {};
         sops.secrets."agh" = {};
+
+        samba.servers.timelock = {
+          enable = true;
+          credentialsSecret = "samba/timelock";
+
+          shares.timelock = {
+            path = "/mnt/timelock";
+            rootPreexec = "${preexec}/bin/preexec";
+            rootPreexecClose = true;
+          };
+        };
 
         services.timelock = {
           enable = true;
@@ -144,77 +146,15 @@
             unlockCommand = "${samba-noop}/bin/samba-timelock-noop";
           };
         };
-
-        services.samba = {
-          enable = true;
-          openFirewall = true;
-
-          settings = {
-            global = {
-              security = "user";
-              workgroup = "WORKGROUP";
-            };
-
-            timelock = {
-              path = "/mnt/timelock";
-              browseable = "yes";
-              "read only" = "no";
-              "guest ok" = "no";
-              "create mask" = "0644";
-              "directory mask" = "0755";
-              "force user" = config.username;
-              "force group" = "users";
-
-              "root preexec" = "${preexec}/bin/preexec";
-              "root preexec close" = "yes";
-            };
-          };
-        };
-
-        systemd.services.credentials = {
-          description = "Set Samba password for timelock share from SOPS secret";
-          wantedBy = ["multi-user.target"];
-          after = ["samba.service"];
-
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-          };
-
-          script = ''
-            username=$(grep '^username=' /run/secrets/samba/timelock | cut -d= -f2)
-            password=$(grep '^password=' /run/secrets/samba/timelock | cut -d= -f2)
-            printf '%s\n%s\n' "$password" "$password" \
-              | ${pkgs.samba}/bin/smbpasswd -a -s "$username"
-          '';
-        };
       })
 
       (lib.mkIf cfg.client {
-        systemd.tmpfiles.rules = [
-          "d /mnt/timelock 0755 ${config.username} ${config.username} -"
-        ];
-
-        environment.systemPackages = [
-          pkgs.cifs-utils
-        ];
-
-        sops.secrets."samba/timelock" = {};
-
-        fileSystems."/mnt/timelock" = {
-          device = "//aria.local/timelock/";
-          fsType = "cifs";
-
-          options = [
-            "noauto"
-            "user"
-            "x-systemd.device-timeout=5s"
-            "x-systemd.mount-timeout=5s"
-            "credentials=/run/secrets/samba/timelock"
-            "vers=3.0"
-            "uid=1000"
-            "gid=1000"
-          ];
+        samba.clients.timelock = {
+          enable = true;
+          host = "aria.local";
+          share = "timelock";
+          mountPoint = "/mnt/timelock";
+          credentialsSecret = "samba/timelock";
         };
       })
     ];

@@ -71,7 +71,14 @@
   };
 
   samba.timelock.server = true;
-  samba.server = true;
+  samba.servers.server = {
+    enable = true;
+    credentialsSecret = "samba/server";
+
+    shares.server = {
+      path = "/mnt/server";
+    };
+  };
 
   desktop = {
     enable = true;
