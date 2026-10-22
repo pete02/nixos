@@ -102,7 +102,6 @@
               /run/bitwarden-backup/rclone.conf
           fi
         '';
-        
 
         serviceConfig = {
           Type = "oneshot";
@@ -112,7 +111,6 @@
           RuntimeDirectoryPreserve = "yes";
         };
         startAt = config.bitwarden-backup.schedule;
-
       };
     };
   };

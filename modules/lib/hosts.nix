@@ -21,8 +21,22 @@
 
   # Unchanged: every host, Pi included, gets all of these.
   featureModules = with self.nixosModules; [
-    sops dev connectivity nixbuilder base ssh samba-timelock healthcheck
-    power samba hardware bitwarden-backup nixos-management gaming timelock desktop
+    sops
+    dev
+    connectivity
+    nixbuilder
+    base
+    ssh
+    samba-timelock
+    healthcheck
+    power
+    samba
+    hardware
+    bitwarden-backup
+    nixos-management
+    gaming
+    timelock
+    desktop
   ];
 
   # Added only for Pi hosts, on top of featureModules.
@@ -39,7 +53,7 @@
     rpi ? false,
     nixosSystem ? inputs.nixpkgs.lib.nixosSystem,
   }:
-    # The table and the constructor must agree, in both directions.
+  # The table and the constructor must agree, in both directions.
     assert lib.assertMsg ((hosts.${hostname}.rpi or false) == rpi)
     "${hostname}: `rpi` in rawHosts must match whether it is built with mkRpiHost";
       nixosSystem {

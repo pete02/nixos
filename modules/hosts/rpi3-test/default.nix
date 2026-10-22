@@ -5,8 +5,8 @@
     modules = [
       ({pkgs, ...}: {
         system.stateVersion = "26.05";
-        username="pete";
-        hostname="rpi3-test";
+        username = "pete";
+        hostname = "rpi3-test";
         nixbuilder.cache.client = {
           enable = true;
           url = "http://192.168.88.241:8080/main";
@@ -22,7 +22,7 @@
           git
         ];
         # This board's USB disk.
-        ssh.server.passwordlogin=true;
+        ssh.server.passwordlogin = true;
         fileSystems."/data" = {
           device = "/dev/disk/by-label/NIXOS_HDD";
           fsType = "ext4";

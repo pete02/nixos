@@ -33,7 +33,6 @@
     };
   };
 
-
   gaming = {
     sunshine = true;
     compatibility = true;
@@ -56,7 +55,7 @@
   ];
   services.timelock.enable = true;
 
-  nixbuilder.cache= {
+  nixbuilder.cache = {
     server = {
       enable = true;
       apiEndpoint = "http://192.168.88.241:8080/";

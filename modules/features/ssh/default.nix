@@ -9,7 +9,7 @@
     config,
     ...
   }: {
-    options.ssh={
+    options.ssh = {
       server.enable = lib.mkEnableOption "Enable the SSH service";
       server.passwordlogin = lib.mkEnableOption "Enable the SSH password login. Use with care";
     };
