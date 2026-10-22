@@ -107,11 +107,11 @@
         serviceConfig = {
           Type = "oneshot";
           ExecStart = "${bitwarden-backup}/bin/bitwarden-backup";
+          RuntimeDirectory = "bitwarden-backup";
+          RuntimeDirectoryMode = "0700";
+          RuntimeDirectoryPreserve = "yes";
         };
         startAt = config.bitwarden-backup.schedule;
-        RuntimeDirectory = "bitwarden-backup";
-        RuntimeDirectoryMode = "0700";
-        RuntimeDirectoryPreserve = "yes";
 
       };
     };
