@@ -38,7 +38,16 @@
   };
   common-tools.books = true;
   common-tools.school = true;
-  samba.client = true;
+  
+  samba.clients.server = {
+    enable = true;
+    host = "aria.local";
+    share = "server";
+    mountPoint = "/mnt/server";
+    credentialsSecret = "samba/server";
+  };
+
+
   desktop = {
     enable = true;
     services = {

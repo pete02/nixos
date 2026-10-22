@@ -1,10 +1,14 @@
-
 {
-  lib,
-  pkgs,
-  config,
+  self,
+  inputs,
   ...
-}: let
+}: {
+  flake.nixosModules.samba = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: let
   cfg = config.samba;
 
   enabledServers = lib.filterAttrs (_: server: server.enable) cfg.servers;
@@ -233,16 +237,16 @@ in {
   };
 
   config = lib.mkMerge [
-    {
-      assertions = [
-        {
-          assertion =
-            builtins.length shareNames
-            == builtins.length (lib.unique shareNames);
-          message = "Samba share names must be unique across enabled server definitions.";
-        }
-      ];
-    }
+    (lib.mkIf (enabledServers != {}) {
+        assertions = [
+          {
+            assertion =
+              builtins.length shareNames
+              == builtins.length (lib.unique shareNames);
+            message = "Samba share names must be unique across enabled server definitions.";
+          }
+        ];
+      })
 
     (lib.mkIf (enabledServers != {}) {
       sops.secrets = lib.genAttrs serverSecrets (_: {});
@@ -300,4 +304,5 @@ in {
         enabledClients;
     })
   ];
+};
 }

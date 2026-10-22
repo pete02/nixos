@@ -44,7 +44,24 @@
   samba.timelock.client = true;
 
   common-tools.books = true;
-  samba.client = true;
+
+  samba.clients = {
+    server = {
+      enable = true;
+      host = "aria.local";
+      share = "server";
+      mountPoint = "/mnt/server";
+      credentialsSecret = "samba/server";
+    };
+
+    timelock = {
+      enable = true;
+      host = "aria.local";
+      share = "timelock";
+      mountPoint = "/mnt/timelock";
+      credentialsSecret = "samba/timelock";
+    };
+  };
 
   gaming = {
     steam = true;
