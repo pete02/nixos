@@ -2,7 +2,7 @@
 keys:
   - &raysha age17dee6h8khar4era7saad8xyar99zaxsw99t92dy2fzh7s5s0tdfq4x4ckc
   - &pete age1d9pqul9l5ry53zhd59frflwe4upk28d25dsj0s28nm3q0gvqtszs2x8l40
-  - &rpi3-test age1epqr4p48r0vdyzr6uqnkl7kwr7vrjq7yk29rdy4llkusl7mjws6s4x57a4
+  - &tress age1epqr4p48r0vdyzr6uqnkl7kwr7vrjq7yk29rdy4llkusl7mjws6s4x57a4
 
 creation_rules:
   - path_regex: secrets/.*\.yaml$
@@ -10,10 +10,10 @@ creation_rules:
       - age:
           - *raysha
           - *pete
-          - *rpi3-test
+          - *tress
   - path_regex: secrets/rclone-gdrive\.conf.ini$
     key_groups:
       - age:
           - *raysha
           - *pete
-          - *rpi3-test
+          - *tress

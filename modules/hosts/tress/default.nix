@@ -1,12 +1,12 @@
 {self, ...}: {
-  flake.nixosConfigurations.rpi3-test = self.lib.mkRpiHost {
-    hostname = "rpi3-test";
+  flake.nixosConfigurations.tress = self.lib.mkRpiHost {
+    hostname = "tress";
 
     modules = [
       ({pkgs, ...}: {
         system.stateVersion = "26.05";
         username = "pete";
-        hostname = "rpi3-test";
+        hostname = "tress";
         nixbuilder.cache.client = {
           enable = true;
           url = "http://192.168.88.241:8080/main";
