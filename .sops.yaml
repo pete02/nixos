@@ -11,7 +11,7 @@ creation_rules:
           - *raysha
           - *pete
           - *rpi3-test
-  - path_regex: secrets/rclone-gdrive\.conf$
+  - path_regex: secrets/rclone-gdrive\.conf.ini$
     key_groups:
       - age:
           - *raysha
