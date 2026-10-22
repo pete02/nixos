@@ -20,6 +20,7 @@
         gnugrep
         coreutils
         gnused
+        inetutils # hostname
       ];
     };
   in {
@@ -87,18 +88,31 @@
           CONTAINER_NAME = config.bitwarden-backup.containerName;
           RCLONE_REMOTE = config.bitwarden-backup.remote;
           KEEP = toString config.bitwarden-backup.keep;
-          RCLONE_CONFIG = config.bitwarden-backup.rcloneConfigFile;
+          RCLONE_CONFIG = "/run/bitwarden-backup/rclone.conf";
           NTFY_URL = config.bitwarden-backup.ntfyUrl;
         };
         after = ["network-online.target"];
         wants = ["network-online.target"];
+        # Initialize the writable configuration only when it does not exist.
+        preStart = ''
+          if [ ! -e /run/bitwarden-backup/rclone.conf ]; then
+            ${pkgs.coreutils}/bin/install \
+              -m 0600 \
+              ${config.bitwarden-backup.rcloneConfigFile} \
+              /run/bitwarden-backup/rclone.conf
+          fi
+        '';
+        
 
         serviceConfig = {
           Type = "oneshot";
           ExecStart = "${bitwarden-backup}/bin/bitwarden-backup";
         };
-
         startAt = config.bitwarden-backup.schedule;
+        RuntimeDirectory = "bitwarden-backup";
+        RuntimeDirectoryMode = "0700";
+        RuntimeDirectoryPreserve = "yes";
+
       };
     };
   };
