@@ -17,6 +17,9 @@
           enable = true;
           Ssid = "Pete";
         };
+
+        dev.git=true;
+        
         environment.systemPackages = with pkgs; [
           kitty.terminfo
           git
