@@ -53,10 +53,11 @@ check_host_isolation() {
     for host in "${hosts[@]}"; do
         for other in "${hosts[@]}"; do
             [[ "$host" == "$other" ]] && continue
-
-            if grep -RInFw "$other" "$host_root/$host" >/dev/null; then
+            if grep -RInP "(?<![[:alnum:]_.-])${other}(?![[:alnum:]_.-])" \
+                "$host_root/$host" >/dev/null; then
                 echo "❌ '$other' referenced inside $host_root/$host"
-                grep -RInFw "$other" "$host_root/$host"
+                grep -RInP "(?<![[:alnum:]_.-])${other}(?![[:alnum:]_.-])" \
+                    "$host_root/$host"
                 failed=1
             fi
         done
