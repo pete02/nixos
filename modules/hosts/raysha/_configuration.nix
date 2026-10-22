@@ -41,8 +41,6 @@
   };
   ssh.client.enable = true;
 
-  samba.timelock.client = true;
-
   common-tools.books = true;
 
   samba.clients = {
