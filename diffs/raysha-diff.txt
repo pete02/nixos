@@ -1,7 +1,4 @@
-<<< /nix/var/nix/profiles/system-62-link
->>> /nix/var/nix/profiles/system-63-link
-Version changes:
-[C+]  #1  jq  1.8.2 x2, 1.8.2-bin x2 -> 1.8.2 x2, 1.8.2-bin x2, 1.8.2-doc, 1.8.2-man
-Selection state changes:
-[C+]  #1  zip  3.0
-Closure size: 2693 -> 2695 (15 paths added, 13 paths removed, delta +2, disk usage +92.8KiB).
+<<< /nix/var/nix/profiles/system-65-link
+>>> /nix/var/nix/profiles/system-66-link
+No version or selection state changes.
+Closure size: 2695 -> 2695 (10 paths added, 10 paths removed, delta +0, disk usage -67.4KiB).

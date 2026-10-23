@@ -129,7 +129,8 @@
           substituters = [client.url];
           trusted-public-keys = [client.publicKey];
           # Never let an unreachable cache break builds or boots.
-          connect-timeout = 3;
+          connect-timeout = 5;
+          stalled-download-timeout = 15;
           fallback = true;
         };
       })
