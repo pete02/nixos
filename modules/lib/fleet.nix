@@ -27,12 +27,12 @@ in {
     # host + share + mount + secret, defined once
     samba.shares = {
       server = {
-        host = "aria";
+        host = "192.168.88.241";
         mountPoint = "/mnt/server";
         credentialsSecret = "samba/server";
       };
       timelock = {
-        host = "aria";
+        host = "192.168.88.241";
         mountPoint = "/mnt/timelock";
         credentialsSecret = "samba/timelock";
       };
