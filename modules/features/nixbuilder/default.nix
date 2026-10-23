@@ -9,7 +9,6 @@
     client = cfg.cache.client;
     server = cfg.cache.server;
 
-    # "http://aria.lan:8080/main" -> "aria.lan" (netrc machine name has no scheme/port/path)
     urlHost = url:
       builtins.head (lib.splitString ":" (
         builtins.head (lib.splitString "/" (
