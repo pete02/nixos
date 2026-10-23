@@ -25,9 +25,9 @@
         curl
         git
       ];
-      substitutions={
-        NTFY_SUCCESS_URL= config.nixos-management.gitops.ntfyUpgrade;
-        NTFY_FAILURE_URL= config.nixos-management.gitops.ntfyFailure;
+      substitutions = {
+        NTFY_SUCCESS_URL = config.nixos-management.gitops.ntfyUpgrade;
+        NTFY_FAILURE_URL = config.nixos-management.gitops.ntfyFailure;
       };
     };
 
