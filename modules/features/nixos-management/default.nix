@@ -25,6 +25,10 @@
         curl
         git
       ];
+      substitutions={
+        NTFY_SUCCESS_URL= config.nixos-management.gitops.ntfyUpgrade;
+        NTFY_FAILURE_URL= config.nixos-management.gitops.ntfyFailure;
+      };
     };
 
     rebuild = self.lib.mkScript pkgs {
@@ -94,8 +98,6 @@
             GIT_CONFIG_COUNT = "1";
             GIT_CONFIG_KEY_0 = "safe.directory";
             GIT_CONFIG_VALUE_0 = "/etc/nixos";
-            NTFY_SUCCESS_URL = config.nixos-management.gitops.ntfyUpgrade;
-            NTFY_FAILURE_URL = config.nixos-management.gitops.ntfyFailure;
           };
           serviceConfig = {
             Type = "oneshot";

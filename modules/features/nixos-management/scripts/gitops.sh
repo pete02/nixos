@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SUCCESS_URL="@NTFY_SUCCESS_URL@"
+FAILURE_URL="@NTFY_FAILURE_URL@"
+
 TIMESTAMP_FILE="/var/lib/gitops/last-sync"
 STEP="initialization"
 
@@ -42,9 +45,6 @@ if [[ "${1:-}" == "--check" ]]; then
 fi
 
 trap on_exit EXIT
-
-SUCCESS_URL="${NTFY_SUCCESS_URL:?NTFY_SUCCESS_URL is required}"
-FAILURE_URL="${NTFY_FAILURE_URL:?NTFY_FAILURE_URL is required}"
 
 STEP="preparation"
 mkdir -p /var/lib/gitops
