@@ -3,7 +3,7 @@
   username = "pete";
   hostname = "eris";
   nixbuilder.cache.client.enable=true;
-
+  connectivity.mDNS=true;
   connectivity.wifi = {
     enable = true;
     Ssid = "Pete";
