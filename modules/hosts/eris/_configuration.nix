@@ -2,7 +2,10 @@
   system.stateVersion = "26.05";
   username = "pete";
   hostname = "eris";
-  nixbuilder.cache.client.enable = true;
+  nixbuilder={
+    cache.client.enable = true;
+    usesBuilders=true;
+  };
   connectivity.mDNS = true;
   connectivity.wifi = {
     enable = true;
