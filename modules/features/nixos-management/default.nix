@@ -43,7 +43,20 @@
   in {
     options.nixos-management = {
       auto-update = lib.mkEnableOption "Enables flake autoupdater";
-      gitops = lib.mkEnableOption "Enables nixos-gitops";
+      gitops={
+        enable= = lib.mkEnableOption "Enables nixos-gitops";
+        ntfyFailure = lib.mkOption {
+          type = lib.types.str;
+          default = self.lib.fleet.ntfyFailure config.hostname;
+          description = "ntfy URL for backup failure notifications.";
+        };
+        ntfyUpgrade = lib.mkOption {
+          type = lib.types.str;
+          default = self.lib.fleet.ntfyUpgrade config.hostname;
+          description = "ntfy URL for backup failure notifications.";
+        };
+      };
+
     };
     config = lib.mkMerge [
       {
@@ -78,6 +91,13 @@
       (lib.mkIf config.nixos-management.gitops {
         systemd.services.gitops = {
           description = "Check remote NixOS config repo for updates";
+          environment = {
+            GIT_CONFIG_COUNT = "1";
+            GIT_CONFIG_KEY_0 = "safe.directory";
+            GIT_CONFIG_VALUE_0 = "/etc/nixos";
+            SUCCESS_URL=config.nixos-management.gitops.ntfyUpgrade;
+            FAILURE_URL=config.nixos-management.gitops.ntfyFailure;
+          };
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${gitops}/bin/gitops";
