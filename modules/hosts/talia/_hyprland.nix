@@ -1,4 +1,4 @@
-{...}:{
+{...}: {
   desktop.hyprland = {
     enable = true;
     extraConfig = ''
