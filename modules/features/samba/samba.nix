@@ -1,5 +1,5 @@
 {
-  ...
+  self, ...
 }: {
   flake.nixosModules.samba = {
     lib,
@@ -210,7 +210,7 @@
             deviceTimeout = lib.mkOption {type = lib.types.str;default = "5s";};
             mountTimeout = lib.mkOption {type = lib.types.str;default = "5s";};
           };
-        })):
+        }));
       };
     };
 

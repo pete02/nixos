@@ -68,7 +68,7 @@
           };
           apiEndpoint = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
-            default = self.lib.fleet.cache.apiEndpoint;;
+            default = self.lib.fleet.cache.apiEndpoint;
             example = "http://cache.example:8080/";
             description = "URL clients use to reach this server.";
           };
