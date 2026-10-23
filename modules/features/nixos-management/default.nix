@@ -44,7 +44,7 @@
     options.nixos-management = {
       auto-update = lib.mkEnableOption "Enables flake autoupdater";
       gitops={
-        enable= = lib.mkEnableOption "Enables nixos-gitops";
+        enable= lib.mkEnableOption "Enables nixos-gitops";
         ntfyFailure = lib.mkOption {
           type = lib.types.str;
           default = self.lib.fleet.ntfyFailure config.hostname;
@@ -88,7 +88,7 @@
         };
       })
 
-      (lib.mkIf config.nixos-management.gitops {
+      (lib.mkIf config.nixos-management.gitops.enable {
         systemd.services.gitops = {
           description = "Check remote NixOS config repo for updates";
           environment = {

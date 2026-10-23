@@ -10,7 +10,7 @@
   };
 
   dev.git = true;
-  nixos-management.gitops = true;
+  nixos-management.gitops.enable = true;
 
   environment.systemPackages = with pkgs; [
     kitty.terminfo
