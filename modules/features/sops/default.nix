@@ -5,7 +5,6 @@
 }: {
   flake.nixosModules.sops = {
     pkgs,
-    config,
     ...
   }: {
     imports = [

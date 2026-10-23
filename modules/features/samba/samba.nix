@@ -1,6 +1,4 @@
 {
-  self,
-  inputs,
   ...
 }: {
   flake.nixosModules.samba = {
@@ -26,8 +24,6 @@
       map (client: client.credentialsSecret)
       (lib.attrValues enabledClients)
     );
-
-    allSecrets = lib.unique (serverSecrets ++ clientSecrets);
 
     shares =
       lib.foldl'
@@ -197,59 +193,24 @@
       clients = lib.mkOption {
         default = {};
         description = "Named CIFS client mounts.";
-
-        type = lib.types.attrsOf (lib.types.submodule {
+        type = lib.types.attrsOf (lib.types.submodule ({name, ...}: let
+          reg = self.lib.fleet.samba.shares.${name} or {};
+          need = field: throw "samba.clients.${name}: no ${field}; add '${name}' to fleet.samba.shares or set it explicitly";
+        in {
           options = {
             enable = lib.mkEnableOption "this CIFS mount";
-
-            host = lib.mkOption {
-              type = lib.types.str;
-            };
-
-            share = lib.mkOption {
-              type = lib.types.str;
-            };
-
-            mountPoint = lib.mkOption {
-              type = lib.types.str;
-            };
-
-            credentialsSecret = lib.mkOption {
-              type = lib.types.str;
-              default = "samba/server";
-            };
-
-            uid = lib.mkOption {
-              type = lib.types.int;
-              default = 1000;
-            };
-
-            gid = lib.mkOption {
-              type = lib.types.int;
-              default = 1000;
-            };
-
-            version = lib.mkOption {
-              type = lib.types.str;
-              default = "3.0";
-            };
-
-            idleTimeout = lib.mkOption {
-              type = lib.types.str;
-              default = "60";
-            };
-
-            deviceTimeout = lib.mkOption {
-              type = lib.types.str;
-              default = "5s";
-            };
-
-            mountTimeout = lib.mkOption {
-              type = lib.types.str;
-              default = "5s";
-            };
+            host = lib.mkOption {type = lib.types.str; default = reg.host or (need "host");};
+            share = lib.mkOption {type = lib.types.str; default = name;};
+            mountPoint = lib.mkOption {type = lib.types.str; default = reg.mountPoint or (need "mountPoint");};
+            credentialsSecret = lib.mkOption {type = lib.types.str; default = reg.credentialsSecret or "samba/server";};
+            uid = lib.mkOption {type = lib.types.int;default = 1000;};
+            gid = lib.mkOption {type = lib.types.int;default = 1000;};
+            version = lib.mkOption {type = lib.types.str;default = "3.0";};
+            idleTimeout = lib.mkOption {type = lib.types.str;default = "60";};
+            deviceTimeout = lib.mkOption {type = lib.types.str;default = "5s";};
+            mountTimeout = lib.mkOption {type = lib.types.str;default = "5s";};
           };
-        });
+        })):
       };
     };
 

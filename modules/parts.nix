@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{...}: {
   config = {
     perSystem = {pkgs, ...}: {formatter = pkgs.alejandra;};
     systems = [

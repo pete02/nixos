@@ -1,9 +1,9 @@
-    #!/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 check() {
     local missing=0 cmd
-    local required=(nvidia-smi, awk)
+    local required=(nvidia-smi awk)
 
     for cmd in "${required[@]}"; do
         if ! command -v "$cmd" >/dev/null 2>&1; then

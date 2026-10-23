@@ -1,6 +1,5 @@
 {
   self,
-  inputs,
   ...
 }: {
   flake.nixosModules.healthcheck = {
@@ -60,7 +59,8 @@
       };
       ntfyUrl = lib.mkOption {
         type = lib.types.str;
-        default = "";
+        default = self.lib.fleet.ntfyTopic config.hostname;
+        description = "ntfy topic URL. Empty string disables notifications.";
       };
       schedule = lib.mkOption {
         type = lib.types.str;

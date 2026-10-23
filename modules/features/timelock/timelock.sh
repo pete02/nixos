@@ -1,7 +1,22 @@
-
 #!/usr/bin/env bash
 set -euo pipefail
 umask 077
+
+check() {
+    local missing=0 cmd
+    for cmd in date mkdir chmod mv cat rm mktemp flock logger systemctl; do
+        command -v "$cmd" >/dev/null 2>&1 || {
+            echo "timelock: missing required command: $cmd" >&2
+            missing=1
+        }
+    done
+    return "$missing"
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+    check
+    exit $?
+fi
 
 : "${TIMELOCK_STATE_DIR:?TIMELOCK_STATE_DIR is required}"
 : "${TIMELOCK_STATE_USER:?TIMELOCK_STATE_USER is required}"

@@ -7,7 +7,12 @@
   }: let
     # Features that must never be on for a Pi. Adjust to your real option paths.
     forbidden = [
-      ["gaming" "enable"]
+      ["gaming" "steam"]
+      ["gaming" "sunshine"]
+      ["gaming" "rpcs3"]
+      ["gaming" "performance"]
+      ["gaming" "graphics"]
+      ["gaming" "compatibility"]
       ["desktop" "enable"]
     ];
   in {

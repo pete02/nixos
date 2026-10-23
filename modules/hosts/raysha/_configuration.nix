@@ -1,7 +1,5 @@
 {
   pkgs,
-  lib,
-  config,
   ...
 }: {
   environment.systemPackages = with pkgs; [
@@ -20,7 +18,6 @@
     enable = true;
     devices = ["/dev/sda" "/dev/nvme0n1" "/dev/nvme1n1"];
     memSize = "1G";
-    ntfyUrl = "https://ntfy.lumilukko.com/Raysha";
     mdadm = {
       enable = true;
       devices = ["md127"];
@@ -42,24 +39,8 @@
   ssh.client.enable = true;
 
   common-tools.books = true;
-
-  samba.clients = {
-    server = {
-      enable = true;
-      host = "aria.local";
-      share = "server";
-      mountPoint = "/mnt/server";
-      credentialsSecret = "samba/server";
-    };
-
-    timelock = {
-      enable = true;
-      host = "aria.local";
-      share = "timelock";
-      mountPoint = "/mnt/timelock";
-      credentialsSecret = "samba/timelock";
-    };
-  };
+  samba.clients.server.enable = true;
+  samba.clients.timelock.enable = true;
 
   gaming = {
     steam = true;

@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-NTFY_URL=${NTFY_URL:-https://ntfy.lumilukko.com/Aria}
+NTFY_URL=${NTFY_URL:-}
 LOGFILE=${LOGFILE:-/var/log/health-check/bcachefs_check.log}
 
 EXPECTED_UUID=${EXPECTED_UUID:-6efc72dc-a79e-4340-adf0-28ceb1be8769}

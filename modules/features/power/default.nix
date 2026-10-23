@@ -1,7 +1,4 @@
 {
-  self,
-  inputs,
-  lib,
   ...
 }: {
   flake.nixosModules.power = {

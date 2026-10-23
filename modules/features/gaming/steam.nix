@@ -1,11 +1,8 @@
 {
-  pkgs,
-  lib,
   ...
 }: {
   flake.nixosModules.gaming-steam = {
     lib,
-    pkgs,
     config,
     ...
   }: {

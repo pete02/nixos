@@ -1,6 +1,4 @@
 {
-  self,
-  inputs,
   ...
 }: {
   flake.nixosModules.connectivity-bluetooth = {

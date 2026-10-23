@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{ ...}: {
   flake.nixosModules.hardware-mdadm = {
     config,
     pkgs,

@@ -1,6 +1,5 @@
 {
   self,
-  inputs,
   ...
 }: {
   flake.nixosModules.hardware = {

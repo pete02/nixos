@@ -35,7 +35,7 @@ CONTAINER_NAME="${CONTAINER_NAME:-bitwarden}"
 SYSTEMD_UNIT="${SYSTEMD_UNIT:-}"
 RCLONE_REMOTE="${RCLONE_REMOTE:-gdrive:bitwarden-backups}"
 KEEP="${KEEP:-5}"
-NTFY_URL="${NTFY_URL:-https://ntfy.lumilukko.com/Aria}"
+NTFY_URL="${NTFY_URL:-}"
 
 WORK_DIR=""
 BACKUP_NAME=""

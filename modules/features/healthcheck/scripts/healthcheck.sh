@@ -24,7 +24,7 @@ MEMSIZE=${MEMSIZE:-100M}
 ITERATIONS=${ITERATIONS:-5}
 DEVICES=${DEVICES:-/dev/sda}
 LOGFILE=${LOGFILE:-/var/log/health-check/health_check.log}
-NTFY_URL=${NTFY_URL:-https://ntfy.lumilukko.com/Aria}
+NTFY_URL=${NTFY_URL:-}
 SMART_WAIT_MAX=${SMART_WAIT_MAX:-600}
 
 # ---------------------------------------------------------------- arguments

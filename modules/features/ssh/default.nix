@@ -1,11 +1,9 @@
 {
-  inputs,
   self,
   ...
 }: {
   flake.nixosModules.ssh = {
     lib,
-    pkgs,
     config,
     ...
   }: {

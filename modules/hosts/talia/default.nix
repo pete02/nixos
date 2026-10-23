@@ -1,6 +1,5 @@
 {
   self,
-  inputs,
   ...
 }: {
   flake.nixosConfigurations.talia = self.lib.mkHost {

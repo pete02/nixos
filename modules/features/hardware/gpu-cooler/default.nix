@@ -1,5 +1,4 @@
 {
-  inputs,
   self,
   ...
 }: {
@@ -15,6 +14,7 @@
 
       runtimeInputs = with pkgs; [
         python313Packages.gputil
+        config.hardware.nvidia.package.bin
         gawk
       ];
     };

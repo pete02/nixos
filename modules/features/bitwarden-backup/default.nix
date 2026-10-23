@@ -1,6 +1,5 @@
 {
   self,
-  inputs,
   ...
 }: {
   flake.nixosModules.bitwarden-backup = {
@@ -71,7 +70,7 @@
 
       ntfyUrl = lib.mkOption {
         type = lib.types.str;
-        default = "https://ntfy.lumilukko.com/Raysha";
+        default = self.lib.fleet.ntfyTopic config.hostname;
         description = "ntfy URL for backup failure notifications.";
       };
 

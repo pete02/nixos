@@ -1,12 +1,8 @@
 {
   self,
   inputs,
-  lib,
-  config,
-  pkgs,
   ...
 }: let
-  cfg = config.desktop.hyprland;
 
   baseConfig = builtins.readFile ./base.lua;
 
@@ -51,11 +47,6 @@
           version = rawPkg.version;
         };
     };
-
-  hyprlandPkg = mkHyprlandPkg {
-    inherit pkgs;
-    extraConfig = cfg.extraConfig;
-  };
 in {
   flake.mkHyprlandPkg = mkHyprlandPkg;
 
@@ -69,11 +60,9 @@ in {
     pkgs,
     ...
   }: let
-    cfg = config.desktop.hyprland;
-
     hyprlandPkg = self.mkHyprlandPkg {
       inherit pkgs;
-      extraConfig = cfg.extraConfig;
+      extraConfig = config.desktop.hyprland.extraConfig;
     };
   in {
     options.desktop.hyprland = {
@@ -92,7 +81,7 @@ in {
       };
     };
 
-    config = lib.mkIf cfg.enable {
+    config = lib.mkIf config.desktop.hyprland.enable {
       environment.systemPackages = [hyprlandPkg];
 
       displayManager = {
@@ -105,7 +94,7 @@ in {
 
       desktop.wayle = {
         enable = true;
-        extraConfig = cfg.extraWayleConfig;
+        extraConfig = config.desktop.hyprland.extraWayleConfig;
       };
     };
   };

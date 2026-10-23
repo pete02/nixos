@@ -1,4 +1,4 @@
-{lib, ...}: {
+{ ...}: {
   flake.nixosModules.desktop-selection = {config, ...}: {
     assertions = [
       {

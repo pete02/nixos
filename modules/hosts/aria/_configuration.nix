@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   config,
   ...
 }: {
@@ -21,7 +20,6 @@
   healthcheck = {
     enable = true;
     devices = ["/dev/sda" "/dev/sdb" "/dev/nvme0n1"];
-    ntfyUrl = "https://ntfy.lumilukko.com/Raysha";
     bcachefs = {
       enable = true;
       uuid = "6efc72dc-a79e-4340-adf0-28ceb1be8769";
@@ -47,7 +45,6 @@
     enable = true;
     dataDir = "/mnt/server/Serversetup/data/vaultwarden";
     containerName = "vaultwarden";
-    ntfyUrl = "https://ntfy.lumilukko.com/Aria";
     rcloneConfigFile = config.sops.secrets.rclone-gdrive-config.path;
   };
 

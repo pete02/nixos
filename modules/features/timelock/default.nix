@@ -1,30 +1,9 @@
 {self, ...}: {
   perSystem = {pkgs, ...}: {
-    packages.timelock = pkgs.writeShellApplication {
+    packages.timelock = self.lib.mkScript pkgs {
       name = "timelock";
-
-      runtimeInputs = [
-        pkgs.coreutils
-        pkgs.util-linux
-        pkgs.systemd
-      ];
-
-      text = ''
-        if [[ "''${1:-}" == "--check" ]]; then
-          missing=0
-
-          for cmd in date mkdir chmod mv cat rm mktemp flock logger systemctl; do
-            if ! command -v "$cmd" >/dev/null 2>&1; then
-              printf 'Missing executable: %s\n' "$cmd" >&2
-              missing=1
-            fi
-          done
-
-          exit "$missing"
-        fi
-
-        ${builtins.readFile ./timelock.sh}
-      '';
+      src = ./timelock.sh;
+      runtimeInputs = with pkgs; [coreutils util-linux systemd];
     };
   };
 
@@ -46,7 +25,7 @@
 
     cfg = config.services.timelock;
 
-    controller = self.packages.${pkgs.system}.timelock;
+    controller = self.packages.${pkgs.stdenv.hostPlatform.system}.timelock;
 
     mkResourceWrapper = name: resource:
       pkgs.writeShellScriptBin "timelock-${name}" ''
@@ -77,7 +56,7 @@
       stateUser = mkOption {
         type = types.str;
         default = "${config.username}";
-        description = "Directory for persistent timelock state.";
+        description = "User for persistent timelock state.";
       };
 
       maxSessionSecs = mkOption {

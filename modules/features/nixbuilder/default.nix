@@ -37,17 +37,17 @@
           url = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
             default = null;
-            example = "http://cache.example:8080/main";
+            example = self.lib.fleet.cache.url;
             description = "Substituter URL, including the cache name.";
           };
           publicKey = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
-            default = null;
+            default = self.lib.fleet.cache.publicKey;
             description = "Cache public key (from `attic cache info`). Public by design.";
           };
           pullTokenSecret = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
-            default = null;
+            default = self.lib.fleet.cache.pullTokenSecret;
             example = "attic/pull-token";
             description = ''
               Name of a sops secret containing a pull-only Attic token. Leave null
@@ -59,7 +59,7 @@
         server = {
           enable = lib.mkOption {
             type = lib.types.bool;
-            default = false;
+            default = config.hostname == self.lib.fleet.cache.host;
             description = "Run the Attic server on this host.";
           };
           port = lib.mkOption {
@@ -68,13 +68,13 @@
           };
           apiEndpoint = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
-            default = null;
+            default = self.lib.fleet.cache.apiEndpoint;;
             example = "http://cache.example:8080/";
             description = "URL clients use to reach this server.";
           };
           envSecret = lib.mkOption {
             type = lib.types.str;
-            default = "attic/env";
+            default = self.lib.fleet.cache.envSecret;
             description = ''
               sops secret containing the server environment file
               (ATTIC_SERVER_TOKEN_RS256_SECRET_BASE64=...).
