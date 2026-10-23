@@ -113,7 +113,7 @@
         hl.monitor({
             output = "HDMI-A-1",
             mode = "3840x2160@59.97",
-            position = "7000x0",
+            position = "20000x0",
             scale = 1,
         })
 
@@ -139,6 +139,7 @@
         hl.bind("SUPER + LEFT",  hl.dsp.window.move({ workspace = 1 }))
 
         hl.bind("SUPER + RIGHT", hl.dsp.window.move({ workspace = 2 }))
+        hl.bind("SUPER + C", hl.dsp.exec_cmd("hyprctl dispatch movecursor 1720 720"))
 
         hl.bind("SUPER + N",
           hl.dsp.exec_cmd("/home/pete/wallpapers/switch.sh"))

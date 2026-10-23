@@ -8,14 +8,14 @@
     publicKey = "main:i1t81gc6fOtVfDvKgpiL1LG5HjrWF7AtHD21rmbr1OI=";
     pullTokenSecret = "services/attic/pull_token";
   };
-  
+
   connectivity.wifi = {
     enable = true;
     Ssid = "Pete";
   };
 
-  dev.git=true;
-  nixos-management.gitops=true;
+  dev.git = true;
+  nixos-management.gitops = true;
 
   environment.systemPackages = with pkgs; [
     kitty.terminfo

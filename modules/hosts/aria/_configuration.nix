@@ -37,6 +37,7 @@
     sunshine = true;
     compatibility = true;
   };
+
   nixos-management = {
     auto-update = true;
     gitops = true;
@@ -71,7 +72,7 @@
   };
 
   samba.timelock.enable = true;
-  
+
   samba.servers.server = {
     enable = true;
     credentialsSecret = "samba/server";

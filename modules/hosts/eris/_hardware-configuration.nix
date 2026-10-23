@@ -1,4 +1,4 @@
-{...}:{
+{...}: {
   fileSystems."/data" = {
     device = "/dev/disk/by-label/NIXOS_HDD";
     fsType = "ext4";

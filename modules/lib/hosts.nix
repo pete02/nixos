@@ -8,9 +8,9 @@
     aria.buildServer = true;
     raysha.buildServer = true;
     talia.sshServer = true;
-    eris={
-      rpi=true;
-      sshServer=true;
+    eris = {
+      rpi = true;
+      sshServer = true;
     };
   };
 
