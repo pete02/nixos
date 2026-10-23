@@ -1,7 +1,4 @@
-{
-  self,
-  ...
-}: {
+{self, ...}: {
   flake.nixosModules.ssh = {
     lib,
     config,

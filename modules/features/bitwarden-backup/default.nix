@@ -1,7 +1,4 @@
-{
-  self,
-  ...
-}: {
+{self, ...}: {
   flake.nixosModules.bitwarden-backup = {
     config,
     lib,

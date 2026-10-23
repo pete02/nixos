@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   flake.nixosModules.gaming-steam = {
     lib,
     config,

@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   flake.nixosModules.connectivity-wireguard = {
     config,
     lib,

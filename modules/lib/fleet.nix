@@ -26,16 +26,30 @@ in {
 
     # host + share + mount + secret, defined once
     samba.shares = {
-      server = {host = "aria"; mountPoint = "/mnt/server"; credentialsSecret = "samba/server";};
-      timelock = {host = "aria"; mountPoint = "/mnt/timelock"; credentialsSecret = "samba/timelock";};
+      server = {
+        host = "aria";
+        mountPoint = "/mnt/server";
+        credentialsSecret = "samba/server";
+      };
+      timelock = {
+        host = "aria";
+        mountPoint = "/mnt/timelock";
+        credentialsSecret = "samba/timelock";
+      };
     };
 
     # Machines that aren't (or aren't only) NixOS hosts
     devices = {
       raysha.mac = "88:d8:2e:ba:62:29";
-      alanna = {mac = "2C:CF:67:DA:15:86"; sshKeyFrom = "raysha";};
+      alanna = {
+        mac = "2C:CF:67:DA:15:86";
+        sshKeyFrom = "raysha";
+      };
     };
 
-    registry = {host = "aria"; port = 5001;}; # docker mirror in dev/tools.nix
+    registry = {
+      host = "aria";
+      port = 5001;
+    }; # docker mirror in dev/tools.nix
   };
 }

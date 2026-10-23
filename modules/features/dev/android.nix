@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   flake.nixosModules.dev-android = {
     lib,
     config,

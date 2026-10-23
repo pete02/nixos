@@ -3,7 +3,6 @@
   inputs,
   ...
 }: let
-
   baseConfig = builtins.readFile ./base.lua;
 
   mkHyprlandPkg = {

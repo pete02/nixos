@@ -1,7 +1,4 @@
-{
-  self,
-  ...
-}: {
+{self, ...}: {
   flake.nixosModules.gaming = {
     imports = [
       self.nixosModules.gaming-steam

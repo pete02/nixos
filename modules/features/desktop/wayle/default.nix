@@ -1,7 +1,4 @@
-{
-  lib,
-  ...
-}: {
+{lib, ...}: {
   flake.nixosModules.desktop-wayle = {
     config,
     pkgs,

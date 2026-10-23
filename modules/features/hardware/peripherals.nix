@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   flake.nixosModules.hardware-peripherals = {
     lib,
     pkgs,

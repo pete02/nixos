@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   flake.nixosModules.connectivity-mDNS = {
     config,
     lib,

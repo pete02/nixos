@@ -36,8 +36,7 @@
           };
           url = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
-            default = null;
-            example = self.lib.fleet.cache.url;
+            default = self.lib.fleet.cache.url;
             description = "Substituter URL, including the cache name.";
           };
           publicKey = lib.mkOption {

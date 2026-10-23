@@ -1,6 +1,4 @@
-{
-  self, ...
-}: {
+{self, ...}: {
   flake.nixosModules.samba = {
     lib,
     pkgs,
@@ -199,16 +197,46 @@
         in {
           options = {
             enable = lib.mkEnableOption "this CIFS mount";
-            host = lib.mkOption {type = lib.types.str; default = reg.host or (need "host");};
-            share = lib.mkOption {type = lib.types.str; default = name;};
-            mountPoint = lib.mkOption {type = lib.types.str; default = reg.mountPoint or (need "mountPoint");};
-            credentialsSecret = lib.mkOption {type = lib.types.str; default = reg.credentialsSecret or "samba/server";};
-            uid = lib.mkOption {type = lib.types.int;default = 1000;};
-            gid = lib.mkOption {type = lib.types.int;default = 1000;};
-            version = lib.mkOption {type = lib.types.str;default = "3.0";};
-            idleTimeout = lib.mkOption {type = lib.types.str;default = "60";};
-            deviceTimeout = lib.mkOption {type = lib.types.str;default = "5s";};
-            mountTimeout = lib.mkOption {type = lib.types.str;default = "5s";};
+            host = lib.mkOption {
+              type = lib.types.str;
+              default = reg.host or (need "host");
+            };
+            share = lib.mkOption {
+              type = lib.types.str;
+              default = name;
+            };
+            mountPoint = lib.mkOption {
+              type = lib.types.str;
+              default = reg.mountPoint or (need "mountPoint");
+            };
+            credentialsSecret = lib.mkOption {
+              type = lib.types.str;
+              default = reg.credentialsSecret or "samba/server";
+            };
+            uid = lib.mkOption {
+              type = lib.types.int;
+              default = 1000;
+            };
+            gid = lib.mkOption {
+              type = lib.types.int;
+              default = 1000;
+            };
+            version = lib.mkOption {
+              type = lib.types.str;
+              default = "3.0";
+            };
+            idleTimeout = lib.mkOption {
+              type = lib.types.str;
+              default = "60";
+            };
+            deviceTimeout = lib.mkOption {
+              type = lib.types.str;
+              default = "5s";
+            };
+            mountTimeout = lib.mkOption {
+              type = lib.types.str;
+              default = "5s";
+            };
           };
         }));
       };

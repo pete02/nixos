@@ -1,7 +1,4 @@
-{
-  self,
-  ...
-}: {
+{self, ...}: {
   flake.nixosModules.connectivity = {
     imports = with self.nixosModules; [
       connectivity-bluetooth
