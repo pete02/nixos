@@ -56,7 +56,7 @@
       };
       ntfyUrl = lib.mkOption {
         type = lib.types.str;
-        default = self.lib.fleet.ntfyTopic config.hostname;
+        default = self.lib.fleet.ntfyFailure config.hostname;
         description = "ntfy topic URL. Empty string disables notifications.";
       };
       schedule = lib.mkOption {

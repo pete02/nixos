@@ -10,7 +10,9 @@ in {
 
     # One ntfy server; topic derived from the host name ("raysha" -> .../Raysha)
     ntfy.base = "https://ntfy.lumilukko.com";
-    ntfyTopic = host: "${ntfy.base}/${capitalise host}";
+    ntfyFailure = host: "${ntfy.base}/failure-${capitalise host}";
+    ntfyUpgrade = host: "${ntfy.base}/upgrade-${capitalise host}";
+    ntfyBackup = host: "${ntfy.base}/backup-${capitalise host}";
 
     cache = {
       host = "aria";

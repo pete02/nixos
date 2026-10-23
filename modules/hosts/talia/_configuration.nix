@@ -25,8 +25,8 @@
     git = true;
   };
 
-  nixbuilder.cache.client.enable=true;
-  
+  nixbuilder.cache.client.enable = true;
+
   common-tools.books = true;
   common-tools.school = true;
 
