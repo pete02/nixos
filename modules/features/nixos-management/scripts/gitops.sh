@@ -6,7 +6,6 @@ FAILURE_URL="${NTFY_FAILURE_URL:?NTFY_FAILURE_URL is required}"
 
 TIMESTAMP_FILE="/var/lib/gitops/last-sync"
 STEP="initialization"
-UPDATED=0
 
 notify() {
     local url="$1"
@@ -77,7 +76,6 @@ if [[ "$LOCAL" != "$REMOTE" ]]; then
     nixos-rebuild switch --flake "/etc/nixos#${HOSTNAME:?HOSTNAME is required}"
 
     date -Iseconds > "$TIMESTAMP_FILE"
-    UPDATED=1
 
     if [[ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ]] || \
        [[ "$(readlink /run/booted-system/initrd)" != "$(readlink /run/current-system/initrd)" ]]; then
