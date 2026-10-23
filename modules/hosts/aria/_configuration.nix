@@ -54,7 +54,8 @@
   services.timelock.enable = true;
 
   nixbuilder.cache.client.enable = true;
-
+  nixbuilder.cache.server.openFirewall = true;
+  
   samba.timelock.enable = true;
 
   samba.servers.server = {
