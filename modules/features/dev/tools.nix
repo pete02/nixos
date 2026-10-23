@@ -27,6 +27,8 @@
           nixfmt-tree
           nvd
           vulnix
+          jq
+          zip
         ];
 
         programs.direnv = {
