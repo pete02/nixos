@@ -1,4 +1,3 @@
-
 {...}: {
   flake.nixosModules.connectivity-wireguard = {
     config,
@@ -7,6 +6,9 @@
     ...
   }: let
     cfg = config.connectivity.wireguard;
+    sites = builtins.attrNames cfg;
+    firstSite = builtins.head sites;
+    secretName = site: kind: "wireguard/${site}/${kind}";
   in {
     options.connectivity.wireguard = lib.mkOption {
       description = "WireGuard site configurations.";
@@ -17,12 +19,10 @@
             type = lib.types.str;
             description = "WireGuard peer endpoint.";
           };
-
           allowed_ips = lib.mkOption {
             type = lib.types.listOf lib.types.str;
             description = "Allowed IP ranges for the peer.";
           };
-
           address = lib.mkOption {
             type = lib.types.str;
             description = "Local WireGuard interface address.";
@@ -32,14 +32,21 @@
     };
 
     config = lib.mkIf (cfg != {}) {
-      sops.secrets = lib.mapAttrs' (site: _: 
-        lib.nameValuePair "wireguard/${site}/private_key" {
-          key = "wireguard.${site}.private_key";
-          owner = "systemd-network";
-          group = "systemd-network";
-          mode = "0400";
-        }
-      ) cfg;
+      sops.secrets = lib.foldl' (acc: site:
+        acc // {
+          ${secretName site "private_key"} = {
+            key = "services/wireguard/${site}/private_key";
+            owner = "systemd-network";
+            group = "systemd-network";
+            mode = "0400";
+          };
+          ${secretName site "public_key"} = {
+            key = "services/wireguard/${site}/public_key";
+            owner = "systemd-network";
+            group = "systemd-network";
+            mode = "0440";
+          };
+        }) {} sites;
 
       networking.firewall.allowedUDPPorts = [51820];
       networking.networkmanager.unmanaged = ["wg0"];
@@ -62,13 +69,13 @@
 
           wireguardConfig = {
             ListenPort = 51820;
-            PrivateKeyFile = config.sops.secrets."services/wireguard/${builtins.head (builtins.attrNames cfg)}/private_key".path;
+            PrivateKeyFile = config.sops.secrets.${secretName firstSite "private_key"}.path;
             RouteTable = "main";
             FirewallMark = 42;
           };
 
           wireguardPeers = lib.mapAttrsToList (site: settings: {
-            PublicKeyFile = config.sops.secrets."services/wireguard/${site}/public_key".path;
+            PublicKeyFile = config.sops.secrets.${secretName site "public_key"}.path;
             AllowedIPs = settings.allowed_ips;
             Endpoint = settings.endpoint;
             PersistentKeepalive = 25;
