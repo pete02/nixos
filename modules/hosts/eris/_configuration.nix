@@ -6,10 +6,18 @@
     cache.client.enable = true;
     usesBuilders=true;
   };
-  connectivity.mDNS = true;
-  connectivity.wifi = {
+  connectivity={
+    mDNS = true;
+    wireguard = true;
+  };
+
+  samba.servers.rpi = {
     enable = true;
-    Ssid = "Pete";
+    credentialsSecret = "samba/rpi";
+
+    shares.rpi = {
+      path = "/data/rpi";
+    };
   };
 
   dev.git = true;
