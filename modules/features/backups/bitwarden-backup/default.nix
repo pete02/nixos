@@ -20,7 +20,7 @@
       ];
     };
   in {
-    options.bitwarden-backup = {
+    options.backups.bitwarden = {
       enable = lib.mkEnableOption "Bitwarden backup to Google Drive";
 
       dataDir = lib.mkOption {

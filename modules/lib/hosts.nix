@@ -35,7 +35,7 @@
     power
     samba
     hardware
-    bitwarden-backup
+    backups
     nixos-management
     gaming
     timelock

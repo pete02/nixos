@@ -41,7 +41,7 @@
     gitops.enable = true;
   };
 
-  bitwarden-backup = {
+  backups.bitwarden = {
     enable = true;
     dataDir = "/mnt/server/Serversetup/data/vaultwarden";
     containerName = "vaultwarden";

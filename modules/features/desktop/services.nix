@@ -23,7 +23,6 @@
       enable = lib.mkEnableOption "Enables desktop";
       services = {
         cleaner = lib.mkEnableOption "Enable the cleaner service";
-        sync = lib.mkEnableOption "Enable syncing to server";
       };
     };
     config = lib.mkMerge [
@@ -95,41 +94,6 @@
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${pkgs.runtimeShell} -c 'rm -rf /home/${config.username}/Downloads/* /home/${config.username}/.local/share/Trash/*'";
-          };
-        };
-      })
-      (lib.mkIf config.desktop.services.sync {
-        environment.systemPackages = [pkgs.rsync];
-        systemd.services.syncrestore = {
-          description = "Restores desktop files.";
-          after = [
-            "network-online.target"
-            "mnt-server.mount"
-          ];
-          wants = [
-            "network-online.target"
-            "mnt-server.mount"
-          ];
-          wantedBy = ["multi-user.target"];
-
-          serviceConfig = {
-            User = config.username;
-            Type = "oneshot";
-            ExecStart = ''
-              ${pkgs.rsync}/bin/rsync -au --info=progress2 /mnt/server/desktopsync/code /home/ ${config.username}
-            '';
-          };
-        };
-
-        systemd.services.sync = {
-          description = "sync desktop files.";
-          wantedBy = ["multi-user.target"];
-          before = ["shutdown.target"];
-
-          serviceConfig = {
-            User = config.username;
-            Type = "oneshot";
-            ExecStart = "${sync}/bin/sync";
           };
         };
       })
