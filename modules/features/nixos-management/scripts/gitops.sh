@@ -3,8 +3,13 @@ set -euo pipefail
 
 SUCCESS_URL="@NTFY_SUCCESS_URL@"
 FAILURE_URL="@NTFY_FAILURE_URL@"
+REPO_URL="@REPO_URL@"
 
-TIMESTAMP_FILE="/var/lib/gitops/last-sync"
+STATE_DIR="/var/lib/gitops"
+REPO="$STATE_DIR/repo"
+BRANCH="stable"
+TIMESTAMP_FILE="$STATE_DIR/last-sync"
+REV_FILE="$STATE_DIR/last-deployed-rev"
 STEP="initialization"
 
 notify() {
@@ -32,13 +37,11 @@ on_exit() {
 }
 
 check() {
-    echo "Checking curl..."
-    command -v curl >/dev/null || return 1
-
-    echo "Checking git..."
-    command -v git >/dev/null || return 1
-    echo "Checking ssh..."
-    command -v ssh >/dev/null || return 1
+    local cmd
+    for cmd in curl git ssh nixos-rebuild systemd-run systemctl readlink; do
+        echo "Checking ${cmd}..."
+        command -v "$cmd" >/dev/null || return 1
+    done
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -49,53 +52,62 @@ fi
 trap on_exit EXIT
 
 STEP="preparation"
-mkdir -p /var/lib/gitops
+mkdir -p "$STATE_DIR"
 
-# Allow the system service to access the root-owned/foreign-owned
-# repository without changing global Git configuration.
-export GIT_CONFIG_COUNT=1
-export GIT_CONFIG_KEY_0="safe.directory"
-export GIT_CONFIG_VALUE_0="/etc/nixos"
+if [[ ! -d "$REPO/.git" ]]; then
+    STEP="initial clone"
+    echo "No local clone found, cloning ${REPO_URL}..."
+    git clone --branch "$BRANCH" "$REPO_URL" "$REPO"
+fi
 
-cd /etc/nixos
+cd "$REPO"
 
 STEP="fetch"
-git fetch origin stable
-
-REV_FILE="/var/lib/gitops/last-deployed-rev"
+git fetch origin "$BRANCH"
 
 STEP="revision check"
-REMOTE="$(git rev-parse origin/stable)"
+REMOTE="$(git rev-parse "origin/${BRANCH}")"
 DEPLOYED="$(cat "$REV_FILE" 2>/dev/null || true)"
 
+DEPLOYED_NOW=0
+
 if [[ "$REMOTE" != "$DEPLOYED" ]]; then
-    echo "Remote has updates, triggering autoupdater"
+    echo "Remote has updates (${DEPLOYED:-none} -> ${REMOTE}), triggering autoupdater"
 
     STEP="reset"
-    git reset --hard origin/stable
+    git reset --hard "origin/${BRANCH}"
 
     STEP="NixOS rebuild"
-    nixos-rebuild switch --flake "/etc/nixos#${HOSTNAME:?HOSTNAME is required}"
+    nixos-rebuild switch --flake "${REPO}#${HOSTNAME:?HOSTNAME is required}"
 
+    # Only record the revision after a successful switch, so failures retry.
+    echo "$REMOTE" > "$REV_FILE"
     date -Iseconds > "$TIMESTAMP_FILE"
-
-    if [[ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ]] || \
-       [[ "$(readlink /run/booted-system/initrd)" != "$(readlink /run/current-system/initrd)" ]]; then
-        echo "Kernel or initrd changed, scheduling reboot for 03:00..."
-
-        STEP="reboot scheduling"
-        systemd-run --on-calendar="03:00" systemctl reboot
-    fi
-
-    STEP="success notification"
-    notify "$SUCCESS_URL" \
-        "Update completed successfully on ${HOSTNAME}." \
-        default
-
+    DEPLOYED_NOW=1
 else
     if [[ -f "$TIMESTAMP_FILE" ]]; then
         echo "Local in sync (last build: $(cat "$TIMESTAMP_FILE"))"
     else
         echo "Local in sync (no previous timestamp found)"
     fi
+fi
+
+# Runs every time, so a missed reboot schedule heals itself.
+STEP="reboot check"
+if [[ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ]] || \
+   [[ "$(readlink /run/booted-system/initrd)" != "$(readlink /run/current-system/initrd)" ]]; then
+    if systemctl is-active --quiet gitops-reboot.timer; then
+        echo "Kernel or initrd changed, reboot already scheduled"
+    else
+        echo "Kernel or initrd changed, scheduling reboot for 03:00..."
+        STEP="reboot scheduling"
+        systemd-run --unit=gitops-reboot --on-calendar="03:00" systemctl reboot
+    fi
+fi
+
+if (( DEPLOYED_NOW )); then
+    STEP="success notification"
+    notify "$SUCCESS_URL" \
+        "Update completed successfully on ${HOSTNAME}." \
+        default
 fi

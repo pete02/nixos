@@ -28,6 +28,11 @@
           User git
           identityFile /run/secrets/services/forgejo
       '';
+
+      programs.ssh.knownHosts."git.lumilukko.com" = {
+        hostNames = ["[git.lumilukko.com]:2222"];
+        publicKey = "sh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP4VxwBxMFF+tA8x3WdsXZ54/PZsTQ4IPdFjDig6wpJk";  # from: ssh-keyscan -p 2222 -t ed25519 git.lumilukko.com
+      };
     };
   };
 }

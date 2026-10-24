@@ -5,6 +5,8 @@
     config,
     ...
   }: let
+    repository = "ssh://git@git.lumilukko.com:2222/pete/nixos.git";
+
     update = self.lib.mkScript pkgs {
       name = "update";
       src = ./scripts/update.sh;
@@ -14,22 +16,26 @@
       ];
 
       substitutions = {
-        REPOSITORY = "ssh://git@git.lumilukko.com:2222/pete/nixos.git";
+        REPOSITORY = repository;
       };
     };
+
     gitops = self.lib.mkScript pkgs {
       name = "gitops";
       src = ./scripts/gitops.sh;
 
       runtimeInputs = with pkgs; [
-        curl
-        openssh
-        git
-        nixos-rebuild
-        systemd
         coreutils
+        curl
+        git
+        nix
+        nixos-rebuild
+        openssh
+        systemd
       ];
+
       substitutions = {
+        REPO_URL = repository;
         NTFY_SUCCESS_URL = config.nixos-management.gitops.ntfyUpgrade;
         NTFY_FAILURE_URL = config.nixos-management.gitops.ntfyFailure;
       };
@@ -56,15 +62,16 @@
         ntfyFailure = lib.mkOption {
           type = lib.types.str;
           default = self.lib.fleet.ntfyFailure config.hostname;
-          description = "ntfy URL for backup failure notifications.";
+          description = "ntfy URL for gitops failure notifications.";
         };
         ntfyUpgrade = lib.mkOption {
           type = lib.types.str;
           default = self.lib.fleet.ntfyUpgrade config.hostname;
-          description = "ntfy URL for backup failure notifications.";
+          description = "ntfy URL for gitops successful upgrade notifications.";
         };
       };
     };
+
     config = lib.mkMerge [
       {
         environment.systemPackages = [
@@ -96,18 +103,20 @@
       })
 
       (lib.mkIf config.nixos-management.gitops.enable {
+        # The rebuild runs inside this unit, so the switch must not
+        # restart or stop the service that is performing it.
         systemd.services.gitops = {
           description = "Check remote NixOS config repo for updates";
           restartIfChanged = false;
           stopIfChanged = false;
-          environment = {
-            GIT_CONFIG_COUNT = "1";
-            GIT_CONFIG_KEY_0 = "safe.directory";
-            GIT_CONFIG_VALUE_0 = "/etc/nixos";
-          };
+          after = ["network-online.target"];
+          wants = ["network-online.target"];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${gitops}/bin/gitops";
+            # Creates /var/lib/gitops (holds the clone and state files).
+            StateDirectory = "gitops";
+            TimeoutStartSec = "2h";
           };
         };
 
