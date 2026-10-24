@@ -23,11 +23,10 @@
           identityFile /run/secrets/services/github
           user git
         Host git.lumilukko.com
-            HostName git.lumilukko.com
-            Port 2222
-            User git
+          HostName git.lumilukko.com
+          Port 2222
+          User git
           identityFile /run/secrets/services/forgejo
-          user git
       '';
     };
   };

@@ -52,6 +52,11 @@
               if the cache is public (LAN only).
             '';
           };
+          cachePush = lib.mkOption {
+            type = lib.types.bool;
+            default = true;
+            description = "Enables pushing the build artifacts to Attic";
+          };
         };
 
         server = {
@@ -153,7 +158,7 @@
           token-file = "${config.sops.secrets.${client.pullTokenSecret}.path}"
         '';
 
-        nix.settings.post-build-hook =
+        nix.settings.post-build-hook = lib.mkIf client.cachePush (
           pkgs.writeShellScript
           "attic-post-build-hook" ''
             set -u
@@ -177,7 +182,7 @@
               || echo "Warning: Attic upload failed; build outputs remain local." >&2
 
             exit 0
-          '';
+          '');
       })
 
       # ---- Attic server (one host, e.g. aria) ----
