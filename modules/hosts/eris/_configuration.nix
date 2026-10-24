@@ -18,6 +18,12 @@
     };
   };
 
+  healthcheck = {
+    enable = true;
+    devices = ["/dev/sda" "/dev/mmcblk0"];
+    memSize = "1G";
+  };
+
   samba.servers.rpi = {
     enable = true;
     credentialsSecret = "samba/rpi";
