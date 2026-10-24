@@ -1,4 +1,7 @@
-<<< /nix/var/nix/profiles/system-66-link
->>> /nix/var/nix/profiles/system-67-link
-No version or selection state changes.
-Closure size: 2695 -> 2695 (3 paths added, 3 paths removed, delta +0, disk usage -120B).
+<<< /nix/var/nix/profiles/system-67-link
+>>> /nix/var/nix/profiles/system-68-link
+Added packages:
+[A.]  #1  git-sync               <none>
+[A.]  #2  git-sync-checked       <none>
+[A.]  #3  unit-git-sync.service  <none>
+Closure size: 2695 -> 2698 (10 paths added, 7 paths removed, delta +3, disk usage +23.5KiB).
