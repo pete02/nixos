@@ -27,6 +27,8 @@
         FOLDERS = lib.escapeShellArgs cfg.folders;
         EXCLUDES = lib.escapeShellArgs cfg.exclude;
         EXTRA_ARGS = lib.escapeShellArgs cfg.extraArgs;
+        NTFY_SUCCESS = cfg.ntfySuccess;
+        NTFY_FAILURE = cfg.ntfyFailure;
       };
     };
     exe = "${runner}/bin/rsync-backup";
@@ -134,6 +136,18 @@
           span). If it takes longer, it is killed so the machine can still power
           off. The next run picks up where it left off.
         '';
+      };
+
+      ntfyFailure = lib.mkOption {
+        type = lib.types.str;
+        default = self.lib.fleet.ntfyFailure config.hostname;
+        description = "ntfy URL for backup failure notifications.";
+      };
+
+      ntfySuccess = lib.mkOption {
+        type = lib.types.str;
+        default = self.lib.fleet.ntfyBackup config.hostname;
+        description = "ntfy URL for backup failure notifications.";
       };
     };
 
