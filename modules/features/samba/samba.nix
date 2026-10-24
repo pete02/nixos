@@ -68,8 +68,7 @@
             value = {
               description = "Configure Samba credentials for ${name}";
               wantedBy = ["multi-user.target"];
-              after = ["samba-smbd.service" "sops-nix.service"];
-              requires = ["sops-nix.service"];
+              after = ["samba-smbd.service"];
 
               serviceConfig = {
                 Type = "oneshot";
