@@ -55,8 +55,6 @@ export GIT_CONFIG_COUNT=1
 export GIT_CONFIG_KEY_0="safe.directory"
 export GIT_CONFIG_VALUE_0="/etc/nixos"
 
-export GIT_SSH_COMMAND="ssh -i /etc/ssh/id_server -o IdentitiesOnly=yes"
-
 cd /etc/nixos
 
 STEP="fetch"
