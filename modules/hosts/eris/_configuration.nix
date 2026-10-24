@@ -11,7 +11,11 @@
   };
   connectivity = {
     mDNS = true;
-
+    wireguard.pihlajatie = {
+      endpoint = "lumilukko.com:13231";
+      allowed_ips = ["192.168.88.0/24"];
+      address = "10.0.0.3/32";
+    };
   };
 
   samba.servers.rpi = {
