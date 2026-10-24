@@ -16,6 +16,7 @@
         util-linux # flock
         coreutils # date
         gnused
+        curl
       ];
       substitutions = {
         # Every value must be a string and shell-escaped, as it is pasted into the script.
