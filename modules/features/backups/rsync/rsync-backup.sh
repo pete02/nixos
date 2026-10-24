@@ -19,6 +19,9 @@
 #   - Only one backup runs at a time; a second one waits for the first to finish.
 #   - Files that vanish while being copied are not treated as an error.
 #   - A failure in one folder does not stop the others.
+#   - If configured, an ntfy message is sent when the backup finishes: one URL
+#     for success and one for failure (either may be empty to disable it).
+#     Dry runs never send notifications.
 
 set -u
 
@@ -27,6 +30,8 @@ DELETE=@DELETE@
 FOLDERS=(@FOLDERS@)
 EXCLUDES=(@EXCLUDES@)
 EXTRA_ARGS=(@EXTRA_ARGS@)
+NTFY_SUCCESS=@NTFY_SUCCESS@   # full ntfy URL (e.g. https://ntfy.sh/topic), empty = off
+NTFY_FAILURE=@NTFY_FAILURE@   # full ntfy URL, empty = off
 DRY_RUN=0
 LOCKFILE="${LOCKFILE:-${XDG_RUNTIME_DIR:-/tmp}/rsync-backup.lock}"
 
@@ -35,10 +40,14 @@ usage() {
   sed -n '3,/^[^#]/{/^#/p}' "$0" | sed 's/^# \{0,1\}//'
 }
 
-# External commands this script relies on. ssh is only needed for remote destinations.
+# External commands this script relies on. ssh is only needed for remote destinations,
+# curl only when at least one ntfy URL is configured.
 REQUIRED_CMDS=(rsync flock date sed)
 if [[ "$DESTINATION" == *:* && "$DESTINATION" != /* && "$DESTINATION" != rsync://* ]]; then
   REQUIRED_CMDS+=(ssh)
+fi
+if [ -n "$NTFY_SUCCESS" ] || [ -n "$NTFY_FAILURE" ]; then
+  REQUIRED_CMDS+=(curl)
 fi
 
 check_requirements() {
@@ -53,6 +62,21 @@ check_requirements() {
     fi
   done
   return "$([ "$missing" -eq 0 ] && echo 0 || echo 1)"
+}
+
+# Send an ntfy message. Usage: notify <url> <title> <tags> <priority> <body>
+# Does nothing if the URL is empty. A failed notification never fails the backup.
+notify() {
+  local url=$1 title=$2 tags=$3 priority=$4 body=$5
+  [ -n "$url" ] || return 0
+  if ! curl -fsS --max-time 15 \
+      -H "Title: $title" \
+      -H "Tags: $tags" \
+      -H "Priority: $priority" \
+      -d "$body" \
+      "$url" >/dev/null; then
+    echo "Warning: could not send ntfy notification." >&2
+  fi
 }
 
 # --check is a long option, which getopts doesn't handle, so look for it first.
@@ -129,12 +153,14 @@ echo
 
 ok=0
 failed=0
+failed_folders=()
 for folder in "${FOLDERS[@]}"; do
   echo "==> $folder"
 
   if [ ! -e "$folder" ]; then
     echo "    does not exist, skipping"
     failed=$((failed + 1))
+    failed_folders+=("$folder (does not exist)")
     continue
   fi
 
@@ -153,11 +179,34 @@ for folder in "${FOLDERS[@]}"; do
     *)
       echo "    FAILED (rsync exit code $rc)"
       failed=$((failed + 1))
+      failed_folders+=("$folder (rsync exit code $rc)")
       ;;
   esac
   echo
 done
 
-echo "Done. Folders: ${#FOLDERS[@]} | ok: $ok | failed: $failed"
+summary="Folders: ${#FOLDERS[@]} | ok: $ok | failed: $failed"
+echo "Done. $summary"
+
+if [ "$DRY_RUN" -eq 0 ]; then
+  host="${HOSTNAME:-unknown}"
+  if [ "$failed" -eq 0 ]; then
+    notify "$NTFY_SUCCESS" \
+      "Backup succeeded on $host" \
+      "white_check_mark" \
+      "default" \
+      "Backed up to $DESTINATION. $summary"
+  else
+    body="Backup to $DESTINATION had failures. $summary"
+    for f in "${failed_folders[@]}"; do
+      body+=$'\n'"- $f"
+    done
+    notify "$NTFY_FAILURE" \
+      "Backup FAILED on $host" \
+      "x,warning" \
+      "high" \
+      "$body"
+  fi
+fi
 
 [ "$failed" -eq 0 ]

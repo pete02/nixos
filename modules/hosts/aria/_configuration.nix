@@ -41,11 +41,19 @@
     gitops.enable = true;
   };
 
-  backups.bitwarden = {
-    enable = true;
-    dataDir = "/mnt/server/Serversetup/data/vaultwarden";
-    containerName = "vaultwarden";
-    rcloneConfigFile = config.sops.secrets.rclone-gdrive-config.path;
+  backups = {
+    bitwarden = {
+      enable = true;
+      dataDir = "/mnt/server/Serversetup/data/vaultwarden";
+      containerName = "vaultwarden";
+      rcloneConfigFile = config.sops.secrets.rclone-gdrive-config.path;
+    };
+    rsync = {
+      enable = true;
+      destination = "/mnt/rpi";
+      folders = ["/mnt/server" "/mnt/timelock"];
+      exclude = ["node_modules" "target" ".cache" ".direnv" "__pycache__"];
+    };
   };
 
   environment.systemPackages = with pkgs; [
