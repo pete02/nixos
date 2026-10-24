@@ -16,6 +16,9 @@
         coreutils
         curl
         git
+        gnugrep
+        findutils
+        gnused
         openssh
       ];
       substitutions = {
