@@ -24,6 +24,8 @@
     memSize = "1G";
   };
 
+  networking.hosts."192.168.88.241" = ["git.lumilukko.com"];
+
   samba.servers.rpi = {
     enable = true;
     credentialsSecret = "samba/rpi";
