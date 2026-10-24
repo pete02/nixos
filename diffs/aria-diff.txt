@@ -1,5 +1,4 @@
-<<< /nix/var/nix/profiles/system-108-link
->>> /nix/var/nix/profiles/system-109-link
-Version changes:
-[C+]  #1  cifs-utils  7.5-bin -> 7.5-bin, 7.5-man
-Closure size: 2192 -> 2193 (28 paths added, 27 paths removed, delta +1, disk usage +45.4KiB).
+<<< /nix/var/nix/profiles/system-110-link
+>>> /nix/var/nix/profiles/system-111-link
+No version or selection state changes.
+Closure size: 2198 -> 2198 (9 paths added, 9 paths removed, delta +0, disk usage +1.0KiB).
