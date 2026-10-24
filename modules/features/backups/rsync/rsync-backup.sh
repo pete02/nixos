@@ -19,8 +19,9 @@
 #   - Only one backup runs at a time; a second one waits for the first to finish.
 #   - Files that vanish while being copied are not treated as an error.
 #   - A failure in one folder does not stop the others.
-#   - When run in a terminal, live progress (percentage, speed, ETA) is shown
-#     for each folder. Non-interactive runs (timers) keep plain logs.
+#   - Progress (percentage, speed, ETA) is shown live in a terminal. When not run
+#     in a terminal (timer, shutdown run) it is logged once per minute instead;
+#     set PROGRESS_INTERVAL=<seconds> in the environment to change that.
 #   - If configured, an ntfy message is sent when the backup finishes: one URL
 #     for success and one for failure (either may be empty to disable it).
 #     Dry runs never send notifications.
@@ -44,7 +45,7 @@ usage() {
 
 # External commands this script relies on. ssh is only needed for remote destinations,
 # curl only when at least one ntfy URL is configured.
-REQUIRED_CMDS=(rsync flock date sed)
+REQUIRED_CMDS=(rsync flock date sed tr)
 if [[ "$DESTINATION" == *:* && "$DESTINATION" != /* && "$DESTINATION" != rsync://* ]]; then
   REQUIRED_CMDS+=(ssh)
 fi
@@ -150,12 +151,28 @@ if [ "$DRY_RUN" -eq 1 ]; then
 fi
 args+=("${EXTRA_ARGS[@]}")
 
-# Live progress (overall percentage, speed, ETA) only when run in a terminal, so
-# logs from the timer or shutdown run stay clean. --no-inc-recursive makes rsync
-# scan the folder up front, which gives an accurate percentage and ETA.
-if [ -t 1 ]; then
-  args+=(--human-readable --info=progress2 --no-inc-recursive)
-fi
+# Progress (percentage, speed, ETA). In a terminal it is shown live; otherwise
+# (timer, shutdown run) it is logged as one line every PROGRESS_INTERVAL seconds.
+# --no-inc-recursive makes rsync scan the folder up front, which gives an
+# accurate percentage and ETA.
+PROGRESS_INTERVAL="${PROGRESS_INTERVAL:-60}"
+args+=(--human-readable --info=progress2 --no-inc-recursive)
+
+# Reads rsync output on stdin (with \r already turned into newlines). Progress
+# lines are throttled to one per PROGRESS_INTERVAL; everything else passes through.
+throttle_progress() {
+  local line last=-999999
+  while IFS= read -r line; do
+    if [[ "$line" == *xfr#* ]]; then
+      if (( SECONDS - last >= PROGRESS_INTERVAL )); then
+        echo "    progress: ${line#"${line%%[![:space:]]*}"}"
+        last=$SECONDS
+      fi
+    elif [ -n "$line" ]; then
+      echo "$line"
+    fi
+  done
+}
 
 echo "Backing up to $DESTINATION"
 echo
@@ -176,8 +193,13 @@ for folder in "${FOLDERS[@]}"; do
     continue
   fi
 
-  rsync "${args[@]}" -- "$folder" "$DESTINATION"
-  rc=$?
+  if [ -t 1 ]; then
+    rsync "${args[@]}" -- "$folder" "$DESTINATION"
+    rc=$?
+  else
+    rsync "${args[@]}" -- "$folder" "$DESTINATION" 2>&1 | tr '\r' '\n' | throttle_progress
+    rc=${PIPESTATUS[0]}
+  fi
 
   case "$rc" in
     0)
