@@ -19,6 +19,8 @@
 #   - Only one backup runs at a time; a second one waits for the first to finish.
 #   - Files that vanish while being copied are not treated as an error.
 #   - A failure in one folder does not stop the others.
+#   - When run in a terminal, live progress (percentage, speed, ETA) is shown
+#     for each folder. Non-interactive runs (timers) keep plain logs.
 #   - If configured, an ntfy message is sent when the backup finishes: one URL
 #     for success and one for failure (either may be empty to disable it).
 #     Dry runs never send notifications.
@@ -148,14 +150,24 @@ if [ "$DRY_RUN" -eq 1 ]; then
 fi
 args+=("${EXTRA_ARGS[@]}")
 
+# Live progress (overall percentage, speed, ETA) only when run in a terminal, so
+# logs from the timer or shutdown run stay clean. --no-inc-recursive makes rsync
+# scan the folder up front, which gives an accurate percentage and ETA.
+if [ -t 1 ]; then
+  args+=(--human-readable --info=progress2 --no-inc-recursive)
+fi
+
 echo "Backing up to $DESTINATION"
 echo
 
 ok=0
 failed=0
 failed_folders=()
+total=${#FOLDERS[@]}
+idx=0
 for folder in "${FOLDERS[@]}"; do
-  echo "==> $folder"
+  idx=$((idx + 1))
+  echo "==> [$idx/$total] $folder"
 
   if [ ! -e "$folder" ]; then
     echo "    does not exist, skipping"
