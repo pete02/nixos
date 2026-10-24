@@ -66,7 +66,7 @@
       path = "/mnt/server";
     };
   };
-  samba.clients.rpi.enable=true;
+  samba.clients.rpi.enable = true;
 
   desktop.enable = true;
 }

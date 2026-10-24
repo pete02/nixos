@@ -33,7 +33,8 @@
 
     config = lib.mkIf (cfg != {}) {
       sops.secrets = lib.foldl' (acc: site:
-        acc // {
+        acc
+        // {
           ${secretName site "private_key"} = {
             key = "services/wireguard/${site}/private_key";
             owner = "systemd-network";
@@ -46,7 +47,8 @@
             group = "systemd-network";
             mode = "0440";
           };
-        }) {} sites;
+        }) {}
+      sites;
 
       networking.firewall.allowedUDPPorts = [51820];
       networking.networkmanager.unmanaged = ["wg0"];
@@ -74,12 +76,14 @@
             FirewallMark = 42;
           };
 
-          wireguardPeers = lib.mapAttrsToList (site: settings: {
-            PublicKeyFile = config.sops.secrets.${secretName site "public_key"}.path;
-            AllowedIPs = settings.allowed_ips;
-            Endpoint = settings.endpoint;
-            PersistentKeepalive = 25;
-          }) cfg;
+          wireguardPeers =
+            lib.mapAttrsToList (site: settings: {
+              PublicKeyFile = config.sops.secrets.${secretName site "public_key"}.path;
+              AllowedIPs = settings.allowed_ips;
+              Endpoint = settings.endpoint;
+              PersistentKeepalive = 25;
+            })
+            cfg;
         };
       };
     };

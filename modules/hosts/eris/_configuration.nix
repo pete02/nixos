@@ -34,4 +34,3 @@
     kitty.terminfo
   ];
 }
-
