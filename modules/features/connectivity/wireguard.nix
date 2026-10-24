@@ -62,13 +62,13 @@
 
           wireguardConfig = {
             ListenPort = 51820;
-            PrivateKeyFile = config.sops.secrets."wireguard/${builtins.head (builtins.attrNames cfg)}/private_key".path;
+            PrivateKeyFile = config.sops.secrets."services/wireguard/${builtins.head (builtins.attrNames cfg)}/private_key".path;
             RouteTable = "main";
             FirewallMark = 42;
           };
 
           wireguardPeers = lib.mapAttrsToList (site: settings: {
-            PublicKeyFile = config.sops.secrets."wireguard/${site}/public_key".path;
+            PublicKeyFile = config.sops.secrets."services/wireguard/${site}/public_key".path;
             AllowedIPs = settings.allowed_ips;
             Endpoint = settings.endpoint;
             PersistentKeepalive = 25;
