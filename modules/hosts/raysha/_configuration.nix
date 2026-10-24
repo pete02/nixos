@@ -11,7 +11,7 @@
 
   backups.git-sync = {
     enable = true;
-    folders = [/home/pete/code];
+    folders = ["/home/pete/code"];
   };
 
   username = "pete";
