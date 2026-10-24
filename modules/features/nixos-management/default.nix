@@ -23,7 +23,9 @@
 
       runtimeInputs = with pkgs; [
         curl
+        openssh
         git
+        coreutils
       ];
       substitutions = {
         NTFY_SUCCESS_URL = config.nixos-management.gitops.ntfyUpgrade;
@@ -94,6 +96,8 @@
       (lib.mkIf config.nixos-management.gitops.enable {
         systemd.services.gitops = {
           description = "Check remote NixOS config repo for updates";
+          restartIfChanged = false;
+          stopIfChanged = false;
           environment = {
             GIT_CONFIG_COUNT = "1";
             GIT_CONFIG_KEY_0 = "safe.directory";

@@ -37,6 +37,8 @@ check() {
 
     echo "Checking git..."
     command -v git >/dev/null || return 1
+    echo "Checking ssh..."
+    command -v ssh >/dev/null || return 1
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -60,11 +62,13 @@ cd /etc/nixos
 STEP="fetch"
 git fetch origin stable
 
-STEP="revision check"
-LOCAL="$(git rev-parse @)"
-REMOTE="$(git rev-parse origin/stable)"
+REV_FILE="/var/lib/gitops/last-deployed-rev"
 
-if [[ "$LOCAL" != "$REMOTE" ]]; then
+STEP="revision check"
+REMOTE="$(git rev-parse origin/stable)"
+DEPLOYED="$(cat "$REV_FILE" 2>/dev/null || true)"
+
+if [[ "$REMOTE" != "$DEPLOYED" ]]; then
     echo "Remote has updates, triggering autoupdater"
 
     STEP="reset"
