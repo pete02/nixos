@@ -108,7 +108,7 @@
           RemainAfterExit = true;
           User = cfg.user;
           ExecStart = lib.getExe' pkgs.coreutils "true";
-          ExecStop = runner;
+          ExecStop = runner/bin/git-sync;
           TimeoutStopSec = cfg.timeout;
         };
       };

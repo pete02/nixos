@@ -1,7 +1,6 @@
-<<< /nix/var/nix/profiles/system-67-link
->>> /nix/var/nix/profiles/system-68-link
-Added packages:
-[A.]  #1  git-sync               <none>
-[A.]  #2  git-sync-checked       <none>
-[A.]  #3  unit-git-sync.service  <none>
-Closure size: 2695 -> 2698 (10 paths added, 7 paths removed, delta +3, disk usage +23.5KiB).
+<<< /nix/var/nix/profiles/system-68-link
+>>> /nix/var/nix/profiles/system-69-link
+Removed packages:
+[R.]  #1  git-sync          <none>
+[R.]  #2  git-sync-checked  <none>
+Closure size: 2698 -> 2696 (6 paths added, 8 paths removed, delta -2, disk usage -7.1KiB).
