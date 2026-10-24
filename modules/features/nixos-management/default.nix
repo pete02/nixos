@@ -25,6 +25,8 @@
         curl
         openssh
         git
+        nixos-rebuild
+        systemd
         coreutils
       ];
       substitutions = {
