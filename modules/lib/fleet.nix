@@ -38,6 +38,12 @@ in {
         mountPoint = "/mnt/timelock";
         credentialsSecret = "samba/timelock";
       };
+
+      rpi = {
+        host = "10.0.0.3";
+        mountPoint = "/mnt/rpi";
+        credentialsSecret = "samba/rpi";
+      };
     };
 
     # Machines that aren't (or aren't only) NixOS hosts

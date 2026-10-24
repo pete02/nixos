@@ -106,6 +106,18 @@
       lib.concatMap
       (server: builtins.attrNames server.shares)
       (lib.attrValues enabledServers);
+
+    enabledShares =
+      lib.concatMap
+      (server: lib.attrValues server.shares)
+      (lib.attrValues enabledServers);
+
+    shareDirRules =
+      map
+      (share: "d ${share.path} ${share.mode} ${share.forceUser} ${share.forceGroup} -")
+      (lib.filter (share: share.createDirectory) enabledShares);
+
+    sharePaths = lib.unique (map (share: share.path) enabledShares);
   in {
     options.samba = {
       servers = lib.mkOption {
@@ -180,6 +192,18 @@
                   rootPreexecClose = lib.mkOption {
                     type = lib.types.bool;
                     default = true;
+                  };
+
+                  createDirectory = lib.mkOption {
+                    type = lib.types.bool;
+                    default = true;
+                    description = "Create the share directory and manage its ownership and mode.";
+                  };
+
+                  mode = lib.mkOption {
+                    type = lib.types.str;
+                    default = "0755";
+                    description = "Mode of the share directory itself.";
                   };
                 };
               });
@@ -257,6 +281,8 @@
       (lib.mkIf (enabledServers != {}) {
         sops.secrets = lib.genAttrs serverSecrets (_: {});
 
+        systemd.tmpfiles.rules = shareDirRules;
+
         services.samba = {
           enable = true;
           openFirewall = true;
@@ -277,7 +303,11 @@
             // shares;
         };
 
-        systemd.services = credentialServices;
+        systemd.services =
+          credentialServices
+          // {
+            samba-smbd.unitConfig.RequiresMountsFor = lib.concatStringsSep " " sharePaths;
+          };
       })
 
       (lib.mkIf (enabledClients != {}) {
