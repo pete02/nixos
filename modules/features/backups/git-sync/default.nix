@@ -20,8 +20,8 @@
       ];
       substitutions = {
         MESSAGE = cfg.commitMessage;
-        DEPTH = cfg.depth;
-        FOLDERS = cfg.folders;
+        DEPTH = toString cfg.depth;
+        FOLDERS = lib.escapeShellArgs cfg.folders;
       };
     };
   in {
