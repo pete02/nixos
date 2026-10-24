@@ -182,7 +182,8 @@
               || echo "Warning: Attic upload failed; build outputs remain local." >&2
 
             exit 0
-          '');
+          ''
+        );
       })
 
       # ---- Attic server (one host, e.g. aria) ----
