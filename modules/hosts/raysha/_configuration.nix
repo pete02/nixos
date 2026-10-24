@@ -9,9 +9,9 @@
     via
   ];
 
-  backups.git-sync={
-    enable=true;
-    folders = [/home/pete/code]
+  backups.git-sync = {
+    enable = true;
+    folders = [/home/pete/code];
   };
 
   username = "pete";

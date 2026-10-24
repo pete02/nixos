@@ -77,15 +77,15 @@
         description = "systemd OnCalendar expression for when to run.";
       };
     };
-    config = lib.mkIf config.bitwarden-backup.enable {
+    config = lib.mkIf config.backups.bitwarden.enable {
       systemd.services.bitwarden-backup = {
         environment = {
-          DATA_DIR = config.bitwarden-backup.dataDir;
-          CONTAINER_NAME = config.bitwarden-backup.containerName;
-          RCLONE_REMOTE = config.bitwarden-backup.remote;
-          KEEP = toString config.bitwarden-backup.keep;
+          DATA_DIR = config.backups.bitwarden.dataDir;
+          CONTAINER_NAME = config.backups.bitwarden.containerName;
+          RCLONE_REMOTE = config.backups.bitwarden.remote;
+          KEEP = toString config.backups.bitwarden.keep;
           RCLONE_CONFIG = "/run/bitwarden-backup/rclone.conf";
-          NTFY_URL = config.bitwarden-backup.ntfyUrl;
+          NTFY_URL = config.backups.bitwarden.ntfyUrl;
         };
         after = ["network-online.target"];
         wants = ["network-online.target"];
@@ -94,7 +94,7 @@
           if [ ! -e /run/bitwarden-backup/rclone.conf ]; then
             ${pkgs.coreutils}/bin/install \
               -m 0600 \
-              ${config.bitwarden-backup.rcloneConfigFile} \
+              ${config.backups.bitwarden.rcloneConfigFile} \
               /run/bitwarden-backup/rclone.conf
           fi
         '';
@@ -106,7 +106,7 @@
           RuntimeDirectoryMode = "0700";
           RuntimeDirectoryPreserve = "yes";
         };
-        startAt = config.bitwarden-backup.schedule;
+        startAt = config.backups.bitwarden.schedule;
       };
     };
   };
