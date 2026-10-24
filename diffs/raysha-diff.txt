@@ -1,6 +1,9 @@
-<<< /nix/var/nix/profiles/system-69-link
->>> /nix/var/nix/profiles/system-70-link
+<<< /nix/var/nix/profiles/system-70-link
+>>> /nix/var/nix/profiles/system-71-link
 Added packages:
-[A.]  #1  git-sync          <none>
-[A.]  #2  git-sync-checked  <none>
-Closure size: 2696 -> 2698 (8 paths added, 6 paths removed, delta +2, disk usage +7.1KiB).
+[A.]  #1  rsync-backup                        <none>
+[A.]  #2  rsync-backup-checked                <none>
+[A.]  #3  unit-rsync-backup-shutdown.service  <none>
+[A.]  #4  unit-rsync-backup.service           <none>
+[A.]  #5  unit-rsync-backup.timer             <none>
+Closure size: 2698 -> 2703 (14 paths added, 9 paths removed, delta +5, disk usage +22.8KiB).
