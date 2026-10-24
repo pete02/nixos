@@ -306,7 +306,10 @@
         systemd.services =
           credentialServices
           // {
-            samba-smbd.unitConfig.RequiresMountsFor = lib.concatStringsSep " " sharePaths;
+            # nixpkgs already sets RequiresMountsFor = "/var/lib/samba", so merge with it
+            samba-smbd.unitConfig.RequiresMountsFor = lib.mkForce (
+              lib.concatStringsSep " " (["/var/lib/samba"] ++ sharePaths)
+            );
           };
       })
 
