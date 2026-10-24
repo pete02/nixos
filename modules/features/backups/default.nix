@@ -3,6 +3,7 @@
     imports = with self.nixosModules; [
       bitwarden-backup
       git-sync
+      rsync-backup
     ];
   };
 }

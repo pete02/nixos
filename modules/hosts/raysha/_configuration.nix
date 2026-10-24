@@ -9,9 +9,17 @@
     via
   ];
 
-  backups.git-sync = {
-    enable = true;
-    folders = ["/home/pete/code"];
+  backups={
+    git-sync = {
+      enable = true;
+      folders = ["/home/pete/code"];
+    };
+    rsync = {
+      enable = true;
+      destination = "/mnt/server/desktopsync";          # or "me@host:/backups/raysha"
+      folders = [ "/home/pete/school"];
+      exclude = [ "node_modules" "target" ".cache" ];
+    };
   };
 
   username = "pete";
@@ -38,6 +46,8 @@
   common-tools.books = true;
   samba.clients.server.enable = true;
   samba.clients.timelock.enable = true;
+
+  
 
   gaming = {
     steam = true;
