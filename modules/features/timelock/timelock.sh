@@ -1,15 +1,59 @@
+
 #!/usr/bin/env bash
 set -euo pipefail
 umask 077
 
+usage() {
+    cat <<'EOF'
+Usage:
+  timelock RESOURCE ACTION
+  timelock --help
+
+Actions:
+  unlock    Unlock the resource if cooldown and daily cutoff rules permit it.
+  lock      Manually lock the resource after the maximum session duration.
+  expire    Lock the resource if its session or daily cutoff deadline has passed.
+  check     Exit 0 if the resource is unlocked and its session is still valid.
+            Otherwise exit 1. Expired sessions are locked automatically.
+  status    Show the current state, timestamps, transition eligibility, and
+            time remaining until the next permitted transition.
+  help      Show this help message.
+
+Options:
+  -h, --help    Show this help message.
+
+Environment:
+  TIMELOCK_STATE_DIR          Directory containing state and lock files.
+  TIMELOCK_STATE_USER         User who owns the state files.
+  TIMELOCK_MAX_SESSION_SECS   Maximum session duration (default: 3600).
+  TIMELOCK_COOLDOWN_SECS      Cooldown after locking (default: 259200).
+  TIMELOCK_CUTOFF_HOUR        Hour after which unlocking is prohibited (default: 21).
+  TIMELOCK_LOCK_COMMAND       Absolute path to the lock command.
+  TIMELOCK_UNLOCK_COMMAND     Absolute path to the unlock command.
+
+Times are displayed in the system's local timezone.
+EOF
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ||
+      "${1:-}" == "help" ||
+      "${2:-}" == "-h" || "${2:-}" == "--help" ||
+      "${2:-}" == "help" ]]; then
+    usage
+    exit 0
+fi
+
 check() {
-    local missing=0 cmd
-    for cmd in date mkdir chmod mv cat rm mktemp flock logger systemctl; do
-        command -v "$cmd" >/dev/null 2>&1 || {
+    local missing=0
+    local cmd
+
+    for cmd in date mkdir chmod mv rm mktemp flock logger install id stat chown; do
+        if ! command -v "$cmd" >/dev/null 2>&1; then
             echo "timelock: missing required command: $cmd" >&2
             missing=1
-        }
+        fi
     done
+
     return "$missing"
 }
 
@@ -31,7 +75,6 @@ die() {
     exit 2
 }
 
-
 [[ $# -eq 2 ]] || die "Usage: timelock RESOURCE ACTION"
 
 resource="$1"
@@ -41,11 +84,8 @@ if [[ ! "$resource" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
     die "Invalid resource name"
 fi
 
-if [[ ! "$TIMELOCK_MAX_SESSION_SECS" =~ ^[0-9]+$ ]]; then
-    die "Invalid maximum session duration"
-fi
-
-if (( TIMELOCK_MAX_SESSION_SECS == 0 )); then
+if [[ ! "$TIMELOCK_MAX_SESSION_SECS" =~ ^[0-9]+$ ]] ||
+   (( TIMELOCK_MAX_SESSION_SECS == 0 )); then
     die "Invalid maximum session duration"
 fi
 
@@ -53,11 +93,8 @@ if [[ ! "$TIMELOCK_COOLDOWN_SECS" =~ ^[0-9]+$ ]]; then
     die "Invalid cooldown duration"
 fi
 
-if [[ ! "$TIMELOCK_CUTOFF_HOUR" =~ ^[0-9]+$ ]]; then
-    die "TIMELOCK_CUTOFF_HOUR must be an integer from 0 to 23"
-fi
-
-if (( TIMELOCK_CUTOFF_HOUR > 23 )); then
+if [[ ! "$TIMELOCK_CUTOFF_HOUR" =~ ^[0-9]+$ ]] ||
+   (( TIMELOCK_CUTOFF_HOUR > 23 )); then
     die "TIMELOCK_CUTOFF_HOUR must be an integer from 0 to 23"
 fi
 
@@ -76,8 +113,6 @@ fi
 if ! state_gid=$(id -g "$TIMELOCK_STATE_USER"); then
     die "Cannot resolve primary group for $TIMELOCK_STATE_USER"
 fi
-
-
 
 # Only root and the designated user may operate on this resource.
 if (( EUID != 0 && EUID != state_uid )); then
@@ -162,6 +197,25 @@ now() {
     date +%s
 }
 
+format_duration() {
+    local seconds="$1"
+    local days hours minutes
+
+    (( seconds < 0 )) && seconds=0
+
+    days=$((seconds / 86400))
+    hours=$((seconds % 86400 / 3600))
+    minutes=$((seconds % 3600 / 60))
+
+    if (( days > 0 )); then
+        printf '%dd %dh %dm' "$days" "$hours" "$minutes"
+    elif (( hours > 0 )); then
+        printf '%dh %dm' "$hours" "$minutes"
+    else
+        printf '%dm' "$minutes"
+    fi
+}
+
 read_state() {
     STATE="locked"
     TIMESTAMP=0
@@ -236,6 +290,42 @@ expiry_time() {
     fi
 }
 
+next_unlock_time() {
+    local timestamp="$1"
+    local current_time cooldown_end candidate candidate_date
+    local candidate_hour midnight
+
+    current_time=$(now)
+
+    # At a cutoff hour of 00:00, unlocking is never permitted.
+    if (( TIMELOCK_CUTOFF_HOUR == 0 )); then
+        printf 'never\n'
+        return
+    fi
+
+    candidate="$current_time"
+
+    if (( timestamp > 0 )); then
+        cooldown_end=$((timestamp + TIMELOCK_COOLDOWN_SECS))
+
+        if (( cooldown_end > candidate )); then
+            candidate="$cooldown_end"
+        fi
+    fi
+
+    # If the candidate falls during the prohibited period, wait until
+    # midnight following that date.
+    candidate_hour=$(date -d "@$candidate" +%H)
+
+    if (( 10#$candidate_hour >= TIMELOCK_CUTOFF_HOUR )); then
+        candidate_date=$(date -d "@$candidate" +%F)
+        midnight=$(date -d "$candidate_date 00:00:00" +%s)
+        candidate=$((midnight + 86400))
+    fi
+
+    printf '%s\n' "$candidate"
+}
+
 case "$action" in
     unlock)
         read_state
@@ -259,6 +349,7 @@ case "$action" in
         fi
 
         current_hour=$(date +%H)
+
         if (( 10#$current_hour >= TIMELOCK_CUTOFF_HOUR )); then
             die "Unlocking $resource is prohibited after the daily cutoff"
         fi
@@ -319,18 +410,63 @@ case "$action" in
     status)
         read_state
 
+        current_time=$(now)
+
         printf 'Resource: %s\nState: %s\n' "$resource" "$STATE"
 
-        if [[ "$STATE" == "unlocked" ]]; then
-            deadline=$(expiry_time "$TIMESTAMP")
-            printf 'Unlocked at: %s\n' "$(date -d "@$TIMESTAMP")"
-            printf 'Expires at: %s\n' "$(date -d "@$deadline")"
+        if (( TIMESTAMP > 0 )); then
+            if [[ "$STATE" == "locked" ]]; then
+                printf 'Locked at: %s\n' "$(date -d "@$TIMESTAMP")"
+            else
+                printf 'Unlocked at: %s\n' "$(date -d "@$TIMESTAMP")"
+            fi
         else
-            printf 'Locked at: %s\n' "$(date -d "@$TIMESTAMP")"
+            printf 'State timestamp: not recorded (initial state)\n'
+        fi
 
-            if (( TIMESTAMP > 0 )); then
-                printf 'Cooldown ends: %s\n' \
-                    "$(date -d "@$((TIMESTAMP + TIMELOCK_COOLDOWN_SECS))")"
+        if [[ "$STATE" == "locked" ]]; then
+            next_unlock=$(next_unlock_time "$TIMESTAMP")
+
+            if [[ "$next_unlock" == "never" ]]; then
+                printf 'Can unlock now: no\n'
+                printf 'Unlock availability: never (cutoff hour is 00:00)\n'
+            elif (( next_unlock <= current_time )); then
+                printf 'Can unlock now: yes\n'
+            else
+                remaining=$((next_unlock - current_time))
+
+                printf 'Can unlock now: no\n'
+                printf 'Unlock available in: %s\n' \
+                    "$(format_duration "$remaining")"
+                printf 'Unlock available at: %s\n' \
+                    "$(date -d "@$next_unlock")"
+            fi
+        else
+            deadline=$(expiry_time "$TIMESTAMP")
+            manual_lock_time=$((TIMESTAMP + TIMELOCK_MAX_SESSION_SECS))
+
+            printf 'Expires at: %s\n' "$(date -d "@$deadline")"
+
+            if (( deadline <= current_time )); then
+                printf 'Automatic lock overdue: yes\n'
+                printf 'Automatic lock remaining: 0m\n'
+            else
+                remaining=$((deadline - current_time))
+
+                printf 'Automatic lock in: %s\n' \
+                    "$(format_duration "$remaining")"
+            fi
+
+            if (( current_time >= manual_lock_time )); then
+                printf 'Can lock manually now: yes\n'
+            else
+                remaining=$((manual_lock_time - current_time))
+
+                printf 'Can lock manually now: no\n'
+                printf 'Manual lock available in: %s\n' \
+                    "$(format_duration "$remaining")"
+                printf 'Manual lock available at: %s\n' \
+                    "$(date -d "@$manual_lock_time")"
             fi
         fi
         ;;
