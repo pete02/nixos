@@ -1,7 +1,4 @@
-<<< /nix/var/nix/profiles/system-120-link
->>> /nix/var/nix/profiles/system-121-link
-Version changes:
-[C.]  #1  timelock  <none> x2 -> <none>
-Selection state changes:
-[C+]  #1  timelock-samba  <none>
-Closure size: 2199 -> 2198 (22 paths added, 23 paths removed, delta -1, disk usage -760B).
+<<< /nix/var/nix/profiles/system-121-link
+>>> /nix/var/nix/profiles/system-122-link
+No version or selection state changes.
+Closure size: 2198 -> 2198 (26 paths added, 26 paths removed, delta +0, disk usage +8.7KiB).
