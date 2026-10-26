@@ -112,6 +112,7 @@
           alanna-filter
           raysha-filter
           preexec
+          timelockPackage
         ];
         sops.secrets."agh" = {};
 
