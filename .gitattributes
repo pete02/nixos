@@ -1,4 +1,4 @@
 flake.lock merge=flake-lock
-aria-diff.txt merge=ours
+diffs/aria-diff.txt merge=aria-diff
 raysha-diff.txt merge=ours
 talia-diff.txt merge=ours
