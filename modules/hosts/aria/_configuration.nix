@@ -53,6 +53,7 @@
       destination = "/mnt/rpi";
       folders = ["/mnt/server" "/mnt/timelock"];
       exclude = ["node_modules" "target" ".cache" ".direnv" "__pycache__"];
+      schedule = "*-*-* 00:00:00";
     };
   };
 

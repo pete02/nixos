@@ -172,6 +172,8 @@
         description = "Back up folders with rsync";
         wants = ["network-online.target"];
         after = ["network-online.target" "nss-lookup.target" "local-fs.target"];
+        restartIfChanged = false;
+        stopIfChanged = false;
         unitConfig.RequiresMountsFor = localPaths;
         inherit environment;
         serviceConfig = {
