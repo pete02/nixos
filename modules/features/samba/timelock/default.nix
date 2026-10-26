@@ -20,7 +20,6 @@
 
       exec ${self.packages.${pkgs.system}.timelock}/bin/timelock "$@"
     '';
-    };
 
     raysha-filter = self.lib.mkScript pkgs {
       name = "raysha-filter";
