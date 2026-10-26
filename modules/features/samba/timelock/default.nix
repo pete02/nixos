@@ -10,7 +10,7 @@
     configuredTimelock = pkgs.writeShellApplication {
       name = "timelock";
 
-      runtimeInputs = [ self.packages.${pkgs.system}.timelock ];
+      runtimeInputs = [self.packages.${pkgs.system}.timelock];
 
       text = ''
         export STATE_DIR="/var/lib/timelock"

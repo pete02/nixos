@@ -1,4 +1,5 @@
-<<< /nix/var/nix/profiles/system-113-link
->>> /nix/var/nix/profiles/system-114-link
-No version or selection state changes.
-Closure size: 2198 -> 2198 (15 paths added, 15 paths removed, delta +0, disk usage +232B).
+<<< /nix/var/nix/profiles/system-114-link
+>>> /nix/var/nix/profiles/system-115-link
+Version changes:
+[C.]  #1  timelock  <none> -> <none> x2
+Closure size: 2198 -> 2199 (23 paths added, 22 paths removed, delta +1, disk usage -336B).
