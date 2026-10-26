@@ -3,12 +3,6 @@ set -euo pipefail
 
 # preexec.sh - Samba connection authorization through generic timelock.
 
-STATE_DIR="@STATE_DIR@"
-MAX_SESSION_SECS="@MAX_SESSION_SECS@"
-COOLDOWN_SECS="@COOLDOWN_SECS@"
-CUTOFF_HOUR="@CUTOFF_HOUR@"
-STATE_USER="@STATE_USER@"
-NOOP_COMMAND="@NOOP_COMMAND@"
 
 check_commands() {
     local missing=0
