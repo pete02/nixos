@@ -38,13 +38,6 @@ if [[ $# -ne 0 ]]; then
     exit 2
 fi
 
-export TIMELOCK_STATE_DIR="$STATE_DIR"
-export TIMELOCK_MAX_SESSION_SECS="$MAX_SESSION_SECS"
-export TIMELOCK_COOLDOWN_SECS="$COOLDOWN_SECS"
-export TIMELOCK_CUTOFF_HOUR="$CUTOFF_HOUR"
-export TIMELOCK_LOCK_COMMAND="$NOOP_COMMAND"
-export TIMELOCK_UNLOCK_COMMAND="$NOOP_COMMAND"
-export TIMELOCK_STATE_USER="$STATE_USER"
 
 if ! check_commands; then
     logger -t samba-timelock -- \

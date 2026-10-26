@@ -7,7 +7,21 @@
   }: let
     cfg = config.samba.timelock;
 
-    timelockPackage = self.packages.${pkgs.system}.timelock;
+    configuredTimelock = pkgs.writeShellApplication {
+      name = "timelock";
+
+      runtimeInputs = [ timelockPackage ];
+
+      text = ''
+        export STATE_DIR="/var/lib/timelock"
+        export MAX_SESSION_SECS="${toString (cfg.maxSessionMinutes * 60)}"
+        export COOLDOWN_SECS="${toString (cfg.cooldownHours * 60 * 60)}"
+        export CUTOFF_HOUR="${toString cfg.cutoffHour}"
+        export STATE_USER="${config.username}"
+
+        exec timelock "$@"
+      '';
+    };
 
     raysha-filter = self.lib.mkScript pkgs {
       name = "raysha-filter";
@@ -71,17 +85,8 @@
         coreutils
         util-linux
         logger
-        timelockPackage
+        configuredTimelock
       ];
-
-      substitutions = {
-        STATE_DIR = "/var/lib/timelock";
-        MAX_SESSION_SECS = toString (cfg.maxSessionMinutes * 60);
-        COOLDOWN_SECS = toString (cfg.cooldownHours * 60 * 60);
-        CUTOFF_HOUR = toString cfg.cutoffHour;
-        NOOP_COMMAND = "${samba-noop}/bin/samba-timelock-noop";
-        STATE_USER = config.username;
-      };
     };
   in {
     options.samba.timelock = {
@@ -112,7 +117,7 @@
           alanna-filter
           raysha-filter
           preexec
-          timelockPackage
+          configuredTimelock
         ];
         sops.secrets."agh" = {};
 
