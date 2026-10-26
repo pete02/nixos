@@ -21,10 +21,13 @@
   healthcheck = {
     enable = true;
     devices = ["/dev/sda" "/dev/mmcblk0"];
-    memSize = "1G";
+    memSize = "128M";
   };
 
-  networking.hosts."192.168.88.241" = ["git.lumilukko.com"];
+  networking.hosts."192.168.88.241" = [
+    "git.lumilukko.com"
+    "ntfy.lumilukko.com"  
+  ];
 
   samba.servers.rpi = {
     enable = true;
