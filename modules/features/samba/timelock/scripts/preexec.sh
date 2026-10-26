@@ -14,11 +14,6 @@ check_commands() {
         fi
     done
 
-    if [[ ! -x "$NOOP_COMMAND" ]]; then
-        echo "Missing executable: $NOOP_COMMAND" >&2
-        missing=1
-    fi
-
     return "$missing"
 }
 
