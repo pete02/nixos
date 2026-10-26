@@ -7,7 +7,7 @@ set -euo pipefail
 check_commands() {
     local missing=0
 
-    for cmd in date mkdir chmod mv flock logger timelock; do
+    for cmd in date mkdir chmod mv flock logger timelock-samba; do
         if ! command -v "$cmd" >/dev/null 2>&1; then
             echo "Missing required command: $cmd" >&2
             missing=1
@@ -34,4 +34,4 @@ if ! check_commands; then
     exit 1
 fi
 
-exec timelock shared unlock
+exec "@TIMELOCK@" unlock

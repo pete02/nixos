@@ -83,6 +83,12 @@
         description = "Interval between automatic expiry enforcement runs.";
       };
 
+      resourcePackages = mkOption {
+        type = types.attrsOf types.package;
+        readOnly = true;
+        default = resourceWrappers;
+        description = "Configured timelock executable for each resource.";
+      };
       resources = mkOption {
         default = {};
         description = ''

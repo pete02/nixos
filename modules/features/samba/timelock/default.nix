@@ -83,8 +83,10 @@
         coreutils
         util-linux
         logger
-        configuredTimelock
       ];
+      substitutions = {
+        TIMELOCK = "${config.services.timelock.resourcePackages.samba}/bin/timelock-samba";
+      };
     };
   in {
     options.samba.timelock = {
@@ -115,7 +117,7 @@
           alanna-filter
           raysha-filter
           preexec
-          configuredTimelock
+          config.services.timelock.resourcePackages.samba
         ];
         sops.secrets."agh" = {};
 
