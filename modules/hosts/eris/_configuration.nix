@@ -20,7 +20,7 @@
 
   healthcheck = {
     enable = true;
-    devices = ["/dev/sda" "/dev/mmcblk0"];
+    devices = ["/dev/sda"];
     memSize = "128M";
     schedule = "Sun 12:00";
   };
