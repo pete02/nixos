@@ -27,7 +27,7 @@
 
   networking.hosts."192.168.88.241" = [
     "git.lumilukko.com"
-    "ntfy.lumilukko.com"  
+    "ntfy.lumilukko.com"
   ];
 
   samba.servers.rpi = {
