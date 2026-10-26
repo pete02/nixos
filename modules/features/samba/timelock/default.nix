@@ -7,7 +7,6 @@
   }: let
     cfg = config.samba.timelock;
 
-
     raysha-filter = self.lib.mkScript pkgs {
       name = "raysha-filter";
       src = ./scripts/agh-filter.sh;
