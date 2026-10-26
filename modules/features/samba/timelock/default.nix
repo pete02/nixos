@@ -13,13 +13,13 @@
       runtimeInputs = [self.packages.${pkgs.system}.timelock];
 
       text = ''
-        export STATE_DIR="/var/lib/timelock"
-        export MAX_SESSION_SECS="${toString (cfg.maxSessionMinutes * 60)}"
-        export COOLDOWN_SECS="${toString (cfg.cooldownHours * 60 * 60)}"
-        export CUTOFF_HOUR="${toString cfg.cutoffHour}"
-        export STATE_USER="${config.username}"
+         export STATE_DIR="/var/lib/timelock"
+         export MAX_SESSION_SECS="${toString (cfg.maxSessionMinutes * 60)}"
+         export COOLDOWN_SECS="${toString (cfg.cooldownHours * 60 * 60)}"
+         export CUTOFF_HOUR="${toString cfg.cutoffHour}"
+         export STATE_USER="${config.username}"
 
-       exec ${self.packages.${pkgs.system}.timelock}/bin/timelock "$@"
+        exec ${self.packages.${pkgs.system}.timelock}/bin/timelock "$@"
 
       '';
     };
