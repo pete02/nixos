@@ -19,7 +19,8 @@
         export CUTOFF_HOUR="${toString cfg.cutoffHour}"
         export STATE_USER="${config.username}"
 
-        exec timelock "$@"
+       exec ${self.packages.${pkgs.system}.timelock}/bin/timelock "$@"
+
       '';
     };
 
