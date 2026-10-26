@@ -22,6 +22,7 @@
     enable = true;
     devices = ["/dev/sda" "/dev/mmcblk0"];
     memSize = "128M";
+    schedule = "Sun 12:00";
   };
 
   networking.hosts."192.168.88.241" = [
