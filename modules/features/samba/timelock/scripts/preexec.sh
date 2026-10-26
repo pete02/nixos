@@ -7,12 +7,17 @@ set -euo pipefail
 check_commands() {
     local missing=0
 
-    for cmd in date mkdir chmod mv flock logger timelock-samba; do
+    for cmd in date mkdir chmod mv flock logger; do
         if ! command -v "$cmd" >/dev/null 2>&1; then
             echo "Missing required command: $cmd" >&2
             missing=1
         fi
     done
+
+    if [[ ! -x "@TIMELOCK@" ]]; then
+        echo "Missing configured timelock executable: @TIMELOCK@" >&2
+        missing=1
+    fi
 
     return "$missing"
 }

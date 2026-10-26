@@ -7,19 +7,6 @@
   }: let
     cfg = config.samba.timelock;
 
-    configuredTimelock = pkgs.writeShellScriptBin "timelock" ''
-      export TIMELOCK_STATE_DIR=${lib.escapeShellArg "/var/lib/timelock"}
-      export TIMELOCK_STATE_USER=${lib.escapeShellArg config.username}
-
-      export TIMELOCK_MAX_SESSION_SECS=${toString (cfg.maxSessionMinutes * 60)}
-      export TIMELOCK_COOLDOWN_SECS=${toString (cfg.cooldownHours * 60 * 60)}
-      export TIMELOCK_CUTOFF_HOUR=${toString cfg.cutoffHour}
-
-      export TIMELOCK_LOCK_COMMAND=${lib.escapeShellArg "${samba-noop}/bin/samba-timelock-noop"}
-      export TIMELOCK_UNLOCK_COMMAND=${lib.escapeShellArg "${samba-noop}/bin/samba-timelock-noop"}
-
-      exec ${self.packages.${pkgs.system}.timelock}/bin/timelock "$@"
-    '';
 
     raysha-filter = self.lib.mkScript pkgs {
       name = "raysha-filter";
