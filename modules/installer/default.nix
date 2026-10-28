@@ -8,20 +8,20 @@ in
   flake.nixosConfigurations = {
     # Target system the ISO installs (generic UEFI x86_64).
     x86 = inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit settings; };
+      specialArgs = { inherit settings self; };
       modules = [ ./_hosts/x86.nix ];
     };
-    iso-x86 = inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit settings self; };
-      modules = [ ./_hosts/iso-x86.nix ];
-    };
+
     rpi3 = inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit settings; };
+      specialArgs = { inherit settings self; };
       modules = [ ./_hosts/rpi3.nix ];
     };
-    # Uses nixos-raspberrypi's own nixpkgs on purpose (matches its binary cache).
+
     rpi5 = inputs.nixos-raspberrypi.lib.nixosSystem {
-      specialArgs = { inherit settings; inherit (inputs) nixos-raspberrypi; };
+      specialArgs = {
+        inherit settings self;
+        inherit (inputs) nixos-raspberrypi;
+      };
       modules = [ ./_hosts/rpi5.nix ];
     };
   };

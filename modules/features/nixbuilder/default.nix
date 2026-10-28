@@ -62,7 +62,8 @@
         server = {
           enable = lib.mkOption {
             type = lib.types.bool;
-            default = config.hostname == self.lib.fleet.cache.host;
+            default =
+              (config.hostname or null) == self.lib.fleet.cache.host;
             description = "Run the Attic server on this host.";
           };
           port = lib.mkOption {

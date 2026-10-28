@@ -1,0 +1,28 @@
+{pkgs, ...}: {
+  system.stateVersion = "26.05";
+  username = "pete";
+  nixbuilder = {
+    cache.client = {
+      enable = true;
+      cachePush = false;
+    };
+    usesBuilders = true;
+  };
+  connectivity = {
+    mDNS = true;
+  };
+
+  healthcheck = {
+    enable = true;
+    devices = ["/dev/sda"];
+    memSize = "128M";
+    schedule = "Sun 12:00";
+  };
+
+  dev.git = true;
+  nixos-management.gitops.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    kitty.terminfo
+  ];
+}

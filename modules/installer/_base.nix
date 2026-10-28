@@ -1,9 +1,16 @@
-{ lib, pkgs, settings, ... }:
+{ self, lib, pkgs, settings, ... }:
 {
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "root" "@wheel" ];
   };
+
+  imports = [
+    self.nixosModules.nixbuilder
+    self.nixosModules.sops
+  ];
+
+  nixbuilder.cache.client.enable = true;
 
   time.timeZone = settings.timeZone;
   i18n.defaultLocale = settings.locale;
@@ -23,7 +30,6 @@
     openssh.authorizedKeys.keys = settings.sshKeys;
     initialPassword = settings.initialPassword;
   };
-  nixbuilder.cache.client.enable = true;
   environment.systemPackages = with pkgs; [ git vim htop ];
   system.stateVersion = settings.stateVersion;
 }

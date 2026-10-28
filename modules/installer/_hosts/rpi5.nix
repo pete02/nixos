@@ -6,7 +6,8 @@
     sd-image
   ]);
 
-  networking.hostName = "rpi5";
+
+  networking.hostName = "alanna";
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
   services.openssh.settings.PasswordAuthentication = lib.mkForce true;
