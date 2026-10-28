@@ -16,6 +16,7 @@
         util-linux # flock
         coreutils
         curl
+        hostname
       ];
       substitutions = {
         # Values are shell-escaped because they are inserted into the script.
