@@ -6,5 +6,5 @@ in
 writeShellScriptBin "nixos-installer" ''
   export PATH=${lib.makeBinPath deps}:$PATH
   export BUNDLED_FLAKE=${bundledFlake}
-  exec ${bash}/bin/bash ${../scripts/nixos-installer.sh} "$@"
+  exec ${bash}/bin/bash ${./nixos-installer.sh} "$@"
 ''

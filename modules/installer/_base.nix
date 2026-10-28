@@ -13,7 +13,6 @@
     enable = true;
     settings = {
       PermitRootLogin = "no";
-      # Allow password SSH only when no keys are configured, so you can't lock yourself out.
       PasswordAuthentication = settings.sshKeys == [ ];
     };
   };
@@ -24,8 +23,7 @@
     openssh.authorizedKeys.keys = settings.sshKeys;
     initialPassword = settings.initialPassword;
   };
-
+  nixbuilder.cache.client.enable = true;
   environment.systemPackages = with pkgs; [ git vim htop ];
-
   system.stateVersion = settings.stateVersion;
 }

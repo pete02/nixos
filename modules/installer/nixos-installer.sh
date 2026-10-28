@@ -35,6 +35,14 @@ resolve_flake() {
   else die "no flake found (set INSTALLER_FLAKE or cd into the repo)"; fi
 }
 
+# True if this machine can build aarch64: qemu binfmt, or a configured remote builder.
+have_aarch64_builder() {
+  [[ -e /proc/sys/fs/binfmt_misc/qemu-aarch64 ]] && return 0
+  grep -qs aarch64-linux /etc/nix/machines && return 0
+  { nix config show 2>/dev/null || nix show-config 2>/dev/null; } | grep -E '^(builders|extra-platforms|extra-sandbox-paths)' | grep -q aarch64 && return 0
+  return 1
+}
+
 # Sets IMAGE to the built image file.
 build_target() {
   local target=$1 attr sub pat
@@ -44,8 +52,8 @@ build_target() {
     rpi5)            attr=sd-rpi5; sub=sd-image; pat='*.img*' ;;
     *) die "unknown target '$target' (try: iso-x86, rpi3, rpi5)" ;;
   esac
-  if [[ $target == rpi* && $(uname -m) != aarch64 && ! -e /proc/sys/fs/binfmt_misc/qemu-aarch64 ]]; then
-    warn "building aarch64 on $(uname -m) needs boot.binfmt.emulatedSystems = [ \"aarch64-linux\" ] or a remote builder"
+  if [[ $target == rpi* && $(uname -m) != aarch64 ]] && ! have_aarch64_builder; then
+    warn "no aarch64 builder detected (binfmt/qemu or a remote builder in /etc/nix/machines); the build may fail"
   fi
   resolve_flake
   echo ">> nix build $FLAKE#$attr" >&2
@@ -125,7 +133,7 @@ cmd_install() {
   [[ -d /sys/firmware/efi ]] || die "not booted in UEFI mode; this layout is UEFI-only"
   command -v nixos-install >/dev/null || die "nixos-install not found; run this from the live ISO"
   resolve_flake
-  [[ -d $FLAKE/hosts/$host ]] || die "host '$host' not found in flake (hosts/$host)"
+  [[ -f $FLAKE/modules/installer/_hosts/$host.nix ]] || die "host '$host' not found (modules/installer/_hosts/$host.nix)"
 
   confirm_device "$dev"
   release_device "$dev"
@@ -154,9 +162,10 @@ cmd_install() {
   tar -C "$FLAKE" --exclude=.git --exclude='result*' --mode='u+rwX' --owner=0 --group=0 -cf - . \
     | tar -C /mnt/etc/nixos -xf -
 
-  echo ">> nixos-generate-config -> hosts/$host/hardware-configuration.nix"
+  echo ">> nixos-generate-config -> modules/installer/_hardware/$host.nix"
+  mkdir -p /mnt/etc/nixos/modules/installer/_hardware
   nixos-generate-config --root /mnt --show-hardware-config \
-    > "/mnt/etc/nixos/hosts/$host/hardware-configuration.nix"
+    > "/mnt/etc/nixos/modules/installer/_hardware/$host.nix"
 
   echo ">> nixos-install --flake /mnt/etc/nixos#$host"
   nixos-install --root /mnt --flake "/mnt/etc/nixos#$host" --no-root-passwd
