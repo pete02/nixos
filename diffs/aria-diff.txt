@@ -1,4 +1,16 @@
-<<< /nix/var/nix/profiles/system-121-link
->>> /nix/var/nix/profiles/system-122-link
-No version or selection state changes.
-Closure size: 2198 -> 2198 (26 paths added, 26 paths removed, delta +0, disk usage +8.7KiB).
+<<< /nix/var/nix/profiles/system-123-link
+>>> /nix/var/nix/profiles/system-124-link
+Added packages:
+[A.]  #1  restic                               0.19.1
+[A.]  #2  restic-backup                        <none>
+[A.]  #3  restic-backup-checked                <none>
+[A.]  #4  unit-restic-backup-shutdown.service  <none>
+[A.]  #5  unit-restic-backup.service           <none>
+[A.]  #6  unit-restic-backup.timer             <none>
+Removed packages:
+[R.]  #1  rsync-backup                        <none>
+[R.]  #2  rsync-backup-checked                <none>
+[R.]  #3  unit-rsync-backup-shutdown.service  <none>
+[R.]  #4  unit-rsync-backup.service           <none>
+[R.]  #5  unit-rsync-backup.timer             <none>
+Closure size: 2198 -> 2199 (15 paths added, 14 paths removed, delta +1, disk usage +48.4MiB).

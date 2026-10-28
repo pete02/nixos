@@ -118,9 +118,6 @@
           };
         };
 
-        
-        
-
         services.timelock = {
           enable = true;
 

@@ -1,4 +1,3 @@
-
 {self, ...}: {
   flake.nixosModules.restic-backup = {
     config,
@@ -7,7 +6,7 @@
     ...
   }: let
     cfg = config.backups.restic;
-    passwordFile= config.sops.secrets.${cfg.passwordSecret}.path;
+    passwordFile = config.sops.secrets.${cfg.passwordSecret}.path;
     runner = self.lib.mkScript pkgs {
       name = "restic-backup";
       src = ./restic-backup.sh;
@@ -228,34 +227,33 @@
         };
       };
 
-      systemd.services.restic-backup-shutdown =
-        lib.mkIf cfg.runOnShutdown {
-          description = "Create Restic backup on shutdown";
-          wantedBy = ["multi-user.target"];
-          wants = ["network-online.target"];
-          after = [
-            "network-online.target"
-            "nss-lookup.target"
-            "local-fs.target"
-          ];
+      systemd.services.restic-backup-shutdown = lib.mkIf cfg.runOnShutdown {
+        description = "Create Restic backup on shutdown";
+        wantedBy = ["multi-user.target"];
+        wants = ["network-online.target"];
+        after = [
+          "network-online.target"
+          "nss-lookup.target"
+          "local-fs.target"
+        ];
 
-          restartIfChanged = false;
-          stopIfChanged = false;
+        restartIfChanged = false;
+        stopIfChanged = false;
 
-          unitConfig.RequiresMountsFor = localPaths;
+        unitConfig.RequiresMountsFor = localPaths;
 
-          inherit environment;
+        inherit environment;
 
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            User = cfg.user;
-            ExecStart = lib.getExe' pkgs.coreutils "true";
-            ExecStop = exe;
-            TimeoutStopSec = cfg.shutdownTimeout;
-            UMask = "0077";
-          };
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          User = cfg.user;
+          ExecStart = lib.getExe' pkgs.coreutils "true";
+          ExecStop = exe;
+          TimeoutStopSec = cfg.shutdownTimeout;
+          UMask = "0077";
         };
+      };
     };
   };
 }
