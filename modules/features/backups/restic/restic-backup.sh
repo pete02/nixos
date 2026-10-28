@@ -2,6 +2,18 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+if [[ "${1:-}" == "--check" ]]; then
+  for command in restic flock curl hostname; do
+    if ! command -v "$command" >/dev/null 2>&1; then
+      echo "Missing runtime dependency: $command" >&2
+      exit 1
+    fi
+  done
+
+  echo "All Restic backup runtime dependencies are available."
+  exit 0
+fi
+
 REPOSITORY=@REPOSITORY@
 PASSWORD_FILE=@PASSWORD_FILE@
 FOLDERS=(@FOLDERS@)
@@ -30,7 +42,8 @@ notify() {
 }
 
 # Both scheduled and shutdown runs use the same lock.
-exec 9>"${LOCKFILE:?LOCKFILE must be set}"
+LOCKFILE="${LOCKFILE:-/run/restic-backup/lock}"
+exec 9>"$LOCKFILE"
 
 if ! flock -n 9; then
   echo "Another Restic backup is already running; skipping."
