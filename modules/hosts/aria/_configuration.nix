@@ -51,7 +51,7 @@
     restic = {
       enable = true;
       repository = "/mnt/rpi/restic/${config.networking.hostName}";
-      passwordFile = config.sops.secrets."restic/aria".path;
+      passwordSecret = "restic/aria";
 
       folders = [
         "/mnt/server"

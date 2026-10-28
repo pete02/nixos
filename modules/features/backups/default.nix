@@ -4,6 +4,7 @@
       bitwarden-backup
       git-sync
       rsync-backup
+      restic-backup
     ];
   };
 }

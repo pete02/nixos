@@ -7,7 +7,7 @@
     ...
   }: let
     cfg = config.backups.restic;
-
+    passwordFile= config.sops.secrets.${cfg.passwordSecret}.path;
     runner = self.lib.mkScript pkgs {
       name = "restic-backup";
       src = ./restic-backup.sh;
@@ -20,7 +20,7 @@
       substitutions = {
         # Values are shell-escaped because they are inserted into the script.
         REPOSITORY = lib.escapeShellArg cfg.repository;
-        PASSWORD_FILE = lib.escapeShellArg cfg.passwordFile;
+        PASSWORD_FILE = lib.escapeShellArg passwordFile;
         FOLDERS = lib.escapeShellArgs cfg.folders;
         EXCLUDES = lib.escapeShellArgs (
           lib.concatMap (pattern: ["--exclude" pattern]) cfg.exclude
@@ -66,12 +66,13 @@
         '';
       };
 
-      passwordFile = lib.mkOption {
+      passwordSecret = lib.mkOption {
         type = lib.types.str;
-        example = "/run/secrets/restic-password";
+        default = "restic/${config.hostname}";
+        example = "restic/aria";
         description = ''
-          File containing the Restic repository password.
-          The service user must be able to read this file.
+          Name of the SOPS secret containing the Restic repository password.
+          The module declares the secret and grants the backup user read access.
         '';
       };
 
@@ -171,9 +172,9 @@
           '';
         }
         {
-          assertion = cfg.passwordFile != "";
+          assertion = cfg.passwordSecret != "";
           message = ''
-            backups.restic.passwordFile must be set when
+            backups.restic.passwordSecret must be set when
             backups.restic.enable is true.
           '';
         }
@@ -182,6 +183,11 @@
           message = "All backups.restic.folders paths must be absolute.";
         }
       ];
+
+      sops.secrets.${cfg.passwordSecret} = {
+        owner = cfg.user;
+        mode = "0400";
+      };
 
       systemd.tmpfiles.rules = [
         "d /run/restic-backup 0700 ${cfg.user} - -"
