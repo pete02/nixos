@@ -23,6 +23,7 @@ PRUNE_OPTS=(@PRUNE_OPTS@)
 NTFY_SUCCESS=@NTFY_SUCCESS@
 NTFY_FAILURE=@NTFY_FAILURE@
 
+
 export RESTIC_REPOSITORY="$REPOSITORY"
 export RESTIC_PASSWORD_FILE="$PASSWORD_FILE"
 
@@ -68,10 +69,11 @@ trap on_exit EXIT
 restic snapshots >/dev/null
 
 restic backup \
+  --verbose \
+  --progress \
   "${EXTRA_ARGS[@]}" \
   "${EXCLUDES[@]}" \
   "${FOLDERS[@]}"
-
 restic forget \
   "${PRUNE_OPTS[@]}" \
   --prune
