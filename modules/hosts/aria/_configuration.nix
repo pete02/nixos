@@ -48,12 +48,31 @@
       containerName = "vaultwarden";
       rcloneConfigFile = config.sops.secrets.rclone-gdrive-config.path;
     };
-    rsync = {
+    restic = {
       enable = true;
-      destination = "/mnt/rpi";
-      folders = ["/mnt/server" "/mnt/timelock"];
-      exclude = ["node_modules" "target" ".cache" ".direnv" "__pycache__"];
+      repository = "/mnt/rpi/restic/${config.networking.hostName}";
+      passwordFile = config.sops.secrets."restic/aria".path;
+
+      folders = [
+        "/mnt/server"
+        "/mnt/timelock"
+      ];
+
+      exclude = [
+        "node_modules"
+        "target"
+        ".cache"
+        ".direnv"
+        "__pycache__"
+      ];
+
       schedule = "*-*-* 00:00:00";
+
+      pruneOpts = [
+        "--keep-daily" "7"
+        "--keep-weekly" "5"
+        "--keep-monthly" "12"
+      ];
     };
   };
 

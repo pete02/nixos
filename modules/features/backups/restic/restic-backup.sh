@@ -1,0 +1,67 @@
+
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+REPOSITORY=@REPOSITORY@
+PASSWORD_FILE=@PASSWORD_FILE@
+FOLDERS=(@FOLDERS@)
+EXCLUDES=(@EXCLUDES@)
+EXTRA_ARGS=(@EXTRA_ARGS@)
+PRUNE_OPTS=(@PRUNE_OPTS@)
+NTFY_SUCCESS=@NTFY_SUCCESS@
+NTFY_FAILURE=@NTFY_FAILURE@
+
+export RESTIC_REPOSITORY="$REPOSITORY"
+export RESTIC_PASSWORD_FILE="$PASSWORD_FILE"
+
+notify() {
+  local url="$1"
+  local message="$2"
+
+  if [[ -n "$url" ]]; then
+    curl \
+      --fail \
+      --silent \
+      --show-error \
+      --max-time 10 \
+      --data-binary "$message" \
+      "$url" || true
+  fi
+}
+
+# Both scheduled and shutdown runs use the same lock.
+exec 9>"${LOCKFILE:?LOCKFILE must be set}"
+
+if ! flock -n 9; then
+  echo "Another Restic backup is already running; skipping."
+  exit 0
+fi
+
+on_exit() {
+  local status=$?
+  trap - EXIT
+
+  if (( status != 0 )); then
+    notify "$NTFY_FAILURE" \
+      "Restic backup failed on $(hostname) (exit code $status)."
+  fi
+
+  exit "$status"
+}
+trap on_exit EXIT
+
+# Do not initialize automatically: a failed connection must not be
+# mistaken for an uninitialized repository.
+restic snapshots >/dev/null
+
+restic backup \
+  "${EXTRA_ARGS[@]}" \
+  "${EXCLUDES[@]}" \
+  "${FOLDERS[@]}"
+
+restic forget \
+  "${PRUNE_OPTS[@]}" \
+  --prune
+
+notify "$NTFY_SUCCESS" \
+  "Restic backup completed successfully on $(hostname)."
