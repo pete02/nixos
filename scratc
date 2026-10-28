@@ -1,2 +1,9 @@
 rsync -a --relative --mkpath --partial --info=stats1 --exclude=node_modules --exclude=target --exclude=.cache --exclude=.direnv --exclude=__pycache__ --human-readable --info=progress2 --no-inc-recursive -- /mnt/server /mnt/rpi
 rsync -a --relative --mkpath --partial --info=stats1 --exclude=node_modules --exclude=target --exclude=.cache --exclude=.direnv --exclude=__pycache__ --human-readable --info=progress2 --no-inc-recursive -- /mnt/timelock /mnt/rpi
+
+
+
+sudo -u pete env \
+  RESTIC_REPOSITORY=/mnt/rpi/restic/aria \
+  RESTIC_PASSWORD_FILE=/run/secrets/restic/aria \
+  restic init
