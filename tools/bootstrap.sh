@@ -126,3 +126,4 @@ fi
 
 echo "Attic authentication succeeded."
 echo "SOPS configuration and encrypted secrets were not modified."
+echo "run build with --option netrc-file /etc/nix/attic.netrc option"
