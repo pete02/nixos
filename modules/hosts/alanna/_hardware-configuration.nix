@@ -1,15 +1,15 @@
 {
   lib,
-  nixos-raspberrypi,
+  inputs,
   ...
 }: {
-  imports = with nixos-raspberrypi.nixosModules; [
+  imports = with inputs.nixos-raspberrypi.nixosModules; [
     raspberry-pi-5.base
     raspberry-pi-5.display-vc4 # drop if headless and you don't need it
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
-
+  boot.loader.raspberry-pi.bootloader = "kernel";
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_SD";
     fsType = "ext4";

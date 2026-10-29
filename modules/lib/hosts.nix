@@ -46,11 +46,6 @@
     desktop
   ];
 
-  # Added only for Pi hosts, on top of featureModules.
-  rpiModules = [
-    "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-    self.nixosModules.rpi
-  ];
 
   mkHost = {
     hostname,
@@ -90,7 +85,8 @@
         // {
           inherit system;
           rpi = true;
-          modules = rpiModules ++ args.modules;
+          nixosSystem = args.nixosSystem or inputs.nixos-raspberrypi.lib.nixosSystem;
+          extraArgs = {inherit (inputs) nixos-raspberrypi;} // (args.extraArgs or {});
         });
 in {
   flake.lib.hosts = hosts;
