@@ -12,7 +12,10 @@
       rpi = true;
       sshServer = true;
     };
-    alanna.rpi = true;
+    alanna = {
+      rpi = true;
+      sshServer = true;
+    };
   };
 
   hosts = lib.mapAttrs (_: host:
