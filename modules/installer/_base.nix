@@ -1,8 +1,13 @@
-{ self, lib, pkgs, settings, ... }:
 {
+  self,
+  lib,
+  pkgs,
+  settings,
+  ...
+}: {
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "root" "@wheel" ];
+    experimental-features = ["nix-command" "flakes"];
+    trusted-users = ["root" "@wheel"];
   };
 
   imports = [
@@ -20,16 +25,16 @@
     enable = true;
     settings = {
       PermitRootLogin = "no";
-      PasswordAuthentication = settings.sshKeys == [ ];
+      PasswordAuthentication = settings.sshKeys == [];
     };
   };
 
   users.users.${settings.username} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = ["wheel"];
     openssh.authorizedKeys.keys = settings.sshKeys;
     initialPassword = settings.initialPassword;
   };
-  environment.systemPackages = with pkgs; [ git vim htop ];
+  environment.systemPackages = with pkgs; [git vim htop];
   system.stateVersion = settings.stateVersion;
 }

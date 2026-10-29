@@ -1,11 +1,16 @@
-{ lib, settings, nixos-raspberrypi, ... }:
 {
-  imports = [ ../_base.nix ] ++ (with nixos-raspberrypi.nixosModules; [
-    raspberry-pi-5.base
-    raspberry-pi-5.display-vc4
-    sd-image
-  ]);
-
+  lib,
+  settings,
+  nixos-raspberrypi,
+  ...
+}: {
+  imports =
+    [../_base.nix]
+    ++ (with nixos-raspberrypi.nixosModules; [
+      raspberry-pi-5.base
+      raspberry-pi-5.display-vc4
+      sd-image
+    ]);
 
   networking.hostName = "alanna";
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";

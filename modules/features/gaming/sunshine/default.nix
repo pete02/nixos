@@ -48,7 +48,8 @@
 
         settings = {
           capture = "kms";
-          encoder = "vulkan";
+          encoder = "nvenc";
+          hevc_mode = 3;
           csrf_allowed_origins = "https://192.168.88.241:47990";
         };
       };

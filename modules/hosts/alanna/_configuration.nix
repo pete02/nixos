@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   system.stateVersion = "26.05";
   username = "pete";
+
   nixbuilder = {
     cache.client = {
       enable = true;
@@ -10,6 +11,10 @@
   };
   connectivity = {
     mDNS = true;
+    wifi = {
+      enable = true;
+      Ssid = "Pete";
+    };
   };
 
   healthcheck = {

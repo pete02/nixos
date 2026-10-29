@@ -1,5 +1,5 @@
 {self, ...}: {
-  flake.nixosConfigurations.eris = self.lib.mkRpiHost {
+  flake.nixosConfigurations.alanna = self.lib.mkRpiHost {
     hostname = "alanna";
 
     modules = [
