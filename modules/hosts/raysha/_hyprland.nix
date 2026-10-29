@@ -27,7 +27,7 @@
 
       -- Philips TV: right of AOC
       hl.monitor({
-          output = "HDMI-A-1",
+          output = "HDMI-A-3",
           mode = "3840x2160@59.97",
           position = "20000x0",
           scale = 1,

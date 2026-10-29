@@ -72,7 +72,7 @@ jobs:
 
           packages="$(
             nix eval --raw \
-              --apply 'attrs: builtins.concatStringsSep "\n" (builtins.attrNames attrs)' \
+              --apply "attrs: builtins.concatStringsSep \"\\n\" (builtins.filter (n: (attrs.\${n}.system or \"\") == \"${system}\") (builtins.attrNames attrs))" \
               ".#packages.${system}"
           )"
 
