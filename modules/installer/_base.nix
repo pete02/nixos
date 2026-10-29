@@ -35,6 +35,6 @@
     openssh.authorizedKeys.keys = settings.sshKeys;
     initialPassword = settings.initialPassword;
   };
-  environment.systemPackages = with pkgs; [git vim htop];
+  environment.systemPackages = with pkgs; [git vim htop kitty.terminfo];
   system.stateVersion = settings.stateVersion;
 }
