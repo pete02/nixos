@@ -3,7 +3,7 @@
   imports = with nixos-raspberrypi.nixosModules; [
     raspberry-pi-3.base # check the exact attr name in your nixos-raspberrypi revision
   ];
-
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_SD";
     fsType = "ext4";
