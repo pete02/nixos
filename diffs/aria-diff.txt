@@ -1,4 +1,5 @@
-<<< /nix/var/nix/profiles/system-134-link
->>> /nix/var/nix/profiles/system-135-link
-No version or selection state changes.
-Closure size: 2199 -> 2199 (13 paths added, 13 paths removed, delta +0, disk usage +152B).
+<<< /nix/var/nix/profiles/system-136-link
+>>> /nix/var/nix/profiles/system-137-link
+Added packages:
+[A.]  #1  restic-backup-on-shutdown  <none>
+Closure size: 2199 -> 2200 (7 paths added, 6 paths removed, delta +1, disk usage +640B).
