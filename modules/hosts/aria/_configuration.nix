@@ -49,7 +49,7 @@
       rcloneConfigFile = config.sops.secrets.rclone-gdrive-config.path;
     };
     restic = {
-      enable = true;
+      enable = false;
       repository = "/mnt/rpi/restic/${config.networking.hostName}";
       passwordSecret = "restic/aria";
 
