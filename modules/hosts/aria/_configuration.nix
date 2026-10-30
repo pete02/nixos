@@ -63,6 +63,8 @@
         "node_modules"
         "target"
         ".cache"
+        ".trash"
+        ".Trash"
         ".direnv"
         "__pycache__"
       ];
