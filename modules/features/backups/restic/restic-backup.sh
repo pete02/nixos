@@ -26,6 +26,7 @@ NTFY_FAILURE=@NTFY_FAILURE@
 
 export RESTIC_REPOSITORY="$REPOSITORY"
 export RESTIC_PASSWORD_FILE="$PASSWORD_FILE"
+export RESTIC_PROGRESS_FPS="${RESTIC_PROGRESS_FPS:-0.0333}"
 
 notify() {
   local url="$1"
@@ -70,7 +71,6 @@ restic snapshots >/dev/null
 
 restic backup \
   --verbose \
-  --progress \
   "${EXTRA_ARGS[@]}" \
   "${EXCLUDES[@]}" \
   "${FOLDERS[@]}"
