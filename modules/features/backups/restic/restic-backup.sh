@@ -68,12 +68,14 @@ trap on_exit EXIT
 # Do not initialize automatically: a failed connection must not be
 # mistaken for an uninitialized repository.
 restic snapshots >/dev/null
-
+set +e
 restic backup \
   --verbose \
   "${EXTRA_ARGS[@]}" \
   "${EXCLUDES[@]}" \
   "${FOLDERS[@]}"
+set -e
+if (( rc != 0 && rc != 3 )); then exit "$rc"; fi
 restic forget \
   "${PRUNE_OPTS[@]}" \
   --prune
