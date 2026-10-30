@@ -44,7 +44,7 @@ in {
       };
 
       rpi = {
-        host = "10.0.0.3";
+        host = "192.168.88.86";
         mountPoint = "/mnt/rpi";
         credentialsSecret = "samba/rpi";
       };
