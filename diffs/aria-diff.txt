@@ -1,10 +1,10 @@
-<<< /nix/var/nix/profiles/system-127-link
->>> /nix/var/nix/profiles/system-128-link
-Removed packages:
-[R.]  #1  restic                               0.19.1
-[R.]  #2  restic-backup                        <none>
-[R.]  #3  restic-backup-checked                <none>
-[R.]  #4  unit-restic-backup-shutdown.service  <none>
-[R.]  #5  unit-restic-backup.service           <none>
-[R.]  #6  unit-restic-backup.timer             <none>
-Closure size: 2199 -> 2193 (17 paths added, 23 paths removed, delta -6, disk usage -48.4MiB).
+<<< /nix/var/nix/profiles/system-128-link
+>>> /nix/var/nix/profiles/system-129-link
+Added packages:
+[A.]  #1  restic                               0.19.1
+[A.]  #2  restic-backup                        <none>
+[A.]  #3  restic-backup-checked                <none>
+[A.]  #4  unit-restic-backup-shutdown.service  <none>
+[A.]  #5  unit-restic-backup.service           <none>
+[A.]  #6  unit-restic-backup.timer             <none>
+Closure size: 2193 -> 2199 (15 paths added, 9 paths removed, delta +6, disk usage +48.4MiB).
