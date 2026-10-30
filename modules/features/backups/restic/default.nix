@@ -249,7 +249,11 @@
           RemainAfterExit = true;
           User = cfg.user;
           ExecStart = lib.getExe' pkgs.coreutils "true";
-          ExecStop = exe;
+          ExecStop = pkgs.writeShellScript "restic-backup-on-shutdown" ''
+            if [ "$(${config.systemd.package}/bin/systemctl is-system-running 2>/dev/null)" = stopping ]; then
+              exec ${exe}
+            fi
+          '';
           TimeoutStopSec = cfg.shutdownTimeout;
           UMask = "0077";
         };
