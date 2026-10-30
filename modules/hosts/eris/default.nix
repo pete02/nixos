@@ -1,4 +1,8 @@
-{self,inputs, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: {
   flake.nixosConfigurations.eris = self.lib.mkRpiHost {
     hostname = "eris";
     system = "aarch64-linux";

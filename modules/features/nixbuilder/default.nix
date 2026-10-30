@@ -15,6 +15,13 @@
           lib.removePrefix "https://" (lib.removePrefix "http://" url)
         ))
       ));
+
+    signingHosts = builtins.attrNames (
+      lib.filterAttrs (_: h: h.signing or h.buildServer or false) self.lib.hosts
+    );
+    signingKeys = self.lib.fleet.signingKeys;
+    privSecret = h: "nix/signing/${h}";
+    signsHere = lib.hasAttr (config.hostname or "") signingKeys;
   in {
     options.nixbuilder = {
       usesBuilders = lib.mkOption {
@@ -25,7 +32,11 @@
         type = lib.types.bool;
         default = false;
       };
-
+      signing.enable = lib.mkOption {
+        type = lib.types.bool;
+        default = signsHere;
+        description = "Sign store paths built on this host with this host's key from sops.";
+      };
       cache = {
         client = {
           enable = lib.mkOption {
@@ -101,7 +112,6 @@
       (lib.mkIf (cfg.usesBuilders or false) {
         nix.distributedBuilds = true;
         nix.settings.builders-use-substitutes = true;
-
         nix.buildMachines =
           builtins.map (hostname: {
             hostName = hostname;
@@ -119,6 +129,26 @@
 
       (lib.mkIf (cfg.buildServer or false) {
         boot.binfmt.emulatedSystems = ["aarch64-linux"];
+      })
+
+      (lib.mkIf cfg.signing.enable {
+        assertions = [
+          {
+            assertion = signsHere;
+            message = "nixbuilder.signing.enable is set but this host has no entry in fleet.signingKeys.";
+          }
+        ];
+
+        sops.secrets.${privSecret config.hostname} = {};
+
+        nix.settings.secret-key-files = [
+          config.sops.secrets.${privSecret config.hostname}.path
+        ];
+      })
+
+      # client side: every host trusts the public key of each signing host
+      (lib.mkIf (signingKeys != {}) {
+        nix.settings.trusted-public-keys = lib.attrValues signingKeys;
       })
 
       # ---- Attic client (every host) ----

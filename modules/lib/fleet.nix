@@ -14,6 +14,10 @@ in {
     ntfyUpgrade = host: "${ntfy.base}/upgrade-${capitalise host}";
     ntfyBackup = host: "${ntfy.base}/backup-${capitalise host}";
 
+    signingKeys = {
+      raysha = "raysha-1:W73oLDZ1pNy9YaYCWSraysbrkKWvbBIs62t+drq4nEw=";
+    };
+
     cache = {
       host = "aria";
       addr = "192.168.88.241"; # keep the IP; see caveats

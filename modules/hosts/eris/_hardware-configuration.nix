@@ -1,5 +1,8 @@
-{lib,inputs,...}: {
-
+{
+  lib,
+  inputs,
+  ...
+}: {
   imports = with inputs.nixos-raspberrypi.nixosModules; [
     raspberry-pi-3.base # check the exact attr name in your nixos-raspberrypi revision
   ];
