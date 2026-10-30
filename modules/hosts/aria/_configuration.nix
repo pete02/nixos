@@ -62,9 +62,11 @@
       exclude = [
         "node_modules"
         "target"
+        "/mnt/rpi"
         ".cache"
         ".trash"
-        ".Trash"
+        ".Trash-1000"
+        "nix-store"
         ".direnv"
         "__pycache__"
       ];
