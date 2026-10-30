@@ -50,6 +50,7 @@
     };
     restic = {
       enable = true;
+      user = "root";
       repository = "/mnt/rpi/restic/${config.networking.hostName}";
       passwordSecret = "restic/aria";
 
