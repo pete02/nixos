@@ -74,6 +74,7 @@ restic backup \
   "${EXTRA_ARGS[@]}" \
   "${EXCLUDES[@]}" \
   "${FOLDERS[@]}"
+rc=$?
 set -e
 if (( rc != 0 && rc != 3 )); then exit "$rc"; fi
 restic forget \
