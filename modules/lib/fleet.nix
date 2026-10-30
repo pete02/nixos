@@ -13,9 +13,9 @@ in {
     ntfyFailure = host: "${ntfy.base}/failure-${capitalise host}";
     ntfyUpgrade = host: "${ntfy.base}/upgrade-${capitalise host}";
     ntfyBackup = host: "${ntfy.base}/backup-${capitalise host}";
-
-    signingKeys = {
-      raysha = "raysha-1:W73oLDZ1pNy9YaYCWSraysbrkKWvbBIs62t+drq4nEw=";
+    
+    signingKeys={
+      raysha="raysha-1:W73oLDZ1pNy9YaYCWSraysbrkKWvbBIs62t+drq4nEw=";
     };
 
     cache = {
@@ -44,7 +44,7 @@ in {
       };
 
       rpi = {
-        host = "192.168.88.86";
+        host = "10.0.0.3";
         mountPoint = "/mnt/rpi";
         credentialsSecret = "samba/rpi";
       };
