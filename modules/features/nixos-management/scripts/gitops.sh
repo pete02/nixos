@@ -21,7 +21,8 @@ STEP="initialization"
 # partition (~22 MB of it is shared firmware). The bootloader may add the new
 # generation before it drops the oldest, so the peak is KEEP_GENERATIONS + 1
 # copies: 2 -> 3 copies (~190 MB, fits), 3 -> 4 copies (~250 MB, does not).
-KEEP_GENERATIONS="${KEEP_GENERATIONS:-2}"
+KEEP_GENERATIONS="@KEEP_GENERATIONS@"
+
 
 notify() {
     local url="$1"

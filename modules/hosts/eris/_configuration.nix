@@ -47,7 +47,10 @@
   };
 
   dev.git = true;
-  nixos-management.gitops.enable = true;
+  nixos-management.gitops={
+    enable = true;
+    keepGenerations = 2;
+  };
   ssh.client.enable = true;
   environment.systemPackages = with pkgs; [
     kitty.terminfo

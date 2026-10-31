@@ -38,6 +38,7 @@
         REPO_URL = repository;
         NTFY_SUCCESS_URL = config.nixos-management.gitops.ntfyUpgrade;
         NTFY_FAILURE_URL = config.nixos-management.gitops.ntfyFailure;
+        KEEP_GENERATIONS = toString config.nixos-management.gitops.keepGenerations;
         CACHE_URL = self.lib.fleet.cache.url;
       };
     };
@@ -60,6 +61,17 @@
       auto-update = lib.mkEnableOption "Enables flake autoupdater";
       gitops = {
         enable = lib.mkEnableOption "Enables nixos-gitops";
+        keepGenerations = lib.mkOption {
+          type = lib.types.ints.between 2 1000;
+          default = 5;
+          example = 2;
+          description = ''
+            System generations to keep, including the one being deployed.
+            Older ones are pruned on every update, which also bounds the number
+            of boot entries. The bootloader may add the new generation before
+            it removes the oldest, so small boot partitions need a low value.
+          '';
+        };
         ntfyFailure = lib.mkOption {
           type = lib.types.str;
           default = self.lib.fleet.ntfyFailure config.hostname;
