@@ -62,7 +62,7 @@ jobs:
 
       - name: Build NixOS host closures
         env:
-          FORGEJO_TOKEN: ${{ secrets.TOKEN_FORGEJO }}
+          FORGEJO_TOKEN: ${{ secrets.TV_RELEASE_TOKEN }}
         run: |
           set -eu
 
