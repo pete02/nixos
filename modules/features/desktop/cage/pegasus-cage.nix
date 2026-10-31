@@ -53,6 +53,16 @@
         cfg.vacuumTubePackage
       ];
 
+      sops.secrets.${cfg.tmdb_api_key} = {
+        key = builtins.replaceStrings ["/"] ["."] cfg.tmdb_api_key;
+      };
+
+      sops.templates."tv-ui.env" = {
+        content = ''
+          TMDB_API_KEY=${config.sops.placeholder.${cfg.tmdb_api_key}}
+        '';
+      };
+
       # Pegasus application entries
       environment.etc."xdg/pegasus-frontend/metafiles/applications.metadata.pegasus.txt".text = ''
         collection: Applications
@@ -92,10 +102,10 @@
         } // cfg.extraEnvironment;
       };
 
+      systemd.services.cage-tty1.serviceConfig.EnvironmentFile = config.sops.templates."tv-ui.env".path;
       # Restart Cage if Pegasus exits or crashes
       systemd.services."cage-tty1".serviceConfig.Restart =
         lib.mkForce "always";
-
       # Sound
       services.pipewire = {
         enable = lib.mkDefault true;
