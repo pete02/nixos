@@ -12,7 +12,15 @@
   in {
     options.desktop.pegasus-cage = {
       enable = lib.mkEnableOption "Pegasus frontend running in a cage kiosk session";
-
+      tmdb_api_key=lib.mkOption {
+        type = lib.types.str;
+        default = "${config.hostname}/tmdb_api_key";
+        example = "restic/aria";
+        description = ''
+          Name of the SOPS secret containing the Restic repository password.
+          The module declares the secret and grants the backup user read access.
+        '';
+      };
       user = lib.mkOption {
         type = lib.types.str;
         default = config.username;
@@ -80,7 +88,7 @@
 
         environment = {
           QT_QPA_PLATFORM = "wayland";
-          TMDB_API_KEY = config.sops.alanna.tmdb_api_key;
+          TMDB_API_KEY = config.sops.secrets.${cfg.tmdb_api_key};
         } // cfg.extraEnvironment;
       };
 
