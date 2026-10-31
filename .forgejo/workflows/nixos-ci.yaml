@@ -63,6 +63,8 @@ jobs:
             --keep-going \
             --max-jobs auto \
             .#nixosConfigurations.aria.config.system.build.toplevel \
+            .#nixosConfigurations.eris.config.system.build.toplevel \
+            .#nixosConfigurations.alanna.config.system.build.toplevel \
             .#nixosConfigurations.raysha.config.system.build.toplevel \
             .#nixosConfigurations.talia.config.system.build.toplevel \
             >> /tmp/out-paths
