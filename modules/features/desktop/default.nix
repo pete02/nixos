@@ -7,6 +7,9 @@
       desktop-selection
       desktop-services
       desktop-displaymanager
+      desktop-pegasus-cage
+      tv-ui
+
     ];
   };
 }

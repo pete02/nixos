@@ -1,13 +1,13 @@
 {...}: {
-  flake.nixosModules.pegasus-cage = {
+  flake.nixosModules.desktop-pegasus-cage = {
     config,
     lib,
     pkgs,
     ...
   }: let
-    cfg = config.fleet.pegasus-cage;
+    cfg = config.desktop.pegasus-cage;
   in {
-    options.fleet.pegasus-cage = {
+    options.desktop.pegasus-cage = {
       enable = lib.mkEnableOption "Pegasus frontend running in a cage kiosk session";
 
       user = lib.mkOption {
