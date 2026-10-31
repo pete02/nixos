@@ -1,8 +1,5 @@
-
 {...}: {
   perSystem = {pkgs, system, ...}: let
-    lib = pkgs.lib;
-
     version = "3ce94ef";
 
     sources = {
@@ -21,22 +18,21 @@
       sources.${system}
       or (throw "tv-ui does not support ${system}");
 
-  in {
-    packages.tv-ui = pkgs.stdenv.mkDerivation {
+    tv-ui = pkgs.stdenv.mkDerivation {
       pname = "tv-ui";
       inherit version;
-    
+
       src = pkgs.fetchurl {
         inherit (source) url hash;
-          netrcImpureEnvVars = ["FORGEJO_TOKEN"];
+        netrcImpureEnvVars = ["FORGEJO_TOKEN"];
 
-          netrcPhase = ''
-            cat > netrc <<EOF
-            machine git.lumilukko.com
-            login pete
-            password $FORGEJO_TOKEN
-            EOF
-          '';
+        netrcPhase = ''
+          cat > netrc <<EOF
+          machine git.lumilukko.com
+          login pete
+          password $FORGEJO_TOKEN
+          EOF
+        '';
       };
 
       sourceRoot = "tv-ui-${version}-${system}";
@@ -78,6 +74,46 @@
         mainProgram = "tv-ui-server";
         platforms = builtins.attrNames sources;
       };
+    };
+
+    tv-ui-app = pkgs.writeShellApplication {
+      name = "tv-ui-app";
+      runtimeInputs = [tv-ui pkgs.chromium pkgs.curl pkgs.coreutils];
+      text = ''
+        export TV_BIND="''${TV_BIND:-0.0.0.0:8081}"
+        port="''${TV_BIND##*:}"
+        url="http://127.0.0.1:$port"
+
+        # Secrets come from a file so they never sit in the unit environment.
+        if [ -n "''${TMDB_API_KEY_FILE:-}" ]; then
+          TMDB_API_KEY="$(cat "$TMDB_API_KEY_FILE")"
+          export TMDB_API_KEY
+        fi
+
+        tv-ui-server &
+        server=$!
+        trap 'kill "$server" 2>/dev/null || true' EXIT
+
+        ready=0
+        for _ in $(seq 1 60); do
+          if curl -sf -o /dev/null "$url"; then ready=1; break; fi
+          kill -0 "$server" 2>/dev/null || { echo "tv-ui-server exited early" >&2; exit 1; }
+          sleep 0.5
+        done
+        [ "$ready" = 1 ] || { echo "tv-ui-server did not come up" >&2; exit 1; }
+
+        chromium \
+          --kiosk --app="$url" \
+          --ozone-platform=wayland \
+          --user-data-dir="''${XDG_CACHE_HOME:-$HOME/.cache}/tv-ui-chromium" \
+          --noerrdialogs --disable-infobars --no-first-run \
+          --autoplay-policy=no-user-gesture-required
+      '';
+      meta.mainProgram = "tv-ui-app";
+    };
+  in {
+    packages = {
+      inherit tv-ui tv-ui-app;
     };
   };
 }

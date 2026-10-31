@@ -1,4 +1,3 @@
-
 {self, ...}: {
   flake.nixosModules.desktop-pegasus-cage = {
     config,
@@ -8,6 +7,8 @@
   }: let
     cfg = config.desktop.pegasus-cage;
     user = config.users.users.${cfg.user};
+    tv-ui-app = self.packages.${pkgs.stdenv.hostPlatform.system}.tv-ui-app;
+
     metadataFile = pkgs.writeText "applications.metadata.pegasus.txt" ''
       collection: Applications
       shortname: apps
@@ -19,7 +20,7 @@
       genre: Streaming
 
       game: TV UI
-      file: ${lib.getExe tv-ui}
+      file: ${lib.getExe tv-ui-app}
       developer: Local TV UI
       genre: Applications
 
@@ -28,19 +29,20 @@
       developer: VacuumTube
       genre: Video
     '';
-    tv-ui = self.packages.${pkgs.stdenv.hostPlatform.system}.tv-ui;
   in {
     options.desktop.pegasus-cage = {
       enable = lib.mkEnableOption "Pegasus frontend running in a cage kiosk session";
-      tmdb_api_key=lib.mkOption {
+
+      tmdbSecret = lib.mkOption {
         type = lib.types.str;
         default = "${config.hostname}/tmdb_api_key";
-        example = "restic/aria";
+        example = "aria/tmdb_api_key";
         description = ''
-          Name of the SOPS secret containing the Restic repository password.
-          The module declares the secret and grants the backup user read access.
+          Name of the SOPS secret containing the TMDB API key for tv-ui.
+          It is passed to the cage session as TMDB_API_KEY.
         '';
       };
+
       user = lib.mkOption {
         type = lib.types.str;
         default = config.username;
@@ -55,8 +57,8 @@
 
       extraGroups = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = ["video" "audio" "input"];
-        description = "Extra groups for the kiosk user (GPU, sound, controllers).";
+        default = ["video" "audio" "input" "uinput"];
+        description = "Extra groups for the kiosk user (GPU, sound, controllers, tv-ui pointer).";
       };
 
       extraEnvironment = lib.mkOption {
@@ -68,20 +70,23 @@
 
     config = lib.mkIf cfg.enable {
       environment.systemPackages = [
-        tv-ui
+        tv-ui-app
         cfg.moonlightPackage
         cfg.vacuumTubePackage
       ];
 
-      sops.secrets.${cfg.tmdb_api_key} = {
-      };
+      # Read by systemd as root, so no owner is needed.
+      sops.secrets.${cfg.tmdbSecret} = {};
 
-      sops.templates."tv-ui.env" = {
-        content = ''
-          TMDB_API_KEY=${config.sops.placeholder.${cfg.tmdb_api_key}}
-        '';
-      };
+      sops.templates."tv-ui.env".content = ''
+        TMDB_API_KEY=${config.sops.placeholder.${cfg.tmdbSecret}}
+      '';
+
       desktop.hdmi-cec.enable = true;
+
+      # tv-ui's pointer websocket creates a uinput device
+      hardware.uinput.enable = true;
+
       # Pegasus application entries
       systemd.tmpfiles.rules = [
         "d ${user.home}/.config/pegasus-frontend/metafiles 0755 ${cfg.user} ${user.group} - -"
@@ -104,15 +109,20 @@
         # -d: no client-side decorations
         extraArguments = ["-s" "-d"];
 
-        environment = {
-          QT_QPA_PLATFORM = "wayland";
-        } // cfg.extraEnvironment;
+        environment =
+          {
+            QT_QPA_PLATFORM = "wayland";
+          }
+          // cfg.extraEnvironment;
       };
 
-      systemd.services.cage-tty1.serviceConfig.EnvironmentFile = config.sops.templates."tv-ui.env".path;
-      # Restart Cage if Pegasus exits or crashes
-      systemd.services."cage-tty1".serviceConfig.Restart =
-        lib.mkForce "always";
+      # TMDB_API_KEY reaches Pegasus and everything it launches
+      systemd.services."cage-tty1".serviceConfig = {
+        EnvironmentFile = [config.sops.templates."tv-ui.env".path];
+        # Restart Cage if Pegasus exits or crashes
+        Restart = lib.mkForce "always";
+      };
+
       # Sound
       services.pipewire = {
         enable = lib.mkDefault true;
