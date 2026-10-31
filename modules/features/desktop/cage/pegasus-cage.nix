@@ -1,3 +1,4 @@
+
 {self, ...}: {
   flake.nixosModules.desktop-pegasus-cage = {
     config,
@@ -6,19 +7,23 @@
     ...
   }: let
     cfg = config.desktop.pegasus-cage;
-    tv-ui = self.packages.${pkgs.stdenv.hostPlatform.system}.tv-ui;
 
+    tv-ui = self.packages.${pkgs.stdenv.hostPlatform.system}.tv-ui;
   in {
     options.desktop.pegasus-cage = {
       enable = lib.mkEnableOption "Pegasus frontend running in a cage kiosk session";
 
       user = lib.mkOption {
         type = lib.types.str;
-        default = "pegasus";
+        default = config.username;
         description = "User the cage session (and Pegasus) runs as.";
       };
 
       package = lib.mkPackageOption pkgs "pegasus-frontend" {};
+
+      moonlightPackage = lib.mkPackageOption pkgs "moonlight-qt" {};
+
+      vacuumTubePackage = lib.mkPackageOption pkgs "vacuum-tube" {};
 
       extraGroups = lib.mkOption {
         type = lib.types.listOf lib.types.str;
@@ -34,16 +39,28 @@
     };
 
     config = lib.mkIf cfg.enable {
-      environment.systemPackages=[
+      environment.systemPackages = [
         tv-ui
+        cfg.moonlightPackage
+        cfg.vacuumTubePackage
       ];
 
-      sops.templates."tv-ui.env" = {
-        content = ''
-          TMDB_API_KEY=${config.sops.placeholder.tmdb_api_key}
-        '';
-      };
+      # Pegasus application entries
+      environment.etc."xdg/pegasus-frontend/metafiles/applications.metadata.pegasus.txt".text = ''
+        collection: Applications
+        shortname: apps
+        launch: "{file.path}"
 
+        game: Moonlight
+        file: ${lib.getExe cfg.moonlightPackage}
+        developer: Moonlight Game Streaming Project
+        genre: Streaming
+
+        game: VacuumTube
+        file: ${lib.getExe cfg.vacuumTubePackage}
+        developer: VacuumTube
+        genre: Video
+      '';
 
       users.users.${cfg.user} = {
         isNormalUser = true;
@@ -56,19 +73,22 @@
         enable = true;
         user = cfg.user;
         program = lib.getExe cfg.package;
-        # -s: allow VT switching (handy for debugging), -d: no client-side decorations
+
+        # -s: allow VT switching
+        # -d: no client-side decorations
         extraArguments = ["-s" "-d"];
-        environment =
-          {
-            QT_QPA_PLATFORM = "wayland";
-          }
-          // cfg.extraEnvironment;
+
+        environment = {
+          QT_QPA_PLATFORM = "wayland";
+          TMDB_API_KEY = config.sops.alanna.tmdb_api_key;
+        } // cfg.extraEnvironment;
       };
 
-      # Make sure the kiosk comes back if Pegasus is quit/crashes
-      systemd.services."cage-tty1".serviceConfig.Restart = lib.mkForce "always";
+      # Restart Cage if Pegasus exits or crashes
+      systemd.services."cage-tty1".serviceConfig.Restart =
+        lib.mkForce "always";
 
-      # Sound for games
+      # Sound
       services.pipewire = {
         enable = lib.mkDefault true;
         alsa.enable = lib.mkDefault true;

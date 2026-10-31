@@ -25,6 +25,7 @@
   };
 
   dev.git = true;
+  desktop.pegasus-cage.enable=true;
   nixos-management.gitops.enable = true;
   ssh.client.enable = true;
   environment.systemPackages = with pkgs; [

@@ -1,59 +1,74 @@
 
-{self, ...}: {
-  perSystem = {pkgs, ...}: {
-    packages.tv-ui = let
-      version = "3b4a044";
+{...}: {
+  perSystem = {pkgs, system, ...}: let
+    lib = pkgs.lib;
+
+    version = "3ce94ef";
+
+    sources = {
+      x86_64-linux = {
+        url = "https://git.lumilukko.com/Pete/tv-ui/releases/download/build-20261031-1727-3ce94ef/tv-ui-3ce94ef-x86_64-linux.tar.gz";
+        hash = lib.fakeHash;
+      };
+
+      aarch64-linux = {
+        url = "https://git.lumilukko.com/Pete/tv-ui/releases/download/build-20261031-1727-3ce94ef/tv-ui-3ce94ef-aarch64-linux.tar.gz";
+        hash = lib.fakeHash;
+      };
+    };
+
+    source =
+      sources.${system}
+      or (throw "tv-ui does not support ${system}");
+
+  in {
+    packages.tv-ui = pkgs.stdenv.mkDerivation {
+      pname = "tv-ui";
+      inherit version;
 
       src = pkgs.fetchurl {
-        url = "https://git.lumilukko.com/Pete/tv-ui/releases/download/build-20261030-1906-3b4a044/tv-ui-${version}.tar.gz";
-        hash = "sha256-6ySWDvfCrB7y7pSCYT5PfbYB4Jsc5REmCEQnWtQZSTE=";
+        inherit (source) url hash;
       };
-    in
-      pkgs.stdenv.mkDerivation {
-        pname = "tv-ui";
-        inherit version src;
 
-        sourceRoot = "tv-ui-${version}";
+      sourceRoot = "tv-ui-${version}-${system}";
 
-        nativeBuildInputs = with pkgs; [
-          autoPatchelfHook
-          makeWrapper
-        ];
+      nativeBuildInputs = with pkgs; [
+        autoPatchelfHook
+        makeWrapper
+      ];
 
-        buildInputs = with pkgs; [
-          stdenv.cc.cc.lib
-          openssl
-          zlib
-        ];
+      buildInputs = with pkgs; [
+        stdenv.cc.cc.lib
+        openssl
+        zlib
+      ];
 
-        dontBuild = true;
+      dontBuild = true;
 
-        installPhase = ''
-          runHook preInstall
+      installPhase = ''
+        runHook preInstall
 
-          install -Dm755 bin/tv-ui-server \
-            $out/libexec/tv-ui-server
+        install -Dm755 bin/tv-ui-server \
+          $out/libexec/tv-ui-server
 
-          mkdir -p $out/share/tv-ui
-          cp -r share/tv-ui/web $out/share/tv-ui/web
+        mkdir -p $out/share/tv-ui
+        cp -r share/tv-ui/web $out/share/tv-ui/web
 
-          mkdir -p $out/bin
+        mkdir -p $out/bin
 
-          makeWrapper $out/libexec/tv-ui-server \
-            $out/bin/tv-ui-server \
-            --set TV_WEB_DIR "$out/share/tv-ui/web"
+        makeWrapper $out/libexec/tv-ui-server \
+          $out/bin/tv-ui-server \
+          --set TV_WEB_DIR "$out/share/tv-ui/web"
 
-          runHook postInstall
-        '';
+        runHook postInstall
+      '';
 
-        meta = {
-          description = "TV UI media frontend and server";
-          homepage = "https://git.lumilukko.com/Pete/tv-ui";
-          license = pkgs.lib.licenses.mit;
-          mainProgram = "tv-ui-server";
-          platforms = ["x86_64-linux"];
-        };
+      meta = {
+        description = "TV UI application server and web frontend";
+        homepage = "https://git.lumilukko.com/Pete/tv-ui";
+        mainProgram = "tv-ui-server";
+        platforms = builtins.attrNames sources;
       };
+    };
   };
-
 }
