@@ -54,7 +54,6 @@
       ];
 
       sops.secrets.${cfg.tmdb_api_key} = {
-        key = builtins.replaceStrings ["/"] ["."] cfg.tmdb_api_key;
       };
 
       sops.templates."tv-ui.env" = {
