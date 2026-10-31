@@ -9,6 +9,8 @@
     };
     usesBuilders = true;
   };
+
+  nix.settings.max-jobs = 0;
   connectivity = {
     mDNS = true;
     wireguard.pihlajatie = {

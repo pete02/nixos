@@ -47,12 +47,10 @@ jobs:
           nix store info --store http://192.168.88.241:8080/main --extra-experimental-features nix-command
       - name: Ensure CI tools are in the store
         run: nix build /opt/ci-tools-flake#default --out-link /opt/ci-tools
-      - name: Check emulator in container
+      - name: aarch64 smoke test
         run: |
-          p=/nix/store/wxqnm7gkn39r51y3m7rb4l0xcq413y28-qemu-aarch64-binfmt-P
-          ls -d "$p" || true
-          nix-store --realise "$p" || true
-          nix-store -qR "$p" | xargs ls -d
+          nix build --impure --no-link -L --expr \
+          'let p = (builtins.getFlake "nixpkgs").legacyPackages; in p.aarch64-linux.runCommand "ci-arm-smoke-${toString builtins.currentTime}" {} "uname -m > $out; cat $out"'
       - name: Checkout
         uses: actions/checkout@v4
 

@@ -25,4 +25,16 @@
     fsType = "ext4";
     options = ["nofail" "x-systemd.automount" "x-systemd.device-timeout=120"];
   };
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 100;   # up to ~900Mi of compressed swap
+  };
+
+  # Backstop for when zram isn't enough. Lower priority than zram.
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 2048;           # MiB
+  }];
 }
