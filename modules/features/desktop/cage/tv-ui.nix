@@ -25,9 +25,19 @@
     packages.tv-ui = pkgs.stdenv.mkDerivation {
       pname = "tv-ui";
       inherit version;
-
+    
       src = pkgs.fetchurl {
         inherit (source) url hash;
+          netrcImpureEnvVars = ["TOKEN_FORGEJO"];
+
+          netrcPhase = ''
+            cat > netrc <<EOF
+            machine git.lumilukko.com
+            login pete
+            password $TOKEN_FORGEJO
+            EOF
+          '';
+
       };
 
       sourceRoot = "tv-ui-${version}-${system}";
