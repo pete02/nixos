@@ -199,7 +199,7 @@ if [[ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system
     else
         echo "Kernel or initrd changed, scheduling reboot for 03:00..."
         STEP="reboot scheduling"
-        systemd-run --unit=gitops-reboot --on-calendar="03:00" systemctl reboot
+        systemd-run --unit=gitops-reboot --on-calendar="05:00" systemctl reboot
     fi
 fi
 
