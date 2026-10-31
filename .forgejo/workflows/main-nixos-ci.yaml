@@ -83,7 +83,7 @@ jobs:
               *" $host "*) echo "Skipping installer host ${host}"; continue ;;
             esac
             echo "Queueing ${host}"
-            set -- "$@" ".#nixosConfigurations.${host}.config.systemF.build.toplevel"
+            set -- "$@" ".#nixosConfigurations.${host}.config.system.build.toplevel"
           done <<EOF
           $hosts
           EOF
