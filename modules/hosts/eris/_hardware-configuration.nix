@@ -9,14 +9,13 @@
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
   boot.loader.raspberry-pi.bootloader = "kernel";
   boot.loader.raspberry-pi.configurationLimit = 2;
-  
+
   boot.initrd.systemd.tpm2.enable = false;
   boot.initrd.services.lvm.enable = false;
   boot.initrd.includeDefaultModules = false;
-  boot.initrd.availableKernelModules = [ "mmc_block" "usbhid" "usb_storage" ];  # only what mounting / needs
+  boot.initrd.availableKernelModules = ["mmc_block" "usbhid" "usb_storage"]; # only what mounting / needs
   boot.initrd.compressor = "xz";
-  boot.initrd.compressorArgs = [ "-9e" "--check=crc32" ];
-
+  boot.initrd.compressorArgs = ["-9e" "--check=crc32"];
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_SD";
@@ -39,12 +38,14 @@
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 100;   # up to ~900Mi of compressed swap
+    memoryPercent = 100; # up to ~900Mi of compressed swap
   };
 
   # Backstop for when zram isn't enough. Lower priority than zram.
-  swapDevices = [{
-    device = "/var/lib/swapfile";
-    size = 2048;           # MiB
-  }];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 2048; # MiB
+    }
+  ];
 }

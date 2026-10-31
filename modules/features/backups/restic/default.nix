@@ -223,7 +223,6 @@
         };
       };
 
-
       systemd.services.restic-backup-failure = {
         description = "Notify about failed Restic backup";
         wants = ["network-online.target"];

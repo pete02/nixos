@@ -38,7 +38,7 @@
         REPO_URL = repository;
         NTFY_SUCCESS_URL = config.nixos-management.gitops.ntfyUpgrade;
         NTFY_FAILURE_URL = config.nixos-management.gitops.ntfyFailure;
-        CACHE_URL= self.lib.fleet.cache.url;
+        CACHE_URL = self.lib.fleet.cache.url;
       };
     };
 
