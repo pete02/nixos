@@ -77,17 +77,6 @@
         environment.systemPackages = [
           rebuild
         ];
-
-        nix.gc = {
-          automatic = true;
-          dates = "daily";
-          randomizedDelaySec = "1h";   # avoid every host collecting at once
-          persistent = true;
-          options = "--delete-older-than 14d";
-        };
-
-        nix.optimise.automatic = true; 
-
       }
 
       (lib.mkIf config.nixos-management.auto-update {
