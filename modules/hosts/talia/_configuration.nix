@@ -26,7 +26,7 @@
   };
 
   nixbuilder.cache.client.enable = true;
-
+  nixos-management.gitops.enable=true;
   common-tools.books = true;
   common-tools.school = true;
 
