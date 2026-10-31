@@ -10,6 +10,8 @@
   boot.loader.raspberry-pi.bootloader = "kernel";
   boot.loader.raspberry-pi.configurationLimit = 2;
   
+  boot.initrd.systemd.tpm2.enable = false;
+  boot.initrd.services.lvm.enable = false;
   boot.initrd.includeDefaultModules = false;
   boot.initrd.availableKernelModules = [ "mmc_block" "usbhid" "usb_storage" ];  # only what mounting / needs
   boot.initrd.compressor = "xz";
