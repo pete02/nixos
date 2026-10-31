@@ -7,7 +7,22 @@
     ...
   }: let
     cfg = config.desktop.pegasus-cage;
+    user = config.username;
+    metadataFile = pkgs.writeText "applications.metadata.pegasus.txt" ''
+      collection: Applications
+      shortname: apps
+      launch: "{file.path}"
 
+      game: Moonlight
+      file: ${lib.getExe cfg.moonlightPackage}
+      developer: Moonlight Game Streaming Project
+      genre: Streaming
+
+      game: VacuumTube
+      file: ${lib.getExe cfg.vacuumTubePackage}
+      developer: VacuumTube
+      genre: Video
+    '';
     tv-ui = self.packages.${pkgs.stdenv.hostPlatform.system}.tv-ui;
   in {
     options.desktop.pegasus-cage = {
@@ -63,21 +78,10 @@
       };
 
       # Pegasus application entries
-      environment.etc."xdg/pegasus-frontend/metafiles/applications.metadata.pegasus.txt".text = ''
-        collection: Applications
-        shortname: apps
-        launch: "{file.path}"
-
-        game: Moonlight
-        file: ${lib.getExe cfg.moonlightPackage}
-        developer: Moonlight Game Streaming Project
-        genre: Streaming
-
-        game: VacuumTube
-        file: ${lib.getExe cfg.vacuumTubePackage}
-        developer: VacuumTube
-        genre: Video
-      '';
+      systemd.tmpfiles.rules = [
+        "d ${user.home}/.config/pegasus-frontend/metafiles 0755 ${cfg.user} ${user.group} - -"
+        "L+ ${user.home}/.config/pegasus-frontend/metafiles/applications.metadata.pegasus.txt - - - - ${metadataFile}"
+      ];
 
       users.users.${cfg.user} = {
         isNormalUser = true;
