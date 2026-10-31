@@ -40,7 +40,7 @@ jobs:
           curl --fail --silent --show-error \
             --netrc-file /tmp/netrc-attic \
             http://192.168.88.241:8080/main/nix-cache-info
-          nix store info --store http://192.168.88.241:8080/main
+          nix store info --store http://192.168.88.241:8080/main --extra-experimental-features nix-command
 
 
       - name: Checkout
