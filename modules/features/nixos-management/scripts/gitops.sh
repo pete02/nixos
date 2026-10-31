@@ -4,30 +4,17 @@ set -euo pipefail
 SUCCESS_URL="@NTFY_SUCCESS_URL@"
 FAILURE_URL="@NTFY_FAILURE_URL@"
 REPO_URL="@REPO_URL@"
+CACHE_URL="@CACHE_URL@"
 
 STATE_DIR="/var/lib/gitops"
-REPO="$STATE_DIR/repo"
-BRANCH="stable"
+# New directory on purpose: the old script tracked `stable` in $STATE_DIR/repo.
+# That clone is no longer used and can be deleted.
+REPO="$STATE_DIR/deploy-repo"
+BRANCH="deploy"
 TIMESTAMP_FILE="$STATE_DIR/last-sync"
-REV_FILE="$STATE_DIR/last-deployed-rev"
-LOG_FILE="$STATE_DIR/gitops.log"
-MAX_LOG_BYTES=$((5 * 1024 * 1024))
-RUN_START_OFFSET=0
+PATH_FILE="$STATE_DIR/last-deployed-path"
+HOST="${HOSTNAME:-$(cat /proc/sys/kernel/hostname)}"
 STEP="initialization"
-
-# Timestamped message to both stdout (journal) and the log file.
-log() {
-    printf '%s [%s] %s\n' "$(date -Iseconds)" "$$" "$*" | tee -a "$LOG_FILE"
-}
-
-# Run a command, logging the command line and all of its stdout/stderr.
-# Returns the command's own exit code (not tee's).
-run() {
-    local rc=0
-    log "+ $*"
-    "$@" 2>&1 | tee -a "$LOG_FILE" || rc=${PIPESTATUS[0]}
-    return "$rc"
-}
 
 notify() {
     local url="$1"
@@ -40,32 +27,22 @@ notify() {
         -H "Title: gitops" \
         -H "Priority: $priority" \
         -d "$message" \
-        "$url" || log "WARNING: Failed to send ntfy notification"
+        "$url" || echo "WARNING: Failed to send ntfy notification" >&2
 }
 
 on_exit() {
     local rc=$?
 
     if (( rc != 0 )); then
-        log "FAILED during: ${STEP} (exit code: ${rc})"
-
-        # Only this run's output, last 20 lines, capped in size for ntfy.
-        local tail_out=""
-        tail_out="$(tail -c +$((RUN_START_OFFSET + 1)) "$LOG_FILE" 2>/dev/null \
-            | tail -n 20 | tail -c 1500 || true)"
-
         notify "$FAILURE_URL" \
-            "Update failed on ${HOSTNAME:-unknown} during: ${STEP} (exit code: ${rc})
-${tail_out}" \
+            "Update failed on ${HOST} during: ${STEP} (exit code: ${rc})" \
             high
-    else
-        log "Run finished OK"
     fi
 }
 
 check() {
     local cmd
-    for cmd in curl git ssh nixos-rebuild systemd-run systemctl readlink tee tail stat; do
+    for cmd in curl git ssh nix nix-env systemd-run systemctl readlink; do
         echo "Checking ${cmd}..."
         command -v "$cmd" >/dev/null || return 1
     done
@@ -76,54 +53,84 @@ if [[ "${1:-}" == "--check" ]]; then
     exit $?
 fi
 
+trap on_exit EXIT
+
 STEP="preparation"
 mkdir -p "$STATE_DIR"
 
-# Simple rotation: keep one old log.
-if [[ -f "$LOG_FILE" ]] && (( $(stat -c %s "$LOG_FILE") > MAX_LOG_BYTES )); then
-    mv -f "$LOG_FILE" "${LOG_FILE}.1"
-fi
-touch "$LOG_FILE"
-RUN_START_OFFSET="$(stat -c %s "$LOG_FILE")"
-
-trap on_exit EXIT
-log "=== gitops run started on ${HOSTNAME:-unknown} ==="
-
 if [[ ! -d "$REPO/.git" ]]; then
     STEP="initial clone"
-    log "No local clone found, cloning ${REPO_URL}..."
-    run git clone --branch "$BRANCH" "$REPO_URL" "$REPO"
+    echo "No local clone found, cloning ${BRANCH} from ${REPO_URL}..."
+    git clone --depth 1 --single-branch --branch "$BRANCH" "$REPO_URL" "$REPO"
 fi
 
 cd "$REPO"
 
 STEP="fetch"
-run git fetch origin "$BRANCH"
+git fetch --depth 1 origin "$BRANCH"
+git reset --hard "origin/${BRANCH}"
 
-STEP="revision check"
-REMOTE="$(git rev-parse "origin/${BRANCH}")"
-DEPLOYED="$(cat "$REV_FILE" 2>/dev/null || true)"
+STEP="read target path"
+HOST_FILE="$REPO/hosts/${HOST}"
+if [[ ! -f "$HOST_FILE" ]]; then
+    echo "ERROR: no entry for ${HOST} on ${BRANCH}" >&2
+    exit 1
+fi
+
+TARGET="$(tr -d '[:space:]' < "$HOST_FILE")"
+if [[ ! "$TARGET" =~ ^/nix/store/[0-9a-z]{32}-[^/[:space:]]+$ ]]; then
+    echo "ERROR: invalid store path for ${HOST}: '${TARGET}'" >&2
+    exit 1
+fi
+
+SOURCE="$(git log -1 --format=%s)"
+DEPLOYED="$(cat "$PATH_FILE" 2>/dev/null || true)"
 
 DEPLOYED_NOW=0
 
-if [[ "$REMOTE" != "$DEPLOYED" ]]; then
-    log "Remote has updates (${DEPLOYED:-none} -> ${REMOTE}), triggering autoupdater"
+if [[ "$TARGET" != "$DEPLOYED" ]]; then
+    echo "Target changed (${DEPLOYED:-none} -> ${TARGET}) [${SOURCE}]"
 
-    STEP="reset"
-    run git reset --hard "origin/${BRANCH}"
+    if [[ "$(readlink -f /run/current-system)" == "$TARGET" ]]; then
+        echo "Target is already the running system, recording it"
+    else
+        # Fails (and aborts the run) if CI never pushed this path, or if its
+        # signature is not from a trusted key. No --no-check-sigs on purpose.
+        STEP="fetch closure from cache"
+        nix --extra-experimental-features nix-command \
+            copy --from "$CACHE_URL" "$TARGET"
 
-    STEP="NixOS rebuild"
-    run nixos-rebuild switch --flake "${REPO}#${HOSTNAME:?HOSTNAME is required}"
+        if [[ ! -x "$TARGET/bin/switch-to-configuration" ]]; then
+            echo "ERROR: ${TARGET} has no switch-to-configuration" >&2
+            exit 1
+        fi
 
-    # Only record the revision after a successful switch, so failures retry.
-    echo "$REMOTE" > "$REV_FILE"
+        STEP="set system profile"
+        nix-env -p /nix/var/nix/profiles/system --set "$TARGET"
+
+        # Run in its own transient unit so the switch survives gitops being
+        # restarted or stopped by the activation (same as nixos-rebuild).
+        STEP="switch to configuration"
+        systemd-run \
+            --unit=gitops-switch \
+            --collect \
+            --wait \
+            --pipe \
+            --quiet \
+            --no-ask-password \
+            --service-type=exec \
+            "$TARGET/bin/switch-to-configuration" switch
+    fi
+
+    # Only record the path after a successful switch, so failures retry.
+    echo "$TARGET" > "$PATH_FILE"
     date -Iseconds > "$TIMESTAMP_FILE"
     DEPLOYED_NOW=1
 else
     if [[ -f "$TIMESTAMP_FILE" ]]; then
-        log "Local in sync (last build: $(cat "$TIMESTAMP_FILE"))"
+        echo "Local in sync (last deploy: $(cat "$TIMESTAMP_FILE"))"
     else
-        log "Local in sync (no previous timestamp found)"
+        echo "Local in sync (no previous timestamp found)"
     fi
 fi
 
@@ -132,17 +139,17 @@ STEP="reboot check"
 if [[ "$(readlink /run/booted-system/kernel)" != "$(readlink /run/current-system/kernel)" ]] || \
    [[ "$(readlink /run/booted-system/initrd)" != "$(readlink /run/current-system/initrd)" ]]; then
     if systemctl is-active --quiet gitops-reboot.timer; then
-        log "Kernel or initrd changed, reboot already scheduled"
+        echo "Kernel or initrd changed, reboot already scheduled"
     else
-        log "Kernel or initrd changed, scheduling reboot for 03:00..."
+        echo "Kernel or initrd changed, scheduling reboot for 03:00..."
         STEP="reboot scheduling"
-        run systemd-run --unit=gitops-reboot --on-calendar="03:00" systemctl reboot
+        systemd-run --unit=gitops-reboot --on-calendar="03:00" systemctl reboot
     fi
 fi
 
 if (( DEPLOYED_NOW )); then
     STEP="success notification"
     notify "$SUCCESS_URL" \
-        "Update completed successfully on ${HOSTNAME}." \
+        "Update completed successfully on ${HOST} (${SOURCE})." \
         default
 fi
