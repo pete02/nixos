@@ -16,6 +16,10 @@ PATH_FILE="$STATE_DIR/last-deployed-path"
 HOST="${HOSTNAME:-$(cat /proc/sys/kernel/hostname)}"
 STEP="initialization"
 
+# System generations to keep, including the one being deployed. Fewer
+# generations means fewer boot entries (and kernels) to store on the SD card.
+KEEP_GENERATIONS="${KEEP_GENERATIONS:-2}"
+
 notify() {
     local url="$1"
     local message="$2"
@@ -42,10 +46,16 @@ on_exit() {
 
 check() {
     local cmd
-    for cmd in curl git ssh nix-store nix-env systemd-run systemctl readlink; do
+    for cmd in curl git ssh nix-store nix-env nix-collect-garbage systemd-run systemctl readlink df; do
         echo "Checking ${cmd}..."
         command -v "$cmd" >/dev/null || return 1
     done
+}
+
+report_boot_space() {
+    echo "Boot space (${1}):"
+    # df on /boot/firmware also triggers its automount.
+    df -h /boot /boot/firmware 2>&1 || true
 }
 
 if [[ "${1:-}" == "--check" ]]; then
@@ -94,6 +104,14 @@ if [[ "$TARGET" != "$DEPLOYED" ]]; then
     if [[ "$(readlink -f /run/current-system)" == "$TARGET" ]]; then
         echo "Target is already the running system, recording it"
     else
+        # Make room first: drop old generations so the bootloader only has to
+        # keep KEEP_GENERATIONS entries once this one is added. The switch
+        # below regenerates the boot entries from the remaining generations.
+        STEP="prune old generations"
+        report_boot_space "before prune"
+        nix-env -p /nix/var/nix/profiles/system \
+            --delete-generations "+$(( KEEP_GENERATIONS > 1 ? KEEP_GENERATIONS - 1 : 1 ))"
+
         # Realise through substituters: Attic for our own paths, and the normal
         # upstream cache for everything else. Attic does not store paths that
         # cache.nixos.org already has, so a plain `nix copy --from attic` fails
@@ -116,7 +134,7 @@ if [[ "$TARGET" != "$DEPLOYED" ]]; then
         # Run in its own transient unit so the switch survives gitops being
         # restarted or stopped by the activation (same as nixos-rebuild).
         STEP="switch to configuration"
-        systemd-run \
+        if ! systemd-run \
             --unit=gitops-switch \
             --collect \
             --wait \
@@ -124,13 +142,24 @@ if [[ "$TARGET" != "$DEPLOYED" ]]; then
             --quiet \
             --no-ask-password \
             --service-type=exec \
-            "$TARGET/bin/switch-to-configuration" switch
+            "$TARGET/bin/switch-to-configuration" switch; then
+            # A failed bootloader install can leave the boot partition half
+            # written. Show the space so the cause is visible in the journal.
+            report_boot_space "after failed switch"
+            echo "ERROR: switch failed; do NOT reboot until it succeeds" >&2
+            exit 1
+        fi
     fi
 
     # Only record the path after a successful switch, so failures retry.
     echo "$TARGET" > "$PATH_FILE"
     date -Iseconds > "$TIMESTAMP_FILE"
     DEPLOYED_NOW=1
+
+    # Non-fatal: the deploy already succeeded, this only reclaims disk space.
+    STEP="garbage collection"
+    nix-collect-garbage >/dev/null || echo "WARNING: garbage collection failed" >&2
+    report_boot_space "after deploy"
 else
     if [[ -f "$TIMESTAMP_FILE" ]]; then
         echo "Local in sync (last deploy: $(cat "$TIMESTAMP_FILE"))"
