@@ -28,16 +28,15 @@
     
       src = pkgs.fetchurl {
         inherit (source) url hash;
-          netrcImpureEnvVars = ["TOKEN_FORGEJO"];
+          netrcImpureEnvVars = ["FORGEJO_TOKEN"];
 
           netrcPhase = ''
             cat > netrc <<EOF
             machine git.lumilukko.com
             login pete
-            password $TOKEN_FORGEJO
+            password $FORGEJO_TOKEN
             EOF
           '';
-
       };
 
       sourceRoot = "tv-ui-${version}-${system}";

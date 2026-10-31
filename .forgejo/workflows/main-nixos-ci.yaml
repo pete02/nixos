@@ -61,6 +61,8 @@ jobs:
           nix flake metadata
 
       - name: Build NixOS host closures
+        env:
+          FORGEJO_TOKEN: ${{ secrets.TOKEN_FORGEJO }}
         run: |
           set -eu
 
