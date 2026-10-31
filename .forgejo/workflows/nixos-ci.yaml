@@ -29,7 +29,8 @@ jobs:
         netrc-file = /tmp/netrc-attic
     
     steps:
-
+      - name: Ensure CI tools are in the store
+        run: nix build /opt/ci-tools-flake#default --out-link /opt/ci-tools
       - name: Configure cache credentials
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
