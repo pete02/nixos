@@ -1,6 +1,21 @@
 
 #!/usr/bin/env bash
 set -Eeuo pipefail
+REPOSITORY=@REPOSITORY@
+PASSWORD_FILE=@PASSWORD_FILE@
+FOLDERS=(@FOLDERS@)
+EXCLUDES=(@EXCLUDES@)
+EXTRA_ARGS=(@EXTRA_ARGS@)
+PRUNE_OPTS=(@PRUNE_OPTS@)
+NTFY_SUCCESS=@NTFY_SUCCESS@
+NTFY_FAILURE=@NTFY_FAILURE@
+
+export RESTIC_REPOSITORY="$REPOSITORY"
+export RESTIC_PASSWORD_FILE="$PASSWORD_FILE"
+export RESTIC_PROGRESS_FPS="${RESTIC_PROGRESS_FPS:-0.0333}"
+NOTIFY_ON_FAILURE="${NOTIFY_ON_FAILURE:-1}"
+
+
 
 if [[ "${1:-}" == "--check" ]]; then
   for command in restic flock curl hostname; do
@@ -14,19 +29,7 @@ if [[ "${1:-}" == "--check" ]]; then
   exit 0
 fi
 
-REPOSITORY=@REPOSITORY@
-PASSWORD_FILE=@PASSWORD_FILE@
-FOLDERS=(@FOLDERS@)
-EXCLUDES=(@EXCLUDES@)
-EXTRA_ARGS=(@EXTRA_ARGS@)
-PRUNE_OPTS=(@PRUNE_OPTS@)
-NTFY_SUCCESS=@NTFY_SUCCESS@
-NTFY_FAILURE=@NTFY_FAILURE@
 
-
-export RESTIC_REPOSITORY="$REPOSITORY"
-export RESTIC_PASSWORD_FILE="$PASSWORD_FILE"
-export RESTIC_PROGRESS_FPS="${RESTIC_PROGRESS_FPS:-0.0333}"
 
 notify() {
   local url="$1"
@@ -37,11 +40,32 @@ notify() {
       --fail \
       --silent \
       --show-error \
-      --max-time 10 \
+      --retry 3 \
+      --retry-delay 3 \
+      --retry-all-errors \
+      --max-time 20 \
       --data-binary "$message" \
-      "$url" || true
+      "$url" || echo "WARNING: failed to send ntfy notification" >&2
   fi
 }
+
+on_exit() {
+  local status=$?
+  trap - EXIT
+
+  if (( status != 0 )) && [[ "$NOTIFY_ON_FAILURE" == 1 ]]; then
+    notify "$NTFY_FAILURE" \
+      "Restic backup failed on $(hostname) (exit code $status)."
+  fi
+
+  exit "$status"
+}
+
+trap on_exit EXIT
+trap 'exit 143' TERM
+trap 'exit 130' INT HUP
+
+
 
 # Both scheduled and shutdown runs use the same lock.
 LOCKFILE="${LOCKFILE:-/run/restic-backup/lock}"
@@ -51,19 +75,6 @@ if ! flock -n 9; then
   echo "Another Restic backup is already running; skipping."
   exit 0
 fi
-
-on_exit() {
-  local status=$?
-  trap - EXIT
-
-  if (( status != 0 )); then
-    notify "$NTFY_FAILURE" \
-      "Restic backup failed on $(hostname) (exit code $status)."
-  fi
-
-  exit "$status"
-}
-trap on_exit EXIT
 
 # Do not initialize automatically: a failed connection must not be
 # mistaken for an uninitialized repository.

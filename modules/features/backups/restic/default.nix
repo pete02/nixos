@@ -201,12 +201,17 @@
           "nss-lookup.target"
           "local-fs.target"
         ];
+
+        unitConfig = {
+          RequiresMountsFor = localPaths;
+          # Fires for any failure, including mount failures and kills.
+          OnFailure = ["restic-backup-failure.service"];
+        };
+
         restartIfChanged = false;
         stopIfChanged = false;
 
-        unitConfig.RequiresMountsFor = localPaths;
-
-        inherit environment;
+        environment = environment // {NOTIFY_ON_FAILURE = "0";};
 
         serviceConfig = {
           Type = "oneshot";
@@ -215,6 +220,24 @@
           Nice = 10;
           IOSchedulingClass = "idle";
           UMask = "0077";
+        };
+      };
+
+
+      systemd.services.restic-backup-failure = {
+        description = "Notify about failed Restic backup";
+        wants = ["network-online.target"];
+        after = ["network-online.target" "nss-lookup.target"];
+        serviceConfig = {
+          Type = "oneshot";
+          DynamicUser = true;
+          ExecStart = lib.concatStringsSep " " [
+            (lib.getExe pkgs.curl)
+            "--fail --silent --show-error"
+            "--retry 5 --retry-delay 5 --retry-all-errors --max-time 20"
+            "--data-binary 'Restic backup failed on %H (see: journalctl -u restic-backup)'"
+            (lib.escapeShellArg cfg.ntfyFailure)
+          ];
         };
       };
 

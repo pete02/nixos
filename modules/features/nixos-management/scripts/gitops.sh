@@ -3,6 +3,7 @@ set -euo pipefail
 
 SUCCESS_URL="@NTFY_SUCCESS_URL@"
 FAILURE_URL="@NTFY_FAILURE_URL@"
+NOTIFY_ON_FAILURE="${NOTIFY_ON_FAILURE:-1}"
 REPO_URL="@REPO_URL@"
 
 STATE_DIR="/var/lib/gitops"
@@ -14,6 +15,50 @@ LOG_FILE="$STATE_DIR/gitops.log"
 MAX_LOG_BYTES=$((5 * 1024 * 1024))
 RUN_START_OFFSET=0
 STEP="initialization"
+
+notify() {
+  local url="$1"
+  local message="$2"
+
+  if [[ -n "$url" ]]; then
+    curl \
+      --fail \
+      --silent \
+      --show-error \
+      --retry 3 \
+      --retry-delay 3 \
+      --retry-all-errors \
+      --max-time 20 \
+      --data-binary "$message" \
+      "$url" || echo "WARNING: failed to send ntfy notification" >&2
+  fi
+}
+
+on_exit() {
+  local status=$?
+  trap - EXIT
+
+  if (( status != 0 )) && [[ "$NOTIFY_ON_FAILURE" == 1 ]]; then
+    notify "$NTFY_FAILURE" \
+      "Restic backup failed on $(hostname) (exit code $status)."
+  fi
+
+  exit "$status"
+}
+trap on_exit EXIT
+trap 'exit 143' TERM
+trap 'exit 130' INT HUP
+
+# Both scheduled and shutdown runs use the same lock.
+LOCKFILE="${LOCKFILE:-/run/restic-backup/lock}"
+exec 9>"$LOCKFILE"
+
+if ! flock -n 9; then
+  echo "Another Restic backup is already running; skipping."
+  exit 0
+fi
+
+
 
 # Timestamped message to both stdout (journal) and the log file.
 log() {
