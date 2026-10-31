@@ -12,8 +12,7 @@
       ps.evdev
     ]);
 
-    listener = pkgs.substituteAll {
-      src = ./listener.py;
+    listener = pkgs.replaceVars ./listener.py {
       CEC_DEVICE = cfg.device;
       CEC_CTL = "${pkgs.v4l-utils}/bin/cec-ctl";
       STDBUF = "${pkgs.coreutils}/bin/stdbuf";
