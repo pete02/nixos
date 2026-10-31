@@ -175,3 +175,22 @@ jobs:
 
           echo "ERROR: failed to publish to deploy after retries" >&2
           exit 1
+      - name: Notify on failure
+        if: failure()
+        env:
+          WORKFLOW: ${{ github.workflow }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_number }}
+        run: |
+          curl --silent --show-error --fail \
+            --connect-timeout 5 \
+            --max-time 10 \
+            -H "Title: ${WORKFLOW} failed" \
+            -H "Priority: high" \
+            -H "Tags: rotating_light" \
+            -H "Click: ${RUN_URL}" \
+            -d "${REPO}@${REF} ($(printf '%s' "$SHA" | cut -c1-8))" \
+            https://ntfy.lumilukko.com/pipeline-failure \
+            || echo "WARNING: failed to send ntfy notification" >&2
