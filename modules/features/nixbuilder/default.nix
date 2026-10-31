@@ -129,6 +129,7 @@
 
       (lib.mkIf (cfg.buildServer or false) {
         boot.binfmt.emulatedSystems = ["aarch64-linux"];
+        boot.binfmt.registrations.aarch64-linux.fixBinary = true;
       })
 
       (lib.mkIf cfg.signing.enable {
