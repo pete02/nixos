@@ -1,4 +1,4 @@
-{...}: {
+{self, ...}: {
   flake.nixosModules.desktop-pegasus-cage = {
     config,
     lib,
@@ -6,6 +6,8 @@
     ...
   }: let
     cfg = config.desktop.pegasus-cage;
+    tv-ui = self.packages.${pkgs.stdenv.hostPlatform.system}.tv-ui;
+
   in {
     options.desktop.pegasus-cage = {
       enable = lib.mkEnableOption "Pegasus frontend running in a cage kiosk session";
@@ -32,6 +34,17 @@
     };
 
     config = lib.mkIf cfg.enable {
+      environment.systemPackages=[
+        tv-ui
+      ];
+
+      sops.templates."tv-ui.env" = {
+        content = ''
+          TMDB_API_KEY=${config.sops.placeholder.tmdb_api_key}
+        '';
+      };
+
+
       users.users.${cfg.user} = {
         isNormalUser = true;
         inherit (cfg) extraGroups;
