@@ -74,19 +74,6 @@ run() {
     return "$rc"
 }
 
-notify() {
-    local url="$1"
-    local message="$2"
-    local priority="${3:-default}"
-
-    curl --silent --show-error --fail \
-        --connect-timeout 5 \
-        --max-time 10 \
-        -H "Title: gitops" \
-        -H "Priority: $priority" \
-        -d "$message" \
-        "$url" || log "WARNING: Failed to send ntfy notification"
-}
 
 on_exit() {
     local rc=$?
