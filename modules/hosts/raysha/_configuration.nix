@@ -63,7 +63,7 @@
     ld = true;
     git = true;
   };
-
+  nixos-management.gitops.enable = true;
   desktop = {
     enable = true;
     services = {
