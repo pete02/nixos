@@ -30,6 +30,11 @@
   networking.hosts."192.168.88.241" = [
     "git.lumilukko.com"
     "ntfy.lumilukko.com"
+    "aria.local"
+  ];
+
+  networking.hosts."192.168.88.239" = [
+    "raysha.local"
   ];
 
   samba.servers.rpi = {
