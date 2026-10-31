@@ -24,6 +24,7 @@ jobs:
       CONFIG_FOLDER: "."
       NIX_CONFIG: |
         experimental-features = nix-command flakes
+        build-users-group =
         extra-substituters = ${{ vars.ATTIC_URL }}
         extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
         netrc-file = /tmp/netrc-attic
