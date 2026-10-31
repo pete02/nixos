@@ -8,6 +8,7 @@
       desktop-services
       desktop-displaymanager
       desktop-pegasus-cage
+      desktop-hdmi-cec
     ];
   };
 }

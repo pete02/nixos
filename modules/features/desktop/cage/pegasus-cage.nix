@@ -18,6 +18,11 @@
       developer: Moonlight Game Streaming Project
       genre: Streaming
 
+      game: TV UI
+      file: ${lib.getExe tv-ui}
+      developer: Local TV UI
+      genre: Applications
+
       game: VacuumTube
       file: ${lib.getExe cfg.vacuumTubePackage}
       developer: VacuumTube
@@ -76,7 +81,7 @@
           TMDB_API_KEY=${config.sops.placeholder.${cfg.tmdb_api_key}}
         '';
       };
-
+      desktop.hdmi-cec.enable = true;
       # Pegasus application entries
       systemd.tmpfiles.rules = [
         "d ${user.home}/.config/pegasus-frontend/metafiles 0755 ${cfg.user} ${user.group} - -"
