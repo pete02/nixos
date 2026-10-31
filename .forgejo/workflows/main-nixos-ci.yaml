@@ -61,17 +61,41 @@ jobs:
           nix flake metadata
 
       - name: Build NixOS host closures
+        env:
+          # Space-separated hosts to skip, e.g. "rpi3". Keep in sync with
+          # the same variable in nixos-stable.yaml.
+          EXCLUDE_HOSTS: ""
         run: |
+          set -eu
+
+          hosts="$(
+            nix eval --raw .#nixosConfigurations \
+              --apply 'a: builtins.concatStringsSep "\n" (builtins.attrNames a)'
+          )"
+
+          set --
+          while IFS= read -r host; do
+            [ -n "$host" ] || continue
+            case " $EXCLUDE_HOSTS " in
+              *" $host "*) echo "Skipping ${host}"; continue ;;
+            esac
+            echo "Queueing ${host}"
+            set -- "$@" ".#nixosConfigurations.${host}.config.system.build.toplevel"
+          done <<EOF
+          $hosts
+          EOF
+
+          if [ "$#" -eq 0 ]; then
+            echo "ERROR: no hosts found" >&2
+            exit 1
+          fi
+
           nix build \
             --no-link \
             --print-out-paths \
             --keep-going \
             --max-jobs auto \
-            .#nixosConfigurations.aria.config.system.build.toplevel \
-            .#nixosConfigurations.eris.config.system.build.toplevel \
-            .#nixosConfigurations.alanna.config.system.build.toplevel \
-            .#nixosConfigurations.raysha.config.system.build.toplevel \
-            .#nixosConfigurations.talia.config.system.build.toplevel \
+            "$@" \
             >> /tmp/out-paths
 
       - name: Build every exported x86_64-linux package
