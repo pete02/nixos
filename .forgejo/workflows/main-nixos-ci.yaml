@@ -135,6 +135,7 @@ jobs:
             >> /tmp/out-paths
 
       - name: Push to Attic
+        timeout-minutes: 15
         if: always()
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
