@@ -16,8 +16,11 @@ PATH_FILE="$STATE_DIR/last-deployed-path"
 HOST="${HOSTNAME:-$(cat /proc/sys/kernel/hostname)}"
 STEP="initialization"
 
-# System generations to keep, including the one being deployed. Fewer
-# generations means fewer boot entries (and kernels) to store on the SD card.
+# System generations to keep, including the one being deployed. Each
+# generation's kernel/initrd takes roughly 55-60 MB on the 253 MB firmware
+# partition (~22 MB of it is shared firmware). The bootloader may add the new
+# generation before it drops the oldest, so the peak is KEEP_GENERATIONS + 1
+# copies: 2 -> 3 copies (~190 MB, fits), 3 -> 4 copies (~250 MB, does not).
 KEEP_GENERATIONS="${KEEP_GENERATIONS:-2}"
 
 notify() {
@@ -49,6 +52,20 @@ check() {
     for cmd in curl git ssh nix-store nix-env nix-collect-garbage systemd-run systemctl readlink df; do
         echo "Checking ${cmd}..."
         command -v "$cmd" >/dev/null || return 1
+    done
+}
+
+# A bootloader install that dies (e.g. out of space) leaves partial copies named
+# *.tmp.<pid> on the firmware partition. Remove them if their process is gone.
+clean_stale_boot_temp() {
+    local f pid
+    for f in /boot/firmware/*.tmp.[0-9]* /boot/firmware/nixos/*.tmp.[0-9]*; do
+        [[ -e "$f" ]] || continue
+        pid="${f##*.tmp.}"
+        if [[ "$pid" =~ ^[0-9]+$ ]] && ! kill -0 "$pid" 2>/dev/null; then
+            echo "Removing stale bootloader temp: $f"
+            rm -rf -- "$f"
+        fi
     done
 }
 
@@ -104,13 +121,7 @@ if [[ "$TARGET" != "$DEPLOYED" ]]; then
     if [[ "$(readlink -f /run/current-system)" == "$TARGET" ]]; then
         echo "Target is already the running system, recording it"
     else
-        # Make room first: drop old generations so the bootloader only has to
-        # keep KEEP_GENERATIONS entries once this one is added. The switch
-        # below regenerates the boot entries from the remaining generations.
-        STEP="prune old generations"
-        report_boot_space "before prune"
-        nix-env -p /nix/var/nix/profiles/system \
-            --delete-generations "+$(( KEEP_GENERATIONS > 1 ? KEEP_GENERATIONS - 1 : 1 ))"
+        report_boot_space "before deploy"
 
         # Realise through substituters: Attic for our own paths, and the normal
         # upstream cache for everything else. Attic does not store paths that
@@ -130,6 +141,17 @@ if [[ "$TARGET" != "$DEPLOYED" ]]; then
 
         STEP="set system profile"
         nix-env -p /nix/var/nix/profiles/system --set "$TARGET"
+
+        # Prune after setting the profile, so the newest KEEP_GENERATIONS
+        # always include the new one and the previous (known good) one, even
+        # when a failed switch is being retried. The switch below regenerates
+        # the boot entries from the remaining generations.
+        STEP="prune old generations"
+        nix-env -p /nix/var/nix/profiles/system \
+            --delete-generations "+$(( KEEP_GENERATIONS > 1 ? KEEP_GENERATIONS : 2 ))"
+
+        STEP="clean stale boot temp files"
+        clean_stale_boot_temp
 
         # Run in its own transient unit so the switch survives gitops being
         # restarted or stopped by the activation (same as nixos-rebuild).
