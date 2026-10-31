@@ -7,7 +7,7 @@
     ...
   }: let
     cfg = config.desktop.pegasus-cage;
-    user = config.username;
+    user = user = config.users.users.${cfg.user};
     metadataFile = pkgs.writeText "applications.metadata.pegasus.txt" ''
       collection: Applications
       shortname: apps
