@@ -61,12 +61,13 @@ jobs:
           nix flake metadata
 
       - name: Build NixOS host closures
-        env:
-          # Space-separated hosts to skip, e.g. "rpi3". Keep in sync with
-          # the same variable in nixos-stable.yaml.
-          EXCLUDE_HOSTS: ""
         run: |
           set -eu
+
+          exclude="$(
+            nix eval --raw .#lib.fleet.installerHosts \
+              --apply 'l: builtins.concatStringsSep " " l'
+          )"
 
           hosts="$(
             nix eval --raw .#nixosConfigurations \
@@ -76,8 +77,8 @@ jobs:
           set --
           while IFS= read -r host; do
             [ -n "$host" ] || continue
-            case " $EXCLUDE_HOSTS " in
-              *" $host "*) echo "Skipping ${host}"; continue ;;
+            case " $exclude " in
+              *" $host "*) echo "Skipping installer host ${host}"; continue ;;
             esac
             echo "Queueing ${host}"
             set -- "$@" ".#nixosConfigurations.${host}.config.system.build.toplevel"

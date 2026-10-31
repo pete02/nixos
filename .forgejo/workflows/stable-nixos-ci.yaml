@@ -63,6 +63,11 @@ jobs:
         run: |
           set -eu
 
+          exclude="$(
+            nix eval --raw .#lib.fleet.installerHosts \
+              --apply 'l: builtins.concatStringsSep " " l'
+          )"
+
           hosts="$(
             nix eval --raw .#nixosConfigurations \
               --apply 'a: builtins.concatStringsSep "\n" (builtins.attrNames a)'
@@ -73,6 +78,9 @@ jobs:
 
           while IFS= read -r host; do
             [ -n "$host" ] || continue
+            case " $exclude " in
+              *" $host "*) echo "Skipping installer host ${host}"; continue ;;
+            esac
 
             path="$(
               nix eval --raw \

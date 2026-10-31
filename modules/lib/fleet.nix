@@ -5,7 +5,7 @@ in {
   flake.lib.fleet = rec {
     inherit domain;
     fqdn = host: "${host}.${domain}";
-
+    installerHosts = ["x86" "rpi3" "rpi5"];
     lan.subnet = "192.168.88.0/24";
 
     # One ntfy server; topic derived from the host name ("raysha" -> .../Raysha)
