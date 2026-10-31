@@ -8,6 +8,8 @@
   ];
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
   boot.loader.raspberry-pi.bootloader = "kernel";
+  boot.loader.raspberry-pi.configurationLimit = 2;
+
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_SD";
     fsType = "ext4";
