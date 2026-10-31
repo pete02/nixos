@@ -8,12 +8,12 @@
     sources = {
       x86_64-linux = {
         url = "https://git.lumilukko.com/Pete/tv-ui/releases/download/build-20261031-1727-3ce94ef/tv-ui-3ce94ef-x86_64-linux.tar.gz";
-        hash = lib.fakeHash;
+        hash = sha256-wJDJ9Gu6E/ufqpWe0hr4hDHuEpHkTIkd5gY5JEMJ/ds=;
       };
 
       aarch64-linux = {
         url = "https://git.lumilukko.com/Pete/tv-ui/releases/download/build-20261031-1727-3ce94ef/tv-ui-3ce94ef-aarch64-linux.tar.gz";
-        hash = lib.fakeHash;
+        hash = sha256-wJDJ9Gu6E/ufqpWe0hr4hDHuEpHkTIkd5gY5JEMJ/ds=;
       };
     };
 
