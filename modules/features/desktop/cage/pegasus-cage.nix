@@ -98,7 +98,6 @@
 
         environment = {
           QT_QPA_PLATFORM = "wayland";
-          TMDB_API_KEY = config.sops.secrets.${cfg.tmdb_api_key};
         } // cfg.extraEnvironment;
       };
 
