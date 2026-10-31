@@ -42,7 +42,7 @@ on_exit() {
 
 check() {
     local cmd
-    for cmd in curl git ssh nix nix-env systemd-run systemctl readlink; do
+    for cmd in curl git ssh nix-store nix-env systemd-run systemctl readlink; do
         echo "Checking ${cmd}..."
         command -v "$cmd" >/dev/null || return 1
     done
@@ -94,11 +94,16 @@ if [[ "$TARGET" != "$DEPLOYED" ]]; then
     if [[ "$(readlink -f /run/current-system)" == "$TARGET" ]]; then
         echo "Target is already the running system, recording it"
     else
-        # Fails (and aborts the run) if CI never pushed this path, or if its
-        # signature is not from a trusted key. No --no-check-sigs on purpose.
+        # Realise through substituters: Attic for our own paths, and the normal
+        # upstream cache for everything else. Attic does not store paths that
+        # cache.nixos.org already has, so a plain `nix copy --from attic` fails
+        # on those dependencies ("path ... is not valid").
+        # Fails (and aborts the run) if any path is unavailable or its signature
+        # is not from a trusted key. Signature checking stays on.
         STEP="fetch closure from cache"
-        nix --extra-experimental-features nix-command \
-            copy --from "$CACHE_URL" "$TARGET"
+        nix-store --realise \
+            --option extra-substituters "$CACHE_URL" \
+            "$TARGET" >/dev/null
 
         if [[ ! -x "$TARGET/bin/switch-to-configuration" ]]; then
             echo "ERROR: ${TARGET} has no switch-to-configuration" >&2
