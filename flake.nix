@@ -10,6 +10,10 @@
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi";
     sops-nix.url = "github:Mic92/sops-nix";
   };
+  inputs.vacuum-tube-src = {
+    url = "github:shy1132/VacuumTube";
+    flake = false;
+  };
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {

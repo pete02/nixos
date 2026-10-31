@@ -53,7 +53,11 @@
 
       moonlightPackage = lib.mkPackageOption pkgs "moonlight-qt" {};
 
-      vacuumTubePackage = lib.mkPackageOption pkgs "vacuum-tube" {};
+      vacuumTubePackage = lib.mkOption {
+        type = lib.types.package;
+        default = self.packages.${pkgs.stdenv.hostPlatform.system}.vacuum-tube;
+        description = "VacuumTube package to launch from Pegasus.";
+      };
 
       extraGroups = lib.mkOption {
         type = lib.types.listOf lib.types.str;

@@ -316,6 +316,7 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-stable": "nixpkgs-stable",
         "sops-nix": "sops-nix",
+        "vacuum-tube-src": "vacuum-tube-src",
         "wrapper-modules": "wrapper-modules",
         "wrappers": "wrappers"
       }
@@ -335,6 +336,22 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "vacuum-tube-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792291026,
+        "narHash": "sha256-3GUKVbMFU+5YhQv4UpABqo2gg1m/RdXD5M5c0V5C4kg=",
+        "owner": "shy1132",
+        "repo": "VacuumTube",
+        "rev": "21ed770379deefc123c1026774b7d8fc1bc0d84b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shy1132",
+        "repo": "VacuumTube",
         "type": "github"
       }
     },
