@@ -23,11 +23,14 @@ jobs:
     env:
       CONFIG_FOLDER: "."
       NIX_CONFIG: |
+        experimental-features = nix-command flakes
         extra-substituters = ${{ vars.ATTIC_URL }}
         extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
         netrc-file = /tmp/netrc-attic
-
+    
     steps:
+      - name: Ensure CI tools
+        run: nix build /opt/ci-tools-flake#default --out-link /opt/ci-tools
       - name: Configure cache credentials
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
@@ -40,7 +43,7 @@ jobs:
           curl --fail --silent --show-error \
             --netrc-file /tmp/netrc-attic \
             http://192.168.88.241:8080/main/nix-cache-info
-          nix store info --store http://192.168.88.241:8080/main --extra-experimental-features nix-command
+          nix store info --store http://192.168.88.241:8080/main
 
 
       - name: Checkout
