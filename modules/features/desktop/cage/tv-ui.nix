@@ -1,5 +1,9 @@
 {...}: {
-  perSystem = {pkgs, system, ...}: let
+  perSystem = {
+    pkgs,
+    system,
+    ...
+  }: let
     version = "3ce94ef";
 
     sources = {

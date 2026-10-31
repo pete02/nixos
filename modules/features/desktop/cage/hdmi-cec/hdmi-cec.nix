@@ -1,4 +1,3 @@
-
 {...}: {
   flake.nixosModules.desktop-hdmi-cec = {
     config,
@@ -49,8 +48,7 @@
         serviceConfig = {
           Type = "simple";
 
-          ExecStartPre =
-            "${pkgs.v4l-utils}/bin/cec-ctl -d ${cfg.device} --playback -S";
+          ExecStartPre = "${pkgs.v4l-utils}/bin/cec-ctl -d ${cfg.device} --playback -S";
 
           ExecStart = "${python}/bin/python ${listener}";
 

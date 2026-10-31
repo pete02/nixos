@@ -1,5 +1,9 @@
 {inputs, ...}: {
-  perSystem = {pkgs, lib, ...}: {
+  perSystem = {
+    pkgs,
+    lib,
+    ...
+  }: {
     packages.vacuum-tube = pkgs.vacuum-tube.overrideAttrs (old: {
       version = "git-${inputs.vacuum-tube-src.shortRev or "dirty"}";
       src = inputs.vacuum-tube-src;
