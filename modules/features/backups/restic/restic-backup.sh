@@ -76,6 +76,7 @@ if ! flock -n 9; then
   exit 0
 fi
 
+restic unlock
 # Do not initialize automatically: a failed connection must not be
 # mistaken for an uninitialized repository.
 restic snapshots >/dev/null
