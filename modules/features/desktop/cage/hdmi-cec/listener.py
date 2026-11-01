@@ -1,3 +1,4 @@
+
 import logging
 import re
 import subprocess
@@ -10,7 +11,8 @@ CEC_DEVICE = "@CEC_DEVICE@"
 CEC_CTL = "@CEC_CTL@"
 STDBUF = "@STDBUF@"
 PEGASUS_SERVICE = "@PEGASUS_SERVICE@"
-MOUSE_TOGGLE_KEY = "@MOUSE_TOGGLE_KEY@"
+MOUSE_ON_KEY = "@MOUSE_ON_KEY@"
+MOUSE_OFF_KEY = "@MOUSE_OFF_KEY@"
 MULTITAP_TIMEOUT = 0.9
 
 # Mouse mode tuning: pixels per key press, growing while a direction is
@@ -65,6 +67,7 @@ KEY_MAP = {
     "down": e.KEY_DOWN,
     "left": e.KEY_LEFT,
     "back": e.KEY_ESC,
+    "data": e.KEY_BACKSPACE,
 }
 
 MOUSE_DIRECTIONS = {
@@ -202,13 +205,6 @@ def disable_mouse_mode():
         logging.info("Mouse mode off")
 
 
-def toggle_mouse_mode():
-    if mouse_mode:
-        disable_mouse_mode()
-    else:
-        enable_mouse_mode()
-
-
 def move_mouse(direction):
     global last_direction, direction_streak, last_move
 
@@ -251,9 +247,14 @@ def return_to_pegasus():
 
 
 def handle_command(command):
-    if command == MOUSE_TOGGLE_KEY:
+    if command == MOUSE_ON_KEY:
         reset_multitap()
-        toggle_mouse_mode()
+        enable_mouse_mode()
+        return
+
+    if command == MOUSE_OFF_KEY:
+        reset_multitap()
+        disable_mouse_mode()
         return
 
     if mouse_mode:
