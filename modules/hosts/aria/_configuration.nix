@@ -83,7 +83,7 @@
       ];
     };
   };
-  networking.hosts."10.0.0.3" = ["eris.local"];
+  
   environment.systemPackages = with pkgs; [
     kitty.terminfo
   ];
