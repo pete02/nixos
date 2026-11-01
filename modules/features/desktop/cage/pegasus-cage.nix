@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules.pegasus-cage = {
+  flake.nixosModules.desktop-pegasus-cage = {
     config,
     lib,
     pkgs,
