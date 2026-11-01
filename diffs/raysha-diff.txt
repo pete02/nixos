@@ -1,19 +1,4 @@
-<<< /nix/var/nix/profiles/system-83-link
->>> /nix/var/nix/profiles/system-84-link
-Added packages:
-[A.]  #01  brltty         6.9.1
-[A.]  #02  capstone       5.0.9
-[A.]  #03  dtc            1.8.1
-[A.]  #04  gfxstream      0.1.2
-[A.]  #05  libcacard      2.8.2
-[A.]  #06  libiscsi       1.20.3
-[A.]  #07  qemu           11.1.2, 11.1.2-ga
-[A.]  #08  rutabaga_gfx   0.1.6
-[A.]  #09  simdutf        9.1.1
-[A.]  #10  spice          0.16.0
-[A.]  #11  tcl            8.6.16
-[A.]  #12  usbredir       0.15.0
-[A.]  #13  vde2           2.3.3
-[A.]  #14  virglrenderer  1.3.0
-[A.]  #15  vte            0.84.1
-Closure size: 2707 -> 2723 (24 paths added, 8 paths removed, delta +16, disk usage +1.0GiB).
+<<< /nix/var/nix/profiles/system-84-link
+>>> /nix/var/nix/profiles/system-85-link
+No version or selection state changes.
+Closure size: 2723 -> 2723 (5 paths added, 5 paths removed, delta +0, disk usage +1.3KiB).

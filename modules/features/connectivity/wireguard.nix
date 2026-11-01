@@ -25,7 +25,7 @@
           };
           address = lib.mkOption {
             type = lib.types.str;
-            default= self.lib.fleet.wireguard.hosts.${config.hostname} or (throw "connectivity.wireguard: no address for ${config.hostname} in fleet.wireguard.hosts; set `address` explicitly");
+            default = self.lib.fleet.wireguard.hosts.${config.hostname} or (throw "connectivity.wireguard: no address for ${config.hostname} in fleet.wireguard.hosts; set `address` explicitly");
             description = "Local WireGuard interface address.";
           };
         };

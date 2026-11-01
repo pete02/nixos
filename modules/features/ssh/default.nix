@@ -75,7 +75,7 @@
               User  ${config.username}
           '')
           (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts))
-         + lib.concatMapStringsSep "\n\n"
+          + lib.concatMapStringsSep "\n\n"
           (hostname: ''
             Host ${hostname}-wg
               HostName ${self.lib.fleet.wireguard.hosts.${hostname}}
