@@ -16,6 +16,7 @@
       CEC_CTL = "${pkgs.v4l-utils}/bin/cec-ctl";
       STDBUF = "${pkgs.coreutils}/bin/stdbuf";
       PEGASUS_SERVICE = cfg.pegasusService;
+      MOUSE_TOGGLE_KEY = cfg.mouseToggleKey;
     };
   in {
     options.desktop.hdmi-cec = {
@@ -31,6 +32,17 @@
         type = lib.types.str;
         default = "cage-tty1.service";
         description = "Cage service to restart when returning to Pegasus.";
+      };
+
+      mouseToggleKey = lib.mkOption {
+        type = lib.types.str;
+        default = "f2-red";
+        example = "f4-yellow";
+        description = ''
+          CEC user-control command (as printed by `cec-ctl --monitor` after
+          "ui-cmd:") that toggles mouse mode. In mouse mode the arrow keys
+          move the pointer and select left-clicks.
+        '';
       };
     };
 

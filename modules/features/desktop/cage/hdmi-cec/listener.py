@@ -1,4 +1,3 @@
-
 import logging
 import re
 import subprocess
@@ -11,7 +10,17 @@ CEC_DEVICE = "@CEC_DEVICE@"
 CEC_CTL = "@CEC_CTL@"
 STDBUF = "@STDBUF@"
 PEGASUS_SERVICE = "@PEGASUS_SERVICE@"
+MOUSE_TOGGLE_KEY = "@MOUSE_TOGGLE_KEY@"
 MULTITAP_TIMEOUT = 0.9
+
+# Mouse mode tuning: pixels per key press, growing while a direction is
+# held/repeated (presses of the same direction within MOUSE_REPEAT_WINDOW).
+MOUSE_BASE_STEP = 10
+MOUSE_MAX_STEP = 80
+MOUSE_ACCEL = 5
+MOUSE_REPEAT_WINDOW = 0.4
+# Give the compositor time to pick up the freshly created pointer device.
+MOUSE_SETTLE = 0.3
 
 logging.basicConfig(
     level=logging.INFO,
@@ -41,6 +50,14 @@ keyboard = UInput(
     name="HDMI-CEC Remote",
 )
 
+# The pointer is a separate, on-demand device so the compositor only shows a
+# cursor while mouse mode is active.
+mouse = None
+mouse_mode = False
+last_direction = None
+direction_streak = 0
+last_move = 0.0
+
 KEY_MAP = {
     "select": e.KEY_ENTER,
     "up": e.KEY_UP,
@@ -48,6 +65,13 @@ KEY_MAP = {
     "down": e.KEY_DOWN,
     "left": e.KEY_LEFT,
     "back": e.KEY_ESC,
+}
+
+MOUSE_DIRECTIONS = {
+    "up": (0, -1),
+    "down": (0, 1),
+    "left": (-1, 0),
+    "right": (1, 0),
 }
 
 DIGITS = {
@@ -144,8 +168,80 @@ def type_digit(digit):
     last_press = now
 
 
+def enable_mouse_mode():
+    global mouse, mouse_mode, last_direction, direction_streak
+
+    if mouse is None:
+        try:
+            mouse = UInput(
+                {
+                    e.EV_KEY: [e.BTN_LEFT],
+                    e.EV_REL: [e.REL_X, e.REL_Y],
+                },
+                name="HDMI-CEC Mouse",
+            )
+        except OSError:
+            logging.exception("Could not create the virtual mouse")
+            return
+        time.sleep(MOUSE_SETTLE)
+
+    last_direction = None
+    direction_streak = 0
+    mouse_mode = True
+    logging.info("Mouse mode on")
+
+
+def disable_mouse_mode():
+    global mouse, mouse_mode
+
+    mouse_mode = False
+
+    if mouse is not None:
+        mouse.close()
+        mouse = None
+        logging.info("Mouse mode off")
+
+
+def toggle_mouse_mode():
+    if mouse_mode:
+        disable_mouse_mode()
+    else:
+        enable_mouse_mode()
+
+
+def move_mouse(direction):
+    global last_direction, direction_streak, last_move
+
+    now = time.monotonic()
+
+    if direction == last_direction and now - last_move <= MOUSE_REPEAT_WINDOW:
+        direction_streak += 1
+    else:
+        direction_streak = 0
+
+    last_direction = direction
+    last_move = now
+
+    step = min(MOUSE_MAX_STEP, MOUSE_BASE_STEP + direction_streak * MOUSE_ACCEL)
+    dx, dy = MOUSE_DIRECTIONS[direction]
+
+    if dx:
+        mouse.write(e.EV_REL, e.REL_X, dx * step)
+    if dy:
+        mouse.write(e.EV_REL, e.REL_Y, dy * step)
+    mouse.syn()
+
+
+def click_mouse():
+    mouse.write(e.EV_KEY, e.BTN_LEFT, 1)
+    mouse.syn()
+    mouse.write(e.EV_KEY, e.BTN_LEFT, 0)
+    mouse.syn()
+
+
 def return_to_pegasus():
     reset_multitap()
+    disable_mouse_mode()
     logging.info("Returning to Pegasus by restarting %s", PEGASUS_SERVICE)
     subprocess.run(
         ["systemctl", "restart", PEGASUS_SERVICE],
@@ -155,6 +251,21 @@ def return_to_pegasus():
 
 
 def handle_command(command):
+    if command == MOUSE_TOGGLE_KEY:
+        reset_multitap()
+        toggle_mouse_mode()
+        return
+
+    if mouse_mode:
+        if command in MOUSE_DIRECTIONS:
+            move_mouse(command)
+            return
+
+        if command == "select":
+            click_mouse()
+            logging.info("Click")
+            return
+
     if command in KEY_MAP:
         reset_multitap()
         tap(KEY_MAP[command])
