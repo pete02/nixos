@@ -55,7 +55,7 @@ on_exit() {
 
   if (( status != 0 )) && [[ "$NOTIFY_ON_FAILURE" == 1 ]]; then
     notify "$NTFY_FAILURE" \
-      "Restic backup failed on $(hostname) (exit code $status)."
+      "Restic backup failed on $(hostname) during (exit code $status)."
   fi
 
   exit "$status"
@@ -88,7 +88,11 @@ restic backup \
 rc=$?
 set -e
 if (( rc != 0 && rc != 3 )); then exit "$rc"; fi
+
+echo "Backup done"
+
 restic forget \
+  --retry-lock 15m \
   "${PRUNE_OPTS[@]}" \
   --prune
 
