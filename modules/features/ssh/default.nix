@@ -85,7 +85,7 @@
               Port 22
               User ${config.username}
           '')
-          (builtins.attrNames self.lib.fleet.wireguard.hosts)
+          (builtins.attrNames self.lib.fleet.wireguard.hosts);
       })
     ];
   };

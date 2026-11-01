@@ -51,7 +51,7 @@
     restic = {
       enable = true;
       user = "root";
-      repository = ""sftp:eris:/data/rpi/restic/aria"";
+      repository = "sftp:eris-wg:/data/rpi/restic/aria";
       passwordSecret = "restic/aria";
 
       folders = [
