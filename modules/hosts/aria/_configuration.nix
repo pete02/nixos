@@ -88,7 +88,7 @@
     kitty.terminfo
   ];
   services.timelock.enable = true;
-
+  ssh.client.enable = true;
   nixbuilder.cache.client.enable = true;
   nixbuilder.cache.server.openFirewall = true;
 
