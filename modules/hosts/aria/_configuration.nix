@@ -51,7 +51,7 @@
     restic = {
       enable = true;
       user = "root";
-      repository = "/mnt/rpi/restic/${config.networking.hostName}";
+      repository = ""sftp:eris:/data/rpi/restic/aria"";
       passwordSecret = "restic/aria";
 
       folders = [
@@ -83,7 +83,7 @@
       ];
     };
   };
-
+  networking.hosts."10.0.0.3" = ["eris.local"];
   environment.systemPackages = with pkgs; [
     kitty.terminfo
   ];

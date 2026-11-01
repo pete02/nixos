@@ -75,12 +75,17 @@
               User  ${config.username}
           '')
           (builtins.attrNames (lib.filterAttrs (_: host: host.sshServer) self.lib.hosts))
-          + ''
-            Host alanna
-              HostName alanna.local
-              IdentityFile /run/secrets/ssh/hosts/raysha/private_key
-              User  ${config.username}
-          '';
+         + lib.concatMapStringsSep "\n\n"
+          (hostname: ''
+            Host ${hostname}-wg
+              HostName ${self.lib.fleet.wireguard.hosts.${hostname}}
+              HostKeyAlias ${hostname}.local
+              IdentityFile /run/secrets/ssh/hosts/${config.hostname}/private_key
+              UserKnownHostsFile ${config.sops.templates."ssh_known_hosts".path}
+              Port 22
+              User ${config.username}
+          '')
+          (builtins.attrNames self.lib.fleet.wireguard.hosts)
       })
     ];
   };

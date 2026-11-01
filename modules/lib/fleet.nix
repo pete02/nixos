@@ -7,6 +7,9 @@ in {
     fqdn = host: "${host}.${domain}";
     installerHosts = ["x86" "rpi3" "rpi5"];
     lan.subnet = "192.168.88.0/24";
+    wireguard.hosts = {
+      eris = "10.0.0.3";
+    };
 
     # One ntfy server; topic derived from the host name ("raysha" -> .../Raysha)
     ntfy.base = "https://ntfy.lumilukko.com";

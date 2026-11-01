@@ -12,11 +12,9 @@
 
   nix.settings.max-jobs = 0;
   connectivity = {
-    mDNS = true;
     wireguard.pihlajatie = {
       endpoint = "lumilukko.com:13231";
       allowed_ips = ["10.0.0.1/32" "192.168.88.0/24"];
-      address = "10.0.0.3/32";
     };
   };
 
