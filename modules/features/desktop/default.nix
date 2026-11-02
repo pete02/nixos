@@ -9,6 +9,7 @@
       desktop-displaymanager
       desktop-pegasus-cage
       desktop-hdmi-cec
+      desktop-streaming
     ];
   };
 }
