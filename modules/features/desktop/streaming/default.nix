@@ -98,7 +98,7 @@
         text = ''
           # PipeWire wants a session bus
           if [ -z "$(printenv DBUS_SESSION_BUS_ADDRESS)" ]; then
-            exec dbus-run-session -- "$0" "$@"
+            exec dbus-run-session --config-file=${pkgs.dbus}/share/dbus-1/session.conf -- "$0" "$@"
           fi
 
           export HOME=/home/user
