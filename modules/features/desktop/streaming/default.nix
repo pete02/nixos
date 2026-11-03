@@ -282,6 +282,8 @@
               hevc_mode = 0;
               origin_web_ui_allowed = "lan";
               system_tray = "disabled";
+              output_name = "HEADLESS-1";
+
             };
             description = ''
               Extra sunshine.conf keys. Per-output identity (name, port, state
