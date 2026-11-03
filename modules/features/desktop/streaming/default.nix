@@ -279,7 +279,7 @@
             default = {
               capture = "wlr";
               encoder = "nvenc";
-              hevc_mode = 3;
+              hevc_mode = 0;
               origin_web_ui_allowed = "lan";
               system_tray = "disabled";
             };
