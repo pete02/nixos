@@ -32,7 +32,7 @@
   };
 
   gaming = {
-    sunshine = true;
+    streaming = true;
     compatibility = true;
   };
 
