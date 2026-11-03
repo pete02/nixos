@@ -96,6 +96,8 @@
           d.sunshine.package
         ];
         text = ''
+          export AQ_TRACE=1
+          export HYPRLAND_TRACE=1
           # PipeWire wants a session bus
           if [ -z "$(printenv DBUS_SESSION_BUS_ADDRESS)" ]; then
             exec dbus-run-session --config-file=${pkgs.dbus}/share/dbus-1/session.conf -- "$0" "$@"
@@ -176,6 +178,7 @@
       devices =
         d.devices
         ++ [
+          "/dev/dri/card1:/dev/dri/card1"
           "/dev/dri/renderD128:/dev/dri/renderD128"
           "/dev/uinput:/dev/uinput"
         ];
