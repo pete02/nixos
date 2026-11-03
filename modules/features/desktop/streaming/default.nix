@@ -1,275 +1,385 @@
-# streaming-desktop.nix
-#
-# Spike: one headless sway desktop per container group, N virtual outputs,
-# one Sunshine instance per output. Untested sketch; expect to iterate.
-#
-#   desktop "main"
-#   ├─ podman-main-compositor   sway (headless) + pipewire + apps
-#   ├─ podman-main-sunshine0    Sunshine -> HEADLESS-1 (port 47989)
-#   └─ podman-main-sunshine1    Sunshine -> HEADLESS-2 (port 48089)
-#
-# Containers share: host network, a runtime dir (wayland + pulse + sway ipc
-# sockets) and the host /nix/store + /run/opengl-driver, so the NVIDIA
-# userspace always matches the node's kernel driver (1070 Ti vs 4080 safe).
-#
-# Prereqs on the host:
-#   nixpkgs.config.allowUnfree = true;            # CUDA-enabled Sunshine
-#   hardware.graphics.enable = true;
-#   services.xserver.videoDrivers = [ "nvidia" ];
-#   hardware.nvidia.modesetting.enable = true;    # needed for GBM (set below as default)
-#   boot.kernelModules = [ "nvidia_uvm" ];        # Sunshine's NVENC path uses CUDA
-#
-# Usage:
-#   gaming.streaming.enable = true;
-#   gaming.streaming.desktops.main.outputs = [
-#     { mode = "3440x1440@60"; port = 47989; }
-#     { mode = "2560x1440@60"; port = 48089; }
-#   ];
-
-{self, ...}:{
-  flake.nixosModules.desktop-streaming=
-  { config, lib, pkgs, ... }:
-
-  let
-    inherit (lib) mkOption mkEnableOption mkIf types;
+{self, ...}: {
+  # SPIKE / SCAFFOLD: nothing in here has been built or run yet.
+  #
+  # Unverified assumptions (check these first when it misbehaves):
+  #  1. Sunshine's `wlr` capture works against Hyprland. It needs the
+  #     wlr-export-dmabuf protocol, which Hyprland may not expose any more.
+  #     If capture fails, this is the first suspect (fallbacks: PipeWire
+  #     capture, or a sway/Xorg-headless desktop instead).
+  #  2. Input: AQ_BACKENDS=headless,libinput with LIBSEAT_BACKEND=noop lets
+  #     the headless Hyprland see the uinput devices Sunshine creates.
+  #  3. Headless output names / wl_output ordering. The entrypoint discovers
+  #     them at runtime and passes the index to Sunshine as output_name.
+  #  4. The image shares the host /nix/store and /run/opengl-driver, so the
+  #     image must be built from the SAME nixpkgs as the host (glibc match
+  #     with the NVIDIA userspace libraries).
+  #  5. virtualisation.oci-containers `imageStream` needs a recent nixpkgs.
+  #  6. Moonlight accepts "ip:port" when adding the 2nd+ output of a desktop.
+  flake.nixosModules.desktop-streaming = {
+    lib,
+    pkgs,
+    config,
+    ...
+  }: let
     cfg = config.gaming.streaming;
+    inherit (lib) mkOption mkEnableOption types;
 
-    sunshine = pkgs.sunshine.override { cudaSupport = true; };
-
-    # Same Env is used in the image and passed to every container.
-    gpuEnv = {
-      LD_LIBRARY_PATH = "/run/opengl-driver/lib";
-      __EGL_VENDOR_LIBRARY_DIRS = "/run/opengl-driver/share/glvnd/egl_vendor.d";
-      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-      GBM_BACKEND = "nvidia-drm";
-      GBM_BACKENDS_PATH = "/run/opengl-driver/lib/gbm";
-      WLR_RENDERER = "gles2";
-      WLR_NO_HARDWARE_CURSORS = "1";
-      XKB_CONFIG_ROOT = "${pkgs.xkeyboard_config}/etc/X11/xkb";
-      FONTCONFIG_FILE = "${pkgs.makeFontsConf { fontDirectories = [ pkgs.dejavu_fonts ]; }}";
-      PATH = lib.makeBinPath [
-        pkgs.coreutils
-        pkgs.sway
-        pkgs.dbus
-        pkgs.pipewire
-        pkgs.pulseaudio
-        pkgs.wireplumber
-        pkgs.bashInteractive
-      ];
+    toConf = lib.generators.toKeyValue {
+      mkKeyValue = lib.generators.mkKeyValueDefault {} " = ";
     };
 
-    image = pkgs.dockerTools.streamLayeredImage {
-      name = "local/streaming-desktop";
-      tag = "latest";
-      contents = [
-        pkgs.dockerTools.binSh
-        pkgs.bashInteractive
-        pkgs.coreutils
-        pkgs.findutils
-        pkgs.gnugrep
-        pkgs.procps
-        pkgs.dbus
-        pkgs.sway
-        pkgs.xwayland
-        pkgs.foot
-        pkgs.pipewire
-        pkgs.wireplumber
-        pkgs.pulseaudio # pactl only
-        sunshine
-      ];
-      extraCommands = "mkdir -m 1777 tmp";
-      config.Env = lib.mapAttrsToList (k: v: "${k}=${v}") gpuEnv;
-    };
+    stateRoot = "/var/lib/streaming";
 
-    # ---- per-desktop pieces -------------------------------------------------
+    mkDesktop = name: d: let
+      ip = (builtins.head d.outputs).ip;
 
-    parseMode = mode:
-      let m = builtins.match "([0-9]+)x([0-9]+)@([0-9]+)" mode;
-      in assert lib.assertMsg (m != null) "mode must look like 3440x1440@60: ${mode}";
-      { w = lib.toInt (builtins.elemAt m 0); h = lib.toInt (builtins.elemAt m 1); r = builtins.elemAt m 2; };
+      widths =
+        map (o: lib.toInt (builtins.head (lib.splitString "x" o.mode))) d.outputs;
+      xOffsets =
+        lib.imap0 (i: _: lib.foldl' builtins.add 0 (lib.take i widths)) widths;
 
-    swayConfig = name: d:
-      let
-        parsed = map (o: parseMode o.mode) d.outputs;
-        withPos = lib.imap0 (i: p: p // {
-          x = lib.foldl' (a: q: a + q.w) 0 (lib.take i parsed);
+      hyprConf = pkgs.writeText "hyprland-${name}.conf" ''
+        misc {
+          disable_hyprland_logo = true
+          disable_splash_rendering = true
+        }
+        cursor {
+          no_hardware_cursors = true
+        }
+        ${lib.concatMapStringsSep "\n" (c: "exec-once = ${c}") d.hyprland.autostart}
+        ${d.hyprland.extraConfig}
+      '';
+
+      # One block per output: create a headless monitor, place it, write a
+      # Sunshine config for it, create its audio sink and start Sunshine.
+      outputBlocks = lib.concatStrings (lib.imap0 (i: o: let
           n = toString (i + 1);
-        }) parsed;
-        setup = pkgs.writeShellScript "sway-setup-${name}" ''
-          # runs inside sway (SWAYSOCK/WAYLAND_DISPLAY inherited)
-          for i in $(seq ${toString (builtins.length d.outputs - 1)}); do
-            swaymsg create_output
+          port = 47989 + 100 * i;
+          staticConf = pkgs.writeText "sunshine-${name}-${n}.conf" (toConf (d.sunshine.settings
+            // {
+              sunshine_name = "${name}-${n}";
+              inherit port;
+              csrf_allowed_origins = "https://${o.ip}:${toString (port + 1)}";
+              file_state = "/state/sunshine-${n}/state.json";
+              credentials_file = "/state/sunshine-${n}/credentials.json";
+              pkey = "/state/sunshine-${n}/pkey.pem";
+              cert = "/state/sunshine-${n}/cert.pem";
+              audio_sink = "sunshine-${n}";
+            }));
+        in ''
+          # ---- output ${n}: ${o.mode} on port ${toString port} ----
+          before=$(hyprctl monitors all -j | jq -r '.[].name' | sort)
+          hyprctl output create headless
+          sleep 0.5
+          name=$(comm -13 <(echo "$before") <(hyprctl monitors all -j | jq -r '.[].name' | sort) | head -n1)
+          hyprctl keyword monitor "$name,${o.mode},${toString (builtins.elemAt xOffsets i)}x0,1"
+          idx=$(hyprctl monitors all -j | jq -r --arg n "$name" 'map(.name) | index($n)')
+          mkdir -p /state/sunshine-${n}
+          { cat ${staticConf}; echo "output_name = $idx"; } > /state/sunshine-${n}.conf
+          pactl load-module module-null-sink sink_name=sunshine-${n} >/dev/null
+          sunshine /state/sunshine-${n}.conf &
+        '')
+      d.outputs);
+
+      entrypoint = pkgs.writeShellApplication {
+        name = "desktop-entrypoint";
+        checkPhase = "";
+        runtimeInputs = with pkgs; [
+          coreutils
+          gnugrep
+          jq
+          dbus
+          hyprland
+          pipewire
+          wireplumber
+          pulseaudio # pactl only
+          d.sunshine.package
+        ];
+        text = ''
+          # PipeWire wants a session bus
+          if [ -z "$(printenv DBUS_SESSION_BUS_ADDRESS)" ]; then
+            exec dbus-run-session -- "$0" "$@"
+          fi
+
+          export HOME=/home/user
+          export XDG_RUNTIME_DIR=/tmp/xdg
+          mkdir -p "$HOME" "$XDG_RUNTIME_DIR" /state
+          chmod 700 "$XDG_RUNTIME_DIR"
+
+          # host NVIDIA userspace (bind-mounted)
+          export LD_LIBRARY_PATH=/run/opengl-driver/lib
+          export __EGL_VENDOR_LIBRARY_DIRS=/run/opengl-driver/share/glvnd/egl_vendor.d
+          export GBM_BACKENDS_PATH=/run/opengl-driver/lib/gbm
+          export GBM_BACKEND=nvidia-drm
+
+          export XDG_SESSION_TYPE=wayland
+          export AQ_BACKENDS=headless,libinput
+          export LIBSEAT_BACKEND=noop
+          export WLR_NO_HARDWARE_CURSORS=1
+
+          Hyprland --config ${hyprConf} &
+
+          # wait for the compositor
+          for _ in $(seq 1 150); do
+            if [ -S "$XDG_RUNTIME_DIR/wayland-1" ] && [ -d "$XDG_RUNTIME_DIR/hypr" ]; then break; fi
+            sleep 0.2
           done
-          sleep 1
-          swaymsg -t get_outputs | grep -E '"name"|"width"|"height"' || true
-          echo "$WAYLAND_DISPLAY" > "$XDG_RUNTIME_DIR/wayland-name"
-          touch "$XDG_RUNTIME_DIR/ready"
+          export WAYLAND_DISPLAY=wayland-1
+          HYPRLAND_INSTANCE_SIGNATURE=$(ls "$XDG_RUNTIME_DIR/hypr" | head -n1)
+          export HYPRLAND_INSTANCE_SIGNATURE
+
+          # audio
+          pipewire &
+          wireplumber &
+          pipewire-pulse &
+          for _ in $(seq 1 100); do
+            if pactl info >/dev/null 2>&1; then break; fi
+            sleep 0.2
+          done
+
+          ${outputBlocks}
+
+          pactl set-default-sink sunshine-1
+
+          trap 'kill 0' EXIT
+          # if anything dies, exit non-zero so the container restarts
+          wait -n
+          exit 1
         '';
-      in pkgs.writeText "sway-${name}.conf" ''
-        set $mod Mod4
-        bindsym $mod+Return exec foot
-        bindsym $mod+Shift+q kill
-        bindsym $mod+Shift+e exit
-        focus_follows_mouse yes
-        default_border pixel 1
+      };
 
-        ${lib.concatMapStringsSep "\n" (p: ''
-          output HEADLESS-${p.n} mode --custom ${toString p.w}x${toString p.h}@${p.r}Hz pos ${toString p.x} 0
-          workspace ${p.n} output HEADLESS-${p.n}
-        '') withPos}
-
-        exec ${setup}
-        ${lib.concatMapStringsSep "\n" (a: "exec ${a}") d.apps}
-      '';
-
-    compositorScript = name: d: pkgs.writeShellScript "compositor-${name}" ''
-      set -eu
-      export XDG_RUNTIME_DIR=/run/desktop
-      export HOME=/home/desktop
-      mkdir -p "$HOME"
-      chmod 700 "$XDG_RUNTIME_DIR"
-      rm -rf "$XDG_RUNTIME_DIR"/ready "$XDG_RUNTIME_DIR"/wayland-* \
-            "$XDG_RUNTIME_DIR"/sway-ipc.* "$XDG_RUNTIME_DIR"/pulse "$XDG_RUNTIME_DIR"/pipewire-*
-
-      # audio: one virtual sink both Sunshine instances capture from
-      pipewire &
-      wireplumber &
-      pipewire-pulse &
-      for i in $(seq 50); do
-        [ -S "$XDG_RUNTIME_DIR/pulse/native" ] && break
-        sleep 0.2
-      done
-      pactl load-module module-null-sink sink_name=stream sink_properties=device.description=stream
-      pactl set-default-sink stream
-
-      # headless outputs + libinput (so uinput devices from Sunshine are seen)
-      export WLR_BACKENDS=headless,libinput
-      export LIBSEAT_BACKEND=builtin
-      export XDG_SESSION_TYPE=wayland
-      export XDG_CURRENT_DESKTOP=sway
-      exec dbus-run-session -- sway --unsupported-gpu -c ${swayConfig name d}
-    '';
-
-    sunshineFiles = name: i: o:
-      let
-        st = "/state";
-        conf = pkgs.writeText "sunshine-${name}-${toString i}.conf" ''
-          sunshine_name = ${name}-${toString i}
-          port = ${toString o.port}
-          origin_web_ui_allowed = lan
-          capture = wlr
-          output_name = ${toString i}
-          encoder = nvenc
-          hevc_mode = 2
-          av1_mode = 1
-          audio_sink = stream
-          file_apps = ${pkgs.writeText "apps.json" ''{"apps":[{"name":"Desktop"}]}''}
-          file_state = ${st}/sunshine_state.json
-          credentials_file = ${st}/sunshine_credentials.json
-          pkey = ${st}/key.pem
-          cert = ${st}/cert.pem
-          log_path = ${st}/sunshine.log
+      image = pkgs.dockerTools.streamLayeredImage {
+        name = "desktop-${name}";
+        tag = "latest";
+        contents =
+          [
+            pkgs.dockerTools.fakeNss
+            pkgs.bashInteractive
+            pkgs.coreutils
+            entrypoint
+          ]
+          ++ d.apps;
+        extraCommands = ''
+          mkdir -p tmp home/user state
+          chmod 1777 tmp
         '';
-      in pkgs.writeShellScript "sunshine-${name}-${toString i}" ''
-        set -eu
-        export XDG_RUNTIME_DIR=/run/desktop
-        export HOME=/state
-        while [ ! -e "$XDG_RUNTIME_DIR/ready" ]; do sleep 0.5; done
-        export WAYLAND_DISPLAY="$(cat "$XDG_RUNTIME_DIR/wayland-name")"
-        export PULSE_SERVER="unix:$XDG_RUNTIME_DIR/pulse/native"
-        exec sunshine ${conf}
-      '';
+        config = {
+          Entrypoint = ["${entrypoint}/bin/desktop-entrypoint"];
+          Env = ["PATH=/bin"];
+        };
+      };
+    in {
+      image = "localhost/desktop-${name}:latest";
+      imageStream = image;
+      autoStart = true;
 
-    baseOpts = [ "--privileged" "--network=host" "--ipc=host" ];
+      devices =
+        d.devices
+        ++ [
+          "/dev/dri:/dev/dri"
+          "/dev/uinput:/dev/uinput"
+        ];
 
-    baseVolumes = name: [
-      "/nix/store:/nix/store:ro"
-      "/run/opengl-driver:/run/opengl-driver:ro"
-      "/run/streaming/${name}:/run/desktop"
-      "/dev/input:/dev/input"
-      "/run/udev:/run/udev:ro"
-    ];
+      volumes =
+        [
+          "/nix/store:/nix/store:ro"
+          "/run/opengl-driver:/run/opengl-driver:ro"
+          # host input + udev db so libinput can see Sunshine's uinput devices
+          "/dev/input:/dev/input"
+          "/run/udev:/run/udev:ro"
+          # Sunshine certs / pairing state: ALWAYS persistent, even when home is not
+          "${stateRoot}/${name}/state:/state"
+        ]
+        ++ lib.optional d.persistentHome "${stateRoot}/${name}/home:/home/user";
 
-    containersFor = name: d:
-      [
-        (lib.nameValuePair "${name}-compositor" {
-          imageStream = image;
-          image = "local/streaming-desktop:latest";
-          cmd = [ "${compositorScript name d}" ];
-          environment = gpuEnv;
-          extraOptions = baseOpts ++ [ "--hostname=${name}" ];
-          volumes = baseVolumes name ++ [ "${cfg.stateDir}/${name}/home:/home/desktop" ];
-        })
-      ] ++ (lib.imap0 (i: o:
-        lib.nameValuePair "${name}-sunshine${toString i}" {
-          imageStream = image;
-          image = "local/streaming-desktop:latest";
-          cmd = [ "${sunshineFiles name i o}" ];
-          environment = gpuEnv;
-          dependsOn = [ "${name}-compositor" ];
-          extraOptions = baseOpts;
-          volumes = baseVolumes name ++ [ "${cfg.stateDir}/${name}/sunshine${toString i}:/state" ];
-        }) d.outputs);
+      extraOptions =
+        [
+          "--network=streaming:ip=${ip}"
+          "--device-cgroup-rule=c 13:* rmw"
+          "--tmpfs=/tmp"
+          "--shm-size=1g"
+        ]
+        ++ lib.optional (!d.persistentHome) "--tmpfs=/home/user";
+    };
 
-    allOutputs = lib.concatMap (d: d.outputs) (lib.attrValues cfg.desktops);
-    tcpPorts = o: map (n: o.port + n) [ (-5) 0 1 21 ];
-    udpPorts = o: map (n: o.port + n) [ 9 10 11 13 ];
-  in
-  {
+    outputType = types.submodule {
+      options = {
+        mode = mkOption {
+          type = types.strMatching "[0-9]+x[0-9]+@[0-9]+(\\.[0-9]+)?";
+          example = "3440x1440@60";
+          description = "Virtual monitor mode, WIDTHxHEIGHT@REFRESH.";
+        };
+        ip = mkOption {
+          type = types.str;
+          example = "192.168.88.2";
+          description = ''
+            LAN address of the desktop container. All outputs of one desktop
+            must use the same address; each output gets its own Sunshine
+            port base (47989, 48089, ...).
+          '';
+        };
+      };
+    };
+
+    desktopType = types.submodule {
+      options = {
+        compositor = mkOption {
+          type = types.enum ["hyprland"];
+          default = "hyprland";
+        };
+        outputs = mkOption {
+          type = types.listOf outputType;
+          description = "Virtual monitors; one Sunshine instance each.";
+        };
+        persistentHome = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Keep /home/user across restarts (otherwise tmpfs).";
+        };
+        apps = mkOption {
+          type = types.listOf types.package;
+          default = [pkgs.kitty];
+        };
+        devices = mkOption {
+          type = types.listOf types.str;
+          default = [
+            "/dev/nvidia0"
+            "/dev/nvidiactl"
+            "/dev/nvidia-uvm"
+            "/dev/nvidia-uvm-tools"
+            "/dev/nvidia-modeset"
+          ];
+          description = "GPU device nodes passed to the container.";
+        };
+        hyprland = {
+          autostart = mkOption {
+            type = types.listOf types.str;
+            default = [];
+            description = "Commands for exec-once.";
+          };
+          extraConfig = mkOption {
+            type = types.lines;
+            default = ''
+              bind = SUPER, Return, exec, kitty
+              bind = SUPER, Q, killactive
+              bind = SUPER SHIFT, E, exit
+            '';
+          };
+        };
+        sunshine = {
+          package = mkOption {
+            type = types.package;
+            default = pkgs.sunshine;
+          };
+          settings = mkOption {
+            type = types.attrsOf (types.oneOf [types.str types.int types.bool]);
+            default = {
+              capture = "wlr";
+              encoder = "nvenc";
+              hevc_mode = 3;
+              origin_web_ui_allowed = "lan";
+            };
+            description = ''
+              Extra sunshine.conf keys. Per-output identity (name, port, state
+              files, output_name, audio_sink, csrf origin) is set by the module
+              and cannot be overridden here.
+            '';
+          };
+        };
+      };
+    };
+  in {
     options.gaming.streaming = {
-      enable = mkEnableOption "headless multi-output Sunshine desktops";
+      enable = mkEnableOption "containerised multi-output Sunshine desktops";
 
-      stateDir = mkOption {
-        type = types.path;
-        default = "/var/lib/streaming";
-        description = "Persistent home + per-Sunshine pairing state, per desktop.";
+      parentInterface = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        example = "eno1";
+        description = "NIC used as the macvlan parent for desktop containers.";
+      };
+
+      network = {
+        subnet = mkOption {
+          type = types.str;
+          default = "192.168.88.0/24";
+        };
+        gateway = mkOption {
+          type = types.str;
+          default = "192.168.88.1";
+        };
       };
 
       desktops = mkOption {
-        default = { };
-        description = "Desktops: one sway compositor each, one Sunshine per output.";
-        type = types.attrsOf (types.submodule {
-          options = {
-            outputs = mkOption {
-              description = "Virtual outputs; order = HEADLESS-1, HEADLESS-2, ... left to right.";
-              type = types.listOf (types.submodule {
-                options = {
-                  mode = mkOption { type = types.str; example = "3440x1440@60"; };
-                  port = mkOption {
-                    type = types.port;
-                    description = "Sunshine base port (default Sunshine is 47989). Keep stable, pairing is per instance.";
-                  };
-                };
-              });
-            };
-            apps = mkOption {
-              type = types.listOf types.str;
-              default = [ ];
-              description = "Commands to exec inside sway at start.";
-            };
-          };
-        });
+        type = types.attrsOf desktopType;
+        default = {};
       };
     };
 
-    config = mkIf cfg.enable {
-      virtualisation.oci-containers.backend = "podman";
-      virtualisation.oci-containers.containers =
-        lib.listToAttrs (lib.concatLists (lib.mapAttrsToList containersFor cfg.desktops));
-
-      hardware.nvidia.modesetting.enable = lib.mkDefault true;
-      boot.kernelModules = [ "uinput" "nvidia_uvm" ];
-
-      systemd.tmpfiles.rules = lib.concatLists (lib.mapAttrsToList (name: d:
+    config = lib.mkIf cfg.enable {
+      assertions =
         [
-          "d /run/streaming/${name} 0700 root root -"
-          "d ${cfg.stateDir}/${name}/home 0755 root root -"
-        ] ++ (lib.imap0 (i: _: "d ${cfg.stateDir}/${name}/sunshine${toString i} 0700 root root -") d.outputs)
-      ) cfg.desktops);
+          {
+            assertion = cfg.parentInterface != null;
+            message = "gaming.streaming.parentInterface must be set (macvlan parent).";
+          }
+        ]
+        ++ lib.flatten (lib.mapAttrsToList (n: d: [
+            {
+              assertion = d.outputs != [];
+              message = "gaming.streaming.desktops.${n}: at least one output is required.";
+            }
+            {
+              assertion = lib.all (o: o.ip == (builtins.head d.outputs).ip) d.outputs;
+              message = "gaming.streaming.desktops.${n}: all outputs must share one ip.";
+            }
+          ])
+          cfg.desktops);
 
-      networking.firewall.allowedTCPPorts = lib.concatMap tcpPorts allOutputs;
-      networking.firewall.allowedUDPPorts = lib.concatMap udpPorts allOutputs;
+      hardware.graphics.enable = lib.mkDefault true;
+      hardware.uinput.enable = true;
+      boot.kernelModules = ["nvidia_uvm"];
+
+      virtualisation.podman.enable = true;
+      virtualisation.oci-containers.backend = lib.mkDefault "podman";
+      virtualisation.oci-containers.containers =
+        lib.mapAttrs' (n: d: lib.nameValuePair "desktop-${n}" (mkDesktop n d)) cfg.desktops;
+
+      systemd.tmpfiles.rules = lib.flatten (lib.mapAttrsToList (n: d:
+        [
+          "d ${stateRoot}/${n} 0700 root root -"
+          "d ${stateRoot}/${n}/state 0700 root root -"
+        ]
+        ++ lib.optional d.persistentHome "d ${stateRoot}/${n}/home 0700 root root -")
+      cfg.desktops);
+
+      systemd.services =
+        {
+          streaming-network = {
+            wantedBy = ["multi-user.target"];
+            after = ["network-online.target"];
+            wants = ["network-online.target"];
+            path = [pkgs.podman];
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
+            };
+            script = ''
+              podman network exists streaming || \
+                podman network create -d macvlan \
+                  --subnet ${cfg.network.subnet} \
+                  --gateway ${cfg.network.gateway} \
+                  -o parent=${cfg.parentInterface} \
+                  streaming
+            '';
+          };
+        }
+        // lib.mapAttrs' (n: _:
+          lib.nameValuePair "podman-desktop-${n}" {
+            after = ["streaming-network.service"];
+            requires = ["streaming-network.service"];
+          })
+        cfg.desktops;
     };
   };
-
 }
