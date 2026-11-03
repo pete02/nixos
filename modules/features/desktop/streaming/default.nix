@@ -117,7 +117,7 @@
           export LIBSEAT_BACKEND=noop
           export WLR_NO_HARDWARE_CURSORS=1
 
-          Hyprland --config ${hyprConf} --i-am-really-stupid &
+          Hyprland --i-am-really-stupid --config ${hyprConf} &
 
           # wait for the compositor
           for _ in $(seq 1 150); do
