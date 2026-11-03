@@ -176,7 +176,7 @@
       devices =
         d.devices
         ++ [
-          "/dev/dri:/dev/dri"
+          "/dev/dri/renderD128:/dev/dri/renderD128"
           "/dev/uinput:/dev/uinput"
         ];
 
@@ -269,7 +269,7 @@
         sunshine = {
           package = mkOption {
             type = types.package;
-            default = pkgs.sunshine;
+            default = pkgs.sunshine.override { cudaSupport = true; };
           };
           settings = mkOption {
             type = types.attrsOf (types.oneOf [types.str types.int types.bool]);
