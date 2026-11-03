@@ -278,6 +278,7 @@
               encoder = "nvenc";
               hevc_mode = 3;
               origin_web_ui_allowed = "lan";
+              system_tray = "disabled";
             };
             description = ''
               Extra sunshine.conf keys. Per-output identity (name, port, state
