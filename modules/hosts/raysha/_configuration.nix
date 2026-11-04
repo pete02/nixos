@@ -14,9 +14,9 @@
       enable = true;
       folders = ["/home/pete/code"];
     };
-    rsync = {
+    restic = {
       enable = true;
-      destination = "/mnt/server/desktopsync"; # or "me@host:/backups/raysha"
+      repository = "/mnt/server/desktopsync";
       folders = ["/home/pete/school"];
       exclude = ["node_modules" "target" ".cache" ".direnv" "__pycache__"];
     };

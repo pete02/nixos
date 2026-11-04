@@ -34,9 +34,14 @@
   gaming = {
     streaming = {
       enable = true;
-      parentInterface = "enp4s0";   # aria's real NIC name
+      parentInterface = "enp4s0"; # aria's real NIC name
       desktops.aria = {
-        outputs = [ { mode = "3440x1440@60"; ip = "192.168.88.2"; } ];
+        outputs = [
+          {
+            mode = "3440x1440@60";
+            ip = "192.168.88.2";
+          }
+        ];
         persistentHome = false;
       };
     };
@@ -90,7 +95,7 @@
       ];
     };
   };
-  
+
   environment.systemPackages = with pkgs; [
     kitty.terminfo
   ];

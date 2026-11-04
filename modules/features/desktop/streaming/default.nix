@@ -79,7 +79,7 @@
           pactl load-module module-null-sink sink_name=sunshine-${n} >/dev/null
           sunshine /state/sunshine-${n}.conf &
         '')
-      d.outputs);
+        d.outputs);
 
       entrypoint = pkgs.writeShellApplication {
         name = "desktop-entrypoint";
@@ -272,7 +272,7 @@
         sunshine = {
           package = mkOption {
             type = types.package;
-            default = pkgs.sunshine.override { cudaSupport = true; };
+            default = pkgs.sunshine.override {cudaSupport = true;};
           };
           settings = mkOption {
             type = types.attrsOf (types.oneOf [types.str types.int types.bool]);
@@ -283,7 +283,6 @@
               origin_web_ui_allowed = "lan";
               system_tray = "disabled";
               output_name = "HEADLESS-1";
-
             };
             description = ''
               Extra sunshine.conf keys. Per-output identity (name, port, state

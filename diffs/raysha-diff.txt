@@ -1,4 +1,4 @@
-<<< /nix/var/nix/profiles/system-84-link
->>> /nix/var/nix/profiles/system-85-link
+<<< /nix/var/nix/profiles/system-90-link
+>>> /nix/var/nix/profiles/system-91-link
 No version or selection state changes.
-Closure size: 2723 -> 2723 (5 paths added, 5 paths removed, delta +0, disk usage +1.3KiB).
+Closure size: 2727 -> 2727 (3 paths added, 3 paths removed, delta +0, disk usage +752B).
