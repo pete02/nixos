@@ -1,4 +1,7 @@
-<<< /nix/var/nix/profiles/system-90-link
->>> /nix/var/nix/profiles/system-91-link
-No version or selection state changes.
-Closure size: 2727 -> 2727 (3 paths added, 3 paths removed, delta +0, disk usage +752B).
+<<< /nix/var/nix/profiles/system-91-link
+>>> /nix/var/nix/profiles/system-92-link
+Added packages:
+[A.]  #1  unit-systemd-zram-setup-.service  <none>
+[A.]  #2  zram-generator                    1.2.1
+[A.]  #3  zram-generator.conf               <none>
+Closure size: 2727 -> 2730 (12 paths added, 9 paths removed, delta +3, disk usage +1,013.5KiB).
