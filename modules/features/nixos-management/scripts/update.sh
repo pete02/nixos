@@ -24,6 +24,8 @@ check
 
 TEMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TEMP_DIR"' EXIT
+git config user.name "nixos-auto-update"
+git config user.email "auto-update@aria.local"
 
 echo "Checking out $PULL_BRANCH..."
 git clone \
