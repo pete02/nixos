@@ -129,7 +129,7 @@
 
       (lib.mkIf (cfg.buildServer or false) {
         boot.binfmt = {
-          emulatedSystems = ["aarch64-linux"];
+          emulatedSystems = ["aarch64-linux" "i686-linux"];
           preferStaticEmulators = true;
           registrations.aarch64-linux.wrapInterpreterInShell = lib.mkForce false;
 
