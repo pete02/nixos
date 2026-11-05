@@ -66,6 +66,11 @@ jobs:
         run: |
           set -eu
 
+          rm -rf /homeless-shelter
+          ( while :; do rm -rf /homeless-shelter; sleep 0.2; done ) &
+          cleaner=$!
+          trap 'kill "$cleaner" 2>/dev/null || true' EXIT
+
           exclude="$(
             nix eval --raw .#lib.fleet.installerHosts \
               --apply 'l: builtins.concatStringsSep " " l'
