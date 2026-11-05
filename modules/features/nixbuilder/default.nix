@@ -128,14 +128,10 @@
       })
 
       (lib.mkIf (cfg.buildServer or false) {
-        boot.binfmt.emulatedSystems = ["aarch64-linux"];
-        boot.binfmt.registrations.aarch64-linux.fixBinary = true;
-
-        nix.settings.extra-sandbox-paths = [
-          "/run/binfmt"
-          "${pkgs.bash}"
-          "${pkgs.qemu}"
-        ];
+        boot.binfmt = {
+          emulatedSystems = ["aarch64-linux"];
+          preferStaticEmulators = true;
+        };
       })
 
       (lib.mkIf cfg.signing.enable {
