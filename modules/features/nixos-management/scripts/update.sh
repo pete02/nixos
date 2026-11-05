@@ -24,8 +24,7 @@ check
 
 TEMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TEMP_DIR"' EXIT
-git config user.name "nixos-auto-update"
-git config user.email "auto-update@aria.local"
+
 
 echo "Checking out $PULL_BRANCH..."
 git clone \
@@ -35,6 +34,8 @@ git clone \
     "$TEMP_DIR/repo"
 
 cd "$TEMP_DIR/repo"
+git config user.name "nixos-auto-update"
+git config user.email "auto-update@aria.local"
 
 echo "Updating flake inputs..."
 nix flake update
