@@ -12,11 +12,40 @@
     options.gaming.rpcs3 =
       lib.mkEnableOption "RPCS3 PlayStation 3 emulator";
 
-    config = lib.mkIf config.gaming.rpcs3 {
+    config = lib.mkIf config.gaming.rpcs3 (let
+      user = config.username;
+      home = config.users.users.${user}.home;
+    in {
       environment.systemPackages = [
         self.packages.${pkgs.stdenv.hostPlatform.system}.rpcs3
       ];
-    };
+
+      # Keep RPCS3's savedata in ~/savegames/rpcs3 by symlinking it there.
+      # Existing saves are moved over first, so nothing is lost.
+      systemd.services.rpcs3-savegames = {
+        description = "Redirect RPCS3 savedata to ~/savegames/rpcs3";
+        wantedBy = ["multi-user.target"];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          User = user;
+        };
+        script = ''
+          set -eu
+          target=${lib.escapeShellArg home}/savegames/rpcs3
+          link=${lib.escapeShellArg home}/.config/rpcs3/dev_hdd0/home/00000001/savedata
+
+          mkdir -p "$target" "$(dirname "$link")"
+
+          if [ -d "$link" ] && [ ! -L "$link" ]; then
+            cp -a --no-clobber "$link"/. "$target"/
+            rm -rf "$link"
+          fi
+
+          ln -sfn "$target" "$link"
+        '';
+      };
+    });
   };
 
   flake.packages.x86_64-linux.rpcs3 = let
