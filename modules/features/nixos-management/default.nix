@@ -6,7 +6,31 @@
     ...
   }: let
     repository = "ssh://git@git.lumilukko.com:2222/pete/nixos.git";
+    notifyUpdateFailure = pkgs.writeShellApplication {
+        name = "nixos-auto-update-notify-failure";
+        runtimeInputs = with pkgs; [
+          coreutils
+          curl
+          systemd # systemctl, journalctl
+        ];
+        text = ''
+          unit="nixos-auto-update.service"
 
+          result="$(systemctl show -p Result --value "$unit" || echo unknown)"
+          status="$(systemctl show -p ExecMainStatus --value "$unit" || echo unknown)"
+          logs="$(journalctl -u "$unit" -n 15 --no-pager -o cat 2>&1 || true)"
+
+          curl --silent --show-error --fail \
+            --retry 5 --retry-delay 10 --retry-all-errors \
+            --connect-timeout 5 --max-time 20 \
+            -H "Title: nixos-auto-update FAILED" \
+            -H "Priority: high" \
+            -d "Auto-update failed on ${config.networking.hostName} (result: $result, exit status: $status)
+
+          $logs" \
+            ${lib.escapeShellArg config.nixos-management.gitops.ntfyFailure}
+        '';
+      };
     update = self.lib.mkScript pkgs {
       name = "update";
       src = ./scripts/update.sh;
@@ -98,11 +122,27 @@
       (lib.mkIf config.nixos-management.auto-update {
         systemd.services.nixos-auto-update = {
           description = "Update flake inputs and rebuild NixOS";
+          after = ["network-online.target"];
+          wants = ["network-online.target"];
+
+          # Runs for any failure: script error, exec failure, timeout, signal.
+          onFailure = ["nixos-auto-update-failure.service"];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = "${update}/bin/update";
+            TimeoutStartSec = "1h";
           };
         };
+        systemd.services.nixos-auto-update-failure = {
+          description = "Notify that nixos-auto-update failed";
+          after = ["network-online.target"];
+          wants = ["network-online.target"];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${notifyUpdateFailure}/bin/nixos-auto-update-notify-failure";
+          };
+        };
+
 
         systemd.timers.nixos-auto-update = {
           description = "Daily automatic NixOS update at 03:00";
