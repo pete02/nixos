@@ -28,6 +28,11 @@
       file: ${lib.getExe cfg.vacuumTubePackage}
       developer: VacuumTube
       genre: Video
+
+      game: Bluetooth
+      file: ${lib.getExe' cfg.bluetoothPackage "blueman-manager"}
+      developer: Blueman
+      genre: Settings
     '';
   in {
     options.desktop.pegasus-cage = {
@@ -57,7 +62,9 @@
         type = lib.types.package;
         default = self.packages.${pkgs.stdenv.hostPlatform.system}.vacuum-tube;
         description = "VacuumTube package to launch from Pegasus.";
-      };
+      }; 
+
+      bluetoothPackage = lib.mkPackageOption pkgs "blueman" {};
 
       extraGroups = lib.mkOption {
         type = lib.types.listOf lib.types.str;
@@ -77,11 +84,12 @@
         tv-ui-app
         cfg.moonlightPackage
         cfg.vacuumTubePackage
+        cfg.bluetoothPackage
       ];
 
       # Read by systemd as root, so no owner is needed.
       sops.secrets.${cfg.tmdbSecret} = {};
-
+      connectivity.bluetooth = lib.mkDefault true;
       sops.templates."tv-ui.env".content = ''
         TMDB_API_KEY=${config.sops.placeholder.${cfg.tmdbSecret}}
       '';
