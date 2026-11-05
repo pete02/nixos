@@ -26,7 +26,7 @@ jobs:
         experimental-features = nix-command flakes
         build-users-group =
         extra-platforms = aarch64-linux
-        sandbox = false
+        sandbox = relaxed
         extra-substituters = ${{ vars.ATTIC_URL }}
         extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
         netrc-file = /tmp/netrc-attic
@@ -66,10 +66,7 @@ jobs:
         run: |
           set -eu
 
-          rm -rf /homeless-shelter
-          ( while :; do rm -rf /homeless-shelter; sleep 0.2; done ) &
-          cleaner=$!
-          trap 'kill "$cleaner" 2>/dev/null || true' EXIT
+
 
           exclude="$(
             nix eval --raw .#lib.fleet.installerHosts \
@@ -97,6 +94,11 @@ jobs:
             echo "ERROR: no hosts found" >&2
             exit 1
           fi
+
+          rm -rf /homeless-shelter
+          ( while :; do rm -rf /homeless-shelter; sleep 0.2; done ) &
+          cleaner=$!
+          trap 'kill "$cleaner" 2>/dev/null || true' EXIT
 
           nix build \
             --no-link \
