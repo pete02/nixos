@@ -7,30 +7,30 @@
   }: let
     repository = "ssh://git@git.lumilukko.com:2222/pete/nixos.git";
     notifyUpdateFailure = pkgs.writeShellApplication {
-        name = "nixos-auto-update-notify-failure";
-        runtimeInputs = with pkgs; [
-          coreutils
-          curl
-          systemd # systemctl, journalctl
-        ];
-        text = ''
-          unit="nixos-auto-update.service"
+      name = "nixos-auto-update-notify-failure";
+      runtimeInputs = with pkgs; [
+        coreutils
+        curl
+        systemd # systemctl, journalctl
+      ];
+      text = ''
+        unit="nixos-auto-update.service"
 
-          result="$(systemctl show -p Result --value "$unit" || echo unknown)"
-          status="$(systemctl show -p ExecMainStatus --value "$unit" || echo unknown)"
-          logs="$(journalctl -u "$unit" -n 15 --no-pager -o cat 2>&1 || true)"
+        result="$(systemctl show -p Result --value "$unit" || echo unknown)"
+        status="$(systemctl show -p ExecMainStatus --value "$unit" || echo unknown)"
+        logs="$(journalctl -u "$unit" -n 15 --no-pager -o cat 2>&1 || true)"
 
-          curl --silent --show-error --fail \
-            --retry 5 --retry-delay 10 --retry-all-errors \
-            --connect-timeout 5 --max-time 20 \
-            -H "Title: nixos-auto-update FAILED" \
-            -H "Priority: high" \
-            -d "Auto-update failed on ${config.networking.hostName} (result: $result, exit status: $status)
+        curl --silent --show-error --fail \
+          --retry 5 --retry-delay 10 --retry-all-errors \
+          --connect-timeout 5 --max-time 20 \
+          -H "Title: nixos-auto-update FAILED" \
+          -H "Priority: high" \
+          -d "Auto-update failed on ${config.networking.hostName} (result: $result, exit status: $status)
 
-          $logs" \
-            ${lib.escapeShellArg config.nixos-management.gitops.ntfyFailure}
-        '';
-      };
+        $logs" \
+          ${lib.escapeShellArg config.nixos-management.gitops.ntfyFailure}
+      '';
+    };
     update = self.lib.mkScript pkgs {
       name = "update";
       src = ./scripts/update.sh;
@@ -142,7 +142,6 @@
             ExecStart = "${notifyUpdateFailure}/bin/nixos-auto-update-notify-failure";
           };
         };
-
 
         systemd.timers.nixos-auto-update = {
           description = "Daily automatic NixOS update at 03:00";

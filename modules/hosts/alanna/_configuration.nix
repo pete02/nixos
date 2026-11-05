@@ -23,7 +23,7 @@
     memSize = "128M";
     schedule = "Sun 12:00";
   };
-  
+
   dev.git = true;
   desktop.pegasus-cage.enable = true;
   nixos-management.gitops.enable = true;

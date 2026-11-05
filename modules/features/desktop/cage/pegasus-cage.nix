@@ -62,7 +62,7 @@
         type = lib.types.package;
         default = self.packages.${pkgs.stdenv.hostPlatform.system}.vacuum-tube;
         description = "VacuumTube package to launch from Pegasus.";
-      }; 
+      };
 
       bluetoothPackage = lib.mkPackageOption pkgs "blueman" {};
 

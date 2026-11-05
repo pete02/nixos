@@ -1,5 +1,6 @@
-<<< /nix/var/nix/profiles/system-136-link
->>> /nix/var/nix/profiles/system-137-link
+<<< /nix/var/nix/profiles/system-167-link
+>>> /nix/var/nix/profiles/system-168-link
 Added packages:
-[A.]  #1  restic-backup-on-shutdown  <none>
-Closure size: 2199 -> 2200 (7 paths added, 6 paths removed, delta +1, disk usage +640B).
+[A.]  #1  bash-static-x86_64-unknown-linux-musl  5.3p20
+[A.]  #2  exec                                   <none>
+Closure size: 2234 -> 2236 (17 paths added, 15 paths removed, delta +2, disk usage +1.3MiB).
