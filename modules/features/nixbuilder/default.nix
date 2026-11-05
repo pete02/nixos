@@ -131,6 +131,8 @@
         boot.binfmt = {
           emulatedSystems = ["aarch64-linux"];
           preferStaticEmulators = true;
+          registrations.aarch64-linux.wrapInterpreterInShell = lib.mkForce false;
+
         };
       })
 
