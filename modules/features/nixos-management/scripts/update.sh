@@ -6,8 +6,11 @@ PULL_BRANCH="${PULL_BRANCH:-stable}"
 PUSH_BRANCH="${PUSH_BRANCH:-master}"
 
 check() {
-    echo "Checking git..."
-    command -v git >/dev/null || return 1
+    local cmd
+    for cmd in git nix ssh mktemp; do
+        echo "Checking ${cmd}..."
+        command -v "$cmd" >/dev/null || return 1
+    done
 
     echo "All dependencies available."
 }

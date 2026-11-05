@@ -12,7 +12,10 @@
       src = ./scripts/update.sh;
 
       runtimeInputs = with pkgs; [
+        coreutils # mktemp, rm
         git
+        nix
+        openssh
       ];
 
       substitutions = {
