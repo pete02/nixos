@@ -1,5 +1,4 @@
-<<< /nix/var/nix/profiles/system-168-link
->>> /nix/var/nix/profiles/system-169-link
-Added packages:
-[A+]  #1  xwayland  24.1.14
-Closure size: 2236 -> 2237 (14 paths added, 13 paths removed, delta +1, disk usage +2.9MiB).
+<<< /nix/var/nix/profiles/system-169-link
+>>> /nix/var/nix/profiles/system-170-link
+No version or selection state changes.
+Closure size: 2237 -> 2237 (8 paths added, 8 paths removed, delta +0, disk usage +6.2KiB).
