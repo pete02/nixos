@@ -16,11 +16,13 @@
           General = {
             Experimental = true;
             FastConnectable = true;
+            ControllerMode = "dual";
           };
           Policy.AutoEnable = true;
         };
       };
       services.blueman.enable = true;
+      hardware.xpadneo.enable = true;
     };
   };
 }
