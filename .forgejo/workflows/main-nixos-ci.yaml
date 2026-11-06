@@ -312,6 +312,19 @@ jobs:
 
           attic login ci-ip http://192.168.88.241:8080 "$ATTIC_TOKEN"
           xargs -r attic push ci-ip:main < /tmp/out-paths
+      - name: Diagnose ntfy connectivity
+        if: failure()
+        run: |
+          echo "DNS:"
+          getent hosts ntfy.lumilukko.com || true
+
+          echo "HTTPS:"
+          curl -v --connect-timeout 5 --max-time 10 \
+            https://ntfy.lumilukko.com/v1/health || true
+
+          echo "Direct host gateway:"
+          curl -v --connect-timeout 5 --max-time 10 \
+            http://172.19.0.11/v1/health || true
 
       - name: Notify on failure
         if: failure()
@@ -371,19 +384,6 @@ jobs:
 
           # No --force: this must be a fast-forward.
           git push origin "${GITHUB_SHA}:refs/heads/stable"
-      - name: Diagnose ntfy connectivity
-        if: failure()
-        run: |
-          echo "DNS:"
-          getent hosts ntfy.lumilukko.com || true
-
-          echo "HTTPS:"
-          curl -v --connect-timeout 5 --max-time 10 \
-            https://ntfy.lumilukko.com/v1/health || true
-
-          echo "Direct host gateway:"
-          curl -v --connect-timeout 5 --max-time 10 \
-            http://172.19.0.11/v1/health || true
       - name: Notify on failure
         if: failure()
         env:
