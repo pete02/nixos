@@ -82,7 +82,7 @@ in {
 
     config = lib.mkIf config.desktop.hyprland.enable {
       environment.systemPackages = [hyprlandPkg];
-
+      programs.xwayland.enable = true;
       displayManager = {
         enable = true;
         backend = "greetd";
