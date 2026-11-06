@@ -372,6 +372,7 @@ jobs:
           # No --force: this must be a fast-forward.
           git push origin "${GITHUB_SHA}:refs/heads/stable"
       - name: Diagnose ntfy connectivity
+        if: failure()
         run: |
           echo "DNS:"
           getent hosts ntfy.lumilukko.com || true
