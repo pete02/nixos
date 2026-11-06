@@ -1,5 +1,15 @@
 name: NixOS CI
 
+# One pipeline, on master only:
+#   plan     -> which hosts to build (installer-only hosts excluded)
+#   build    -> one job per host, isolated (fail-fast: false); each job builds,
+#               pushes to Attic, verifies the path is in the cache and publishes
+#               its own entry on `deploy`
+#   packages -> exported x86_64 packages
+#   promote  -> `stable` moves to this commit only if EVERYTHING above passed
+#
+# Hosts deploy from `deploy`, so a broken host never blocks the others.
+# `stable` only means "the last commit where everything built".
 on:
   workflow_dispatch:
   push:
@@ -12,16 +22,105 @@ on:
       - "**.patch"
 
 jobs:
-  validate:
-    name: Evaluate, build, and push to cache
+  plan:
+    name: Plan hosts
     runs-on: nixos-ci
     container:
       image: lumilukko/nixos-ci:latest
       volumes:
         - nix-store:/nix
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    env:
+      NIX_CONFIG: |
+        experimental-features = nix-command flakes
+        build-users-group =
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute host matrix
+        id: plan
+        run: |
+          set -eu
+
+          # Installer-only configs are never built or deployed.
+          EXCLUDE="$(nix eval --json .#lib.fleet.installerHosts)"
+          export EXCLUDE
+
+          matrix="$(
+            nix eval --impure --json .#nixosConfigurations --apply '
+              a: let ex = builtins.fromJSON (builtins.getEnv "EXCLUDE"); in
+                builtins.map
+                  (h: { host = h; system = a.${h}.pkgs.stdenv.hostPlatform.system; })
+                  (builtins.filter (h: !(builtins.elem h ex)) (builtins.attrNames a))
+            '
+          )"
+
+          hosts="$(
+            nix eval --impure --raw .#nixosConfigurations --apply '
+              a: let ex = builtins.fromJSON (builtins.getEnv "EXCLUDE"); in
+                builtins.concatStringsSep " "
+                  (builtins.filter (h: !(builtins.elem h ex)) (builtins.attrNames a))
+            '
+          )"
+
+          if [ -z "$hosts" ]; then
+            echo "ERROR: no hosts found" >&2
+            exit 1
+          fi
+
+          echo "Hosts: $hosts"
+          echo "Matrix: $matrix"
+          echo "matrix={\"include\":${matrix}}" >> "$GITHUB_OUTPUT"
+          echo "$hosts" > /tmp/hosts
+
+      - name: Remove deploy entries for hosts that no longer exist
+        if: github.ref == 'refs/heads/master'
+        env:
+          TOKEN_FORGEJO: ${{ secrets.TOKEN_FORGEJO }}
+        run: |
+          set -eu
+          # shellcheck disable=SC2046
+          bash .forgejo/scripts/deploy-update.sh prune $(cat /tmp/hosts)
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          WORKFLOW: ${{ github.workflow }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_number }}
+        run: |
+          curl --silent --show-error --fail \
+            --connect-timeout 5 --max-time 10 \
+            -H "Title: ${WORKFLOW} failed: plan" \
+            -H "Priority: high" \
+            -H "Tags: rotating_light" \
+            -H "Click: ${RUN_URL}" \
+            -d "${REPO}@${REF} ($(printf '%s' "$SHA" | cut -c1-8))" \
+            https://ntfy.lumilukko.com/pipeline-failure \
+            || echo "WARNING: failed to send ntfy notification" >&2
+
+  build:
+    name: Build ${{ matrix.host }}
+    needs: plan
+    runs-on: nixos-ci
+    container:
+      image: lumilukko/nixos-ci:latest
+      volumes:
+        - nix-store:/nix
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
 
     env:
-      CONFIG_FOLDER: "."
+      CACHE_STORE: "http://192.168.88.241:8080/main"
+      HOST: ${{ matrix.host }}
       NIX_CONFIG: |
         experimental-features = nix-command flakes
         build-users-group =
@@ -30,7 +129,7 @@ jobs:
         extra-substituters = ${{ vars.ATTIC_URL }}
         extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
         netrc-file = /tmp/netrc-attic
-    
+
     steps:
       - name: Configure cache credentials
         env:
@@ -43,57 +142,27 @@ jobs:
 
           curl --fail --silent --show-error \
             --netrc-file /tmp/netrc-attic \
-            http://192.168.88.241:8080/main/nix-cache-info
-          nix store info --store http://192.168.88.241:8080/main --extra-experimental-features nix-command
+            "$CACHE_STORE/nix-cache-info"
+
       - name: Ensure CI tools are in the store
         run: nix build /opt/ci-tools-flake#default --out-link /opt/ci-tools
+
       - name: aarch64 smoke test
+        if: matrix.system == 'aarch64-linux'
         run: |
           nix build --impure --no-link -L --expr \
           'let p = (builtins.getFlake "nixpkgs").legacyPackages; in p.aarch64-linux.runCommand "ci-arm-smoke-${toString builtins.currentTime}" {} "uname -m > $out; cat $out"'
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Verify Nix
-        run: |
-          nix --version
-          git --version
-          nix flake metadata
-
-      - name: Build NixOS host closures
+      - name: Build toplevel
         env:
           FORGEJO_TOKEN: ${{ secrets.TV_RELEASE_TOKEN }}
         run: |
           set -eu
-
-
-
-          exclude="$(
-            nix eval --raw .#lib.fleet.installerHosts \
-              --apply 'l: builtins.concatStringsSep " " l'
-          )"
-
-          hosts="$(
-            nix eval --raw .#nixosConfigurations \
-              --apply 'a: builtins.concatStringsSep "\n" (builtins.attrNames a)'
-          )"
-
-          set --
-          while IFS= read -r host; do
-            [ -n "$host" ] || continue
-            case " $exclude " in
-              *" $host "*) echo "Skipping installer host ${host}"; continue ;;
-            esac
-            echo "Queueing ${host}"
-            set -- "$@" ".#nixosConfigurations.${host}.config.system.build.toplevel"
-          done <<EOF
-          $hosts
-          EOF
-
-          if [ "$#" -eq 0 ]; then
-            echo "ERROR: no hosts found" >&2
-            exit 1
-          fi
 
           rm -rf /homeless-shelter
           ( while :; do rm -rf /homeless-shelter; sleep 0.2; done ) &
@@ -103,12 +172,97 @@ jobs:
           nix build \
             --no-link \
             --print-out-paths \
-            --keep-going \
-            --max-jobs auto \
-            "$@" \
-            >> /tmp/out-paths
+            ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
+            > /tmp/out-paths
+
+          tail -n1 /tmp/out-paths > /tmp/host-path
+          echo "Built ${HOST}: $(cat /tmp/host-path)"
+
+      - name: Push to Attic
+        timeout-minutes: 15
+        env:
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+        run: |
+          set -eu
+          attic login ci-ip http://192.168.88.241:8080 "$ATTIC_TOKEN"
+          attic push ci-ip:main "$(cat /tmp/host-path)"
+
+      - name: Verify the closure is in the cache
+        run: |
+          set -eu
+          path="$(cat /tmp/host-path)"
+          nix path-info --store "$CACHE_STORE" "$path" >/dev/null ||
+            { echo "ERROR: ${path} for ${HOST} is not in the cache" >&2; exit 1; }
+
+      - name: Publish to deploy
+        if: github.ref == 'refs/heads/master'
+        env:
+          TOKEN_FORGEJO: ${{ secrets.TOKEN_FORGEJO }}
+        run: |
+          set -eu
+          bash .forgejo/scripts/deploy-update.sh publish "$HOST" "$(cat /tmp/host-path)"
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          WORKFLOW: ${{ github.workflow }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_number }}
+        run: |
+          curl --silent --show-error --fail \
+            --connect-timeout 5 --max-time 10 \
+            -H "Title: ${WORKFLOW} failed: ${HOST}" \
+            -H "Priority: high" \
+            -H "Tags: rotating_light" \
+            -H "Click: ${RUN_URL}" \
+            -d "${REPO}@${REF} ($(printf '%s' "$SHA" | cut -c1-8))" \
+            https://ntfy.lumilukko.com/pipeline-failure \
+            || echo "WARNING: failed to send ntfy notification" >&2
+
+  packages:
+    name: Build x86_64 packages
+    runs-on: nixos-ci
+    container:
+      image: lumilukko/nixos-ci:latest
+      volumes:
+        - nix-store:/nix
+
+    env:
+      CACHE_STORE: "http://192.168.88.241:8080/main"
+      NIX_CONFIG: |
+        experimental-features = nix-command flakes
+        build-users-group =
+        extra-platforms = aarch64-linux
+        sandbox = relaxed
+        extra-substituters = ${{ vars.ATTIC_URL }}
+        extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
+        netrc-file = /tmp/netrc-attic
+
+    steps:
+      - name: Configure cache credentials
+        env:
+          ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
+        run: |
+          set -eu
+          umask 077
+          printf 'machine 192.168.88.241 login attic-token password %s\n' \
+            "$ATTIC_TOKEN" > /tmp/netrc-attic
+
+          curl --fail --silent --show-error \
+            --netrc-file /tmp/netrc-attic \
+            "$CACHE_STORE/nix-cache-info"
+
+      - name: Ensure CI tools are in the store
+        run: nix build /opt/ci-tools-flake#default --out-link /opt/ci-tools
+
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Build every exported x86_64-linux package
+        env:
+          FORGEJO_TOKEN: ${{ secrets.TV_RELEASE_TOKEN }}
         run: |
           set -eu
 
@@ -122,8 +276,14 @@ jobs:
 
           if [ -z "$packages" ]; then
             echo "No packages exported for $system"
+            : > /tmp/out-paths
             exit 0
           fi
+
+          rm -rf /homeless-shelter
+          ( while :; do rm -rf /homeless-shelter; sleep 0.2; done ) &
+          cleaner=$!
+          trap 'kill "$cleaner" 2>/dev/null || true' EXIT
 
           set --
           while IFS= read -r package; do
@@ -139,11 +299,11 @@ jobs:
             --keep-going \
             --max-jobs auto \
             "$@" \
-            >> /tmp/out-paths
+            > /tmp/out-paths
 
       - name: Push to Attic
-        timeout-minutes: 15
         if: always()
+        timeout-minutes: 15
         env:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
@@ -152,27 +312,7 @@ jobs:
 
           attic login ci-ip http://192.168.88.241:8080 "$ATTIC_TOKEN"
           xargs -r attic push ci-ip:main < /tmp/out-paths
-      
-      - name: Promote tested commit to stable
-        if: success() && github.ref == 'refs/heads/master'
-        env:
-          TOKEN_FORGEJO: ${{ secrets.TOKEN_FORGEJO }}
-        run: |
-          set -eu
 
-          # Configure authentication without embedding the token in the remote URL.
-          auth="$(printf 'x-access-token:%s' "$TOKEN_FORGEJO" | base64 -w0)"
-          git config http.https://git.lumilukko.com/.extraheader \
-            "AUTHORIZATION: basic $auth"
-
-          cleanup() {
-            git config --unset-all \
-              http.https://git.lumilukko.com/.extraheader || true
-          }
-          trap cleanup EXIT
-
-          git push --force origin HEAD:refs/heads/stable
-          
       - name: Notify on failure
         if: failure()
         env:
@@ -183,9 +323,67 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_number }}
         run: |
           curl --silent --show-error --fail \
-            --connect-timeout 5 \
-            --max-time 10 \
-            -H "Title: ${WORKFLOW} failed" \
+            --connect-timeout 5 --max-time 10 \
+            -H "Title: ${WORKFLOW} failed: packages" \
+            -H "Priority: high" \
+            -H "Tags: rotating_light" \
+            -H "Click: ${RUN_URL}" \
+            -d "${REPO}@${REF} ($(printf '%s' "$SHA" | cut -c1-8))" \
+            https://ntfy.lumilukko.com/pipeline-failure \
+            || echo "WARNING: failed to send ntfy notification" >&2
+
+  promote:
+    name: Promote to stable
+    needs: [plan, build, packages]
+    if: success() && github.ref == 'refs/heads/master'
+    runs-on: nixos-ci
+    container:
+      image: lumilukko/nixos-ci:latest
+      volumes:
+        - nix-store:/nix
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fast-forward stable to this commit
+        env:
+          TOKEN_FORGEJO: ${{ secrets.TOKEN_FORGEJO }}
+        run: |
+          set -eu
+
+          auth="$(printf 'x-access-token:%s' "$TOKEN_FORGEJO" | base64 -w0)"
+          export GIT_CONFIG_COUNT=1
+          export GIT_CONFIG_KEY_0="http.https://git.lumilukko.com/.extraheader"
+          export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic ${auth}"
+
+          old="$(git ls-remote origin refs/heads/stable | cut -f1)"
+
+          # A newer, fully green commit may already have been promoted by a
+          # run that finished first. Never move stable backwards.
+          if [ -n "$old" ] && git cat-file -e "${old}^{commit}" 2>/dev/null &&
+             ! git merge-base --is-ancestor "$old" "$GITHUB_SHA"; then
+            echo "stable (${old}) is already ahead of ${GITHUB_SHA}; leaving it."
+            exit 0
+          fi
+
+          # No --force: this must be a fast-forward.
+          git push origin "${GITHUB_SHA}:refs/heads/stable"
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          WORKFLOW: ${{ github.workflow }}
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_number }}
+        run: |
+          curl --silent --show-error --fail \
+            --connect-timeout 5 --max-time 10 \
+            -H "Title: ${WORKFLOW} failed: promote" \
             -H "Priority: high" \
             -H "Tags: rotating_light" \
             -H "Click: ${RUN_URL}" \

@@ -2,12 +2,14 @@
 set -euo pipefail
 
 REPOSITORY="@REPOSITORY@"
-PULL_BRANCH="${PULL_BRANCH:-stable}"
+# Update on top of master (the newest code), not stable: one broken host
+# must not freeze flake updates for everyone.
+PULL_BRANCH="${PULL_BRANCH:-master}"
 PUSH_BRANCH="${PUSH_BRANCH:-master}"
 
 check() {
     local cmd
-    for cmd in git nix ssh mktemp; do
+    for cmd in git nix; do
         echo "Checking ${cmd}..."
         command -v "$cmd" >/dev/null || return 1
     done
@@ -25,7 +27,6 @@ check
 TEMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TEMP_DIR"' EXIT
 
-
 echo "Checking out $PULL_BRANCH..."
 git clone \
     --branch "$PULL_BRANCH" \
@@ -34,8 +35,6 @@ git clone \
     "$TEMP_DIR/repo"
 
 cd "$TEMP_DIR/repo"
-git config user.name "nixos-auto-update"
-git config user.email "auto-update@aria.local"
 
 echo "Updating flake inputs..."
 nix flake update
