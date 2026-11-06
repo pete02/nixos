@@ -1,6 +1,5 @@
-<<< /nix/var/nix/profiles/system-167-link
->>> /nix/var/nix/profiles/system-168-link
+<<< /nix/var/nix/profiles/system-168-link
+>>> /nix/var/nix/profiles/system-169-link
 Added packages:
-[A.]  #1  bash-static-x86_64-unknown-linux-musl  5.3p20
-[A.]  #2  exec                                   <none>
-Closure size: 2234 -> 2236 (17 paths added, 15 paths removed, delta +2, disk usage +1.3MiB).
+[A+]  #1  xwayland  24.1.14
+Closure size: 2236 -> 2237 (14 paths added, 13 paths removed, delta +1, disk usage +2.9MiB).
