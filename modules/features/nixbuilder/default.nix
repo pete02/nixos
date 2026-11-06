@@ -115,7 +115,7 @@
         nix.buildMachines =
           builtins.map (hostname: {
             hostName = hostname;
-            systems = ["x86_64-linux" "aarch64-linux" ];
+            systems = ["x86_64-linux" "aarch64-linux" "i686-linux"];
             protocol = "ssh-ng";
             maxJobs = 8;
             speedFactor = 1;
