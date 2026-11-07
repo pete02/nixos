@@ -241,9 +241,10 @@
               ensureDBOwnership = true;
             }
           ];
-          ensureUsers = [{ name = "atticd"; ensureDBOwnership = true; }];
-          synchronous_commit = "off";
-          wal_writer_delay = "200ms";
+          settings = {
+            synchronous_commit = "off";
+            wal_writer_delay = "200ms";
+          };
         };
         users.users.atticd = {
           isSystemUser = true;
