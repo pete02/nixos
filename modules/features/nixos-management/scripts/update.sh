@@ -46,7 +46,7 @@ if git diff --quiet -- flake.lock; then
 fi
 
 git config user.email "aria@local"
-git config --global user.name "aria auto updater"
+git config user.name "aria auto updater"
 
 echo "Committing flake.lock..."
 git add flake.lock
