@@ -237,10 +237,19 @@
           ensureDatabases = ["atticd"];
           ensureUsers = [{ name = "atticd"; ensureDBOwnership = true; }];
         };
+        users.users.atticd = {
+          isSystemUser = true;
+          group = "atticd";
+        };
+        users.groups.atticd = {};
 
         services.atticd = {
           enable = true;
           environmentFile = config.sops.secrets.${server.envSecret}.path;
+          user = "atticd";
+          group = "atticd";
+          after = ["postgresql.service"];
+          requires = ["postgresql.service"];
           settings = {
             listen = "[::]:${toString server.port}";
             api-endpoint = server.apiEndpoint;
