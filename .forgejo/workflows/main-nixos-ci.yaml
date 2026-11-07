@@ -110,6 +110,7 @@ jobs:
     name: Build ${{ matrix.host }}
     needs: plan
     runs-on: nixos-ci
+    timeout-minutes: 480 
     container:
       image: lumilukko/nixos-ci:latest
       volumes:
