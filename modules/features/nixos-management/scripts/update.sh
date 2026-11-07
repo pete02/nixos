@@ -27,6 +27,9 @@ check
 TEMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TEMP_DIR"' EXIT
 
+git config user.email "aria@local"
+git config --global user.name "aria auto updater"
+
 echo "Checking out $PULL_BRANCH..."
 git clone \
     --branch "$PULL_BRANCH" \
