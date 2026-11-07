@@ -259,8 +259,15 @@
           group = "atticd";
           settings = {
             listen = "[::]:${toString server.port}";
-            api-endpoint = server.apiEndpoint;
-            nar-size-threshold = 0;
+            api-endpoint = server.apiEndpoint;        
+            chunking = {
+              nar-size-threshold = 0;   # 0 disables chunking
+              # With chunking disabled, the other chunking keys are unused,
+              # but the section may require them in some versions:
+              min-size = 16 * 1024;
+              avg-size = 64 * 1024;
+              max-size = 256 * 1024;
+            };
             garbage-collection.default-retention-period = server.retention;
             database.url = "postgresql://atticd@localhost/atticd?host=/run/postgresql";
           };
