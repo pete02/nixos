@@ -35,25 +35,8 @@ jobs:
       NIX_CONFIG: |
         experimental-features = nix-command flakes
         build-users-group =
-
+    
     steps:
-      - name: Diagnose runner environment
-        run: |
-          echo "=== PATH ==="
-          echo "$PATH"
-
-          echo "=== Node ==="
-          command -v node || true
-          node --version || true
-
-          echo "=== Nix tools ==="
-          command -v nix
-          nix --version
-
-          echo "=== Runtime ==="
-          cat /etc/os-release || true
-          ls -ld /nix/store
-          ls -l /opt/ci-tools/bin/node
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -141,7 +124,7 @@ jobs:
       NIX_CONFIG: |
         experimental-features = nix-command flakes
         build-users-group =
-        extra-platforms = aarch64-linux
+        extra-platforms = aarch64-linux i686-linux
         sandbox = relaxed
         extra-substituters = ${{ vars.ATTIC_URL }}
         extra-trusted-public-keys = ${{ vars.ATTIC_PUBLIC_KEY }}
