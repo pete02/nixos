@@ -235,7 +235,12 @@
         services.postgresql = {
           enable = true;
           ensureDatabases = ["atticd"];
-          ensureUsers = [{ name = "atticd"; ensureDBOwnership = true; }];
+          ensureUsers = [
+            {
+              name = "atticd";
+              ensureDBOwnership = true;
+            }
+          ];
         };
         users.users.atticd = {
           isSystemUser = true;
