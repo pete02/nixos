@@ -248,14 +248,16 @@
           environmentFile = config.sops.secrets.${server.envSecret}.path;
           user = "atticd";
           group = "atticd";
-          after = ["postgresql.service"];
-          requires = ["postgresql.service"];
           settings = {
             listen = "[::]:${toString server.port}";
             api-endpoint = server.apiEndpoint;
             garbage-collection.default-retention-period = server.retention;
             database.url = "postgresql:///atticd?host=/run/postgresql";
           };
+        };
+        systemd.services.atticd = {
+          after = ["postgresql.service"];
+          requires = ["postgresql.service"];
         };
 
         networking.firewall.allowedTCPPorts =
