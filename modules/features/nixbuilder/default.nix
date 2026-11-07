@@ -241,6 +241,9 @@
               ensureDBOwnership = true;
             }
           ];
+          ensureUsers = [{ name = "atticd"; ensureDBOwnership = true; }];
+          synchronous_commit = "off";
+          wal_writer_delay = "200ms";
         };
         users.users.atticd = {
           isSystemUser = true;
@@ -256,6 +259,7 @@
           settings = {
             listen = "[::]:${toString server.port}";
             api-endpoint = server.apiEndpoint;
+            nar-size-threshold = 0;
             garbage-collection.default-retention-period = server.retention;
             database.url = "postgresql://atticd@localhost/atticd?host=/run/postgresql";
           };

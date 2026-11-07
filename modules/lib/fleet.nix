@@ -26,7 +26,7 @@ in {
       addr = "192.168.88.241"; # keep the IP; see caveats
       port = 8080;
       name = "main";
-      publicKey = "main:i1t81gc6fOtVfDvKgpiL1LG5HjrWF7AtHD21rmbr1OI=";
+      publicKey = "main:+9aOqlVr48OGBUv/Rs13tioYvhrP76J8a2NcIHBwHIE=";
       envSecret = "services/attic/env";
       pullTokenSecret = "services/attic/pull_token";
       apiEndpoint = "http://${cache.addr}:${toString cache.port}/";
