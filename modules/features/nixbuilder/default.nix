@@ -252,7 +252,7 @@
             listen = "[::]:${toString server.port}";
             api-endpoint = server.apiEndpoint;
             garbage-collection.default-retention-period = server.retention;
-            database.url = "postgresql:///atticd?host=/run/postgresql";
+            database.url = "postgresql://atticd@localhost/atticd?host=/run/postgresql";
           };
         };
         systemd.services.atticd = {
