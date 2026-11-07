@@ -232,6 +232,11 @@
 
         # Root-owned 0400 is fine: systemd reads EnvironmentFile as root.
         sops.secrets.${server.envSecret} = {};
+        services.postgresql = {
+          enable = true;
+          ensureDatabases = ["atticd"];
+          ensureUsers = [{ name = "atticd"; ensureDBOwnership = true; }];
+        };
 
         services.atticd = {
           enable = true;
@@ -240,6 +245,7 @@
             listen = "[::]:${toString server.port}";
             api-endpoint = server.apiEndpoint;
             garbage-collection.default-retention-period = server.retention;
+            database.url = "postgresql:///atticd?host=/run/postgresql";
           };
         };
 
