@@ -264,7 +264,7 @@
 
         unitConfig.RequiresMountsFor = localPaths;
 
-        inherit environment;
+        environment = environment // {PRUNE = "0";};
 
         serviceConfig = {
           Type = "oneshot";

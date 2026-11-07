@@ -107,6 +107,7 @@ fi
 # is reachable but not initialized; any other non-zero exit is a hard
 # failure (bad connection, unreadable password, etc).
 rc=0
+restic unlock || true
 restic cat config >/dev/null || rc=$?
 case "$rc" in
   0) ;;                                       # repo is fine
