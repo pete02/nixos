@@ -37,6 +37,23 @@ jobs:
         build-users-group =
 
     steps:
+      - name: Diagnose runner environment
+        run: |
+          echo "=== PATH ==="
+          echo "$PATH"
+
+          echo "=== Node ==="
+          command -v node || true
+          node --version || true
+
+          echo "=== Nix tools ==="
+          command -v nix
+          nix --version
+
+          echo "=== Runtime ==="
+          cat /etc/os-release || true
+          ls -ld /nix/store
+          ls -l /opt/ci-tools/bin/node
       - name: Checkout
         uses: actions/checkout@v4
         with:
