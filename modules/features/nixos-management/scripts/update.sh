@@ -27,8 +27,6 @@ check
 TEMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TEMP_DIR"' EXIT
 
-git config user.email "aria@local"
-git config --global user.name "aria auto updater"
 
 echo "Checking out $PULL_BRANCH..."
 git clone \
@@ -46,6 +44,9 @@ if git diff --quiet -- flake.lock; then
     echo "No flake updates available."
     exit 0
 fi
+
+git config user.email "aria@local"
+git config --global user.name "aria auto updater"
 
 echo "Committing flake.lock..."
 git add flake.lock
