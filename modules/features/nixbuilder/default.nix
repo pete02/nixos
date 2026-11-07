@@ -259,9 +259,9 @@
           group = "atticd";
           settings = {
             listen = "[::]:${toString server.port}";
-            api-endpoint = server.apiEndpoint;        
+            api-endpoint = server.apiEndpoint;
             chunking = {
-              nar-size-threshold = 0;   # 0 disables chunking
+              nar-size-threshold = 0; # 0 disables chunking
               # With chunking disabled, the other chunking keys are unused,
               # but the section may require them in some versions:
               min-size = 16 * 1024;
