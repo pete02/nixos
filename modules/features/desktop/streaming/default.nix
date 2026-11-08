@@ -1,22 +1,32 @@
+
 {self, ...}: {
-  # SPIKE / SCAFFOLD: containerised headless Hyprland desktops streamed with
-  # one Sunshine instance per virtual output.
+  # Containerised headless desktops streamed with one Sunshine instance per
+  # virtual output. The desktop itself is NOT defined here: it comes from a
+  # package (by default your `self.mkHyprlandPkg`, i.e. base.lua + extraConfig).
   #
-  # Verified from logs so far: container starts, Hyprland runs headless, Sunshine
-  # sees the output via zwlr_screencopy + linux-dmabuf, nvidia-drm modeset=Y.
+  # Example:
+  #
+  #   gaming.streaming = {
+  #     enable = true;
+  #     parentInterface = "enp4s0";
+  #     desktops.aria = {
+  #       outputs = [{ mode = "3440x1440@60"; ip = "192.168.88.2"; }];
+  #       persistentHome = false;
+  #       desktop.extraConfig = '''-- Lua appended to base.lua''';   # uses self.mkHyprlandPkg
+  #       # or bring your own package:
+  #       # desktop.package = self.mkHyprlandPkg { inherit pkgs; extraConfig = "..."; };
+  #       packages = with pkgs; [ kitty ];
+  #       desktop.hostProfile = true;   # also expose /run/current-system/sw
+  #     };
+  #   };
   #
   # Still unverified:
-  #  1. Hyprland >= 0.57 only reads Lua config; the Lua API used below (hl.config,
-  #     hl.on, hl.bind, hl.dsp.exec_cmd, hl.monitor via `hyprctl eval`) is taken
-  #     from the wiki, not from a run. Check `hyprctl configerrors`.
-  #  2. Whether `--config <file>.lua` is honoured (else the file must live at
-  #     $XDG_CONFIG_HOME/hypr/hyprland.lua).
-  #  3. Sunshine's "Couldn't import RGB Image: 00003009" (EGL_BAD_MATCH) on wlr
-  #     capture. Pinning the NVIDIA EGL vendor file is the first attempt.
-  #  4. Input: AQ_BACKENDS=headless,libinput + LIBSEAT_BACKEND=noop.
-  #  5. Image shares host /nix/store + /run/opengl-driver: build from the SAME
-  #     nixpkgs as the host.
-  #  6. Moonlight accepts "ip:port" for the 2nd+ output of a desktop.
+  #  1. Launching `bin/hyprland` directly instead of via start-hyprland (Hyprland
+  #     may print a warning about it).
+  #  2. Input via AQ_BACKENDS=headless,libinput + LIBSEAT_BACKEND=noop.
+  #  3. The image shares the host /nix/store + /run/opengl-driver: build from the
+  #     SAME nixpkgs as the host.
+  #  4. Moonlight accepts "ip:port" for the 2nd+ output of a desktop.
   flake.nixosModules.desktop-streaming = {
     lib,
     pkgs,
@@ -35,26 +45,21 @@
     mkDesktop = name: d: let
       ip = (builtins.head d.outputs).ip;
 
+      # The compositor package: yours if given, otherwise built from base.lua
+      # plus desktop.extraConfig via the flake's mkHyprlandPkg.
+      desktopPkg =
+        if d.desktop.package != null
+        then d.desktop.package
+        else
+          self.mkHyprlandPkg {
+            inherit pkgs;
+            extraConfig = d.desktop.extraConfig;
+          };
+
       widths =
         map (o: lib.toInt (builtins.head (lib.splitString "x" o.mode))) d.outputs;
       xOffsets =
         lib.imap0 (i: _: lib.foldl' builtins.add 0 (lib.take i widths)) widths;
-
-      # Hyprland >= 0.57 only understands Lua.
-      hyprConf = pkgs.writeText "hyprland-${name}.lua" ''
-        hl.config({
-          misc = {
-            disable_hyprland_logo = true,
-            disable_splash_rendering = true,
-          },
-        })
-
-        hl.on("hyprland.start", function()
-          ${lib.concatMapStringsSep "\n  " (c: "hl.exec_cmd(\"${c}\")") d.hyprland.autostart}
-        end)
-
-        ${d.hyprland.extraConfig}
-      '';
 
       # One block per output: create a named headless monitor, set its mode and
       # position, write a Sunshine config for it, create its audio sink, start Sunshine.
@@ -90,18 +95,20 @@
       entrypoint = pkgs.writeShellApplication {
         name = "desktop-entrypoint";
         checkPhase = "";
-        runtimeInputs = with pkgs; [
-          coreutils
-          gnugrep
-          jq
-          dbus
-          hyprland
-          pipewire
-          wireplumber
-          pulseaudio # pactl only
-          mesa-demos # eglinfo, diagnostics only
-          d.sunshine.package
-        ];
+        runtimeInputs =
+          [desktopPkg]
+          ++ (with pkgs; [
+            coreutils
+            gnugrep
+            jq
+            dbus
+            hyprland # hyprctl fallback if the desktop package does not ship it
+            pipewire
+            wireplumber
+            pulseaudio # pactl only
+            mesa-demos # eglinfo, diagnostics only
+            d.sunshine.package
+          ]);
         text = ''
           # PipeWire wants a session bus
           if [ -z "$(printenv DBUS_SESSION_BUS_ADDRESS)" ]; then
@@ -113,6 +120,10 @@
           mkdir -p "$HOME" "$XDG_RUNTIME_DIR" /state
           chmod 700 "$XDG_RUNTIME_DIR"
 
+          # apps started by the desktop (exec_cmd, launchers) resolve from here
+          export PATH="$PATH:/bin${lib.optionalString d.desktop.hostProfile ":/run/current-system/sw/bin"}"
+          ${lib.optionalString d.desktop.hostProfile "export XDG_DATA_DIRS=/run/current-system/sw/share"}
+
           # host NVIDIA userspace (bind-mounted)
           export LD_LIBRARY_PATH=/run/opengl-driver/lib
           export __EGL_VENDOR_LIBRARY_DIRS=/run/opengl-driver/share/glvnd/egl_vendor.d
@@ -120,7 +131,7 @@
           export GBM_BACKEND=nvidia-drm
           # NVIDIA's EGL needs its GBM/Wayland external-platform configs to initialise
           export __EGL_EXTERNAL_PLATFORM_CONFIG_DIRS=/run/opengl-driver/share/egl/egl_external_platform.d
-          # pin EGL to the NVIDIA vendor library for Hyprland AND Sunshine
+          # pin EGL to the NVIDIA vendor library for the compositor AND Sunshine
           if [ -e /run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json ]; then
             export __EGL_VENDOR_LIBRARY_FILENAMES=/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json
           fi
@@ -129,10 +140,9 @@
           export AQ_BACKENDS=headless,libinput
           export AQ_DRM_DEVICES=${d.drmCard}
           export LIBSEAT_BACKEND=noop
-          export WLR_NO_HARDWARE_CURSORS=1
 
-          # Hyprland refuses to run as root; the container runs as root for now
-          Hyprland --i-am-really-stupid --config ${hyprConf} &
+          # the desktop package carries its own config (--config baked in)
+          ${d.desktop.command desktopPkg} &
 
           # wait for the compositor
           for _ in $(seq 1 150); do
@@ -159,8 +169,6 @@
           # diagnostics in the journal
           echo "== hyprland config errors =="; hyprctl configerrors || true
           echo "== monitors =="; hyprctl monitors all || true
-          echo "== env =="; env | grep -E 'EGL|GBM|AQ_|LD_LIBRARY' || true
-          echo "== eglinfo =="; eglinfo -B 2>&1 | head -80 || true
 
           trap 'kill 0' EXIT
           # if anything dies, exit non-zero so the container restarts
@@ -179,7 +187,7 @@
             pkgs.coreutils
             entrypoint
           ]
-          ++ d.apps;
+          ++ d.packages;
         extraCommands = ''
           mkdir -p tmp home/user state
           chmod 1777 tmp
@@ -193,6 +201,7 @@
       image = "localhost/desktop-${name}:latest";
       imageStream = image;
       autoStart = true;
+      environment = d.extraEnv;
 
       devices =
         d.devices
@@ -212,7 +221,12 @@
           # Sunshine certs / pairing state: ALWAYS persistent, even when home is not
           "${stateRoot}/${name}/state:/state"
         ]
-        ++ lib.optional d.persistentHome "${stateRoot}/${name}/home:/home/user";
+        ++ lib.optional d.persistentHome "${stateRoot}/${name}/home:/home/user"
+        ++ lib.optionals d.desktop.hostProfile [
+          "/run/current-system/sw:/run/current-system/sw:ro"
+          "/etc/fonts:/etc/fonts:ro"
+        ]
+        ++ d.extraVolumes;
 
       extraOptions =
         [
@@ -245,10 +259,6 @@
 
     desktopType = types.submodule {
       options = {
-        compositor = mkOption {
-          type = types.enum ["hyprland"];
-          default = "hyprland";
-        };
         outputs = mkOption {
           type = types.listOf outputType;
           description = "Virtual monitors; one Sunshine instance each.";
@@ -258,10 +268,63 @@
           default = false;
           description = "Keep /home/user across restarts (otherwise tmpfs).";
         };
-        apps = mkOption {
-          type = types.listOf types.package;
-          default = [pkgs.kitty];
+
+        desktop = {
+          package = mkOption {
+            type = types.nullOr types.package;
+            default = null;
+            description = ''
+              Compositor package to run (e.g. `self.mkHyprlandPkg {...}` or
+              `self.packages.x86_64-linux.hyprland`). When null, the module builds
+              one with `self.mkHyprlandPkg { extraConfig = desktop.extraConfig; }`,
+              i.e. your base.lua plus the extra Lua below.
+            '';
+          };
+          extraConfig = mkOption {
+            type = types.lines;
+            default = "";
+            description = "Lua appended to base.lua (only used when desktop.package is null).";
+          };
+          command = mkOption {
+            type = types.functionTo types.str;
+            default = pkg: "${pkg}/bin/hyprland --i-am-really-stupid";
+            defaultText = lib.literalExpression ''pkg: "''${pkg}/bin/hyprland --i-am-really-stupid"'';
+            description = ''
+              Shell command that starts the compositor, given the package.
+              The container runs as root for now, hence the flag; to go through
+              the launcher use e.g.
+              `pkg: "''${pkg}/bin/start-hyprland --path ''${pkg}/bin/hyprland"`
+              (check how it forwards flags first).
+            '';
+          };
+          hostProfile = mkOption {
+            type = types.bool;
+            default = false;
+            description = ''
+              Expose the host's /run/current-system/sw (and /etc/fonts) read-only
+              and put it on PATH, so the desktop sees whatever your other desktop
+              modules install system-wide (bar, launcher, ...).
+            '';
+          };
         };
+
+        packages = mkOption {
+          type = types.listOf types.package;
+          default = [];
+          description = "Extra packages on PATH inside the container (/bin).";
+        };
+        extraVolumes = mkOption {
+          type = types.listOf types.str;
+          default = [];
+          example = ["/etc/xdg:/etc/xdg:ro"];
+          description = "Extra bind mounts, e.g. for config your desktop modules put in /etc.";
+        };
+        extraEnv = mkOption {
+          type = types.attrsOf types.str;
+          default = {};
+          description = "Extra environment variables for the container.";
+        };
+
         drmCard = mkOption {
           type = types.str;
           default = "/dev/dri/card1";
@@ -283,21 +346,7 @@
           ];
           description = "NVIDIA device nodes passed to the container.";
         };
-        hyprland = {
-          autostart = mkOption {
-            type = types.listOf types.str;
-            default = [];
-            example = ["kitty"];
-            description = "Commands started on hyprland.start.";
-          };
-          extraConfig = mkOption {
-            type = types.lines;
-            default = ''
-              hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"))
-            '';
-            description = "Extra Lua appended to hyprland.lua (Hyprland >= 0.57).";
-          };
-        };
+
         sunshine = {
           package = mkOption {
             type = types.package;
