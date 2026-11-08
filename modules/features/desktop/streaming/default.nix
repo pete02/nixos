@@ -1,20 +1,22 @@
 {self, ...}: {
-  # SPIKE / SCAFFOLD: nothing in here has been built or run yet.
+  # SPIKE / SCAFFOLD: containerised headless Hyprland desktops streamed with
+  # one Sunshine instance per virtual output.
   #
-  # Unverified assumptions (check these first when it misbehaves):
-  #  1. Sunshine's `wlr` capture works against Hyprland. It needs the
-  #     wlr-export-dmabuf protocol, which Hyprland may not expose any more.
-  #     If capture fails, this is the first suspect (fallbacks: PipeWire
-  #     capture, or a sway/Xorg-headless desktop instead).
-  #  2. Input: AQ_BACKENDS=headless,libinput with LIBSEAT_BACKEND=noop lets
-  #     the headless Hyprland see the uinput devices Sunshine creates.
-  #  3. Headless output names / wl_output ordering. The entrypoint discovers
-  #     them at runtime and passes the index to Sunshine as output_name.
-  #  4. The image shares the host /nix/store and /run/opengl-driver, so the
-  #     image must be built from the SAME nixpkgs as the host (glibc match
-  #     with the NVIDIA userspace libraries).
-  #  5. virtualisation.oci-containers `imageStream` needs a recent nixpkgs.
-  #  6. Moonlight accepts "ip:port" when adding the 2nd+ output of a desktop.
+  # Verified from logs so far: container starts, Hyprland runs headless, Sunshine
+  # sees the output via zwlr_screencopy + linux-dmabuf, nvidia-drm modeset=Y.
+  #
+  # Still unverified:
+  #  1. Hyprland >= 0.57 only reads Lua config; the Lua API used below (hl.config,
+  #     hl.on, hl.bind, hl.dsp.exec_cmd, hl.monitor via `hyprctl eval`) is taken
+  #     from the wiki, not from a run. Check `hyprctl configerrors`.
+  #  2. Whether `--config <file>.lua` is honoured (else the file must live at
+  #     $XDG_CONFIG_HOME/hypr/hyprland.lua).
+  #  3. Sunshine's "Couldn't import RGB Image: 00003009" (EGL_BAD_MATCH) on wlr
+  #     capture. Pinning the NVIDIA EGL vendor file is the first attempt.
+  #  4. Input: AQ_BACKENDS=headless,libinput + LIBSEAT_BACKEND=noop.
+  #  5. Image shares host /nix/store + /run/opengl-driver: build from the SAME
+  #     nixpkgs as the host.
+  #  6. Moonlight accepts "ip:port" for the 2nd+ output of a desktop.
   flake.nixosModules.desktop-streaming = {
     lib,
     pkgs,
@@ -38,20 +40,24 @@
       xOffsets =
         lib.imap0 (i: _: lib.foldl' builtins.add 0 (lib.take i widths)) widths;
 
-      hyprConf = pkgs.writeText "hyprland-${name}.conf" ''
-        misc {
-          disable_hyprland_logo = true
-          disable_splash_rendering = true
-        }
-        cursor {
-          no_hardware_cursors = true
-        }
-        ${lib.concatMapStringsSep "\n" (c: "exec-once = ${c}") d.hyprland.autostart}
+      # Hyprland >= 0.57 only understands Lua.
+      hyprConf = pkgs.writeText "hyprland-${name}.lua" ''
+        hl.config({
+          misc = {
+            disable_hyprland_logo = true,
+            disable_splash_rendering = true,
+          },
+        })
+
+        hl.on("hyprland.start", function()
+          ${lib.concatMapStringsSep "\n  " (c: "hl.exec_cmd(\"${c}\")") d.hyprland.autostart}
+        end)
+
         ${d.hyprland.extraConfig}
       '';
 
-      # One block per output: create a headless monitor, place it, write a
-      # Sunshine config for it, create its audio sink and start Sunshine.
+      # One block per output: create a named headless monitor, set its mode and
+      # position, write a Sunshine config for it, create its audio sink, start Sunshine.
       outputBlocks = lib.concatStrings (lib.imap0 (i: o: let
           n = toString (i + 1);
           port = 47989 + 100 * i;
@@ -68,12 +74,12 @@
             }));
         in ''
           # ---- output ${n}: ${o.mode} on port ${toString port} ----
-          before=$(hyprctl monitors all -j | jq -r '.[].name' | sort)
-          hyprctl output create headless
+          name=desk-${n}
+          hyprctl output create headless "$name"
           sleep 0.5
-          name=$(comm -13 <(echo "$before") <(hyprctl monitors all -j | jq -r '.[].name' | sort) | head -n1)
-          hyprctl keyword monitor "$name,${o.mode},${toString (builtins.elemAt xOffsets i)}x0,1"
-          idx=$(hyprctl monitors all -j | jq -r --arg n "$name" 'map(.name) | index($n)')
+          hyprctl eval "hl.monitor({ output = \"$name\", mode = \"${o.mode}\", position = \"${toString (builtins.elemAt xOffsets i)}x0\", scale = 1 })"
+          sleep 0.5
+          idx=$(hyprctl -j monitors all | jq -r --arg n "$name" 'map(.name) | index($n)')
           mkdir -p /state/sunshine-${n}
           { cat ${staticConf}; echo "output_name = $idx"; } > /state/sunshine-${n}.conf
           pactl load-module module-null-sink sink_name=sunshine-${n} >/dev/null
@@ -96,8 +102,6 @@
           d.sunshine.package
         ];
         text = ''
-          export AQ_TRACE=1
-          export HYPRLAND_TRACE=1
           # PipeWire wants a session bus
           if [ -z "$(printenv DBUS_SESSION_BUS_ADDRESS)" ]; then
             exec dbus-run-session --config-file=${pkgs.dbus}/share/dbus-1/session.conf -- "$0" "$@"
@@ -113,12 +117,18 @@
           export __EGL_VENDOR_LIBRARY_DIRS=/run/opengl-driver/share/glvnd/egl_vendor.d
           export GBM_BACKENDS_PATH=/run/opengl-driver/lib/gbm
           export GBM_BACKEND=nvidia-drm
+          # pin EGL to the NVIDIA vendor library for Hyprland AND Sunshine
+          if [ -e /run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json ]; then
+            export __EGL_VENDOR_LIBRARY_FILENAMES=/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json
+          fi
 
           export XDG_SESSION_TYPE=wayland
           export AQ_BACKENDS=headless,libinput
+          export AQ_DRM_DEVICES=${d.drmCard}
           export LIBSEAT_BACKEND=noop
           export WLR_NO_HARDWARE_CURSORS=1
 
+          # Hyprland refuses to run as root; the container runs as root for now
           Hyprland --i-am-really-stupid --config ${hyprConf} &
 
           # wait for the compositor
@@ -142,6 +152,10 @@
           ${outputBlocks}
 
           pactl set-default-sink sunshine-1
+
+          # diagnostics in the journal
+          echo "== hyprland config errors =="; hyprctl configerrors || true
+          echo "== monitors =="; hyprctl monitors all || true
 
           trap 'kill 0' EXIT
           # if anything dies, exit non-zero so the container restarts
@@ -178,8 +192,8 @@
       devices =
         d.devices
         ++ [
-          "/dev/dri/card1:/dev/dri/card1"
-          "/dev/dri/renderD128:/dev/dri/renderD128"
+          "${d.drmCard}:${d.drmCard}"
+          "${d.renderNode}:${d.renderNode}"
           "/dev/uinput:/dev/uinput"
         ];
 
@@ -243,6 +257,16 @@
           type = types.listOf types.package;
           default = [pkgs.kitty];
         };
+        drmCard = mkOption {
+          type = types.str;
+          default = "/dev/dri/card1";
+          description = "DRM card node of the NVIDIA GPU (see /dev/dri/by-path).";
+        };
+        renderNode = mkOption {
+          type = types.str;
+          default = "/dev/dri/renderD128";
+          description = "Render node of the NVIDIA GPU.";
+        };
         devices = mkOption {
           type = types.listOf types.str;
           default = [
@@ -252,21 +276,21 @@
             "/dev/nvidia-uvm-tools"
             "/dev/nvidia-modeset"
           ];
-          description = "GPU device nodes passed to the container.";
+          description = "NVIDIA device nodes passed to the container.";
         };
         hyprland = {
           autostart = mkOption {
             type = types.listOf types.str;
             default = [];
-            description = "Commands for exec-once.";
+            example = ["kitty"];
+            description = "Commands started on hyprland.start.";
           };
           extraConfig = mkOption {
             type = types.lines;
             default = ''
-              bind = SUPER, Return, exec, kitty
-              bind = SUPER, Q, killactive
-              bind = SUPER SHIFT, E, exit
+              hl.bind("SUPER + Return", hl.dsp.exec_cmd("kitty"))
             '';
+            description = "Extra Lua appended to hyprland.lua (Hyprland >= 0.57).";
           };
         };
         sunshine = {
@@ -282,7 +306,6 @@
               hevc_mode = 0;
               origin_web_ui_allowed = "lan";
               system_tray = "disabled";
-              output_name = "HEADLESS-1";
             };
             description = ''
               Extra sunshine.conf keys. Per-output identity (name, port, state
@@ -300,7 +323,7 @@
       parentInterface = mkOption {
         type = types.nullOr types.str;
         default = null;
-        example = "eno1";
+        example = "enp4s0";
         description = "NIC used as the macvlan parent for desktop containers.";
       };
 
