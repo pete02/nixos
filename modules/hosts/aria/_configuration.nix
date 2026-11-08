@@ -36,6 +36,15 @@
       enable = true;
       parentInterface = "enp4s0"; # aria's real NIC name
       desktops.aria = {
+        hyprland.autostart = ["kitty"];
+        hyprland.extraConfig = ''
+          misc {
+            background_color = 0xff1e3a5f
+          }
+          bind = SUPER, Return, exec, kitty
+          bind = SUPER, Q, killactive
+          bind = SUPER SHIFT, E, exit
+        '';
         outputs = [
           {
             mode = "3440x1440@60";
