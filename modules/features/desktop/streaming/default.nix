@@ -52,7 +52,7 @@
         hostNames = lib.filter (m: cfg.desktops.${m}.hostNetwork) (lib.attrNames cfg.desktops);
       in
         lib.foldl' (acc: m: acc + builtins.length cfg.desktops.${m}.outputs) 0
-        (lib.takeWhile (m: m != n) hostNames)
+        (lib.filter (m: m < n) hostNames)
       else 0;
 
     mkDesktop = name: d: let
