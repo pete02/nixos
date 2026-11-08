@@ -99,6 +99,7 @@
           pipewire
           wireplumber
           pulseaudio # pactl only
+          mesa-demos # eglinfo, diagnostics only
           d.sunshine.package
         ];
         text = ''
@@ -117,6 +118,8 @@
           export __EGL_VENDOR_LIBRARY_DIRS=/run/opengl-driver/share/glvnd/egl_vendor.d
           export GBM_BACKENDS_PATH=/run/opengl-driver/lib/gbm
           export GBM_BACKEND=nvidia-drm
+          # NVIDIA's EGL needs its GBM/Wayland external-platform configs to initialise
+          export __EGL_EXTERNAL_PLATFORM_CONFIG_DIRS=/run/opengl-driver/share/egl/egl_external_platform.d
           # pin EGL to the NVIDIA vendor library for Hyprland AND Sunshine
           if [ -e /run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json ]; then
             export __EGL_VENDOR_LIBRARY_FILENAMES=/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json
@@ -156,6 +159,8 @@
           # diagnostics in the journal
           echo "== hyprland config errors =="; hyprctl configerrors || true
           echo "== monitors =="; hyprctl monitors all || true
+          echo "== env =="; env | grep -E 'EGL|GBM|AQ_|LD_LIBRARY' || true
+          echo "== eglinfo =="; eglinfo -B 2>&1 | head -80 || true
 
           trap 'kill 0' EXIT
           # if anything dies, exit non-zero so the container restarts
