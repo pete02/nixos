@@ -43,6 +43,72 @@
 
     anyMacvlan = lib.any (d: !d.hostNetwork) (lib.attrValues cfg.desktops);
 
+    # Containers on their own (macvlan) network namespace never receive udev
+    # hotplug events, because the kernel and udevd only broadcast into the init
+    # netns. This relay listens to the host's libudev broadcasts (netlink group 2)
+    # and re-sends input/hidraw events into each such container's netns, so
+    # libinput in the compositor sees Sunshine's devices as they appear.
+    relayTargets =
+      lib.mapAttrsToList (n: _: "desktop-${n}")
+      (lib.filterAttrs (_: d: !d.hostNetwork) cfg.desktops);
+
+    relayScript = pkgs.writeText "streaming-udev-relay.py" ''
+      import os, socket, struct, subprocess, sys
+
+      NETLINK_KOBJECT_UEVENT = 15
+      GROUP_UDEV = 2
+      FORWARD = {b"input", b"hidraw"}
+      targets = sys.argv[1:]
+
+
+      def netns_path(name):
+          r = subprocess.run(
+              ["podman", "inspect", "-f", "{{.State.Pid}}", name],
+              capture_output=True, text=True)
+          pid = r.stdout.strip()
+          if r.returncode != 0 or pid in ("", "0"):
+              return None
+          return "/proc/%s/ns/net" % pid
+
+
+      def inject(path, data):
+          child = os.fork()
+          if child == 0:
+              code = 1
+              try:
+                  fd = os.open(path, os.O_RDONLY)
+                  os.setns(fd, os.CLONE_NEWNET)
+                  s = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW,
+                                    NETLINK_KOBJECT_UEVENT)
+                  s.bind((0, 0))
+                  s.sendto(data, (0, GROUP_UDEV))
+                  code = 0
+              except Exception as e:
+                  print("udev-relay: inject into %s failed: %r" % (path, e),
+                        file=sys.stderr, flush=True)
+              os._exit(code)
+          os.waitpid(child, 0)
+
+
+      rx = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, NETLINK_KOBJECT_UEVENT)
+      rx.bind((0, GROUP_UDEV))
+      print("udev-relay: forwarding input events to", targets, flush=True)
+
+      while True:
+          data = rx.recv(65536)
+          if data[:8] != b"libudev\0" or len(data) < 40:
+              continue
+          off, length = struct.unpack_from("II", data, 16)
+          props = data[off:off + length].split(b"\0")
+          sub = [p[10:] for p in props if p.startswith(b"SUBSYSTEM=")]
+          if not sub or sub[0] not in FORWARD:
+              continue
+          for t in targets:
+              path = netns_path(t)
+              if path:
+                  inject(path, data)
+    '';
+
     # With macvlan every desktop has its own IP, so ports restart at 47989 per
     # desktop. With hostNetwork all desktops share the host's ports, so the
     # port base is allocated across all host-network desktops (sorted by name).
@@ -290,9 +356,11 @@
           default = false;
           description = ''
             Run the container in the host network namespace instead of a macvlan
-            IP. Needed for keyboard/mouse: udev hotplug events (netlink) only
+            IP. Fallback for keyboard/mouse: udev hotplug events (netlink) only
             reach the init network namespace, so a compositor in a separate
-            netns never learns about Sunshine's uinput devices. With this on,
+            netns never learns about Sunshine's uinput devices. Macvlan
+            desktops get those events through the streaming-udev-relay
+            service instead; use this only if the relay does not work. With this on,
             `ip` is just the host's LAN address (used for the CSRF origin),
             Sunshine's ports are opened in the host firewall, and every output
             of every host-network desktop gets its own port base (47989,
@@ -483,6 +551,18 @@
 
       systemd.services =
         {
+          streaming-udev-relay = lib.mkIf (relayTargets != []) {
+            description = "Relay host udev input events into desktop containers";
+            wantedBy = ["multi-user.target"];
+            after = ["podman.socket"];
+            path = [pkgs.podman];
+            serviceConfig = {
+              ExecStart = "${pkgs.python3}/bin/python3 ${relayScript} ${lib.concatStringsSep " " relayTargets}";
+              Restart = "always";
+              RestartSec = 2;
+            };
+          };
+
           streaming-network = lib.mkIf anyMacvlan {
             wantedBy = ["multi-user.target"];
             after = ["network-online.target"];
