@@ -1,4 +1,3 @@
-
 {self, ...}: {
   # Containerised headless desktops streamed with one Sunshine instance per
   # virtual output. The desktop itself is NOT defined here: it comes from a
@@ -42,6 +41,20 @@
 
     stateRoot = "/var/lib/streaming";
 
+    anyMacvlan = lib.any (d: !d.hostNetwork) (lib.attrValues cfg.desktops);
+
+    # With macvlan every desktop has its own IP, so ports restart at 47989 per
+    # desktop. With hostNetwork all desktops share the host's ports, so the
+    # port base is allocated across all host-network desktops (sorted by name).
+    portShift = n: d:
+      if d.hostNetwork
+      then let
+        hostNames = lib.filter (m: cfg.desktops.${m}.hostNetwork) (lib.attrNames cfg.desktops);
+      in
+        lib.foldl' (acc: m: acc + builtins.length cfg.desktops.${m}.outputs) 0
+        (lib.takeWhile (m: m != n) hostNames)
+      else 0;
+
     mkDesktop = name: d: let
       ip = (builtins.head d.outputs).ip;
 
@@ -65,7 +78,7 @@
       # position, write a Sunshine config for it, create its audio sink, start Sunshine.
       outputBlocks = lib.concatStrings (lib.imap0 (i: o: let
           n = toString (i + 1);
-          port = 47989 + 100 * i;
+          port = 47989 + 100 * (i + portShift name d);
           staticConf = pkgs.writeText "sunshine-${name}-${n}.conf" (toConf (d.sunshine.settings
             // {
               sunshine_name = "${name}-${n}";
@@ -230,7 +243,11 @@
 
       extraOptions =
         [
-          "--network=streaming:ip=${ip}"
+          (
+            if d.hostNetwork
+            then "--network=host"
+            else "--network=streaming:ip=${ip}"
+          )
           "--device-cgroup-rule=c 13:* rmw"
           "--tmpfs=/tmp"
           "--shm-size=1g"
@@ -267,6 +284,22 @@
           type = types.bool;
           default = false;
           description = "Keep /home/user across restarts (otherwise tmpfs).";
+        };
+        hostNetwork = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            Run the container in the host network namespace instead of a macvlan
+            IP. Needed for keyboard/mouse: udev hotplug events (netlink) only
+            reach the init network namespace, so a compositor in a separate
+            netns never learns about Sunshine's uinput devices. With this on,
+            `ip` is just the host's LAN address (used for the CSRF origin),
+            Sunshine's ports are opened in the host firewall, and every output
+            of every host-network desktop gets its own port base (47989,
+            48089, ... allocated across desktops in name order).
+            NOTE: all desktops on the host then see all uinput devices, so
+            keyboard/mouse input is shared between them.
+          '';
         };
 
         desktop = {
@@ -402,7 +435,7 @@
       assertions =
         [
           {
-            assertion = cfg.parentInterface != null;
+            assertion = !anyMacvlan || cfg.parentInterface != null;
             message = "gaming.streaming.parentInterface must be set (macvlan parent).";
           }
         ]
@@ -427,6 +460,19 @@
       virtualisation.oci-containers.containers =
         lib.mapAttrs' (n: d: lib.nameValuePair "desktop-${n}" (mkDesktop n d)) cfg.desktops;
 
+      networking.firewall = let
+        hostNames = lib.filter (n: cfg.desktops.${n}.hostNetwork) (lib.attrNames cfg.desktops);
+        bases = n: let
+          d = cfg.desktops.${n};
+        in
+          lib.imap0 (i: _: 47989 + 100 * (i + portShift n d)) d.outputs;
+      in {
+        allowedTCPPorts =
+          lib.concatMap (n: lib.concatMap (p: [(p - 5) p (p + 1) (p + 21)]) (bases n)) hostNames;
+        allowedUDPPorts =
+          lib.concatMap (n: lib.concatMap (p: lib.range (p + 9) (p + 13)) (bases n)) hostNames;
+      };
+
       systemd.tmpfiles.rules = lib.flatten (lib.mapAttrsToList (n: d:
         [
           "d ${stateRoot}/${n} 0700 root root -"
@@ -437,7 +483,7 @@
 
       systemd.services =
         {
-          streaming-network = {
+          streaming-network = lib.mkIf anyMacvlan {
             wantedBy = ["multi-user.target"];
             after = ["network-online.target"];
             wants = ["network-online.target"];
@@ -456,11 +502,11 @@
             '';
           };
         }
-        // lib.mapAttrs' (n: _:
-          lib.nameValuePair "podman-desktop-${n}" {
+        // lib.mapAttrs' (n: d:
+          lib.nameValuePair "podman-desktop-${n}" (lib.mkIf (!d.hostNetwork) {
             after = ["streaming-network.service"];
             requires = ["streaming-network.service"];
-          })
+          }))
         cfg.desktops;
     };
   };
