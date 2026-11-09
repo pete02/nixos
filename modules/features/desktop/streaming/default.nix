@@ -330,13 +330,12 @@
             else "--network=streaming:ip=${ip}"
           )
           "--device-cgroup-rule=c 13:* rmw"
-          # owned by the container's uid so it can write $XDG_RUNTIME_DIR (and
-          # $HOME when it is a tmpfs) as an unprivileged user
-          "--tmpfs=/tmp:uid=${toString d.uid},gid=${toString d.gid},mode=1777"
+          # podman's tmpfs is mode 1777 (world-writable), so the unprivileged
+          # container user can create $XDG_RUNTIME_DIR (and $HOME) in it
+          "--tmpfs=/tmp"
           "--shm-size=1g"
         ]
-        ++ lib.optional (!d.persistentHome)
-          "--tmpfs=/home/user:uid=${toString d.uid},gid=${toString d.gid},mode=700";
+        ++ lib.optional (!d.persistentHome) "--tmpfs=/home/user";
     };
 
     outputType = types.submodule {
