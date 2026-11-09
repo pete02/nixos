@@ -270,10 +270,25 @@
         extraCommands = ''
           mkdir -p tmp home/user state
           chmod 1777 tmp
+          # fakeNss only ships root + nobody; replace its passwd/group with
+          # entries for the unprivileged user the container runs as, so PipeWire,
+          # dbus and friends can resolve uid/gid (and HOME=/home/user matches).
+          rm -f etc/passwd etc/group
+          cat > etc/passwd <<EOF
+          root:x:0:0:root user:/var/empty:/bin/sh
+          user:x:${toString d.uid}:${toString d.gid}:Desktop user:/home/user:/bin/sh
+          nobody:x:65534:65534:nobody:/var/empty:/bin/sh
+          EOF
+          cat > etc/group <<EOF
+          root:x:0:
+          user:x:${toString d.gid}:
+          nobody:x:65534:
+          EOF
         '';
         config = {
           Entrypoint = ["${entrypoint}/bin/desktop-entrypoint"];
           Env = ["PATH=/bin"];
+          User = "${toString d.uid}:${toString d.gid}";
         };
       };
     in {
@@ -315,10 +330,13 @@
             else "--network=streaming:ip=${ip}"
           )
           "--device-cgroup-rule=c 13:* rmw"
-          "--tmpfs=/tmp"
+          # owned by the container's uid so it can write $XDG_RUNTIME_DIR (and
+          # $HOME when it is a tmpfs) as an unprivileged user
+          "--tmpfs=/tmp:uid=${toString d.uid},gid=${toString d.gid},mode=1777"
           "--shm-size=1g"
         ]
-        ++ lib.optional (!d.persistentHome) "--tmpfs=/home/user";
+        ++ lib.optional (!d.persistentHome)
+          "--tmpfs=/home/user:uid=${toString d.uid},gid=${toString d.gid},mode=700";
     };
 
     outputType = types.submodule {
@@ -388,11 +406,12 @@
           };
           command = mkOption {
             type = types.functionTo types.str;
-            default = pkg: "${pkg}/bin/hyprland --i-am-really-stupid";
-            defaultText = lib.literalExpression ''pkg: "''${pkg}/bin/hyprland --i-am-really-stupid"'';
+            default = pkg: "${pkg}/bin/hyprland";
+            defaultText = lib.literalExpression ''pkg: "''${pkg}/bin/hyprland"'';
             description = ''
               Shell command that starts the compositor, given the package.
-              The container runs as root for now, hence the flag; to go through
+              The container runs as an unprivileged user (see desktop.uid), so
+              Hyprland needs no `--i-am-really-stupid` flag; to go through
               the launcher use e.g.
               `pkg: "''${pkg}/bin/start-hyprland --path ''${pkg}/bin/hyprland"`
               (check how it forwards flags first).
@@ -424,6 +443,29 @@
           type = types.attrsOf types.str;
           default = {};
           description = "Extra environment variables for the container.";
+        };
+
+        uid = mkOption {
+          type = types.int;
+          default = 1000;
+          description = ''
+            Numeric user id the container runs as. fakeNss only ships `root`
+            and `nobody`, so the image injects its own passwd/group entry named
+            `user` for this uid (home `/home/user`), matching the container's
+            `HOME`. Any uid works, since the entry is generated from it.
+          '';
+        };
+        gid = mkOption {
+          type = types.int;
+          default = 1000;
+          description = ''
+            Numeric group id the container runs as. The image gets a matching
+            passwd/group entry (named `user`). Sunshine creates virtual input
+            devices by writing the bind-mounted `/dev/uinput`, which the host
+            owns as `root:<uinput group>` mode `0660`; so for keyboard/mouse
+            streaming to work, set this to the host's `uinput` group id
+            (e.g. `getent group uinput`) instead of the default.
+          '';
         };
 
         drmCard = mkOption {
@@ -543,10 +585,12 @@
 
       systemd.tmpfiles.rules = lib.flatten (lib.mapAttrsToList (n: d:
         [
-          "d ${stateRoot}/${n} 0700 root root -"
-          "d ${stateRoot}/${n}/state 0700 root root -"
+          "d ${stateRoot}/${n} 0755 root root -"
+          # owned by the container's uid so it can write Sunshine state there
+          "d ${stateRoot}/${n}/state 0700 ${toString d.uid} ${toString d.gid} -"
         ]
-        ++ lib.optional d.persistentHome "d ${stateRoot}/${n}/home 0700 root root -")
+        ++ lib.optional d.persistentHome
+          "d ${stateRoot}/${n}/home 0700 ${toString d.uid} ${toString d.gid} -")
       cfg.desktops);
 
       systemd.services =
