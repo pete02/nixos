@@ -283,12 +283,15 @@
           root:x:0:
           user:x:${toString d.gid}:
           nobody:x:65534:
+          ${lib.concatStrings (map (g: "g${toString g}:x:${toString g}:user\n") d.extraGids)}
           EOF
         '';
         config = {
           Entrypoint = ["${entrypoint}/bin/desktop-entrypoint"];
           Env = ["PATH=/bin"];
-          User = "${toString d.uid}:${toString d.gid}";
+          # by NAME, not uid:gid - podman then resolves the primary gid AND
+          # the supplementary groups from the image's /etc/passwd + /etc/group
+          User = "user";
         };
       };
     in {
@@ -458,12 +461,26 @@
           type = types.int;
           default = 1000;
           description = ''
-            Numeric group id the container runs as. The image gets a matching
-            passwd/group entry (named `user`). Sunshine creates virtual input
-            devices by writing the bind-mounted `/dev/uinput`, which the host
-            owns as `root:<uinput group>` mode `0660`; so for keyboard/mouse
-            streaming to work, set this to the host's `uinput` group id
-            (e.g. `getent group uinput`) instead of the default.
+            Numeric group id the container runs as (primary group). The image
+            gets a matching passwd/group entry (named `user`). For host-owned
+            device groups (`/dev/dri/card1` is `video`, `/dev/uinput` is the
+            `uinput` group) prefer listing them in `extraGids` instead, so the
+            user keeps its own primary gid.
+          '';
+        };
+        extraGids = mkOption {
+          type = types.listOf types.int;
+          default = [];
+          example = [ 26 ];
+          description = ''
+            Supplementary group ids the container user also belongs to. The
+            image's passwd/group entries are generated, so the container runs
+            its user by NAME and podman resolves these groups from /etc/group.
+            Required for GPU access: /dev/dri/card1 is `root:video` mode 0660,
+            so the video group id (host `getent group video`) must be listed
+            here, or Hyprland's DRM backend fails with `CBackend::create()
+            failed!`. Add the host's `uinput` group id too for
+            keyboard/mouse streaming through /dev/uinput.
           '';
         };
 
