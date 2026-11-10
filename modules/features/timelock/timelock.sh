@@ -467,9 +467,9 @@ case "$action" in
                     "$(format_duration "$remaining")"
                 printf 'Manual lock available at: %s\n' \
                     "$(date -d "@$manual_lock_time")"
-                printf "Vault unlock cutoff at: %s' $TIMELOCK_CUTOFF_HOUR"
             fi
         fi
+        printf "Vault unlock cutoff at: %s' $TIMELOCK_CUTOFF_HOUR"
         ;;
 
     *)
