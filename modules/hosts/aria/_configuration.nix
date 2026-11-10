@@ -49,9 +49,11 @@
         # the container user must belong to the host's `video` group (gid 26,
         # see getent group video) or Hyprland cannot open /dev/dri/card1
         # (crw-rw---- root video 0660) and its DRM backend dies with
-        # `CBackend::create() failed!`. Add the `uinput` group id here too
-        # (getent group uinput) if keyboard/mouse streaming stops working.
-        extraGids = [ 26 ];
+        # `CBackend::create() failed!`.
+        extraGids = [
+          26 # `video`: /dev/dri/card1 is root:video 0660, Hyprland's DRM backend needs it
+          992 # `uinput`: /dev/uinput is root:uinput 0660, Sunshine's emulated keyboard/mouse needs it
+        ];
       };
     };
     compatibility = true;
