@@ -26,7 +26,9 @@ Environment:
   TIMELOCK_STATE_DIR          Directory containing state and lock files.
   TIMELOCK_STATE_USER         User who owns the state files.
   TIMELOCK_MAX_SESSION_SECS   Maximum session duration (default: 3600).
-  TIMELOCK_COOLDOWN_SECS      Cooldown after locking (default: 259200).
+  TIMELOCK_COOLDOWN_SECS      Interval between unlocks, measured from the
+                              start of the previous unlocked session
+                              (default: 259200).
   TIMELOCK_CUTOFF_HOUR        Hour after which unlocking is prohibited (default: 21).
   TIMELOCK_LOCK_COMMAND       Absolute path to the lock command.
   TIMELOCK_UNLOCK_COMMAND     Absolute path to the unlock command.
@@ -219,9 +221,10 @@ format_duration() {
 read_state() {
     STATE="locked"
     TIMESTAMP=0
+    COOLDOWN_AT=0
 
     if [[ -f "$state_file" ]]; then
-        read -r STATE TIMESTAMP < "$state_file" ||
+        read -r STATE TIMESTAMP COOLDOWN_AT _ < "$state_file" ||
             die "Cannot read state for $resource"
 
         [[ "$STATE" == "locked" || "$STATE" == "unlocked" ]] ||
@@ -229,12 +232,17 @@ read_state() {
 
         [[ "$TIMESTAMP" =~ ^[0-9]+$ ]] ||
             die "Invalid timestamp for $resource"
+
+        # Older state files have no cooldown base; fall back to the
+        # recorded timestamp so behaviour stays sane.
+        [[ "$COOLDOWN_AT" =~ ^[0-9]+$ ]] || COOLDOWN_AT="$TIMESTAMP"
     fi
 }
 
 write_state() {
     local new_state="$1"
     local timestamp="$2"
+    local cooldown_at="${3:-$timestamp}"
     local temporary
 
     temporary=$(mktemp "$TIMELOCK_STATE_DIR/.${resource}.state.XXXXXX")
@@ -242,7 +250,7 @@ write_state() {
     # Remove an incomplete temporary file if a write fails.
     trap 'rm -f -- "${temporary:-}"' RETURN
 
-    printf '%s %s\n' "$new_state" "$timestamp" > "$temporary"
+    printf '%s %s %s\n' "$new_state" "$timestamp" "$cooldown_at" > "$temporary"
     chmod 0600 "$temporary"
 
     if (( EUID == 0 )); then
@@ -261,12 +269,13 @@ log() {
 
 apply_lock() {
     local reason="$1"
+    local cooldown_at="${2:-$COOLDOWN_AT}"
     local timestamp
 
     timestamp=$(now)
 
     if "$TIMELOCK_LOCK_COMMAND"; then
-        write_state locked "$timestamp"
+        write_state locked "$timestamp" "$cooldown_at"
         log "$resource locked: $reason"
     else
         log "$resource lock operation failed: $reason"
@@ -291,7 +300,7 @@ expiry_time() {
 }
 
 next_unlock_time() {
-    local timestamp="$1"
+    local cooldown_at="$1"
     local current_time cooldown_end candidate candidate_date
     local candidate_hour midnight
 
@@ -305,8 +314,8 @@ next_unlock_time() {
 
     candidate="$current_time"
 
-    if (( timestamp > 0 )); then
-        cooldown_end=$((timestamp + TIMELOCK_COOLDOWN_SECS))
+    if (( cooldown_at > 0 )); then
+        cooldown_end=$((cooldown_at + TIMELOCK_COOLDOWN_SECS))
 
         if (( cooldown_end > candidate )); then
             candidate="$cooldown_end"
@@ -344,7 +353,7 @@ case "$action" in
             read_state
         fi
 
-        if (( TIMESTAMP > 0 && $(now) < TIMESTAMP + TIMELOCK_COOLDOWN_SECS )); then
+        if (( COOLDOWN_AT > 0 && $(now) < COOLDOWN_AT + TIMELOCK_COOLDOWN_SECS )); then
             die "$resource is still in its cooldown period"
         fi
 
@@ -424,12 +433,16 @@ case "$action" in
             printf 'State timestamp: not recorded (initial state)\n'
         fi
 
+        if (( COOLDOWN_AT > 0 )); then
+            printf 'Cooldown measured from: %s\n' "$(date -d "@$COOLDOWN_AT")"
+        fi
+
         if [[ "$STATE" == "locked" ]]; then
-            next_unlock=$(next_unlock_time "$TIMESTAMP")
+            next_unlock=$(next_unlock_time "$COOLDOWN_AT")
 
             if [[ "$next_unlock" == "never" ]]; then
                 printf 'Can unlock now: no\n'
-                printf 'Unlock availability: never (cutoff hour is 00:00)\n'
+                printf 'Unlock availability: never (unlocking is always prohibited)\n'
             elif (( next_unlock <= current_time )); then
                 printf 'Can unlock now: yes\n'
             else
@@ -469,7 +482,7 @@ case "$action" in
                     "$(date -d "@$manual_lock_time")"
             fi
         fi
-        printf "Vault unlock cutoff at: %s' $TIMELOCK_CUTOFF_HOUR"
+        printf 'Vault unlock cutoff at: %s\n' "$(printf '%02d:00' "$TIMELOCK_CUTOFF_HOUR")"
         ;;
 
     *)

@@ -68,7 +68,12 @@
       cooldownSecs = mkOption {
         type = types.ints.between 0 2147483647;
         default = 72 * 60 * 60;
-        description = "Required locked duration before unlocking, in seconds.";
+        description = ''
+          Minimum interval between unlocks, in seconds. Measured from the
+          start of the previous unlocked session, so a session opened at
+          21:00 with a 72h cooldown may be opened again at 21:00 three days
+          later, regardless of when it was locked.
+        '';
       };
 
       cutoffHour = mkOption {
