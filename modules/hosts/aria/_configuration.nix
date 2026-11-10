@@ -42,7 +42,10 @@
             ip = "192.168.88.2";
           }
         ];
-        persistentHome = false;
+        # tmpfs /home/user is root-owned, so the unprivileged container user
+        # cannot create ~/.local/state (wireplumber noise); the bind-mounted
+        # home from tmpfiles is owned by uid:gid instead
+        persistentHome = true;
         # the container user must belong to the host's `video` group (gid 26,
         # see getent group video) or Hyprland cannot open /dev/dri/card1
         # (crw-rw---- root video 0660) and its DRM backend dies with
