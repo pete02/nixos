@@ -42,6 +42,7 @@
     backups
     nixos-management
     gaming
+    streaming
     timelock
     shells
   ];

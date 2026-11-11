@@ -5,14 +5,17 @@
   #
   # Example:
   #
-  #   gaming.streaming = {
+  #   streaming.desktops = {
   #     enable = true;
   #     parentInterface = "enp4s0";
   #     desktops.aria = {
   #       outputs = [{ mode = "3440x1440@60"; ip = "192.168.88.2"; }];
   #       persistentHome = false;
-  #       desktop.extraConfig = '''-- Lua appended to base.lua''';   # uses self.mkHyprlandPkg
-  #       # or bring your own package:
+  #       # Reuse a named desktop def (config.desktops.<name>): its package,
+  #       # packages and extraConfig are pulled in automatically.
+  #       desktop.name = "gaming";
+  #       # Override pieces per-container when needed:
+  #       # desktop.extraConfig = '''-- Lua appended to the def's base.lua''';
   #       # desktop.package = self.mkHyprlandPkg { inherit pkgs; extraConfig = "..."; };
   #       packages = with pkgs; [ kitty ];
   #       desktop.hostProfile = true;   # also expose /run/current-system/sw
@@ -26,13 +29,13 @@
   #  3. The image shares the host /nix/store + /run/opengl-driver: build from the
   #     SAME nixpkgs as the host.
   #  4. Moonlight accepts "ip:port" for the 2nd+ output of a desktop.
-  flake.nixosModules.shells-streaming = {
+  flake.nixosModules.streaming-desktops = {
     lib,
     pkgs,
     config,
     ...
   }: let
-    cfg = config.gaming.streaming;
+    cfg = config.streaming.desktops;
     inherit (lib) mkOption mkEnableOption types;
 
     toConf = lib.generators.toKeyValue {
@@ -124,15 +127,35 @@
     mkDesktop = name: d: let
       ip = (builtins.head d.outputs).ip;
 
-      # The compositor package: yours if given, otherwise built from base.lua
-      # plus desktop.extraConfig via the flake's mkHyprlandPkg.
+      # A named desktop def (config.desktops.<name>) is the single source of the
+      # compositor package, its extra packages and its extraConfig. The
+      # container-side `desktop.{package,extraConfig}` and `packages` are
+      # per-container overrides that win when set. Guarded with `config ? desktops`
+      # so this module still evaluates when the desktop-defs module is not
+      # activated (the defs live in the separate `desktops` module).
+      def =
+        if d.desktop.name != null && config ? desktops && config.desktops ? ${d.desktop.name}
+        then config.desktops.${d.desktop.name}
+        else null;
+
+      defPackages = if def != null then def.packages else [];
+      defExtraConfig = if def != null then def.extraConfig else "";
+      defPkg = if def != null then def.hyprlandPkg else null;
+
+      desktopExtraConfig =
+        if d.desktop.extraConfig != "" then d.desktop.extraConfig else defExtraConfig;
+
+      # The compositor package: explicit override, else the def's package, else
+      # built from base.lua plus the effective extraConfig via mkHyprlandPkg.
       desktopPkg =
         if d.desktop.package != null
         then d.desktop.package
+        else if defPkg != null
+        then defPkg
         else
           self.mkHyprlandPkg {
             inherit pkgs;
-            extraConfig = d.desktop.extraConfig;
+            extraConfig = desktopExtraConfig;
           };
 
       widths =
@@ -187,7 +210,9 @@
             pulseaudio # pactl only
             mesa-demos # eglinfo, diagnostics only
             d.sunshine.package
-          ]);
+          ])
+          ++ defPackages
+          ++ d.packages;
         text = ''
           # PipeWire wants a session bus
           if [ -z "$(printenv DBUS_SESSION_BUS_ADDRESS)" ]; then
@@ -391,6 +416,18 @@
         };
 
         desktop = {
+          name = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            example = "gaming";
+            description = ''
+              Name of a desktop def (`config.desktops.<name>`) to reuse: its
+              compositor package, `packages` and `extraConfig` are pulled into
+              this container automatically. The explicit `desktop.package`,
+              `desktop.extraConfig` and container `packages` below override the
+              def's values when set.
+            '';
+          };
           package = mkOption {
             type = types.nullOr types.package;
             default = null;
@@ -530,7 +567,7 @@
       };
     };
   in {
-    options.gaming.streaming = {
+    options.streaming.desktops = {
       enable = mkEnableOption "containerised multi-output Sunshine desktops";
 
       parentInterface = mkOption {
@@ -562,17 +599,17 @@
         [
           {
             assertion = !anyMacvlan || cfg.parentInterface != null;
-            message = "gaming.streaming.parentInterface must be set (macvlan parent).";
+            message = "streaming.desktops.parentInterface must be set (macvlan parent).";
           }
         ]
         ++ lib.flatten (lib.mapAttrsToList (n: d: [
             {
               assertion = d.outputs != [];
-              message = "gaming.streaming.desktops.${n}: at least one output is required.";
+              message = "streaming.desktops.desktops.${n}: at least one output is required.";
             }
             {
               assertion = lib.all (o: o.ip == (builtins.head d.outputs).ip) d.outputs;
-              message = "gaming.streaming.desktops.${n}: all outputs must share one ip.";
+              message = "streaming.desktops.desktops.${n}: all outputs must share one ip.";
             }
           ])
           cfg.desktops);

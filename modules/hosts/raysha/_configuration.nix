@@ -49,12 +49,13 @@
 
   gaming = {
     steam = true;
-    sunshine = true;
     rpcs3 = true;
     performance = true;
     graphics = true;
     compatibility = true;
   };
+
+  streaming.sunshine.enable = true;
 
   dev = {
     enable = true;

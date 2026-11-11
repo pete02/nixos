@@ -31,11 +31,10 @@
     };
   };
 
-  gaming = {
-    streaming = {
-      enable = true;
-      parentInterface = "enp4s0"; # aria's real NIC name
-      desktops.aria = {
+  streaming.desktops = {
+    enable = true;
+    parentInterface = "enp4s0"; # aria's real NIC name
+    desktops.aria = {
         outputs = [
           {
             mode = "3440x1440@60";
@@ -56,10 +55,10 @@
           174 # `input`: the /dev/input event nodes (incl. Sunshine's uinput devices) are
               # root:input 0660; Hyprland's libinput backend must open them to see them
         ];
-      };
     };
-    compatibility = true;
   };
+
+  gaming.compatibility = true;
 
   nixos-management = {
     auto-update = true;

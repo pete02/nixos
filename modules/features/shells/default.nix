@@ -9,7 +9,6 @@
       shells-displaymanager
       shells-pegasus-cage
       shells-hdmi-cec
-      shells-streaming
     ];
   };
 }
