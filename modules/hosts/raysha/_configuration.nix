@@ -64,7 +64,7 @@
     git = true;
   };
   nixos-management.gitops.enable = true;
-  desktop = {
+  shells = {
     enable = true;
     services = {
       cleaner = true;

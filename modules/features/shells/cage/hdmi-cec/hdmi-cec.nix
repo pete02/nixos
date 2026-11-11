@@ -1,11 +1,11 @@
 {...}: {
-  flake.nixosModules.desktop-hdmi-cec = {
+  flake.nixosModules.shells-hdmi-cec = {
     config,
     lib,
     pkgs,
     ...
   }: let
-    cfg = config.desktop.hdmi-cec;
+    cfg = config.shells.hdmi-cec;
 
     python = pkgs.python3.withPackages (ps: [
       ps.evdev
@@ -20,7 +20,7 @@
       MOUSE_OFF_KEY = cfg.mouseOffKey;
     };
   in {
-    options.desktop.hdmi-cec = {
+    options.shells.hdmi-cec = {
       enable = lib.mkEnableOption "HDMI-CEC remote input";
 
       device = lib.mkOption {

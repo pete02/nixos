@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules.desktop-displaymanager = {
+  flake.nixosModules.shells-displaymanager = {
     config,
     lib,
     pkgs,

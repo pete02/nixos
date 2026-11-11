@@ -1,10 +1,10 @@
 {lib, ...}: {
-  flake.nixosModules.desktop-wayle = {
+  flake.nixosModules.shells-wayle = {
     config,
     pkgs,
     ...
   }: let
-    cfg = config.desktop.wayle;
+    cfg = config.shells.wayle;
 
     extraToml =
       pkgs.writeText
@@ -25,7 +25,7 @@
       EOF
     '';
   in {
-    options.desktop.wayle = {
+    options.shells.wayle = {
       enable = lib.mkEnableOption "Wayle desktop shell";
 
       configDir = lib.mkOption {
@@ -48,11 +48,11 @@
       assertions = [
         {
           assertion = config.username != "";
-          message = "The username used by desktop.wayle must not be empty.";
+          message = "The username used by shells.wayle must not be empty.";
         }
         {
           assertion = lib.hasPrefix "/" cfg.configDir;
-          message = "desktop.wayle.configDir must be an absolute path.";
+          message = "shells.wayle.configDir must be an absolute path.";
         }
       ];
       environment.systemPackages = [

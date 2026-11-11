@@ -38,7 +38,7 @@
     credentialsSecret = "samba/server";
   };
 
-  desktop = {
+  shells = {
     enable = true;
     services = {
       cleaner = true;

@@ -53,7 +53,7 @@ in {
     pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
   };
 
-  flake.nixosModules.desktop-hyprland = {
+  flake.nixosModules.shells-hyprland = {
     config,
     lib,
     pkgs,
@@ -61,10 +61,10 @@ in {
   }: let
     hyprlandPkg = self.mkHyprlandPkg {
       inherit pkgs;
-      extraConfig = config.desktop.hyprland.extraConfig;
+      extraConfig = config.shells.hyprland.extraConfig;
     };
   in {
-    options.desktop.hyprland = {
+    options.shells.hyprland = {
       enable = lib.mkEnableOption "Hyprland desktop";
 
       extraConfig = lib.mkOption {
@@ -80,7 +80,7 @@ in {
       };
     };
 
-    config = lib.mkIf config.desktop.hyprland.enable {
+    config = lib.mkIf config.shells.hyprland.enable {
       environment.systemPackages = [hyprlandPkg];
       programs.xwayland.enable = true;
       displayManager = {
@@ -91,9 +91,9 @@ in {
         sessionCommand = "${hyprlandPkg}/bin/start-hyprland --path ${hyprlandPkg}/bin/hyprland";
       };
 
-      desktop.wayle = {
+      shells.wayle = {
         enable = true;
-        extraConfig = config.desktop.hyprland.extraWayleConfig;
+        extraConfig = config.shells.hyprland.extraWayleConfig;
       };
     };
   };

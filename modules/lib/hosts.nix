@@ -43,7 +43,7 @@
     nixos-management
     gaming
     timelock
-    desktop
+    shells
   ];
 
   mkHost = {

@@ -1,11 +1,11 @@
 {self, ...}: {
-  flake.nixosModules.desktop-pegasus-cage = {
+  flake.nixosModules.shells-pegasus-cage = {
     config,
     lib,
     pkgs,
     ...
   }: let
-    cfg = config.desktop.pegasus-cage;
+    cfg = config.shells.pegasus-cage;
     user = config.users.users.${cfg.user};
     tv-ui-app = self.packages.${pkgs.stdenv.hostPlatform.system}.tv-ui-app;
 
@@ -35,7 +35,7 @@
       genre: Settings
     '';
   in {
-    options.desktop.pegasus-cage = {
+    options.shells.pegasus-cage = {
       enable = lib.mkEnableOption "Pegasus frontend running in a cage kiosk session";
 
       tmdbSecret = lib.mkOption {
@@ -94,7 +94,7 @@
         TMDB_API_KEY=${config.sops.placeholder.${cfg.tmdbSecret}}
       '';
 
-      desktop.hdmi-cec.enable = true;
+      shells.hdmi-cec.enable = true;
 
       # tv-ui's pointer websocket creates a uinput device
       hardware.uinput.enable = true;

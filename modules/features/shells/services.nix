@@ -1,5 +1,5 @@
 {...}: {
-  flake.nixosModules.desktop-services = {
+  flake.nixosModules.shells-services = {
     pkgs,
     self,
     lib,
@@ -19,14 +19,14 @@
       };
     };
   in {
-    options.desktop = {
+    options.shells = {
       enable = lib.mkEnableOption "Enables desktop";
       services = {
         cleaner = lib.mkEnableOption "Enable the cleaner service";
       };
     };
     config = lib.mkMerge [
-      (lib.mkIf config.desktop.enable {
+      (lib.mkIf config.shells.enable {
         environment.systemPackages = with pkgs; [
           kitty
           mako
@@ -86,7 +86,7 @@
           NIXOS_OZONE_WL = "0";
         };
       })
-      (lib.mkIf (config.desktop.services.cleaner) {
+      (lib.mkIf (config.shells.services.cleaner) {
         systemd.services.cleaner = {
           description = "Clean Downloads and Trash at shutdown";
           wantedBy = ["multi-user.target"];

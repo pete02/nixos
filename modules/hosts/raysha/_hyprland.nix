@@ -1,5 +1,5 @@
 {...}: {
-  desktop.hyprland = {
+  shells.hyprland = {
     enable = true;
     extraConfig = ''
 

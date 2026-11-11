@@ -58,18 +58,18 @@ in {
     pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
   };
 
-  flake.nixosModules.desktop-bigscreen = {
+  flake.nixosModules.shells-bigscreen = {
     config,
     pkgs,
     ...
   }: let
-    cfg = config.desktop.plasma-bigscreen;
+    cfg = config.shells.plasma-bigscreen;
 
     plasmaBigscreenPkg = self.mkPlasmaBigscreenPkg {
       inherit pkgs;
     };
   in {
-    options.desktop.plasma-bigscreen = {
+    options.shells.plasma-bigscreen = {
       enable = lib.mkEnableOption "Plasma Bigscreen desktop";
     };
 

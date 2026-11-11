@@ -26,7 +26,7 @@
   #  3. The image shares the host /nix/store + /run/opengl-driver: build from the
   #     SAME nixpkgs as the host.
   #  4. Moonlight accepts "ip:port" for the 2nd+ output of a desktop.
-  flake.nixosModules.desktop-streaming = {
+  flake.nixosModules.shells-streaming = {
     lib,
     pkgs,
     config,
