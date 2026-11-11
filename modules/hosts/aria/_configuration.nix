@@ -52,7 +52,9 @@
         # `CBackend::create() failed!`.
         extraGids = [
           26 # `video`: /dev/dri/card1 is root:video 0660, Hyprland's DRM backend needs it
-          992 # `uinput`: /dev/uinput is root:uinput 0660, Sunshine's emulated keyboard/mouse needs it
+          992 # `uinput`: /dev/uinput is root:uinput 0660, Sunshine opens it to create devices
+          174 # `input`: the /dev/input event nodes (incl. Sunshine's uinput devices) are
+              # root:input 0660; Hyprland's libinput backend must open them to see them
         ];
       };
     };
