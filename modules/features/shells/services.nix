@@ -37,7 +37,7 @@
           wl-clipboard
           feh
           vlc
-          #brave
+          brave
           playerctl
           rofi
           awww
