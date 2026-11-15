@@ -1,0 +1,4 @@
+<<< /nix/var/nix/profiles/system-23-link
+>>> /nix/var/nix/profiles/system-24-link
+No version or selection state changes.
+Closure size: 1482 -> 1482 (3 paths added, 3 paths removed, delta +0, disk usage +416B).

@@ -32,16 +32,15 @@
   zramSwap = {
     enable = true;
   };
-  
-  boot.kernelParams = [ 
+
+  boot.kernelParams = [
     "cfg80211.ieee80211_regdom=FI"
     "iwlwifi.lar_disable=1"
   ];
-  
+
   boot.extraModprobeConfig = ''
     options iwlwifi 11n_disable=8
   '';
-
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
