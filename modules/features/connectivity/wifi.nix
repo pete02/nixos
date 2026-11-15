@@ -2,6 +2,7 @@
   flake.nixosModules.connectivity-wifi = {
     config,
     lib,
+    pkgs,
     ...
   }: {
     options = {
@@ -22,6 +23,12 @@
       };
       systemd.services.NetworkManager-wait-online.enable = false;
       users.users.${config.username or "root"}.extraGroups = ["networkmanager"];
+
+      services.udev.packages = [pkgs.wireless-regdb];
+      boot.extraModprobeConfig = ''
+        options cfg80211 ieee80211_regdom="FI"
+          options iwlwifi 11n_disable=8
+      '';
 
       sops.secrets."wifi/psk" = {
       };
