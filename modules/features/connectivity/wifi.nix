@@ -26,8 +26,9 @@
 
       services.udev.packages = [pkgs.wireless-regdb];
       boot.extraModprobeConfig = ''
-        options cfg80211 ieee80211_regdom="FI"
-          options iwlwifi 11n_disable=8
+        options cfg80211 ieee80211_regdom=FI
+        options iwlwifi lar_disable=1
+        options iwlwifi 11n_disable=8
       '';
 
       sops.secrets."wifi/psk" = {
