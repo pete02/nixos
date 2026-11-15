@@ -138,12 +138,23 @@
         then config.desktops.${d.desktop.name}
         else null;
 
-      defPackages = if def != null then def.packages else [];
-      defExtraConfig = if def != null then def.extraConfig else "";
-      defPkg = if def != null then def.hyprlandPkg else null;
+      defPackages =
+        if def != null
+        then def.packages
+        else [];
+      defExtraConfig =
+        if def != null
+        then def.extraConfig
+        else "";
+      defPkg =
+        if def != null
+        then def.hyprlandPkg
+        else null;
 
       desktopExtraConfig =
-        if d.desktop.extraConfig != "" then d.desktop.extraConfig else defExtraConfig;
+        if d.desktop.extraConfig != ""
+        then d.desktop.extraConfig
+        else defExtraConfig;
 
       # The compositor package: explicit override, else the def's package, else
       # built from base.lua plus the effective extraConfig via mkHyprlandPkg.
@@ -508,7 +519,7 @@
         extraGids = mkOption {
           type = types.listOf types.int;
           default = [];
-          example = [ 26 ];
+          example = [26];
           description = ''
             Supplementary group ids the container user also belongs to. The
             image's passwd/group entries are generated, so the container runs
@@ -643,7 +654,7 @@
           "d ${stateRoot}/${n}/state 0700 ${toString d.uid} ${toString d.gid} -"
         ]
         ++ lib.optional d.persistentHome
-          "d ${stateRoot}/${n}/home 0700 ${toString d.uid} ${toString d.gid} -")
+        "d ${stateRoot}/${n}/home 0700 ${toString d.uid} ${toString d.gid} -")
       cfg.desktops);
 
       systemd.services =

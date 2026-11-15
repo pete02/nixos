@@ -57,7 +57,7 @@
       ];
       environment.systemPackages = [
         (pkgs.wayle.overrideAttrs (old: {
-          buildInputs = old.buildInputs or [] ++ [ pkgs.sqlite ];
+          buildInputs = old.buildInputs or [] ++ [pkgs.sqlite];
         }))
       ];
       systemd.tmpfiles.rules = [

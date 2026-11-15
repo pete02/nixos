@@ -21,7 +21,7 @@
         wifi.backend = "iwd";
       };
       systemd.services.NetworkManager-wait-online.enable = false;
-      users.users.${config.username or "root" }.extraGroups = ["networkmanager"];
+      users.users.${config.username or "root"}.extraGroups = ["networkmanager"];
 
       sops.secrets."wifi/psk" = {
       };

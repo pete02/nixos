@@ -27,10 +27,10 @@
     options iwlwifi power_save=0
     options iwlmvm power_scheme=1
   '';
-  
+
   swapDevices = [];
   hardware.graphics.enable = true;
-  users.users.${config.username}.extraGroups = [ "video" "render" "input" ];
+  users.users.${config.username}.extraGroups = ["video" "render" "input"];
 
   # SSD is on USB (sda), so these are what the initrd needs.
   # usb_storage/uas/xhci_pci are already set in your rpi module.

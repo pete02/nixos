@@ -1,4 +1,3 @@
-
 {
   lib,
   stdenv,
@@ -20,7 +19,6 @@
   libxkbcommon,
   zlib,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "moonlight-qt-rpi";
   version = "6.2.0";
@@ -87,8 +85,8 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Official Raspberry Pi build of Moonlight Qt";
     homepage = "https://moonlight-stream.org";
     license = lib.licenses.gpl3Plus;
-    platforms = [ "aarch64-linux" ];
+    platforms = ["aarch64-linux"];
     mainProgram = "moonlight";
-    sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
+    sourceProvenance = [lib.sourceTypes.binaryNativeCode];
   };
 })
