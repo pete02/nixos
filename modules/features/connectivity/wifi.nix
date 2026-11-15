@@ -24,13 +24,20 @@
       systemd.services.NetworkManager-wait-online.enable = false;
       users.users.${config.username or "root"}.extraGroups = ["networkmanager"];
 
-      services.udev.packages = [pkgs.wireless-regdb];
-      boot.extraModprobeConfig = ''
-        options cfg80211 ieee80211_regdom=FI
-        options iwlwifi lar_disable=1
-        options iwlwifi 11n_disable=8
-      '';
-      boot.kernelParams = ["cfg80211.ieee80211_regdom=FI"];
+      networking.wireless.iwd = {
+        enable = true;
+        settings = {
+          Regulatory = {
+            Country = "FI";
+          };
+          Network = {
+            EnableIPv6 = true;
+          };
+          Settings = {
+            AutoConnect = true;
+          };
+        };
+      };
 
       sops.secrets."wifi/psk" = {
       };
