@@ -23,6 +23,11 @@
     options = ["noatime" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=1min"];
   };
 
+  boot.extraModprobeConfig = ''
+    options iwlwifi power_save=0
+    options iwlmvm power_scheme=1
+  '';
+  
   swapDevices = [];
   hardware.graphics.enable = true;
   users.users.${config.username}.extraGroups = [ "video" "render" "input" ];
