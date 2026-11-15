@@ -8,6 +8,11 @@
     options = {
       connectivity.wifi = {
         enable = lib.mkEnableOption "wireless via NetworkManager";
+        backend = lib.mkOption {
+          type = lib.types.enum ["iwd" "wpa_supplicant"];
+          default = "iwd";
+          description = "Wi-Fi backend for NetworkManager";
+        };
         Ssid = lib.mkOption {
           type = lib.types.nullOr lib.types.str;
           default = null;
@@ -17,30 +22,26 @@
     };
 
     config = lib.mkIf config.connectivity.wifi.enable {
+      environment.systemPackages = [pkgs.iw];
+
       networking.networkmanager = {
         enable = lib.mkForce true;
-        wifi.backend = "iwd";
+        wifi.backend = config.connectivity.wifi.backend;
       };
-      systemd.services.NetworkManager-wait-online.enable = false;
-      users.users.${config.username or "root"}.extraGroups = ["networkmanager"];
 
       networking.wireless.iwd = {
         enable = true;
         settings = {
-          Regulatory = {
+          General = {
             Country = "FI";
-          };
-          Network = {
-            EnableIPv6 = true;
-          };
-          Settings = {
-            AutoConnect = true;
           };
         };
       };
 
-      sops.secrets."wifi/psk" = {
-      };
+      systemd.services.NetworkManager-wait-online.enable = false;
+      users.users.${config.username or "root"}.extraGroups = ["networkmanager"];
+
+      sops.secrets."wifi/psk" = {};
 
       sops.templates."wifi-env".content = ''
         WIFI_PSK=${config.sops.placeholder."wifi/psk"}
@@ -60,8 +61,8 @@
               ssid = config.connectivity.wifi.Ssid;
             };
             wifi-security = {
-              key-mgmt = "wpa-psk";
-              psk = "$WIFI_PSK"; # substituted from environmentFiles at activation
+              key-mgmt = "sae";
+              psk = "$WIFI_PSK";
             };
             ipv4.method = "auto";
             ipv6.method = "auto";
