@@ -24,7 +24,7 @@
   };
 
   swapDevices = [];
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   users.users.${config.username}.extraGroups = [ "video" "render" "input" ];
 
   # SSD is on USB (sda), so these are what the initrd needs.
