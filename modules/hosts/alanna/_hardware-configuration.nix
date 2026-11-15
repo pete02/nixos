@@ -27,7 +27,11 @@
     options iwlwifi power_save=0
     options iwlmvm power_scheme=1
   '';
-
+  
+  hardware.raspberry-pi.config.all.dt-overlays.disable-wifi = {
+    enable = true;
+    params = {};
+  };
   swapDevices = [];
   hardware.graphics.enable = true;
   users.users.${config.username}.extraGroups = ["video" "render" "input"];
