@@ -24,7 +24,7 @@ in {
     cache = {
       host = "aria";
       addr = "192.168.88.241"; # keep the IP; see caveats
-      port = 80000;
+      port = 8889;
       name = "main";
       publicKey = "main:+9aOqlVr48OGBUv/Rs13tioYvhrP76J8a2NcIHBwHIE=";
       envSecret = "services/attic/env";

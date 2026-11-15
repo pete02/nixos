@@ -79,7 +79,7 @@
           };
           port = lib.mkOption {
             type = lib.types.port;
-            default = 80000;
+            default = 8889;
           };
           apiEndpoint = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
