@@ -120,7 +120,7 @@ jobs:
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
 
     env:
-      CACHE_STORE: "http://192.168.88.241:8080/main"
+      CACHE_STORE: "http://192.168.88.241:8889/main"
       HOST: ${{ matrix.host }}
       NIX_CONFIG: |
         experimental-features = nix-command flakes
@@ -185,7 +185,7 @@ jobs:
           ATTIC_TOKEN: ${{ secrets.ATTIC_TOKEN }}
         run: |
           set -eu
-          attic login ci-ip http://192.168.88.241:8080 "$ATTIC_TOKEN"
+          attic login ci-ip http://192.168.88.241:8889 "$ATTIC_TOKEN"
           attic push ci-ip:main "$(cat /tmp/host-path)"
 
       - name: Verify the closure is in the cache
@@ -230,7 +230,7 @@ jobs:
         - nix-store:/nix
 
     env:
-      CACHE_STORE: "http://192.168.88.241:8080/main"
+      CACHE_STORE: "http://192.168.88.241:8889/main"
       NIX_CONFIG: |
         experimental-features = nix-command flakes
         build-users-group =
@@ -310,7 +310,7 @@ jobs:
           set -eu
           [ -s /tmp/out-paths ] || exit 0
 
-          attic login ci-ip http://192.168.88.241:8080 "$ATTIC_TOKEN"
+          attic login ci-ip http://192.168.88.241:8889 "$ATTIC_TOKEN"
           xargs -r attic push ci-ip:main < /tmp/out-paths
       - name: Notify on failure
         if: failure()
