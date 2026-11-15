@@ -30,6 +30,7 @@
         options iwlwifi lar_disable=1
         options iwlwifi 11n_disable=8
       '';
+      boot.kernelParams = ["cfg80211.ieee80211_regdom=FI"];
 
       sops.secrets."wifi/psk" = {
       };
