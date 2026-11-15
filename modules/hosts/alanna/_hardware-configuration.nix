@@ -1,6 +1,7 @@
 {
   lib,
   inputs,
+  config,
   ...
 }: {
   imports = with inputs.nixos-raspberrypi.nixosModules; [
@@ -23,6 +24,8 @@
   };
 
   swapDevices = [];
+  hardware.opengl.enable = true;
+  users.users.${config.username}.extraGroups = [ "video" "render" "input" ];
 
   # SSD is on USB (sda), so these are what the initrd needs.
   # usb_storage/uas/xhci_pci are already set in your rpi module.

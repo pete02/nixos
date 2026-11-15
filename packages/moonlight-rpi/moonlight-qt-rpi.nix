@@ -26,8 +26,8 @@ stdenv.mkDerivation (finalAttrs: {
   version = "6.2.0";
 
   src = fetchurl {
-    url = "https://dl.cloudsmith.io/public/moonlight-game-streaming/moonlight-qt/deb/raspbian/pool/main/m/moonlight-qt/moonlight-qt_6.2.0-1_arm64.deb";
-    hash = lib.fakeHash;
+    url = "https://dl.cloudsmith.io/public/moonlight-game-streaming/moonlight-qt/deb/raspbian/pool/bookworm/main/m/mo/moonlight-qt_6.2.0-1/moonlight-qt_6.2.0-1_arm64.deb";
+    hash = "sha256-/M4KpYjLzBD4ElSYH62cziIv3x4E0vtFJ9yn7XYiIY0=";
   };
 
   dontUnpack = true;
@@ -48,7 +48,7 @@ stdenv.mkDerivation (finalAttrs: {
 
     SDL2
     SDL2_ttf
-    ffmpeg_8
+    ffmpeg5
     libopus
     openssl
     alsa-lib
