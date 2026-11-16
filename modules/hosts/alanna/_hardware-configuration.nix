@@ -26,6 +26,7 @@
   boot.extraModprobeConfig = ''
     options iwlwifi power_save=0
     options iwlmvm power_scheme=1
+    options cfg80211 ieee80211_regdom="FI"
   '';
   
   hardware.raspberry-pi.config.all.dt-overlays.disable-wifi = {

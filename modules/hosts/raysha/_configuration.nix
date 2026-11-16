@@ -38,7 +38,10 @@
 
   connectivity = {
     bluetooth = true;
-    wifi.enable = true;
+    wifi={
+      enable=true;
+      Ssid="Pete";
+    };
     mDNS = true;
   };
   ssh.client.enable = true;

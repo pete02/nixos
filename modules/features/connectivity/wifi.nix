@@ -61,7 +61,7 @@
               ssid = config.connectivity.wifi.Ssid;
             };
             wifi-security = {
-              key-mgmt = "sae";
+              key-mgmt = "wpa-psk sae";
               psk = "$WIFI_PSK";
             };
             ipv4.method = "auto";
