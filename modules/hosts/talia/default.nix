@@ -4,7 +4,7 @@
     system = "x86_64-linux";
     modules = [
       ./_hardware-configuration.nix
-      ./_hyprland.nix
+      ./_desktops.nix
       ./_configuration.nix
     ];
   };

@@ -1,7 +1,5 @@
 {...}: {
-  shells.hyprland = {
-    enable = true;
-    extraConfig = ''
+  desktops.talia.hyprland.extraConfig = ''
       hl.config({
         monitor = {
           "desc:Lenovo Group Limited 0x9052,1920x1080,0x0,1",
@@ -19,19 +17,18 @@
       hl.bind("SUPER + LEFT",
         hl.dsp.exec_cmd("hyprctl dispatch movetoworkspace 2"))
     '';
-    extraWayleConfig = ''
-      [[bar.layout]]
-      monitor = "*"
-      right = [
-        "volume",
-        "netstat",
-        "clock",
-        "systray",
-        "notifications",
-        "network",
-        "bluetooth",
-        "battery",
-      ]
-    '';
-  };
+  desktops.talia.wayle.extraConfig = ''
+    [[bar.layout]]
+    monitor = "*"
+    right = [
+      "volume",
+      "netstat",
+      "clock",
+      "systray",
+      "notifications",
+      "network",
+      "bluetooth",
+      "battery",
+    ]
+  '';
 }

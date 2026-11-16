@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     via
-    rstudio
   ];
 
   hardware.keyboard.qmk.enable = true;
@@ -38,10 +37,5 @@
     credentialsSecret = "samba/server";
   };
 
-  shells = {
-    enable = true;
-    services = {
-      cleaner = true;
-    };
-  };
+  desktops.desktop = "talia";
 }

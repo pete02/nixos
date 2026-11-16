@@ -1,7 +1,5 @@
 {...}: {
-  shells.hyprland = {
-    enable = true;
-    extraConfig = ''
+  desktops.raysha.hyprland.extraConfig = ''
 
       hl.config({
         misc = {
@@ -64,5 +62,4 @@
         hl.exec_cmd("hyprctl dispatch workspace 1")
       end)
     '';
-  };
 }

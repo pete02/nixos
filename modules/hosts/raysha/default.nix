@@ -6,7 +6,7 @@
     modules = [
       ./_hardware.nix
       ./_configuration.nix
-      ./_hyprland.nix
+      ./_desktops.nix
     ];
   };
 }

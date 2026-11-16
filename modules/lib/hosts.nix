@@ -45,6 +45,7 @@
     streaming
     timelock
     shells
+    desktops
   ];
 
   mkHost = {

@@ -56,6 +56,7 @@
   };
 
   streaming.sunshine.enable = true;
+  streaming.sunshine.desktop = "raysha";
 
   dev = {
     enable = true;
@@ -65,10 +66,5 @@
     git = true;
   };
   nixos-management.gitops.enable = true;
-  shells = {
-    enable = true;
-    services = {
-      cleaner = true;
-    };
-  };
+  desktops.desktop = "raysha";
 }

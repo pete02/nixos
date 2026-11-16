@@ -35,6 +35,7 @@
     enable = true;
     parentInterface = "enp4s0"; # aria's real NIC name
     desktops.aria = {
+      desktop.name = "raysha";
       outputs = [
         {
           mode = "3440x1440@60";
