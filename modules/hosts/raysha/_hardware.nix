@@ -3,12 +3,12 @@
   config,
   ...
 }: {
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
-    fsType = "ext4";
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/b4f514aa-cb46-4704-aab9-9f73a6e17eef";
+      fsType = "ext4";
+    };
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/BDEA-EDC0";
+    device = "/dev/disk/by-uuid/585C-CE71";
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };
