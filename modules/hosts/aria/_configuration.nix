@@ -60,13 +60,13 @@
 
   backups = {
     bitwarden = {
-      enable = true;
+      enable = false;
       dataDir = "/mnt/server/Serversetup/data/vaultwarden";
       containerName = "vaultwarden";
       rcloneConfigFile = config.sops.secrets.rclone-gdrive-config.path;
     };
     restic = {
-      enable = true;
+      enable = false;
       user = "root";
       repository = "sftp:eris-wg:/data/rpi/restic/aria";
       passwordSecret = "restic/aria";

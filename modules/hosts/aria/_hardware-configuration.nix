@@ -8,8 +8,8 @@
   ...
 }: {
   fileSystems."/" = {
-    device = "UUID=6efc72dc-a79e-4340-adf0-28ceb1be8769";
-    fsType = "bcachefs";
+    device = "/dev/disk/by-uuid/c9bfba3a-07de-475a-9819-9089ef22f6c5";
+    fsType = "ext4";
   };
 
   fileSystems."/boot" = {
@@ -60,5 +60,5 @@
   # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.11";
 }
