@@ -49,7 +49,6 @@ in {
           ''}
           hl.bind("SUPER + C", hl.dsp.exec_cmd("hyprctl dispatch movecursor 1720 720"))
           hl.bind("SUPER + N", hl.dsp.exec_cmd("/home/pete/wallpapers/switch.sh"))
-common-tools.school = true;
           hl.on("hyprland.start", function()
             hl.exec_cmd("hyprctl dispatch workspace 1")
           end)
