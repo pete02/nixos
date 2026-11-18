@@ -20,13 +20,13 @@
     };
   in {
     options.shells = {
-      enable = lib.mkEnableOption "Enables desktop";
+      common-tools = lib.mkEnableOption "Enables desktop";
       services = {
         cleaner = lib.mkEnableOption "Enable the cleaner service";
       };
     };
     config = lib.mkMerge [
-      (lib.mkIf config.shells.enable {
+      (lib.mkIf config.shells.common-tools {
         environment.systemPackages = with pkgs; [
           kitty
           mako
