@@ -31,7 +31,7 @@
   };
 
   streaming.podman = {
-    enable = true;
+    enable = false;
     parentInterface = "enp4s0"; # aria's real NIC name
 
     containers.aria = {
