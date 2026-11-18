@@ -7,7 +7,6 @@
   dev = {
     enable = true;
     ld = true;
-    git = true;
   };
 
   common-tools.books = true;

@@ -44,7 +44,6 @@
     };
   };
 
-  dev.git = true;
   nixos-management.gitops = {
     enable = true;
     keepGenerations = 2;

@@ -1,9 +1,4 @@
 {pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    via
-    moonlight-qt
-  ];
-
   hardware.keyboard.qmk.enable = true;
   services.udev.packages = with pkgs; [
     via
@@ -38,36 +33,29 @@
 
   connectivity = {
     bluetooth = true;
-    wifi={
-      enable=true;
-      Ssid="Pete";
+    wifi = {
+      enable = true;
+      Ssid = "Pete";
     };
     mDNS = true;
   };
   ssh.client.enable = true;
+  nixos-management.gitops.enable = true;
 
-  common-tools.books = true;
   samba.clients.server.enable = true;
   samba.clients.timelock.enable = true;
 
-  gaming = {
-    steam = true;
-    rpcs3 = true;
-    performance = true;
-    graphics = true;
-    compatibility = true;
-  };
-
-  streaming.sunshine.enable = true;
-  streaming.sunshine.desktop = "raysha";
-
-  dev = {
-    enable = true;
-    vscode = true;
-    android = true;
-    ld = true;
-    git = true;
-  };
-  nixos-management.gitops.enable = true;
-  desktops.desktop = "raysha";
+  desktop.desktop = "raysha";
+  desktop.monitors = [
+    {
+      output = "desc:Dell Inc. AW3425DW DD5H274";
+      mode = "3440x1440@175";
+      bitdepth = 10;
+    }
+    {
+      output = "desc:AOC Q32G1WG4 0x00000669";
+      mode = "2560x1440@120";
+      position = "3440x0";
+    }
+  ];
 }

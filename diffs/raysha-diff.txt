@@ -1,4 +1,8 @@
-<<< /nix/var/nix/profiles/system-111-link
->>> /nix/var/nix/profiles/system-112-link
-No version or selection state changes.
-Closure size: 2719 -> 2719 (3 paths added, 3 paths removed, delta +0, disk usage +120B).
+<<< /nix/var/nix/profiles/system-124-link
+>>> /nix/var/nix/profiles/system-125-link
+Added packages:
+[A.]  #1  libstartup-notification  0.12
+[A+]  #2  rofi                     2.1.0
+[A.]  #3  rofi-unwrapped           2.1.0
+[A.]  #4  xcb-imdkit               1.0.9
+Closure size: 2527 -> 2531 (19 paths added, 15 paths removed, delta +4, disk usage +2.1MiB).

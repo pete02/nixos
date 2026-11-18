@@ -21,7 +21,6 @@
     enable = true;
     vscode = true;
     ld = true;
-    git = true;
   };
 
   nixbuilder.cache.client.enable = true;
@@ -37,5 +36,5 @@
     credentialsSecret = "samba/server";
   };
 
-  desktops.desktop = "talia";
+  desktop.desktop = "none";
 }

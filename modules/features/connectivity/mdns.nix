@@ -12,10 +12,6 @@
       services.avahi = {
         enable = true;
         nssmdns4 = true;
-        publish = {
-          addresses = true;
-          enable = true;
-        };
 
         allowInterfaces = lib.mkIf (config.connectivity.wireguard != {}) (
           lib.attrNames config.connectivity.wireguard

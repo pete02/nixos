@@ -24,8 +24,6 @@
     schedule = "Sun 12:00";
   };
 
-  dev.git = true;
-  desktops.desktop = "alanna";
   nixos-management.gitops.enable = true;
   ssh.client.enable = true;
   environment.systemPackages = with pkgs; [

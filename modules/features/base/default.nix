@@ -3,6 +3,7 @@
     imports = with self.nixosModules; [
       base-apps
       base-settings
+      base-git
     ];
   };
 }

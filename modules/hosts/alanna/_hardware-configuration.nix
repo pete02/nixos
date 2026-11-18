@@ -28,7 +28,7 @@
     options iwlmvm power_scheme=1
     options cfg80211 ieee80211_regdom="FI"
   '';
-  
+
   hardware.raspberry-pi.config.all.dt-overlays.disable-wifi = {
     enable = true;
     params = {};

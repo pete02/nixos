@@ -4,7 +4,6 @@
     system = "x86_64-linux";
     modules = [
       ./_hardware-configuration.nix
-      ./_desktops.nix
       ./_configuration.nix
     ];
   };

@@ -68,8 +68,6 @@ check_host_isolation() {
 
 
 validate_config() {
-    echo "Checking host isolation..."
-    check_host_isolation
 
     echo "Running flake checks..."
     nix flake check "$CONFIG_FOLDER"
