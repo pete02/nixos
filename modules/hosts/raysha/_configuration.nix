@@ -53,7 +53,7 @@
     containers.raysha = {
       ip = "192.168.88.3";
       persistentHome = true;
-      homePath = "/home/pete";
+      homePath = "/var/lib/pete";
       config = {
         system.stateVersion = "26.05";
         username = "pete";
