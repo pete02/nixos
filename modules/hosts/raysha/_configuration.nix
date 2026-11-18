@@ -48,9 +48,9 @@
 
   streaming.podman = {
     enable = true;
-    parentInterface = "enp4s0"; # aria's real NIC name
+    parentInterface = "enp12s0"; # aria's real NIC name
 
-    containers.aria = {
+    containers.raysha = {
       ip = "192.168.88.3";
       persistentHome = true;
       homePath = "/home/pete";
@@ -68,7 +68,7 @@
     };
   };
 
-
+/*
   desktop.desktop = "raysha";
   desktop.monitors = [
     {
@@ -82,4 +82,5 @@
       position = "3440x0";
     }
   ];
+*/
 }
