@@ -93,6 +93,6 @@ in {
   flake.lib.hosts = hosts;
   flake.lib.rpiHosts = lib.filterAttrs (_: h: h.rpi) hosts;
   flake.lib.mkHost = mkHost;
-  flake.lib.featureModules = featureModules; 
+  flake.lib.featureModules = featureModules;
   flake.lib.mkRpiHost = mkRpiHost;
 }

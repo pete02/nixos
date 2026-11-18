@@ -59,7 +59,6 @@ in {
     common-tools.books = true;
     common-tools.school = true;
 
-
     environment.systemPackages = with pkgs; [
       via
       moonlight-qt

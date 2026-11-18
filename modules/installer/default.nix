@@ -43,13 +43,15 @@ in {
   }: let
     pkgs = inputs.nixpkgs.legacyPackages.${system};
   in {
-    packages = {
-      installer = pkgs.callPackage ./_package.nix {bundledFlake = self;};
-      sd-rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
-      sd-rpi5 = self.nixosConfigurations.rpi5.config.system.build.sdImage;
-    } // lib.optionalAttrs (system == "x86_64-linux") {
-      iso = self.nixosConfigurations.iso.config.system.build.isoImage; # Points to the ISO config!
-    };
+    packages =
+      {
+        installer = pkgs.callPackage ./_package.nix {bundledFlake = self;};
+        sd-rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
+        sd-rpi5 = self.nixosConfigurations.rpi5.config.system.build.sdImage;
+      }
+      // lib.optionalAttrs (system == "x86_64-linux") {
+        iso = self.nixosConfigurations.iso.config.system.build.isoImage; # Points to the ISO config!
+      };
 
     apps.installer = {
       type = "app";

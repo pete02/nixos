@@ -24,12 +24,13 @@
     stateRoot = "/var/lib/sunshine";
     user = config.users.users.${config.username};
 
-    instances = lib.imap0 (i: output: {
-      n = toString (i + 1);
-      inherit output;
-      port = cfg.basePort + 100 * i;
-    })
-    cfg.outputs;
+    instances =
+      lib.imap0 (i: output: {
+        n = toString (i + 1);
+        inherit output;
+        port = cfg.basePort + 100 * i;
+      })
+      cfg.outputs;
 
     staticConf = i:
       pkgs.writeText "sunshine-${i.n}.conf" (toConf (cfg.settings

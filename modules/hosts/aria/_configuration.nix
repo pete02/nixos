@@ -41,11 +41,15 @@
         system.stateVersion = "26.05";
         username = "pete";
         desktop.desktop = "raysha";
-        desktop.monitors = [{output = "desk-1"; mode = "3440x1440@175";}];
+        desktop.monitors = [
+          {
+            output = "desk-1";
+            mode = "3440x1440@175";
+          }
+        ];
       };
     };
   };
-
 
   gaming.compatibility = true;
 
