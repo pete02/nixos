@@ -2,6 +2,7 @@
 keys:
   - &raysha age10lrjl2ng8s3d7af66ejal87vchd8kmfkge3jsf8wjm390vaxvgwshxna6t
   - &pete age1d9pqul9l5ry53zhd59frflwe4upk28d25dsj0s28nm3q0gvqtszs2x8l40
+  - &aria age16xnz4xh8ault5332au5e9vu4gsdj6qe2uepk0un2dc2zwrad6efqp59fn9
   - &eris age1rkj3yaj9j0c4a060n4zdvqdtkk9454hdtmah5qaxk0z4skphgvmqj80g7y
   - &alanna age1yc7vmamask45de0ymjryn7hlwm33zee3qtcnw3dhygtrhpjxdamqs2m3wv
   - &talia age1p30qhvkef26fdzu6gkx4ktm9u4fskm594t9ef7rzjas0h3mv9c9sqg6lm9
@@ -15,6 +16,7 @@ creation_rules:
           - *eris
           - *alanna
           - *talia
+          - *aria
   - path_regex: secrets/rclone-gdrive\.conf.ini$
     key_groups:
       - age:
@@ -23,3 +25,4 @@ creation_rules:
           - *eris
           - *alanna
           - *talia
+          - *aria
