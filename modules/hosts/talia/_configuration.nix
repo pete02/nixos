@@ -26,7 +26,7 @@
   nixbuilder.cache.client.enable = true;
   nixos-management.gitops.enable = true;
   common-tools.books = true;
-
+  ssh.server.passwordlogin = true;
 
   desktop.desktop = "talia";
   desktop.monitors = [
