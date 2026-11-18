@@ -128,6 +128,7 @@ mkContainer = name: c: let
           "/dev/input:/dev/input"
           "/run/udev:/run/udev:ro"
           "${stateRoot}/${name}/var-lib:/var/lib"
+          "${stateRoot}/${name}/etc/sops/age/keys.txt:/etc/sops/age/keys.txt:ro"
         ]
         ++ lib.optional c.persistentHome "${c.homePath}:/home"
         ++ c.extraVolumes;
