@@ -2,7 +2,7 @@
   flake.nixosModules.desktops = {lib, ...}: {
     options.desktop = {
       desktop = lib.mkOption {
-        type = lib.types.enum ["none" "raysha"];
+        type = lib.types.enum ["none" "raysha" "talia"];
         default = "none";
         description = "Select the desktop.";
       };
@@ -41,6 +41,7 @@
 
     imports = [
       ./_raysha.nix
+      ./_talia.nix
     ];
   };
 }

@@ -26,15 +26,14 @@
   nixbuilder.cache.client.enable = true;
   nixos-management.gitops.enable = true;
   common-tools.books = true;
-  common-tools.school = true;
 
-  samba.clients.server = {
-    enable = true;
-    host = "aria.local";
-    share = "server";
-    mountPoint = "/mnt/server";
-    credentialsSecret = "samba/server";
-  };
 
-  desktop.desktop = "none";
+  desktop.desktop = "talia";
+  desktop.monitors = [
+    {
+      output = "desc:Dell Inc. AW3425DW DD5H274";
+      mode = "3440x1440@175";
+      bitdepth = 10;
+    }
+  ]
 }
