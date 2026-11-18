@@ -15,11 +15,11 @@ Usage: nixos-installer [-y] <command> [args]
 
 Commands:
   list                         Show targets
-  build <target>               Build an image (iso-x86 | rpi3 | rpi5); prints the image path
+  build <target>               Build an image (iso | rpi3 | rpi5); prints the image path
   flash <target|file> <dev>    Build (if needed) and write an image to a drive. ERASES <dev>.
-                               e.g. flash iso-x86 /dev/sdb   |   flash rpi5 /dev/mmcblk0
+                               e.g. flash iso /dev/sdb     |   flash rpi5 /dev/mmcblk0
   install <dev> [host]         x86 only, run from the live ISO as root. Partitions <dev>
-                               (GPT: 1G ESP + ext4 root), runs nixos-generate-config,
+                               (GPT: 1G ESP + ext4 root), generates hardware config,
                                and nixos-install --flake. Default host: x86. ERASES <dev>.
 
 Flake used: \$INSTALLER_FLAKE, else ./ if it has a flake.nix, else the copy bundled with this tool.
@@ -47,18 +47,18 @@ have_aarch64_builder() {
 build_target() {
   local target=$1 attr sub pat
   case $target in
-    iso-x86|x86-iso) attr=iso-x86; sub=iso;      pat='*.iso' ;;
-    rpi3)            attr=sd-rpi3; sub=sd-image; pat='*.img*' ;;
-    rpi5)            attr=sd-rpi5; sub=sd-image; pat='*.img*' ;;
-    *) die "unknown target '$target' (try: iso-x86, rpi3, rpi5)" ;;
+    iso|iso-x86|x86-iso) attr=iso; sub=iso; pat='*.iso' ;;
+    rpi3)                attr=sd-rpi3; sub=sd-image; pat='*.img*' ;;
+    rpi5)                attr=sd-rpi5; sub=sd-image; pat='*.img*' ;;
+    *) die "unknown target '$target' (try: iso, rpi3, rpi5)" ;;
   esac
   if [[ $target == rpi* && $(uname -m) != aarch64 ]] && ! have_aarch64_builder; then
     warn "no aarch64 builder detected (binfmt/qemu or a remote builder in /etc/nix/machines); the build may fail"
   fi
   resolve_flake
-  echo ">> nix build $FLAKE#$attr" >&2
+  echo ">> nix build --extra-substituters \"\" $FLAKE#$attr" >&2
   local out
-  out=$(nix build "$FLAKE#$attr" --out-link "result-$attr" --print-out-paths)
+  out=$(nix build --extra-substituters "" "$FLAKE#$attr" --out-link "result-$attr" --print-out-paths)
   IMAGE=$(find -L "$out/$sub" -maxdepth 1 -type f -name "$pat" | head -n1)
   [[ -n $IMAGE ]] || die "no image found under $out/$sub"
 }
@@ -94,7 +94,7 @@ settle() {
 
 cmd_list() {
   cat <<TARGETS
-iso-x86  Live installer ISO for x86_64 UEFI machines (use 'install' from inside it)
+iso      Live installer ISO for x86_64 UEFI machines (use 'install' from inside it)
 rpi3     Raspberry Pi 3 SD image (full system, flash directly)
 rpi5     Raspberry Pi 5 SD image (full system, flash directly)
 TARGETS
@@ -133,7 +133,9 @@ cmd_install() {
   [[ -d /sys/firmware/efi ]] || die "not booted in UEFI mode; this layout is UEFI-only"
   command -v nixos-install >/dev/null || die "nixos-install not found; run this from the live ISO"
   resolve_flake
-  [[ -f $FLAKE/modules/installer/_hosts/$host.nix ]] || die "host '$host' not found (modules/installer/_hosts/$host.nix)"
+  
+  # Check against flake outputs or standard host path instead of hardcoded installer path
+  nix eval "$FLAKE#nixosConfigurations.$host" >/dev/null 2>&1 || die "host '$host' not found in flake nixosConfigurations"
 
   confirm_device "$dev"
   release_device "$dev"
@@ -162,15 +164,14 @@ cmd_install() {
   tar -C "$FLAKE" --exclude=.git --exclude='result*' --mode='u+rwX' --owner=0 --group=0 -cf - . \
     | tar -C /mnt/etc/nixos -xf -
 
-  echo ">> nixos-generate-config -> modules/installer/_hardware/$host.nix"
-  mkdir -p /mnt/etc/nixos/modules/installer/_hardware
+  echo ">> generating hardware configuration"
   nixos-generate-config --root /mnt --show-hardware-config \
-    > "/mnt/etc/nixos/modules/installer/_hardware/$host.nix"
+    > "/mnt/etc/nixos/_hosts/hardware-$host.nix" # or save it where your host expects it
 
   echo ">> nixos-install --flake /mnt/etc/nixos#$host"
   nixos-install --root /mnt --flake "/mnt/etc/nixos#$host" --no-root-passwd
 
-  echo ">> installed. Log in as the user from settings.nix, then reboot."
+  echo ">> installed. Log in, then reboot."
 }
 
 # --- arg parsing -------------------------------------------------------------

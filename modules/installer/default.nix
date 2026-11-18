@@ -1,5 +1,3 @@
-# Installer images + install tooling (x86 ISO, Pi 3 / Pi 5 SD images).
-# Everything except this file is prefixed with `_` so import-tree ignores it.
 {
   inputs,
   self,
@@ -9,7 +7,16 @@
   settings = import ./_settings.nix;
 in {
   flake.nixosConfigurations = {
-    # Target system the ISO installs (generic UEFI x86_64).
+    # The actual ISO installer image configuration
+    iso = inputs.nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit settings self;};
+      modules = [
+        "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+        ./_hosts/iso-x86.nix # Or wherever your ISO-specific module lives
+      ];
+    };
+
+    # Target system the ISO installs onto your NVMe
     x86 = inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {inherit settings self;};
       modules = [./_hosts/x86.nix];
@@ -40,7 +47,10 @@ in {
       installer = pkgs.callPackage ./_package.nix {bundledFlake = self;};
       sd-rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
       sd-rpi5 = self.nixosConfigurations.rpi5.config.system.build.sdImage;
+    } // lib.optionalAttrs (system == "x86_64-linux") {
+      iso = self.nixosConfigurations.iso.config.system.build.isoImage; # Points to the ISO config!
     };
+
     apps.installer = {
       type = "app";
       program = "${self'.packages.installer}/bin/nixos-installer";

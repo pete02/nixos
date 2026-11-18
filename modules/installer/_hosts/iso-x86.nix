@@ -6,10 +6,10 @@
   settings,
   ...
 }: {
-  imports = ["${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"];
+  imports = ["${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix" ../_base.nix];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  isoImage.isoName = lib.mkForce "nixos-installer-x86_64.iso";
+  image.fileName = lib.mkForce "nixos-installer-x86_64.iso";
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   users.users.root.openssh.authorizedKeys.keys = settings.sshKeys;

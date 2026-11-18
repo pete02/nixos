@@ -388,3 +388,10 @@ jobs:
             -d "${REPO}@${REF} ($(printf '%s' "$SHA" | cut -c1-8))" \
             https://ntfy.lumilukko.com/pipeline-failure \
             || echo "WARNING: failed to send ntfy notification" >&2
+      - name: Clean local Nix store
+        if: always()
+        run: |
+          set -eu
+          echo "Cleaning up local build store to save disk space..."
+          # Remove all unreferenced generations/roots, keeping only what's currently active
+          nix-collect-garbage -d
