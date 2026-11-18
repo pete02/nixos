@@ -80,7 +80,7 @@
       streaming.sunshine.address = lib.mkDefault c.ip;
       # Host NVIDIA userspace for system services and for the user manager.
       systemd.globalEnvironment = env;
-      systemd.user.extraConfig =
+      systemd.user.settings.Manager =
         "DefaultEnvironment="
         + lib.concatStringsSep " " (lib.mapAttrsToList (k: v: ''"${k}=${v}"'') env);
 
