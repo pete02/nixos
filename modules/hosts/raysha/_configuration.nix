@@ -45,6 +45,30 @@
   samba.clients.server.enable = true;
   samba.clients.timelock.enable = true;
 
+
+  streaming.podman = {
+    enable = true;
+    parentInterface = "enp4s0"; # aria's real NIC name
+
+    containers.aria = {
+      ip = "192.168.88.3";
+      persistentHome = true;
+      homePath = "/home/pete";
+      config = {
+        system.stateVersion = "26.05";
+        username = "pete";
+        desktop.desktop = "raysha";
+        desktop.monitors = [
+          {
+            output = "desk-1";
+            mode = "3440x1440@175";
+          }
+        ];
+      };
+    };
+  };
+
+
   desktop.desktop = "raysha";
   desktop.monitors = [
     {
