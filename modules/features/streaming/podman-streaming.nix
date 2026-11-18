@@ -100,7 +100,7 @@
         modules = c.modules ++ [(guestModule name c) c.config];
       };
 
-mkContainer = name: c: let
+    mkContainer = name: c: let
       top = (mkSystem name c).config.system.build.toplevel;
 
       image = pkgs.dockerTools.streamLayeredImage {
@@ -128,7 +128,9 @@ mkContainer = name: c: let
           "/dev/input:/dev/input"
           "/run/udev:/run/udev:ro"
           "${stateRoot}/${name}/var-lib:/var/lib"
-          "/etc/sops/age/keys.txt:/etc/sops/age/keys.txt:ro"
+          # Mount host sops key into a persistent container path, 
+          # or configure sops-nix to look at a custom path:
+          "/etc/sops/age/keys.txt:/var/lib/sops-nix/key.txt:ro"
         ]
         ++ lib.optional c.persistentHome "${c.homePath}:/home"
         ++ c.extraVolumes;
@@ -136,11 +138,10 @@ mkContainer = name: c: let
       extraOptions = [
         "--network=streaming:ip=${c.ip}"
         "--systemd=always"
-        "--privileged" # Required for systemd and internal container mounts (/run/keys, etc.)
+        "--privileged"
         "--device-cgroup-rule=c 13:* rmw"
         "--shm-size=1g"
-        # Provide writable overlays/tmpfs for critical paths NixOS activation modifies:
-        "--tmpfs=/etc"
+        # Keep tmpfs only for runtime paths, NOT /etc
         "--tmpfs=/run"
         "--tmpfs=/tmp"
       ];
