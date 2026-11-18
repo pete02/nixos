@@ -80,10 +80,9 @@
       streaming.sunshine.address = lib.mkDefault c.ip;
       # Host NVIDIA userspace for system services and for the user manager.
       systemd.globalEnvironment = env;
-      systemd.user.settings.Manager =
-        "DefaultEnvironment="
-        + lib.concatStringsSep " " (lib.mapAttrsToList (k: v: ''"${k}=${v}"'') env);
-
+      systemd.user.settings.Manager = {
+        DefaultEnvironment = lib.mapAttrsToList (k: v: "${k}=${v}") env;
+      };
       # Group ids must match the host so the passed-through device nodes
       # (video, input, uinput) are accessible.
       users.groups = lib.mapAttrs (_: gid: {inherit gid;}) c.hostGroupIds;
