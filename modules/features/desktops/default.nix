@@ -6,7 +6,7 @@
         default = "none";
         description = "Select the desktop.";
       };
-
+      
       monitors = lib.mkOption {
         type = lib.types.listOf (lib.types.submodule {
           options = {

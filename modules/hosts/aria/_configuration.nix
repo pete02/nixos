@@ -30,33 +30,22 @@
     };
   };
 
-  streaming.desktops = {
+  streaming.podman = {
     enable = true;
     parentInterface = "enp4s0"; # aria's real NIC name
-    desktops.aria = {
-      desktop.name = "raysha";
-      outputs = [
-        {
-          mode = "3440x1440@60";
-          ip = "192.168.88.2";
-        }
-      ];
-      # tmpfs /home/user is root-owned, so the unprivileged container user
-      # cannot create ~/.local/state (wireplumber noise); the bind-mounted
-      # home from tmpfiles is owned by uid:gid instead
+
+    containers.aria = {
+      ip = "192.168.88.2";
       persistentHome = true;
-      # the container user must belong to the host's `video` group (gid 26,
-      # see getent group video) or Hyprland cannot open /dev/dri/card1
-      # (crw-rw---- root video 0660) and its DRM backend dies with
-      # `CBackend::create() failed!`.
-      extraGids = [
-        26 # `video`: /dev/dri/card1 is root:video 0660, Hyprland's DRM backend needs it
-        992 # `uinput`: /dev/uinput is root:uinput 0660, Sunshine opens it to create devices
-        174 # `input`: the /dev/input event nodes (incl. Sunshine's uinput devices) are
-        # root:input 0660; Hyprland's libinput backend must open them to see them
-      ];
+      config = {
+        system.stateVersion = "26.05";
+        username = "pete";
+        desktop.desktop = "raysha";
+        desktop.monitors = [{output = "desk-1"; mode = "3440x1440@175";}];
+      };
     };
   };
+
 
   gaming.compatibility = true;
 
