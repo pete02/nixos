@@ -1,6 +1,6 @@
 # /etc/nixos/.sops.yaml
 keys:
-  - &raysha age17dee6h8khar4era7saad8xyar99zaxsw99t92dy2fzh7s5s0tdfq4x4ckc
+  - &raysha age10lrjl2ng8s3d7af66ejal87vchd8kmfkge3jsf8wjm390vaxvgwshxna6t
   - &pete age1d9pqul9l5ry53zhd59frflwe4upk28d25dsj0s28nm3q0gvqtszs2x8l40
   - &eris age1rkj3yaj9j0c4a060n4zdvqdtkk9454hdtmah5qaxk0z4skphgvmqj80g7y
   - &alanna age1yc7vmamask45de0ymjryn7hlwm33zee3qtcnw3dhygtrhpjxdamqs2m3wv
