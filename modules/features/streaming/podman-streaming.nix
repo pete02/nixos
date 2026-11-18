@@ -100,10 +100,9 @@
         modules = c.modules ++ [(guestModule name c) c.config];
       };
 
-    mkContainer = name: c: let
+mkContainer = name: c: let
       top = (mkSystem name c).config.system.build.toplevel;
 
-      # Only an entrypoint: all content comes from the bind-mounted host store.
       image = pkgs.dockerTools.streamLayeredImage {
         name = cname name;
         tag = "latest";
@@ -126,10 +125,8 @@
         [
           "/nix/store:/nix/store:ro"
           "/run/opengl-driver:${hostGl}:ro"
-          # host input + udev db so libinput can see uinput devices
           "/dev/input:/dev/input"
           "/run/udev:/run/udev:ro"
-          # service state (pairing, certificates, ...): always persistent
           "${stateRoot}/${name}/var-lib:/var/lib"
         ]
         ++ lib.optional c.persistentHome "${c.homePath}:/home"
@@ -138,8 +135,13 @@
       extraOptions = [
         "--network=streaming:ip=${c.ip}"
         "--systemd=always"
+        "--privileged" # Required for systemd and internal container mounts (/run/keys, etc.)
         "--device-cgroup-rule=c 13:* rmw"
         "--shm-size=1g"
+        # Provide writable overlays/tmpfs for critical paths NixOS activation modifies:
+        "--tmpfs=/etc"
+        "--tmpfs=/run"
+        "--tmpfs=/tmp"
       ];
     };
 
