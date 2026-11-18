@@ -39,7 +39,6 @@
           vlc
           brave
           playerctl
-          rofi
           awww
           brightnessctl
           swaylock

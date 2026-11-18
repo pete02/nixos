@@ -81,7 +81,7 @@ in {
     };
 
     config = lib.mkIf config.shells.hyprland.enable {
-      environment.systemPackages = [hyprlandPkg];
+      environment.systemPackages = [hyprlandPkg pkgs.rofi];
       programs.xwayland.enable = true;
       displayManager = {
         enable = true;
