@@ -12,6 +12,7 @@
       services.avahi = {
         enable = true;
         nssmdns4 = true;
+        openFirewall = true;
 
         allowInterfaces = lib.mkIf (config.connectivity.wireguard != {}) (
           lib.attrNames config.connectivity.wireguard
