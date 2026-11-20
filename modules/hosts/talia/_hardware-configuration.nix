@@ -14,7 +14,7 @@
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
-  boot.loader.timeout = 1;
+  boot.loader.timeout = 0;
   boot.kernelParams = [
     "8250.nr_uarts=0"
   ];
