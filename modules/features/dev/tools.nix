@@ -52,7 +52,6 @@
       (lib.mkIf (!cfg.podman.enable) {
         virtualisation.docker = {
           enable = true;
-          enableOnBoot = true;
           daemon.settings = {
             features.cdi = true;
             registry-mirrors = ["http://aria.local:5001"];
@@ -61,6 +60,18 @@
         };
 
         users.users.${config.username}.extraGroups = ["docker"];
+        systemd.services.docker.wantedBy = lib.mkForce [];
+
+        # Kick Docker off at boot without waiting for it to finish starting
+        systemd.services.docker-start-async = {
+          description = "Start Docker without blocking boot";
+          wantedBy = ["multi-user.target"];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            ExecStart = "${config.systemd.package}/bin/systemctl start --no-block docker.service";
+          };
+        };
       })
 
       # ── Containers: Podman ──────────────────────────────────────────────
