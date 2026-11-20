@@ -34,7 +34,9 @@ in {
       common-tools = true;
       hyprland = {
         enable = true;
-        headlessOutputs = map (m: m.output) config.desktop.monitors;
+        headlessOutputs =
+          lib.optionals config.shells.hyprland.headless
+          (map (m: m.output) config.desktop.monitors);
         extraConfig = ''
           hl.config({
             misc = {

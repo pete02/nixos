@@ -105,6 +105,15 @@
               };
             };
         };
+
+        systemd.services.greetd = {
+          after = lib.mkForce [
+            "systemd-user-sessions.service"
+            "systemd-logind.service"
+            "dbus.service"
+          ];
+          wants = ["systemd-logind.service"];
+        };
       })
 
       (lib.mkIf (cfg.backend == "sddm") {

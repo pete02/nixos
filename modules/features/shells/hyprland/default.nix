@@ -120,7 +120,7 @@ in {
           enable = true;
           backend = "greetd";
           autoLogin = true;
-          sessionCommand = "${hyprlandPkg}/bin/start-hyprland --path ${hyprlandPkg}/bin/hyprland";
+          sessionCommand = "${hyprlandPkg}/bin/start-hyprland";
         };
       })
 
