@@ -128,7 +128,7 @@
           "/dev/input:/dev/input"
           "/run/udev:/run/udev:ro"
           "${stateRoot}/${name}/var-lib:/var/lib"
-          # Mount host sops key into a persistent container path, 
+          # Mount host sops key into a persistent container path,
           # or configure sops-nix to look at a custom path:
           "/etc/sops/age/keys.txt:/var/lib/sops-nix/key.txt:ro"
         ]

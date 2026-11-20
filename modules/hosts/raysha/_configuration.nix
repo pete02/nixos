@@ -45,7 +45,6 @@
   samba.clients.server.enable = true;
   samba.clients.timelock.enable = true;
 
-
   streaming.podman = {
     enable = true;
     parentInterface = "enp12s0"; # aria's real NIC name
@@ -68,7 +67,7 @@
     };
   };
 
-/*
+  /*
   desktop.desktop = "raysha";
   desktop.monitors = [
     {
@@ -82,5 +81,5 @@
       position = "3440x0";
     }
   ];
-*/
+  */
 }

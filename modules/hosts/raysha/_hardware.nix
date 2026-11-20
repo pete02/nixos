@@ -3,10 +3,10 @@
   config,
   ...
 }: {
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/b4f514aa-cb46-4704-aab9-9f73a6e17eef";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/b4f514aa-cb46-4704-aab9-9f73a6e17eef";
+    fsType = "ext4";
+  };
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/585C-CE71";
     fsType = "vfat";
