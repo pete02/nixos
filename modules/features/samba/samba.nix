@@ -127,7 +127,7 @@
         default = {};
         description = "Named Samba server definitions and their shares.";
 
-        type = lib.types.attrsOf (lib.types.submodule ({name, ...}:{
+        type = lib.types.attrsOf (lib.types.submodule ({name, ...}: {
           options = {
             enable = lib.mkEnableOption "this Samba server definition";
 
@@ -316,7 +316,6 @@
             // shares;
         };
 
-
         users.users = lib.mapAttrs' (_: server:
           lib.nameValuePair server.user {
             isSystemUser = true;
@@ -324,12 +323,12 @@
             description = "Samba login user";
             shell = "${pkgs.shadow}/bin/nologin";
           })
-          (lib.filterAttrs (_: s: s.credentialsSecret != null) enabledServers);
-        
+        (lib.filterAttrs (_: s: s.credentialsSecret != null) enabledServers);
+
         users.groups = lib.mapAttrs' (_: server:
           lib.nameValuePair server.user {})
-          (lib.filterAttrs (_: s: s.credentialsSecret != null) enabledServers);
-          
+        (lib.filterAttrs (_: s: s.credentialsSecret != null) enabledServers);
+
         systemd.services =
           credentialServices
           // {
