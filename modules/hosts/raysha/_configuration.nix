@@ -4,18 +4,6 @@
     via
   ];
 
-  backups = {
-    git-sync = {
-      enable = true;
-      folders = ["/home/pete/code"];
-    };
-    restic = {
-      enable = true;
-      repository = "/mnt/server/desktopsync";
-      folders = ["/home/pete/school" "/home/pete/savegames"];
-      exclude = ["node_modules" "target" ".cache" ".direnv" "__pycache__"];
-    };
-  };
 
   username = "pete";
 
