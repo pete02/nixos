@@ -35,8 +35,12 @@ jobs:
       NIX_CONFIG: |
         experimental-features = nix-command flakes
         build-users-group =
-    
     steps:
+      - name: Trust the fleet's cache key
+        run: |
+          set -eu
+          key="$(nix eval --raw .#lib.fleet.cache.publicKey)"
+          printf 'extra-trusted-public-keys = %s\n' "$key" >> /etc/nix/nix.conf
       - name: Checkout
         uses: actions/checkout@v4
         with:
