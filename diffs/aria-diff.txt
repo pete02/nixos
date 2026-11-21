@@ -1,4 +1,102 @@
-<<< /nix/var/nix/profiles/system-5-link
->>> /nix/var/nix/profiles/system-6-link
-No version or selection state changes.
-Closure size: 2002 -> 2002 (3 paths added, 3 paths removed, delta +0, disk usage +0B).
+<<< /nix/var/nix/profiles/system-6-link
+>>> /nix/var/nix/profiles/system-7-link
+Version changes:
+[C.]  #01  brotli             1.2.1, 1.2.1-dev, 1.2.1-lib x2 -> 1.2.1-lib x2
+[C*]  #02  bzip2              1.0.8 x2, 1.0.8-bin, 1.0.8-dev, 1.0.8-man -> 1.0.8 x2, 1.0.8-bin, 1.0.8-man
+[C.]  #03  cairo              1.18.6 x2, 1.18.6-dev -> 1.18.6 x2
+[C.]  #04  expat              2.9.0 x2, 2.9.0-dev -> 2.9.0 x2
+[C*]  #05  fontconfig         2.18.3 x2, 2.18.3-bin, 2.18.3-dev, 2.18.3-lib x2 -> 2.18.3 x2, 2.18.3-bin, 2.18.3-lib x2
+[C.]  #06  freetype           2.14.3 x2, 2.14.3-dev -> 2.14.3 x2
+[C.]  #07  gcc                16.2.0, 16.2.0-lib x4, 16.2.0-libgcc x4, 16.2.0-man -> 16.2.0, 16.2.0-lib x3, 16.2.0-libgcc x3, 16.2.0-man
+[C.]  #08  graphite2          1.3.15 x2, 1.3.15-dev -> 1.3.15 x2
+[C.]  #09  gtksourceview      3.24.11, 5.21.0 -> 3.24.11
+[C.]  #10  harfbuzz           14.5.1 x2, 14.5.1-dev -> 14.5.1 x2
+[C.]  #11  libglvnd           1.7.0 x2, 1.7.0-dev -> 1.7.0 x2
+[C.]  #12  libpng-apng        1.6.59 x2, 1.6.59-dev, 1.6.59-man -> 1.6.59 x2, 1.6.59-man
+[C.]  #13  libx11             1.8.14 x2, 1.8.14-dev, 1.8.14-man -> 1.8.14 x2, 1.8.14-man
+[C.]  #14  libxau             1.0.12 x2, 1.0.12-dev -> 1.0.12 x2
+[C.]  #15  libxcb             1.17.0 x2, 1.17.0-dev, 1.17.0-man -> 1.17.0 x2, 1.17.0-man
+[C.]  #16  libxext            1.3.7 x2, 1.3.7-dev, 1.3.7-man -> 1.3.7 x2, 1.3.7-man
+[C.]  #17  libxft             2.3.9 x2, 2.3.9-dev -> 2.3.9 x2
+[C.]  #18  libxrender         0.9.13 x2, 0.9.13-dev -> 0.9.13 x2
+[C.]  #19  lua                5.2.4, 5.4.9, 5.5.1 -> 5.2.4
+[C.]  #20  pango              1.58.2 x2, 1.58.2-bin, 1.58.2-dev -> 1.58.2 x2, 1.58.2-bin
+[C-]  #21  pipewire           1.6.11 x2, 1.6.11-doc, 1.6.11-man -> 1.6.11 x2
+[C.]  #22  python3            3.14.10 x2, 3.14.10-env x4 -> 3.14.10 x2, 3.14.10-env x3
+[C-]  #23  speech-dispatcher  0.12.1 x2 -> 0.12.1
+Selection state changes:
+[C-]  #1  xdg-utils  1.2.1
+Removed packages:
+[R.]  #01  Hyprland                           <none>
+[R.]  #02  aquamarine                         0.16.0, 0.16.0-dev
+[R.]  #03  dejavu-fonts                       2.37
+[R.]  #04  dmenu                              5.4
+[R.]  #05  dotconf                            1.4.1
+[R.]  #06  etc-X11-xorg.conf.d                00-keyboard.conf
+[R.]  #07  etc-alsa-conf.d                    49-pipewire-modules.conf
+[R.]  #08  freefont-ttf                       20120503
+[R.]  #09  glslang                            16.6.0
+[R.]  #10  greetd                             0.10.3
+[R.]  #11  greetd.toml                        <none>
+[R.]  #12  gtk4-layer-shell                   1.3.0
+[R.]  #13  gyre-fonts                         2.501
+[R.]  #14  hypr.conf                          <none>
+[R.]  #15  hyprcursor                         0.1.13-lib
+[R.]  #16  hyprgraphics                       0.6.0, 0.6.0-dev
+[R.]  #17  hyprland                           0.57.2
+[R-]  #18  hyprland-custom                    <none>
+[R.]  #19  hyprland-guiutils                  0.2.2
+[R.]  #20  hyprland.lua                       <none>
+[R.]  #21  hyprlang                           0.6.8
+[R.]  #22  hyprtoolkit                        0.6.0
+[R.]  #23  hyprutils                          0.14.3, 0.14.3-dev
+[R.]  #24  hyprwire                           0.3.1
+[R.]  #25  iniparser                          4.2.6
+[R.]  #26  libei                              1.6.0
+[R.]  #27  liberation-fonts                   2.1.5
+[R.]  #28  libinput                           1.31.3
+[R.]  #29  libstartup-notification            0.12
+[R.]  #30  libwacom                           2.20.0
+[R.]  #31  libxcb-errors                      1.0.1
+[R.]  #32  limits.conf                        <none>
+[R.]  #33  muparser                           2.3.5
+[R-]  #34  nixos-icons                        0-unstable-2025-06-28
+[R.]  #35  noto-fonts-cjk-sans                2.004
+[R.]  #36  noto-fonts-cjk-serif               2.003
+[R.]  #37  noto-fonts-color-emoji             2.051
+[R.]  #38  picotts                            0-unstable-2021-05-06
+[R.]  #39  pipewire-configs                   <none>
+[R.]  #40  pipewire-ladspa-plugins            <none>
+[R.]  #41  pipewire-lv2-plugins               <none>
+[R.]  #42  pkgconf                            3.0.8, 3.0.8-lib
+[R.]  #43  pkgconf-wrapper                    3.0.8
+[R.]  #44  python3.14-pydbus                  0.6.0
+[R.]  #45  python3.14-pyxdg                   0.28
+[R.]  #46  re2                                2025-11-05
+[R-]  #47  rofi                               2.1.0
+[R.]  #48  rofi-unwrapped                     2.1.0
+[R.]  #49  seatd                              0.9.3
+[R.]  #50  tomlplusplus                       3.4.0
+[R.]  #51  tuigreet                           0.11.1
+[R.]  #52  udis86                             1.7.2-unstable-2022-10-13-lib
+[R.]  #53  unifont                            18.0.01
+[R.]  #54  unit-autovt-tty1.service-disabled  <none>
+[R.]  #55  unit-filter-chain.service          <none>
+[R.]  #56  unit-greetd.service                <none>
+[R.]  #57  unit-pipewire-pulse.service        <none>
+[R.]  #58  unit-pipewire-pulse.socket         <none>
+[R.]  #59  unit-pipewire.service              <none>
+[R.]  #60  unit-pipewire.socket               <none>
+[R.]  #61  unit-speech-dispatcher.socket      <none>
+[R.]  #62  unit-wireplumber.service           <none>
+[R.]  #63  uwsm                               0.27.2
+[R-]  #64  wayle                              0.7.1
+[R.]  #65  wayle-config                       <none>
+[R-]  #66  wireplumber                        0.5.19, 0.5.19-doc
+[R.]  #67  wireplumber-configs                <none>
+[R.]  #68  wireplumber-extra-config           <none>
+[R.]  #69  wireplumber-extra-scrips           <none>
+[R.]  #70  wireplumber-lv2-plugins            <none>
+[R.]  #71  xcb-imdkit                         1.0.9
+[R-]  #72  xwayland                           24.1.15
+Closure size: 2002 -> 1898 (30 paths added, 134 paths removed, delta -104, disk usage -473.8MiB).
