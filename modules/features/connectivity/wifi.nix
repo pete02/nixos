@@ -47,6 +47,7 @@
         WIFI_PSK=${config.sops.placeholder."wifi/psk"}
       '';
 
+      networking.networkmanager.wifi.powersave = false;
       networking.networkmanager.ensureProfiles = {
         environmentFiles = [config.sops.templates."wifi-env".path];
         profiles = lib.mkIf (config.connectivity.wifi.Ssid != null) {
