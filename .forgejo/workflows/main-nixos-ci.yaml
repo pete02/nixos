@@ -28,7 +28,7 @@ jobs:
     container:
       image: lumilukko/nixos-ci:latest
       volumes:
-        - nix-store:/nix
+        - nix-store-v2:/nix
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
     env:
@@ -116,7 +116,7 @@ jobs:
     container:
       image: lumilukko/nixos-ci:latest
       volumes:
-        - nix-store:/nix
+        - nix-store-v2:/nix
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
@@ -229,7 +229,7 @@ jobs:
     container:
       image: lumilukko/nixos-ci:latest
       volumes:
-        - nix-store:/nix
+        - nix-store-v2:/nix
 
     env:
       CACHE_STORE: "http://192.168.88.241:8889/main"
@@ -341,7 +341,7 @@ jobs:
     container:
       image: lumilukko/nixos-ci:latest
       volumes:
-        - nix-store:/nix
+        - nix-store-v2:/nix
 
     steps:
       - name: Checkout
