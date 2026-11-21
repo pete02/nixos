@@ -37,14 +37,6 @@ jobs:
         build-users-group =
     
     steps:
-      - name: Ensure CI tools are in the store
-        run: |
-          set -eu
-          nix build /opt/ci-tools-flake#default --out-link /opt/ci-tools
-          mkdir -p /usr/local/bin
-          for b in /opt/ci-tools/bin/*; do
-            ln -sf "$b" "/usr/local/bin/$(basename "$b")"
-            done
             
       - name: Checkout
         uses: actions/checkout@v4
