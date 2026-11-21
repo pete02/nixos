@@ -6,7 +6,6 @@
     modules = [
       ./_configuration.nix
       ./_hardware-configuration.nix
-      ./_desktops.nix
     ];
   };
 }
