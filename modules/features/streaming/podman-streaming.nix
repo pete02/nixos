@@ -160,11 +160,21 @@
         if v == null
         then throw "streaming.podman.containers.${n}: group '${grp}' owns a secret but has no fixed gid"
         else v;
+      # Newer sops-nix leaves owner/group null and uses numeric uid/gid
+      # (default 0) instead; older versions always set owner/group by name.
+      ownerId = s:
+        if (s.owner or null) != null
+        then uid s.owner
+        else (s.uid or 0);
+      groupId = s:
+        if (s.group or null) != null
+        then gid s.group
+        else (s.gid or 0);
     in ''
       rm -rf ${secretsDir n}
       install -d -m 0755 ${secretsDir n}
       ${lib.concatStringsSep "\n" (lib.mapAttrsToList (sn: s: ''
-          install -D -m ${s.mode} -o ${toString (uid s.owner)} -g ${toString (gid s.group)} \
+          install -D -m ${s.mode} -o ${toString (ownerId s)} -g ${toString (groupId s)} \
             ${lib.escapeShellArg config.sops.secrets.${hostSecretName n sn}.path} \
             ${lib.escapeShellArg "${secretsDir n}/${sn}"}
         '')
