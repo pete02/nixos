@@ -77,13 +77,17 @@
 
               script = ''
                 set -eu
-
                 credentials="/run/secrets/${server.credentialsSecret}"
                 username=$(sed -n 's/^username=//p' "$credentials")
                 password=$(sed -n 's/^password=//p' "$credentials")
 
                 if [ -z "$username" ] || [ -z "$password" ]; then
                   echo "Missing Samba credentials in $credentials" >&2
+                  exit 1
+                fi
+
+                if [ "$username" != "${server.user}" ]; then
+                  echo "Secret username '$username' != declared user '${server.user}'" >&2
                   exit 1
                 fi
 
@@ -123,9 +127,19 @@
         default = {};
         description = "Named Samba server definitions and their shares.";
 
-        type = lib.types.attrsOf (lib.types.submodule {
+        type = lib.types.attrsOf (lib.types.submodule ({name, ...}:{
           options = {
             enable = lib.mkEnableOption "this Samba server definition";
+
+            user = lib.mkOption {
+              type = lib.types.str;
+              default = name;
+              description = ''
+                Unix account that Samba authenticates as. Must match username= in
+                the credentials secret. smbpasswd can only add Samba users that
+                already exist as Unix users.
+              '';
+            };
 
             credentialsSecret = lib.mkOption {
               type = lib.types.nullOr lib.types.str;
@@ -208,7 +222,7 @@
               });
             };
           };
-        });
+        }));
       };
 
       clients = lib.mkOption {
@@ -302,6 +316,20 @@
             // shares;
         };
 
+
+        users.users = lib.mapAttrs' (_: server:
+          lib.nameValuePair server.user {
+            isSystemUser = true;
+            group = server.user;
+            description = "Samba login user";
+            shell = "${pkgs.shadow}/bin/nologin";
+          })
+          (lib.filterAttrs (_: s: s.credentialsSecret != null) enabledServers);
+        
+        users.groups = lib.mapAttrs' (_: server:
+          lib.nameValuePair server.user {})
+          (lib.filterAttrs (_: s: s.credentialsSecret != null) enabledServers);
+          
         systemd.services =
           credentialServices
           // {
