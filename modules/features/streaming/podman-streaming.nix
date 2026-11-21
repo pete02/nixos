@@ -128,7 +128,7 @@
 
       volumes =
         [
-          "/nix/store:/nix/store:ro,nosuid,nodev"
+          "/nix/store:/nix/store:ro,nosuid,nodev"ls
           "/run/opengl-driver:${hostGl}:ro"
           "/dev/input:/dev/input"
           "/run/udev:/run/udev:ro"
