@@ -14,7 +14,6 @@
   services.avahi.allowInterfaces = ["enp4s0"];
   boot.kernel.sysctl."net.ipv4.igmp_max_memberships" = 100;
 
-
   environment.sessionVariables = {
     MAILADDR = "petrik.rasanen@gmail.com";
   };
@@ -46,7 +45,7 @@
   };
 
   gaming.compatibility = true;
-  
+
   nixos-management = {
     auto-update = true;
     gitops.enable = true;
