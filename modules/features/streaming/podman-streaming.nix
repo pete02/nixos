@@ -14,6 +14,13 @@
   # audio, Sunshine or users: it only builds the image, wires devices, mounts,
   # network and persistence, and forwards input hotplug events.
   #
+  # Secrets: containers run without extra capabilities, so sops-nix cannot
+  # mount its ramfs inside them. Instead the HOST decrypts every secret the
+  # guest declares in `sops.secrets`, copies it (with the owner/group/mode the
+  # guest asked for) into /run/streaming-secrets/<name> on each container
+  # start, and bind-mounts that directory read-only at /run/secrets. The guest
+  # never sees an age key.
+  #
   # Example:
   #
   #   streaming.podman = {
@@ -92,10 +99,17 @@
         "hosts".enable = lib.mkForce false;
         "hostname".enable = lib.mkForce false;
       };
+
+      # Secrets are decrypted by the host and mounted read-only at
+      # /run/secrets. sops-nix must not try to mount a ramfs or decrypt
+      # anything in here, so its activation snippets are disabled.
+      # The key file path is a placeholder that only satisfies sops-nix's
+      # "some key source must be configured" assertion; it is never read.
       sops.age.keyFile = lib.mkDefault "/run/sops-nix/key.txt";
-      system.activationScripts.specialfs = lib.mkForce ''
-        mkdir -p /run/sops-nix
-      '';
+      system.activationScripts.specialfs = lib.mkForce "";
+      system.activationScripts.setupSecrets = lib.mkForce "";
+      system.activationScripts.setupSecretsForUsers = lib.mkForce "";
+
       nix.enable = false;
       nix.gc.automatic = lib.mkForce false;
       nix.optimise.automatic = lib.mkForce false;
@@ -113,8 +127,52 @@
         modules = c.modules ++ [(guestModule name c) c.config];
       };
 
+    # Evaluate every guest once; the host reads its sops.secrets and the
+    # toplevel from here.
+    guests = lib.mapAttrs mkSystem cfg.containers;
+
+    # Host-side directory holding a container's decrypted secrets.
+    secretsDir = n: "/run/streaming-secrets/${n}";
+
+    # Name of the host sops secret backing guest secret `sn` of container `n`.
+    hostSecretName = n: sn: "streaming/${n}/${sn}";
+
+    # Copy the host-decrypted secrets into the per-container directory with
+    # the owner/group/mode the guest declared. Podman runs rootful without a
+    # user namespace, so numeric ids on the host are the ids in the container.
+    copySecrets = n: let
+      g = guests.${n}.config;
+      uid = u: let
+        v =
+          if u == "root"
+          then 0
+          else g.users.users.${u}.uid;
+      in
+        if v == null
+        then throw "streaming.podman.containers.${n}: user '${u}' owns a secret but has no fixed uid"
+        else v;
+      gid = grp: let
+        v =
+          if grp == "root"
+          then 0
+          else g.users.groups.${grp}.gid;
+      in
+        if v == null
+        then throw "streaming.podman.containers.${n}: group '${grp}' owns a secret but has no fixed gid"
+        else v;
+    in ''
+      rm -rf ${secretsDir n}
+      install -d -m 0755 ${secretsDir n}
+      ${lib.concatStringsSep "\n" (lib.mapAttrsToList (sn: s: ''
+          install -D -m ${s.mode} -o ${toString (uid s.owner)} -g ${toString (gid s.group)} \
+            ${lib.escapeShellArg config.sops.secrets.${hostSecretName n sn}.path} \
+            ${lib.escapeShellArg "${secretsDir n}/${sn}"}
+        '')
+        g.sops.secrets)}
+    '';
+
     mkContainer = name: c: let
-      top = (mkSystem name c).config.system.build.toplevel;
+      top = guests.${name}.config.system.build.toplevel;
 
       image = pkgs.dockerTools.streamLayeredImage {
         name = cname name;
@@ -141,9 +199,8 @@
           "/dev/input:/dev/input"
           "/run/udev:/run/udev:ro"
           "${stateRoot}/${name}/var-lib:/var/lib"
-          # Mount host sops key into a persistent container path,
-          # or configure sops-nix to look at a custom path:
-          "/etc/sops/age/keys.txt:/run/sops-nix/key.txt:ro"
+          # Host-decrypted secrets (see copySecrets), read-only.
+          "${secretsDir name}:/run/secrets:ro"
         ]
         ++ lib.optional c.persistentHome "${c.homePath}:/home"
         ++ c.extraVolumes;
@@ -354,7 +411,30 @@
           assertion = lib.hasPrefix "/" c.homePath;
           message = "streaming.podman.containers.${n}: homePath must be absolute.";
         })
-        cfg.containers;
+        cfg.containers
+        ++ lib.flatten (lib.mapAttrsToList (n: _: let
+          g = guests.${n}.config.sops;
+        in [
+          {
+            assertion = g.templates == {};
+            message = "streaming.podman.containers.${n}: sops.templates are not supported in containers (host-decrypted secrets only).";
+          }
+          {
+            assertion = lib.all (s: !s.neededForUsers) (lib.attrValues g.secrets);
+            message = "streaming.podman.containers.${n}: neededForUsers secrets are not supported in containers.";
+          }
+        ])
+        cfg.containers);
+
+      # The host decrypts exactly the secrets each guest declares (root-only
+      # on the host); copySecrets hands them to the container.
+      sops.secrets = lib.mkMerge (lib.mapAttrsToList (n: _:
+        lib.mapAttrs' (sn: s:
+          lib.nameValuePair (hostSecretName n sn) {
+            inherit (s) sopsFile key format;
+          })
+        guests.${n}.config.sops.secrets)
+      cfg.containers);
 
       hardware.uinput.enable = true;
       boot.kernelModules = ["nvidia_uvm"];
@@ -409,6 +489,8 @@
           lib.nameValuePair "podman-${cname n}" {
             after = ["streaming-network.service"];
             requires = ["streaming-network.service"];
+            # Runs on every (re)start, so rotated secrets are picked up.
+            preStart = copySecrets n;
           })
         cfg.containers;
     };
