@@ -87,6 +87,11 @@
       # (video, input, uinput) are accessible.
       users.groups = lib.mapAttrs (_: gid: {inherit gid;}) c.hostGroupIds;
       users.users.${config.username}.extraGroups = lib.attrNames c.hostGroupIds;
+
+      nix.enable = false;
+      nix.gc.automatic = lib.mkForce false;
+      nix.optimise.automatic = lib.mkForce false;
+      nix.settings.auto-optimise-store = lib.mkForce false;
     };
 
     # The container IS a NixOS system: same modules and options as a host.
@@ -123,7 +128,7 @@
 
       volumes =
         [
-          "/nix/store:/nix/store:ro"
+          "/nix/store:/nix/store:ro,nosuid,nodev"
           "/run/opengl-driver:${hostGl}:ro"
           "/dev/input:/dev/input"
           "/run/udev:/run/udev:ro"
@@ -138,7 +143,6 @@
       extraOptions = [
         "--network=streaming:ip=${c.ip}"
         "--systemd=always"
-        "--privileged"
         "--device-cgroup-rule=c 13:* rmw"
         "--shm-size=1g"
         # Keep tmpfs only for runtime paths, NOT /etc
