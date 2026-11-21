@@ -5,7 +5,7 @@ in {
   flake.lib.fleet = rec {
     inherit domain;
     fqdn = host: "${host}.${domain}";
-    installerHosts = ["x86" "rpi3" "rpi5"];
+    installerHosts = ["x86" "rpi3" "rpi5" "iso"];
     lan.subnet = "192.168.88.0/24";
     wireguard.hosts = {
       eris = "10.0.0.3";
