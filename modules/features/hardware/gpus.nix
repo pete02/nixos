@@ -14,7 +14,6 @@
       "nvidia_drm"
     ];
 
-    # Settings shared by every GPU vendor.
     commonGraphics = {
       hardware.graphics = {
         enable = true;
@@ -22,8 +21,6 @@
       };
     };
 
-    # Everything the stable and legacy NVIDIA setups have in common;
-    # only the driver package differs.
     mkNvidiaConfig = package:
       lib.mkMerge [
         commonGraphics
@@ -58,6 +55,7 @@
       nvidia = lib.mkEnableOption "NVIDIA GPU (stable driver)";
       nvidia-legacy = lib.mkEnableOption "NVIDIA GPU (legacy driver for GTX 900/1000 series)";
       amd = lib.mkEnableOption "AMD GPU";
+      intel = lib.mkEnableOption "Intel GPU (Iris Xe / modern iGPU with VA-API)";
     };
 
     config = lib.mkMerge [
@@ -65,8 +63,8 @@
         assertions = [
           {
             assertion =
-              lib.count lib.id [cfg.nvidia cfg.nvidia-legacy cfg.amd] <= 1;
-            message = "hardware-gpus: only one of `nvidia`, `nvidia-legacy` and `amd` can be enable at a time.";
+              lib.count lib.id [cfg.nvidia cfg.nvidia-legacy cfg.amd cfg.intel] <= 1;
+            message = "hardware-gpus: only one of `nvidia`, `nvidia-legacy`, `amd`, and `intel` can be enabled at a time.";
           }
         ];
       }
@@ -91,6 +89,20 @@
           boot = {
             kernelModules = ["amdgpu"];
             blacklistedKernelModules = nvidiaKernelModules;
+          };
+        }
+      ]))
+
+      (lib.mkIf cfg.intel (lib.mkMerge [
+        commonGraphics
+        {
+          hardware.graphics.extraPackages = with pkgs; [
+            intel-media-driver
+            vpl-gpu-rt
+          ];
+
+          environment.sessionVariables = {
+            LIBVA_DRIVER_NAME = "iHD";
           };
         }
       ]))
