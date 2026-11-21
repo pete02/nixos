@@ -93,12 +93,14 @@
       # Group ids must match the host so the passed-through device nodes
       # (video, input, uinput) are accessible.
       users.groups = lib.mapAttrs (_: gid: {inherit gid;}) c.hostGroupIds;
-      users.users.${config.username}.extraGroups = lib.attrNames c.hostGroupIds;
+      users.users.${config.username} = {
+        extraGroups = lib.attrNames c.hostGroupIds;
+        uid = lib.mkDefault 1000;
+      };
       # Pin the desktop user's uid. The host copies secrets in with numeric
       # ids, so they must be known at eval time (an auto-allocated uid is not).
       # 1000 is what the first normal user already gets, so existing /home
       # and /var/lib state keep matching.
-      users.users.${config.username}.uid = lib.mkDefault 1000;
 
       environment.etc = {
         "hosts".enable = lib.mkForce false;
