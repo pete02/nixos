@@ -1,8 +1,8 @@
-{...}: {
+{self, ...}: {
   flake.nixosModules.desktops = {lib, ...}: {
     options.desktop = {
       desktop = lib.mkOption {
-        type = lib.types.enum ["none" "raysha" "talia"];
+        type = lib.types.enum ["none" "raysha" "talia" "alanna"];
         default = "none";
         description = "Select the desktop.";
       };
@@ -39,9 +39,14 @@
       };
     };
 
-    imports = [
-      ./_raysha.nix
-      ./_talia.nix
-    ];
+    imports =
+      [
+        ./_raysha.nix
+        ./_talia.nix
+        ./_alanna.nix
+      ]
+      ++ (with self.nixosModules; [
+        desktops-hdmi-cec
+      ]);
   };
 }

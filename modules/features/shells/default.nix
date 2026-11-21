@@ -7,8 +7,7 @@
       shells-selection
       shells-services
       shells-displaymanager
-      shells-pegasus-cage
-      shells-hdmi-cec
+      shells-cage
     ];
   };
 }

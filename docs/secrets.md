@@ -55,7 +55,7 @@ store path.
 | `services.attic.env` / `services.attic.pull_token` | Attic server env + pull token ([nixbuilder](nixbuilder.md)) |
 | `services.github` | GitHub token ([dev](dev.md)) |
 | `nix.signing.<host>` | signing *secret* key per build server; the public half lives in [fleet.signingKeys](fleet/lib/fleet.md) ([nixbuilder](nixbuilder.md)) |
-| `alanna.tmdb_api_key` | Pegasus kiosk TMDB metadata ([shells](shells.md)) |
+| `alanna.tmdb_api_key` | Pegasus kiosk TMDB metadata (alanna desktop, `modules/features/desktops/_alanna.nix`) |
 | `hello`, `agh`, `hf_token` | spare/scalar secrets (sops `--value-stdin` style entries) |
 
 The YAML footer declares `unencrypted_suffix: _unencrypted` — keys ending in

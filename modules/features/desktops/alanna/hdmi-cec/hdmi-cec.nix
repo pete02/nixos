@@ -1,11 +1,11 @@
 {...}: {
-  flake.nixosModules.shells-hdmi-cec = {
+  flake.nixosModules.desktops-hdmi-cec = {
     config,
     lib,
     pkgs,
     ...
   }: let
-    cfg = config.shells.hdmi-cec;
+    cfg = config.desktop.hdmi-cec;
 
     python = pkgs.python3.withPackages (ps: [
       ps.evdev
@@ -18,9 +18,13 @@
       PEGASUS_SERVICE = cfg.pegasusService;
       MOUSE_ON_KEY = cfg.mouseOnKey;
       MOUSE_OFF_KEY = cfg.mouseOffKey;
+      PERSISTENT_POINTER =
+        if cfg.persistentPointer
+        then "1"
+        else "0";
     };
   in {
-    options.shells.hdmi-cec = {
+    options.desktop.hdmi-cec = {
       enable = lib.mkEnableOption "HDMI-CEC remote input";
 
       device = lib.mkOption {
@@ -42,6 +46,17 @@
           CEC user-control command (as printed by `cec-ctl --monitor` after
           "ui-cmd:") that switches to mouse mode: the arrow keys move the
           pointer and select left-clicks.
+        '';
+      };
+
+      persistentPointer = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          Create the virtual mouse once at startup instead of when mouse mode
+          is switched on. Removes the device hotplug delay (udev plus the
+          compositor picking the device up) when entering mouse mode, but the
+          cursor is then visible all the time.
         '';
       };
 

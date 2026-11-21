@@ -1,5 +1,6 @@
 
 import logging
+import os
 import re
 import subprocess
 import sys
@@ -13,6 +14,10 @@ STDBUF = "@STDBUF@"
 PEGASUS_SERVICE = "@PEGASUS_SERVICE@"
 MOUSE_ON_KEY = "@MOUSE_ON_KEY@"
 MOUSE_OFF_KEY = "@MOUSE_OFF_KEY@"
+# Keep the virtual pointer around for the whole run instead of creating it when
+# mouse mode is switched on. Costs a permanently visible cursor, saves the
+# device hotplug delay.
+PERSISTENT_POINTER = "@PERSISTENT_POINTER@" == "1"
 MULTITAP_TIMEOUT = 0.9
 
 # Mouse mode tuning: pixels per key press, growing while a direction is
@@ -21,8 +26,17 @@ MOUSE_BASE_STEP = 10
 MOUSE_MAX_STEP = 80
 MOUSE_ACCEL = 5
 MOUSE_REPEAT_WINDOW = 0.4
-# Give the compositor time to pick up the freshly created pointer device.
-MOUSE_SETTLE = 0.3
+# A freshly created pointer is only usable once udev has processed it and the
+# compositor has opened it. Wait for udev (up to MOUSE_READY_TIMEOUT), then give
+# the compositor MOUSE_SETTLE to pick the device up. Events sent before that
+# are silently dropped, which looks like input lag.
+MOUSE_READY_TIMEOUT = 2.0
+MOUSE_SETTLE = 0.05
+UDEV_DATA_DIR = "/run/udev/data"
+
+# Warn when a CEC message sat this long between the kernel receiving it and
+# this script seeing it. Anything above this means the lag is on our side.
+LATENCY_WARN = 0.15
 
 logging.basicConfig(
     level=logging.INFO,
@@ -171,22 +185,67 @@ def type_digit(digit):
     last_press = now
 
 
-def enable_mouse_mode():
-    global mouse, mouse_mode, last_direction, direction_streak
+def wait_for_udev(device):
+    """Wait until udev has finished processing a new input device.
 
-    if mouse is None:
+    The compositor only learns about the device from udev's "add" event, which
+    is sent after the rules ran and the device database entry was written. A
+    fixed sleep either wastes time or is too short on a busy machine.
+    """
+    try:
+        rdev = os.stat(device.path).st_rdev
+        entry = f"{UDEV_DATA_DIR}/c{os.major(rdev)}:{os.minor(rdev)}"
+    except (OSError, AttributeError):
+        time.sleep(0.3)
+        return False
+
+    deadline = time.monotonic() + MOUSE_READY_TIMEOUT
+    while time.monotonic() < deadline:
         try:
-            mouse = UInput(
-                {
-                    e.EV_KEY: [e.BTN_LEFT],
-                    e.EV_REL: [e.REL_X, e.REL_Y],
-                },
-                name="HDMI-CEC Mouse",
-            )
+            with open(entry, encoding="utf-8", errors="replace") as db:
+                if "ID_INPUT=1" in db.read():
+                    return True
         except OSError:
-            logging.exception("Could not create the virtual mouse")
-            return
-        time.sleep(MOUSE_SETTLE)
+            pass
+        time.sleep(0.01)
+
+    return False
+
+
+def create_mouse():
+    global mouse
+
+    if mouse is not None:
+        return True
+
+    started = time.monotonic()
+    try:
+        mouse = UInput(
+            {
+                e.EV_KEY: [e.BTN_LEFT],
+                e.EV_REL: [e.REL_X, e.REL_Y],
+            },
+            name="HDMI-CEC Mouse",
+        )
+    except OSError:
+        logging.exception("Could not create the virtual mouse")
+        return False
+
+    ready = wait_for_udev(mouse.device)
+    time.sleep(MOUSE_SETTLE)
+    logging.info(
+        "Virtual mouse ready after %.0f ms%s",
+        (time.monotonic() - started) * 1000,
+        "" if ready else " (udev did not confirm it, continuing anyway)",
+    )
+    return True
+
+
+def enable_mouse_mode():
+    global mouse_mode, last_direction, direction_streak
+
+    if not create_mouse():
+        return
 
     last_direction = None
     direction_streak = 0
@@ -199,10 +258,10 @@ def disable_mouse_mode():
 
     mouse_mode = False
 
-    if mouse is not None:
+    if mouse is not None and not PERSISTENT_POINTER:
         mouse.close()
         mouse = None
-        logging.info("Mouse mode off")
+    logging.info("Mouse mode off")
 
 
 def move_mouse(direction):
@@ -239,8 +298,10 @@ def return_to_pegasus():
     reset_multitap()
     disable_mouse_mode()
     logging.info("Returning to Pegasus by restarting %s", PEGASUS_SERVICE)
+    # --no-block: the restart can take seconds, and every CEC message that
+    # arrives meanwhile would wait behind it.
     subprocess.run(
-        ["systemctl", "restart", PEGASUS_SERVICE],
+        ["systemctl", "restart", "--no-block", PEGASUS_SERVICE],
         check=False,
         timeout=30,
     )
@@ -264,19 +325,19 @@ def handle_command(command):
 
         if command == "select":
             click_mouse()
-            logging.info("Click")
+            logging.debug("Click")
             return
 
     if command in KEY_MAP:
         reset_multitap()
         tap(KEY_MAP[command])
-        logging.info("Key: %s", command)
+        logging.debug("Key: %s", command)
         return
 
     if command in DIGITS:
         digit = DIGITS[command]
         type_digit(digit)
-        logging.info("Digit: %s", digit)
+        logging.debug("Digit: %s", digit)
         return
 
     if command == "electronic-program-guide":
@@ -284,6 +345,22 @@ def handle_command(command):
         return
 
     logging.debug("Ignoring CEC command: %s", command)
+
+
+RX_TIMESTAMP = re.compile(r"Rx Timestamp:\s+(\d+\.\d+)s")
+
+
+def report_latency(rx_ts):
+    """Log how long ago the kernel received the message that was just read."""
+    lag = time.monotonic() - rx_ts
+
+    if lag > LATENCY_WARN:
+        logging.warning(
+            "CEC message reached the listener %.0f ms after the kernel got it",
+            lag * 1000,
+        )
+    else:
+        logging.debug("CEC message latency %.0f ms", lag * 1000)
 
 
 def main():
@@ -294,6 +371,9 @@ def main():
         "-d",
         CEC_DEVICE,
         "--monitor",
+        # Adds an "Rx Timestamp" line per message (kernel receive time on
+        # CLOCK_MONOTONIC), used to measure how late we see each message.
+        "--verbose",
     ]
 
     logging.info("Starting CEC listener on %s", CEC_DEVICE)
@@ -307,10 +387,18 @@ def main():
     )
 
     try:
+        if PERSISTENT_POINTER:
+            create_mouse()
+
         for line in process.stdout:
             match = re.search(r"ui-cmd:\s+([a-z0-9-]+)", line)
             if match:
                 handle_command(match.group(1))
+                continue
+
+            stamp = RX_TIMESTAMP.search(line)
+            if stamp:
+                report_latency(float(stamp.group(1)))
             elif line.strip():
                 logging.debug("CEC: %s", line.strip())
 
