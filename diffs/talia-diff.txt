@@ -1,4 +1,90 @@
-<<< /nix/var/nix/profiles/system-17-link
->>> /nix/var/nix/profiles/system-18-link
-No version or selection state changes.
-Closure size: 1849 -> 1849 (5 paths added, 5 paths removed, delta +0, disk usage +1.9KiB).
+<<< /nix/var/nix/profiles/system-18-link
+>>> /nix/var/nix/profiles/system-19-link
+Version changes:
+[U.]  #01  appstream              1.1.3 -> 1.2.3
+[U.]  #02  attica                 6.31.0 -> 6.32.0
+[U.]  #03  baloo                  6.31.0 -> 6.32.0
+[U*]  #04  brave                  1.99.56 -> 1.99.57
+[U.]  #05  breeze-icons           6.31.0 -> 6.32.0
+[U.]  #06  electron               45.2.3 -> 45.3.4
+[U.]  #07  electron-unwrapped     45.2.3 -> 45.3.4
+[U*]  #08  fastfetch              2.70.0, 2.70.0-man -> 2.71.0, 2.71.0-man
+[U.]  #09  fastfetch-unwrapped    2.70.0, 2.70.0-man -> 2.71.0, 2.71.0-man
+[U*]  #10  firefox                160.0 -> 160.0.1
+[U.]  #11  firefox-unwrapped      160.0 -> 160.0.1
+[U*]  #12  gimp                   3.2.6, 3.2.6-man -> 3.2.8, 3.2.8-man
+[U.]  #13  gnome-settings-daemon  51.0-gsettings-schemas -> 51.1-gsettings-schemas
+[C.]  #14  graphics-drivers       <none> -> <none>, 32bit
+[U.]  #15  gtksourceview          5.21.0 -> 5.22.0
+[U.]  #16  initrd-linux           6.18.63 -> 6.18.64
+[U.]  #17  karchive               6.31.0 -> 6.32.0
+[U.]  #18  kauth                  6.31.0 -> 6.32.0
+[U.]  #19  kbookmarks             6.31.0 -> 6.32.0
+[U.]  #20  kcmutils               6.31.0 -> 6.32.0
+[U.]  #21  kcodecs                6.31.0 -> 6.32.0
+[U.]  #22  kcolorscheme           6.31.0 -> 6.32.0
+[U.]  #23  kcompletion            6.31.0 -> 6.32.0
+[U.]  #24  kconfig                6.31.0 -> 6.32.0
+[U.]  #25  kconfigwidgets         6.31.0 -> 6.32.0
+[U.]  #26  kcoreaddons            6.31.0 -> 6.32.0
+[U.]  #27  kcrash                 6.31.0 -> 6.32.0
+[U.]  #28  kdbusaddons            6.31.0 -> 6.32.0
+[U.]  #29  kdnssd                 6.31.0 -> 6.32.0
+[U.]  #30  kdoctools              6.31.0 -> 6.32.0
+[U.]  #31  kfilemetadata          6.31.0 -> 6.32.0
+[U.]  #32  kglobalaccel           6.31.0 -> 6.32.0
+[U.]  #33  kguiaddons             6.31.0 -> 6.32.0
+[U.]  #34  ki18n                  6.31.0 -> 6.32.0
+[U.]  #35  kiconthemes            6.31.0 -> 6.32.0
+[U.]  #36  kidletime              6.31.0 -> 6.32.0
+[U.]  #37  kio                    6.31.0 -> 6.32.0
+[U.]  #38  kirigami               6.31.0 -> 6.32.0
+[U.]  #39  kitemviews             6.31.0 -> 6.32.0
+[U*]  #40  kitty                  0.50.0, 0.50.0-terminfo -> 0.51.0, 0.51.0-terminfo
+[U.]  #41  kjobwidgets            6.31.0 -> 6.32.0
+[U.]  #42  knewstuff              6.31.0 -> 6.32.0
+[U.]  #43  knotifications         6.31.0 -> 6.32.0
+[U.]  #44  kpackage               6.31.0 -> 6.32.0
+[U.]  #45  kparts                 6.31.0 -> 6.32.0
+[U.]  #46  kservice               6.31.0 -> 6.32.0
+[U.]  #47  ktextwidgets           6.31.0 -> 6.32.0
+[U.]  #48  kuserfeedback          6.31.0 -> 6.32.0
+[U.]  #49  kwallet                6.31.0 -> 6.32.0
+[U.]  #50  kwidgetsaddons         6.31.0 -> 6.32.0
+[U.]  #51  kwindowsystem          6.31.0 -> 6.32.0
+[U.]  #52  kxmlgui                6.31.0 -> 6.32.0
+[C.]  #53  libdisplay-info        0.4.0 -> 0.4.0 x2
+[C.]  #54  libdrm                 2.4.134 x2, 2.4.134-bin, 2.4.134-dev -> 2.4.134 x2, 2.4.134-bin x2, 2.4.134-dev x2
+[U.]  #55  libslirp               4.9.6 -> 4.9.7
+[C.]  #56  libxcb-keysyms         0.4.1 -> 0.4.1 x2
+[C.]  #57  libxshmfence           1.3.3 -> 1.3.3 x2
+[C.]  #58  libxxf86vm             1.1.7 -> 1.1.7 x2
+[U.]  #59  linux                  6.18.63, 6.18.63-modules x2 -> 6.18.64, 6.18.64-modules x2
+[C.]  #60  llvm                   21.1.8-lib -> 21.1.8-lib x2
+[C.]  #61  lm-sensors             3.6.2 -> 3.6.2 x2
+[U.]  #62  mesa                   26.3.0 -> 26.3.1 x2
+[C.]  #63  mesa-libgbm            26.1.3 -> 26.1.3 x2
+[U.]  #64  nixos-system-talia     26.11.20261113.d5cc683 -> 26.11.20261119.0bb8272
+[U.]  #65  podofo                 1.1.2 -> 1.1.3
+[U.]  #66  qqc2-desktop-style     6.31.0 -> 6.32.0
+[D.]  #67  qtwebengine            6.140.0-rc -> 6.140.0
+[U.]  #68  solid                  6.31.0 -> 6.32.0
+[U.]  #69  sonnet                 6.31.0 -> 6.32.0
+[U.]  #70  syndication            6.31.0 -> 6.32.0
+[U.]  #71  syntax-highlighting    6.31.0 -> 6.32.0
+[U*]  #72  vscode                 1.144.0 -> 1.146
+Added packages:
+[A.]  #01  cgif                0.5.4
+[A.]  #02  hdf5-cpp            1.14.6
+[A.]  #03  intel-gmmlib        22.10.2
+[A.]  #04  intel-media-driver  26.3.5
+[A.]  #05  libaec              1.1.7
+[A.]  #06  libdicom            1.3.0
+[A.]  #07  matio               1.5.30
+[A.]  #08  openslide           4.0.1
+[A.]  #09  vips                8.18.7
+[A.]  #10  vpl-gpu-rt          26.3.5
+Removed packages:
+[R.]  #1  libiff   0-unstable-2024-03-02
+[R.]  #2  libilbm  0-unstable-2024-03-02
+Closure size: 1849 -> 1868 (173 paths added, 154 paths removed, delta +19, disk usage +838.3MiB).
