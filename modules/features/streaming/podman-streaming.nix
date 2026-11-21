@@ -88,6 +88,14 @@
       users.groups = lib.mapAttrs (_: gid: {inherit gid;}) c.hostGroupIds;
       users.users.${config.username}.extraGroups = lib.attrNames c.hostGroupIds;
 
+      environment.etc = {
+        "hosts".enable = lib.mkForce false;
+        "hostname".enable = lib.mkForce false;
+      };
+      sops.age.keyFile = lib.mkDefault "/run/sops-nix/key.txt";
+      system.activationScripts.specialfs = lib.mkForce ''
+        mkdir -p /run/sops-nix
+      '';
       nix.enable = false;
       nix.gc.automatic = lib.mkForce false;
       nix.optimise.automatic = lib.mkForce false;
@@ -135,7 +143,7 @@
           "${stateRoot}/${name}/var-lib:/var/lib"
           # Mount host sops key into a persistent container path,
           # or configure sops-nix to look at a custom path:
-          "/etc/sops/age/keys.txt:/var/lib/sops-nix/key.txt:ro"
+          "/etc/sops/age/keys.txt:/run/sops-nix/key.txt:ro"
         ]
         ++ lib.optional c.persistentHome "${c.homePath}:/home"
         ++ c.extraVolumes;
