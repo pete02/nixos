@@ -19,15 +19,6 @@
   healthcheck = {
     enable = true;
     devices = ["/dev/sda" "/dev/sdb" "/dev/nvme0n1"];
-    bcachefs = {
-      enable = true;
-      uuid = "6efc72dc-a79e-4340-adf0-28ceb1be8769";
-      devices = [
-        "hdd.hdd1"
-        "hdd.hdd2"
-        "sdd.sdd1"
-      ];
-    };
   };
 
   streaming.podman = {
