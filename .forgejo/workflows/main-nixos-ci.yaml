@@ -269,7 +269,7 @@ jobs:
           system=x86_64-linux
 
           packages="$(
-            nix eval --raw \
+            nix eval --raw --accept-flake-config \
               --apply "attrs: builtins.concatStringsSep \"\\n\" (builtins.filter (n: (attrs.\${n}.system or \"\") == \"${system}\") (builtins.attrNames attrs))" \
               ".#packages.${system}"
           )"

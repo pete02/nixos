@@ -20,10 +20,6 @@
 
   connectivity = {
     bluetooth = true;
-    wifi = {
-      enable = true;
-      Ssid = "Pete";
-    };
     mDNS = true;
   };
   ssh.client.enable = true;
@@ -33,7 +29,7 @@
   samba.clients.timelock.enable = true;
 
   streaming.podman = {
-    enable = true;
+    enable = false;
     parentInterface = "enp12s0"; # aria's real NIC name
 
     containers.raysha = {
@@ -53,6 +49,8 @@
       };
     };
   };
+
+
   environment.systemPackages = with pkgs; [
     kitty.terminfo
   ];
