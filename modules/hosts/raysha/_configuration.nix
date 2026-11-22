@@ -29,7 +29,7 @@
   samba.clients.timelock.enable = true;
 
   streaming.podman = {
-    enable = false;
+    enable = true;
     parentInterface = "enp12s0"; # aria's real NIC name
 
     containers.raysha = {

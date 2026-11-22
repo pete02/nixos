@@ -170,7 +170,7 @@ jobs:
           trap 'kill "$cleaner" 2>/dev/null || true' EXIT
 
           nix build \
-            --no-link \
+            --out-link /nix/var/nix/gcroots/ci-${HOST} \
             --accept-flake-config \
             --print-out-paths \
             ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
@@ -294,7 +294,7 @@ jobs:
           EOF
 
           nix build \
-            --no-link \
+            --out-link /nix/var/nix/gcroots/ci-packages \
             --accept-flake-config \
             --print-out-paths \
             --keep-going \
@@ -331,7 +331,20 @@ jobs:
             -d "${REPO}@${REF} ($(printf '%s' "$SHA" | cut -c1-8))" \
             https://ntfy.lumilukko.com/pipeline-failure \
             || echo "WARNING: failed to send ntfy notification" >&2
-
+  cleanup:
+    name: Clean Nix store
+    needs: [plan, build, packages, promote]
+    if: always()
+    runs-on: nixos-ci
+    container:
+      image: lumilukko/nixos-ci:latest
+      volumes:
+        - nix-store-v2:/nix
+    steps:
+      - name: Collect garbage
+        run: |
+          set -eu
+          nix-collect-garbage
   promote:
     name: Promote to stable
     needs: [plan, build, packages]
@@ -389,10 +402,3 @@ jobs:
             -d "${REPO}@${REF} ($(printf '%s' "$SHA" | cut -c1-8))" \
             https://ntfy.lumilukko.com/pipeline-failure \
             || echo "WARNING: failed to send ntfy notification" >&2
-      - name: Clean local Nix store
-        if: always()
-        run: |
-          set -eu
-          echo "Cleaning up local build store to save disk space..."
-          # Remove all unreferenced generations/roots, keeping only what's currently active
-          nix-collect-garbage -d
