@@ -9,7 +9,7 @@
   in {
     options.dev = {
       enable = lib.mkEnableOption "development tools (nix tooling, direnv, container runtime)";
-      enableOnBoot = lib.mkEnableOption "Enables docker/podman on boot"
+      enableOnBoot = lib.mkEnableOption "Enables docker/podman on boot";
       ld = lib.mkEnableOption "Enable ld tooling";
       vscode = lib.mkOption {
         type = lib.types.bool;
@@ -53,7 +53,7 @@
       (lib.mkIf (!cfg.podman.enable) {
         virtualisation.docker = {
           enable = true;
-          enableOnBoot= enableOnBoot;
+          enableOnBoot= config.dev.enableOnBoot;
           daemon.settings = {
             features.cdi = true;
             registry-mirrors = ["http://aria.local:5001"];
@@ -69,7 +69,6 @@
       (lib.mkIf cfg.podman.enable {
         virtualisation.podman = {
           enable = true;
-          enableOnBoot = true;
           dockerCompat = true;
           defaultNetwork.settings.dns_enabled = true;
         };
