@@ -103,7 +103,9 @@
       # and /var/lib state keep matching.
       systemd.units."run-wrappers.mount".enable = lib.mkForce false;
       systemd.oomd.enable = false;
-      
+      services.dbus.implementation = "dbus";
+
+      services.nscd.enable = false;
       environment.etc = {
         "hosts".enable = lib.mkForce false;
         "hostname".enable = lib.mkForce false;
