@@ -20,7 +20,9 @@ on:
       - "docs/**"
       - "**.diff"
       - "**.patch"
-
+concurrency:
+  group: nixos-ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   plan:
     name: Plan hosts
@@ -38,7 +40,7 @@ jobs:
     steps:
       - name: Ensure CI tools are in the store
         run: nix build /opt/ci-tools-flake#default --out-link /opt/ci-tools
-        
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
