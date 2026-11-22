@@ -4,7 +4,7 @@
     {
       "label": "nix: eval talia",
       "type": "shell",
-      "command": "nix flake check",
+      "command": "nix eval .#nixosConfigurations.$HOSTNAME.config.system.build.toplevel.drvPath",
       "group": { "kind": "build", "isDefault": true },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
       "problemMatcher": []

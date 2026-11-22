@@ -171,6 +171,7 @@ jobs:
 
           nix build \
             --no-link \
+            --accept-flake-config \
             --print-out-paths \
             ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
             > /tmp/out-paths
@@ -294,6 +295,7 @@ jobs:
 
           nix build \
             --no-link \
+            --accept-flake-config \
             --print-out-paths \
             --keep-going \
             --max-jobs auto \
