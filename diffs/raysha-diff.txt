@@ -1,182 +1,1148 @@
-<<< /nix/var/nix/profiles/system-126-link
->>> /nix/var/nix/profiles/system-127-link
+<<< /nix/var/nix/profiles/system-20-link
+>>> /nix/var/nix/profiles/system-21-link
 Version changes:
-[C.]  #01  aalib             1.4rc5 -> 1.4rc5 x2
-[C.]  #02  appstream         1.1.2 -> 1.1.2, 1.1.3
-[C.]  #03  binutils-wrapper  2.46 -> 2.46 x2
-[C.]  #04  ffmpeg            6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 8.1.3-data, 8.1.3-lib, 9.0.2-data, 9.0.2-lib -> 6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 8.1.3-data x2, 8.1.3-lib x2, 9.0.2-data, 9.0.2-lib
-[C+]  #05  fuse              3.18.2, 3.18.2-bin -> 3.18.2, 3.18.2-bin, 3.18.2-man
-[C.]  #06  gfortran          15.3.0-lib, 15.3.0-libgcc -> 15.3.0-lib, 15.3.0-libgcc, 16.2.0, 16.2.0-lib, 16.2.0-libgcc
-[C.]  #07  gnupg             2.4.9 -> 2.4.9 x2
-[C.]  #08  icu4c             76.1, 78.3 x2 -> 76.1, 77.1, 78.3 x2
-[C+]  #09  imagemagick       7.1.2-35 -> 7.1.2-35, 7.1.2-35-doc
-[C.]  #10  imlib2            1.12.7 -> 1.12.7 x2
-[C.]  #11  libbluray         1.4.1 x3 -> 1.4.1 x4
-[C.]  #12  libcanberra       0.30 x3 -> 0.30 x4
-[C.]  #13  libfyaml          0.9.6 -> 0.9.6 x2
-[C+]  #14  libinput          1.31.3 -> 1.31.3, 1.31.3-bin
-[C.]  #15  libmpc            1.4.1 -> 1.4.1 x2
-[C.]  #16  libplacebo        7.387.0 -> 5.264.1, 7.387.0
-[C.]  #17  libxmlb           0.3.25-lib -> 0.3.25-lib, 0.3.27-lib
-[C.]  #18  mpfr              4.2.2 -> 4.2.2 x2
-[C*]  #19  ncurses           6.6 x3, 6.6-man -> 6.6 x3, 6.6-dev, 6.6-man
-[C.]  #20  nss               3.125 x2, 3.125-man -> 3.125 x2, 3.125-man, 3.133
-[C.]  #21  openblas          0.3.33 -> 0.3.33 x2
-[C*]  #22  pipewire          1.6.6, 1.6.11 x2, 1.6.11-doc, 1.6.11-man -> 1.6.6, 1.6.11 x2, 1.6.11-doc, 1.6.11-jack, 1.6.11-man
-[C.]  #23  python3           3.13.18, 3.14.10 x2, 3.14.10-env x5 -> 3.13.18, 3.14.10 x2, 3.14.10-env x7
-[C.]  #24  qtdeclarative     5.15.19, 6.11.3, 6.12.0 -> 5.15.19, 5.15.19-bin, 6.11.3, 6.12.0
-[C.]  #25  qtsvg             6.11.3, 6.12.0 -> 5.15.19, 5.15.19-bin, 6.11.3, 6.12.0
-[C.]  #26  qtwayland         6.11.3, 6.12.0 -> 5.15.19, 5.15.19-bin, 6.11.3, 6.12.0
-[C.]  #27  taglib            2.2.1 x3 -> 1.13.1, 2.2.1 x3
-Selection state changes:
-[C+]  #1  xrandr  1.5.4
-Added packages:
-[A.]  #001  attica                                                  6.31.0
-[A+]  #002  awww                                                    0.12.1
-[A.]  #003  babl                                                    0.1.126
-[A.]  #004  baloo                                                   6.31.0
-[A.]  #005  baloo-widgets                                           26.08.3
-[A.]  #006  blas                                                    3
-[A+]  #007  brave                                                   1.99.56
-[A.]  #008  breeze-icons                                            6.31.0
-[A+]  #009  brightnessctl                                           0.5.1
-[A.]  #010  cfitsio                                                 4.7.0
-[A.]  #011  docbook-xml                                             4.5
-[A.]  #012  docbook-xsl-nons                                        1.79.2
-[A+]  #013  dolphin                                                 26.08.3
-[A.]  #014  etc-UPower-UPower.conf                                  <none>
-[A.]  #015  etc-fuse.conf                                           <none>
-[A.]  #016  etc-xdg-xdg-desktop-portal-portals.conf                 <none>
-[A.]  #017  exiv2                                                   0.28.9, 0.28.9-lib
-[A+]  #018  feh                                                     3.13.1, 3.13.1-doc, 3.13.1-man
-[A.]  #019  find-xml-catalogs-hook                                  <none>
-[A+]  #020  firefox                                                 160.0
-[A.]  #021  firefox-policies.json                                   <none>
-[A.]  #022  firefox-unwrapped                                       160.0
-[A.]  #023  flatpak                                                 1.18.4
-[A.]  #024  gegl                                                    0.4.70
-[A.]  #025  geoclue                                                 2.8.2
-[A.]  #026  gexiv2                                                  0.14.6
-[A.]  #027  gfortran-wrapper                                        16.2.0
-[A.]  #028  ghostscript-with-X                                      10.08.0, 10.08.0-fonts
-[A+]  #029  gimp                                                    3.2.6, 3.2.6-man
-[A.]  #030  gjs                                                     1.90.0
-[A.]  #031  gnome-settings-daemon                                   51.0-gsettings-schemas
-[A.]  #032  gpgme                                                   2.2.0
-[A.]  #033  gpgmepp                                                 2.2.0
-[A.]  #034  graphviz                                                15.1.1
-[A+]  #035  grim                                                    1.5.0
-[A.]  #036  gts                                                     0.7.6
-[A.]  #037  ijs                                                     10.08.0
-[A+]  #038  jack-libs                                               <none>
-[A.]  #039  jbig2dec                                                0.20
-[A.]  #040  jpegexiforient                                          0-unstable-2002-02-17
-[A.]  #041  kactivitymanagerd                                       6.8.3
-[A.]  #042  karchive                                                6.31.0
-[A.]  #043  kauth                                                   6.31.0
-[A.]  #044  kbookmarks                                              6.31.0
-[A+]  #045  kcalc                                                   26.08.3
-[A.]  #046  kcmutils                                                6.31.0
-[A.]  #047  kcodecs                                                 6.31.0
-[A.]  #048  kcolorscheme                                            6.31.0
-[A.]  #049  kcompletion                                             6.31.0
-[A.]  #050  kconfig                                                 6.31.0
-[A.]  #051  kconfigwidgets                                          6.31.0
-[A.]  #052  kcoreaddons                                             6.31.0
-[A.]  #053  kcrash                                                  6.31.0
-[A.]  #054  kdbusaddons                                             6.31.0
-[A.]  #055  kdegraphics-mobipocket                                  26.08.3
-[A.]  #056  kdnssd                                                  6.31.0
-[A.]  #057  kdoctools                                               6.31.0
-[A.]  #058  kdsoap                                                  2.2.0
-[A.]  #059  kdsoap-ws-discovery-client                              0.4.0
-[A.]  #060  kfilemetadata                                           6.31.0
-[A.]  #061  kglobalaccel                                            6.31.0
-[A.]  #062  kguiaddons                                              6.31.0
-[A.]  #063  ki18n                                                   6.31.0
-[A.]  #064  kiconthemes                                             6.31.0
-[A.]  #065  kidletime                                               6.31.0
-[A.]  #066  kio                                                     6.31.0
-[A.]  #067  kio-extras                                              26.08.3
-[A.]  #068  kirigami                                                6.31.0
-[A.]  #069  kitemviews                                              6.31.0
-[A+]  #070  kitty                                                   0.50.0, 0.50.0-terminfo
-[A.]  #071  kjobwidgets                                             6.31.0
-[A.]  #072  knewstuff                                               6.31.0
-[A.]  #073  knotifications                                          6.31.0
-[A.]  #074  kpackage                                                6.31.0
-[A.]  #075  kparts                                                  6.31.0
-[A.]  #076  kservice                                                6.31.0
-[A.]  #077  ktextwidgets                                            6.31.0
-[A.]  #078  kuserfeedback                                           6.31.0
-[A.]  #079  kwallet                                                 6.31.0
-[A.]  #080  kwidgetsaddons                                          6.31.0
-[A.]  #081  kwindowsystem                                           6.31.0
-[A.]  #082  kxmlgui                                                 6.31.0
-[A.]  #083  lapack                                                  3
-[A.]  #084  libaacs                                                 0.11.1
-[A.]  #085  libappimage                                             1.0.4-5
-[A.]  #086  libbdplus                                               0.2.0
-[A.]  #087  libdbusmenu-gtk3                                        16.04.0
-[A.]  #088  libdvbpsi                                               1.3.3
-[A.]  #089  libebml                                                 1.4.7
-[A.]  #090  libiff                                                  0-unstable-2024-03-02
-[A.]  #091  libilbm                                                 0-unstable-2024-03-02
-[A.]  #092  libimobiledevice                                        1.4.0
-[A.]  #093  libimobiledevice-glue                                   1.3.3
-[A.]  #094  libkate                                                 0.4.3
-[A.]  #095  libkexiv2                                               26.08.3
-[A.]  #096  libksba                                                 1.8.1
-[A.]  #097  libmatroska                                             1.7.2
-[A.]  #098  libmicrodns                                             0.2.0
-[A.]  #099  libmng                                                  2.0.3
-[A.]  #100  libmypaint                                              1.6.1
-[A.]  #101  libplist                                                2.7.0
-[A.]  #102  libspectre                                              0.2.12
-[A.]  #103  libtatsu                                                1.0.5
-[A.]  #104  libtiger                                                0.3.4
-[A.]  #105  libupnp                                                 1.14.25
-[A.]  #106  libusbmuxd                                              2.1.1
-[A.]  #107  libwmf                                                  0.2.16
-[A.]  #108  live555                                                 2026.01.12
-[A+]  #109  mako                                                    1.11.0
-[A.]  #110  malcontent                                              0.13.1-lib
-[A.]  #111  mypaint-brushes                                         2.0.2
-[A.]  #112  nerd-fonts-arimo                                        3.5.0+1.33
-[A.]  #113  openjdk-minimal-jre                                     21.0.13.0.2+1
-[A.]  #114  ostree                                                  2026.2
-[A.]  #115  packagekit-qt                                           1.1.4
-[A.]  #116  plasma-activities                                       6.8.3
-[A.]  #117  plasma-activities-stats                                 6.8.3
-[A+]  #118  playerctl                                               2.4.1
-[A.]  #119  polkit-qt                                               1-0.201.1
-[A.]  #120  poly2tri-c                                              0.1.0
-[A.]  #121  poppler-qt6                                             26.11.0
-[A.]  #122  python3.14-libevdev                                     0.13.1
-[A.]  #123  python3.14-pyudev                                       0.24.4
-[A.]  #124  qca                                                     2.3.12
-[A.]  #125  qqc2-desktop-style                                      6.31.0
-[A.]  #126  qt5compat                                               6.12.0
-[A.]  #127  qtquickcontrols                                         5.15.19
-[A.]  #128  qttools                                                 6.12.0
-[A.]  #129  qtx11extras                                             5.15.19
-[A+]  #130  rtkit                                                   0.14
-[A.]  #131  security-wrapper-fusermount3-x86_64-unknown-linux-musl  <none>
-[A.]  #132  shader-slang                                            2026.21
-[A+]  #133  slurp                                                   1.5.0
-[A.]  #134  solid                                                   6.31.0
-[A.]  #135  sonnet                                                  6.31.0
-[A.]  #136  spidermonkey                                            140.17.0
-[A.]  #137  squashfuse                                              0.6.5
-[A.]  #138  suitesparse                                             7.10.0
-[A+]  #139  swaylock                                                1.8.6
-[A.]  #140  syndication                                             6.31.0
-[A.]  #141  syntax-highlighting                                     6.31.0
-[A.]  #142  umockdev                                                0.19.3
-[A.]  #143  unit-rtkit-daemon.service                               <none>
-[A+]  #144  upower                                                  1.91.5
-[A+]  #145  vlc                                                     3.0.24, 3.0.24-doc, 3.0.24-man
-[A+]  #146  wl-clipboard                                            2.3.0
-[A+]  #147  xdg-desktop-portal                                      1.22.1
-[A+]  #148  xdg-desktop-portal-gtk                                  1.15.3
-Closure size: 2531 -> 2720 (223 paths added, 34 paths removed, delta +189, disk usage +2.5GiB).
+[C.]  #001  55-nixos-aslr-entropy.conf                   <none> x2 -> <none>
+[C.]  #002  X-Restart-Triggers-dbus-broker               <none> x2 -> <none>
+[C.]  #003  X-Restart-Triggers-systemd-sysctl            <none> x2 -> <none>
+[C.]  #004  X-Restart-Triggers-systemd-tmpfiles-resetup  <none> x2 -> <none>
+[C.]  #005  abseil-cpp                                   20260107.1, 20260107.1-dev, 20260817.0 x3, 20260817.0-dev, 20260817.0-testing -> 20260817.0
+[C*]  #006  acl                                          2.4.0 x3, 2.4.0-bin, 2.4.0-dev, 2.4.0-doc, 2.4.0-man -> 2.4.0 x2, 2.4.0-bin, 2.4.0-doc, 2.4.0-man
+[C.]  #007  alsa-lib                                     1.2.15.3, 1.2.16.1 x2 -> 1.2.16.1
+[C.]  #008  alsa-topology-conf                           1.2.5.1 x3 -> 1.2.5.1
+[C.]  #009  alsa-ucm-conf                                1.2.15.3, 1.2.16.1 x2 -> 1.2.16.1
+[C.]  #010  at-spi2-core                                 2.60.7, 2.62.0 x2 -> 2.62.0
+[C*]  #011  attr                                         2.6.0 x3, 2.6.0-bin, 2.6.0-dev, 2.6.0-doc, 2.6.0-man -> 2.6.0 x2, 2.6.0-bin, 2.6.0-doc, 2.6.0-man
+[C.]  #012  audit                                        4.2.1-lib x3 -> 4.2.1-lib
+[C*]  #013  avahi                                        0.8 x3, 0.8-man -> 0.8, 0.8-man
+[C.]  #014  bash                                         5.3p9, 5.3p20 x2 -> 5.3p20 x2
+[C*]  #015  bash-interactive                             5.3p9, 5.3p20 x3, 5.3p20-doc, 5.3p20-info, 5.3p20-man x2 -> 5.3p20, 5.3p20-doc, 5.3p20-info, 5.3p20-man
+[C.]  #016  binfmt_nixos.conf                            <none> x2 -> <none>
+[C*]  #017  bluez                                        5.86, 5.87 x2 -> 5.87
+[C.]  #018  boehm-gc                                     8.2.12 x2, 8.2.12-dev -> 8.2.12 x2
+[C.]  #019  boost                                        1.89.0, 1.89.0-dev, 1.91.0 -> 1.89.0
+[C.]  #020  brotli                                       1.2.1, 1.2.1-dev, 1.2.1-lib x3 -> 1.2.1-lib x2
+[C*]  #021  bzip2                                        1.0.8 x3, 1.0.8-bin, 1.0.8-dev, 1.0.8-man -> 1.0.8 x2, 1.0.8-bin, 1.0.8-man
+[C.]  #022  cairo                                        1.18.4, 1.18.6 x2, 1.18.6-dev -> 1.18.6
+[C.]  #023  cdparanoia-iii                               10.2 x3 -> 10.2
+[C.]  #024  chromaprint                                  1.6.0, 1.6.1 x2 -> 1.6.1
+[C.]  #025  cjson                                        1.7.19 x3 -> 1.7.19
+[C.]  #026  coreutils                                    9.11, 9.12 x2 -> 9.12 x2
+[C.]  #027  cracklib                                     2.10.3 x2 -> 2.10.3
+[C.]  #028  cryptsetup                                   2.8.6, 2.8.8 -> 2.8.8
+[C.]  #029  cups                                         2.4.19 x2, 2.4.19-lib x3, 2.4.19-man -> 2.4.19-lib
+[C*]  #030  curl                                         8.23.0 x4, 8.23.0-bin x3, 8.23.0-man x2 -> 8.23.0 x2, 8.23.0-bin, 8.23.0-man
+[C.]  #031  dav1d                                        1.5.3 x3 -> 1.5.3
+[C.]  #032  db                                           4.8.30 x3, 5.3.28 x2 -> 4.8.30, 5.3.28
+[C*]  #033  dbus                                         1 x2, 1.16.2 x3, 1.16.2-dev x2, 1.16.2-doc, 1.16.2-lib x3, 1.16.2-man -> 1, 1.16.2, 1.16.2-doc, 1.16.2-lib x2, 1.16.2-man
+[C.]  #034  dconf                                        0.49.0-lib, 51.0-lib x2 -> 51.0-lib
+[C.]  #035  dejavu-fonts-minimal                         2.37 x3 -> 2.37
+[C+]  #036  dhcpcd                                       10.3.2 x3 -> 10.3.2
+[C.]  #037  dns-root-data                                2025-04-14 x3 -> 2025-04-14
+[C.]  #038  dnsmasq                                      2.93 x2 -> 2.93
+[C.]  #039  duktape                                      2.7.0 x3 -> 2.7.0
+[C.]  #040  elfutils                                     0.194, 0.195 x2 -> 0.195 x2
+[C.]  #041  ell                                          0.83 x3 -> 0.83
+[C.]  #042  etc                                          <none> x2 -> <none>
+[C.]  #043  etc-bashrc                                   <none> x2 -> <none>
+[C.]  #044  etc-fstab                                    <none> x2 -> <none>
+[C.]  #045  etc-lvm-lvm.conf                             <none> x2 -> <none>
+[C.]  #046  etc-nsswitch.conf                            <none> x2 -> <none>
+[C.]  #047  etc-pam-environment                          <none> x2 -> <none>
+[C.]  #048  etc-profile                                  <none> x2 -> <none>
+[C.]  #049  etc-ssh-ssh_config                           <none> x2 -> <none>
+[C.]  #050  etc-sysctl.d                                 60-nixos.conf x2 -> 60-nixos.conf
+[C.]  #051  etc-systemd-system.conf                      <none> x2 -> <none>
+[C.]  #052  etc-systemd-user.conf                        <none> x2 -> <none>
+[C.]  #053  ethtool                                      7.2 x2 -> 7.2
+[C.]  #054  expat                                        2.9.0 x2, 2.9.0-dev, 2.10.0 -> 2.9.0 x2
+[C.]  #055  faad2                                        2.11.2, 2.11.4 x2 -> 2.11.4
+[C.]  #056  fc                                           00-nixos-cache.conf x2, 10-nixos-rendering.conf, 52-nixos-default-fonts.conf, 53-nixos-reject-type1.conf, 53-no-bitmaps.conf, 53-user-aliases.conf -> 00-nixos-cache.conf, 10-nixos-rendering.conf, 52-nixos-default-fonts.conf, 53-nixos-reject-type1.conf, 53-no-bitmaps.conf, 53-user-aliases.conf
+[C.]  #057  fc-cache                                     <none> x2 -> <none>
+[C.]  #058  fdk-aac                                      2.0.3 x3 -> 2.0.3
+[C.]  #059  ffado                                        2.4.9, 2.5.0 x2 -> 2.5.0
+[C.]  #060  ffmpeg-headless                              8.1.3-data, 8.1.3-lib, 9.0.2-data x2, 9.0.2-lib x2 -> 9.0.2-data, 9.0.2-lib
+[C.]  #061  fftw-double                                  3.3.11 x3 -> 3.3.11
+[C.]  #062  fftw-single                                  3.3.11 x3 -> 3.3.11
+[C.]  #063  file                                         5.47, 5.48 x2, 5.48-man -> 5.48
+[C.]  #064  firewall-reload                              <none> x2 -> <none>
+[C.]  #065  firewall-start                               <none> x2 -> <none>
+[C.]  #066  flac                                         1.5.0 x3, 1.5.0-bin, 1.5.0-man -> 1.5.0
+[C.]  #067  flite                                        2.2-lib x3 -> 2.2-lib
+[C.]  #068  fluidsynth                                   2.5.6 x3, 2.5.6-man -> 2.5.6
+[C*]  #069  fontconfig                                   2.17.1, 2.17.1-lib, 2.18.3 x2, 2.18.3-bin, 2.18.3-dev, 2.18.3-lib x2 -> 2.18.3, 2.18.3-bin, 2.18.3-lib
+[C.]  #070  fontconfig-conf                              <none> x2 -> <none>
+[C.]  #071  fontconfig-etc                               <none> x2 -> <none>
+[C.]  #072  freepats                                     20060219 x3 -> 20060219
+[C.]  #073  freetype                                     2.14.3 x3, 2.14.3-dev -> 2.14.3
+[C.]  #074  fribidi                                      1.0.18 x3 -> 1.0.18
+[C.]  #075  game-music-emu                               0.6.4, 0.6.5 x2 -> 0.6.5
+[C*]  #076  gawk                                         5.4.1 x2, 5.4.1-info, 5.4.1-man -> 5.4.1, 5.4.1-info, 5.4.1-man
+[C.]  #077  gcc                                          15.3.0-lib, 15.3.0-libgcc, 16.2.0, 16.2.0-lib x4, 16.2.0-libgcc x4, 16.2.0-man -> 16.2.0-lib x2, 16.2.0-libgcc x2
+[C.]  #078  gdbm                                         1.26-lib x3 -> 1.26-lib x2
+[C.]  #079  gdk-pixbuf                                   2.44.8 x3, 2.44.8-man -> 2.44.8
+[C.]  #080  gettext                                      1.0, 1.0-man -> 1.0
+[C.]  #081  giflib                                       5.2.2, 6.1.3 x2 -> 6.1.3
+[C.]  #082  glib                                         2.88.3, 2.90.0 x2, 2.90.0-bin x2, 2.90.0-dev -> 2.90.0, 2.90.0-bin, 2.90.0-dev
+[C*]  #083  glibc                                        2.42-103, 2.44-57 x2, 2.44-57-bin x2, 2.44-57-dev, 2.44-57-getent -> 2.44-57 x2, 2.44-57-bin, 2.44-57-dev, 2.44-57-getent
+[C*]  #084  glibc-locales                                2.44-57 x2 -> 2.44-57
+[C.]  #085  gmp-with-cxx                                 6.3.0 x6 -> 6.3.0 x3
+[C*]  #086  gnugrep                                      3.12 x2, 3.12-info -> 3.12, 3.12-info
+[C.]  #087  gnupg                                        2.4.9 x2 -> 2.4.9
+[C*]  #088  gnused                                       4.10 x2, 4.10-info -> 4.10, 4.10-info
+[C.]  #089  gnutls                                       3.8.13 x3, 3.8.13-bin, 3.8.13-man -> 3.8.13
+[C.]  #090  gobject-introspection                        1.86.0 x3, 1.86.0-dev -> 1.86.0, 1.86.0-dev
+[C.]  #091  graphene                                     1.10.8 x3 -> 1.10.8
+[C.]  #092  graphics-driver.conf                         <none> x2 -> <none>
+[C.]  #093  graphics-drivers                             <none> x2, 32bit x2 -> <none>, 32bit
+[C.]  #094  graphite2                                    1.3.15 x3, 1.3.15-dev -> 1.3.15
+[C.]  #095  gsettings-desktop-schemas                    50.1, 51.0 x2 -> 51.0
+[C.]  #096  gsm                                          1.0.24 x3 -> 1.0.24
+[C.]  #097  gssdp                                        1.6.6 x3 -> 1.6.6
+[C.]  #098  gst-plugins-bad                              1.26.11, 1.28.8 x2 -> 1.28.8
+[C.]  #099  gst-plugins-base                             1.26.11, 1.28.8 x2 -> 1.28.8
+[C.]  #100  gstreamer                                    1.26.11, 1.28.8 x2, 1.28.8-bin -> 1.28.8
+[C.]  #101  gtest                                        1.17.0, 1.18.0 x2 -> 1.18.0
+[C.]  #102  gtk+3                                        3.24.52 x3 -> 3.24.52
+[C.]  #103  gupnp                                        1.6.10 x3 -> 1.6.10
+[C.]  #104  gupnp-igd                                    1.6.0 x3 -> 1.6.0
+[C*]  #105  gzip                                         1.15 x2, 1.15-info, 1.15-man -> 1.15, 1.15-info, 1.15-man
+[C.]  #106  harfbuzz                                     13.2.1, 14.5.1 x2, 14.5.1-dev -> 14.5.1
+[C*]  #107  hicolor-icon-theme                           0.18, 0.18-dev -> 0.18
+[C.]  #108  hostname-debian                              3.25 x2, 3.25-man x2 -> 3.25, 3.25-man
+[C*]  #109  hostname-hostname-debian                     3.25 x2 -> 3.25
+[C.]  #110  hwdata                                       0.406, 0.412 x2 -> 0.412 x2
+[C.]  #111  icu4c                                        76.1, 77.1, 78.3 x2 -> 78.3
+[C.]  #112  imagemagick                                  7.1.2-35, 7.1.2-35-doc -> 7.1.2-35
+[C.]  #113  imath                                        3.2.2, 3.2.3 x2 -> 3.2.3
+[C*]  #114  iptables                                     1.8.13 x2, 1.8.13-lib x2, 1.8.13-man -> 1.8.13, 1.8.13-lib, 1.8.13-man
+[C.]  #115  iso-codes                                    4.20.1 x3 -> 4.20.1
+[C.]  #116  issue                                        <none> x2 -> <none>
+[C.]  #117  jansson                                      2.15.1 x2 -> 2.15.1
+[C.]  #118  jq                                           1.8.2 x2, 1.8.2-bin x2, 1.8.2-doc, 1.8.2-man -> 1.8.2, 1.8.2-bin
+[C.]  #119  json-c                                       0.18, 0.19 x2 -> 0.19 x2
+[C.]  #120  json-glib                                    1.10.8 x3 -> 1.10.8
+[C*]  #121  kbd                                          2.9.0 x2, 2.9.0-man -> 2.9.0, 2.9.0-man
+[C*]  #122  kexec-tools                                  2.0.32 x2 -> 2.0.32
+[C.]  #123  keyutils                                     1.6.3, 1.6.3-lib x3, 1.6.3-man -> 1.6.3-lib x2
+[C*]  #124  kitty                                        0.51.0, 0.51.0-terminfo -> 0.51.0-terminfo
+[C*]  #125  kmod                                         31 x3, 31-lib x3, 31-man -> 31 x2, 31-lib x2, 31-man
+[C.]  #126  krb5                                         1.22.2, 1.22.2-lib x3 -> 1.22.2-lib x2
+[C.]  #127  lame                                         3.100-lib, 4.0-lib x2 -> 4.0-lib
+[C.]  #128  lcms2                                        2.18, 2.19.1 x2, 2.19.1-bin -> 2.19.1
+[C.]  #129  ldacbt                                       2.0.72 x2 -> 2.0.72
+[C.]  #130  lerc                                         4.1.1, 4.2.0 x2 -> 4.2.0
+[C.]  #131  libaio                                       0.3.113 x2 -> 0.3.113
+[C.]  #132  libajantv2                                   17.5.0, 18.0.0 x2 -> 18.0.0
+[C.]  #133  libao                                        1.2.2 x3, 1.2.2-man -> 1.2.2
+[C.]  #134  libaom                                       3.15.2 x3 -> 3.15.2
+[C.]  #135  libapparmor                                  4.1.7, 5.0.2 x2 -> 5.0.2
+[C.]  #136  libarchive                                   3.8.9-lib, 3.8.10, 3.8.10-dev, 3.8.10-lib x2 -> 3.8.10-lib
+[C.]  #137  libass                                       0.17.5 x3 -> 0.17.5
+[C.]  #138  libavc1394                                   0.5.4 x3 -> 0.5.4
+[C.]  #139  libbluray                                    1.4.1 x4 -> 1.4.1
+[C.]  #140  libbpf                                       1.7.0, 1.8.0 x2 -> 1.8.0
+[C.]  #141  libbs2b                                      3.1.0 x3 -> 3.1.0
+[C.]  #142  libbsd                                       0.12.2 x2, 0.12.2-man -> 0.12.2
+[C.]  #143  libcamera                                    0.7.0, 0.7.2 x2 -> 0.7.2
+[C.]  #144  libcanberra                                  0.30 x4 -> 0.30
+[C*]  #145  libcap                                       2.77-lib, 2.78, 2.78-doc, 2.78-lib x2, 2.78-man -> 2.78, 2.78-doc, 2.78-lib, 2.78-man
+[C.]  #146  libcap-ng                                    0.9.3, 0.9.6 x2 -> 0.9.6
+[C.]  #147  libcbor                                      0.13.0, 0.14.0 -> 0.14.0
+[C.]  #148  libconfig                                    1.8, 1.8.2 x2 -> 1.8.2
+[C.]  #149  libdaemon                                    0.14 x3 -> 0.14
+[C.]  #150  libdatrie                                    2019-12-20-lib x3 -> 2019-12-20-lib
+[C.]  #151  libdc1394                                    2.2.7 x3 -> 2.2.7
+[C.]  #152  libde265                                     1.1.3 x3 -> 1.1.3
+[C.]  #153  libdeflate                                   1.25, 1.26 x2 -> 1.26
+[C.]  #154  libdrm                                       2.4.133, 2.4.133-bin, 2.4.133-dev, 2.4.134 x2, 2.4.134-bin x2, 2.4.134-dev x2 -> 2.4.134 x2, 2.4.134-bin x2, 2.4.134-dev x2
+[C.]  #155  libdv                                        1.0.0 x3 -> 1.0.0
+[C.]  #156  libdvdcss                                    1.4.3, 1.5.0 x2 -> 1.5.0
+[C.]  #157  libdvdnav                                    6.1.1 x3 -> 6.1.1
+[C.]  #158  libdvdread                                   7.0.1 x3 -> 7.0.1
+[C.]  #159  libebur128                                   1.2.6 x3 -> 1.2.6
+[C.]  #160  libedit                                      20260508-3.1 x2 -> 20260508-3.1
+[C.]  #161  libepoxy                                     1.5.10 x3 -> 1.5.10
+[C.]  #162  libevdev                                     1.13.6 x3 -> 1.13.6
+[C.]  #163  libevent                                     2.1.13 x3 -> 2.1.13
+[C.]  #164  libffi                                       3.8.0 x3, 3.8.0-dev -> 3.8.0 x2, 3.8.0-dev
+[C.]  #165  libfido2                                     1.17.0 x2 -> 1.17.0
+[C.]  #166  libfreeaptx                                  0.2.2 x3 -> 0.2.2
+[C.]  #167  libgcrypt                                    1.12.4-bin, 1.12.4-lib x3 -> 1.12.4-lib
+[C.]  #168  libglvnd                                     1.7.0 x3, 1.7.0-dev -> 1.7.0 x2
+[C.]  #169  libgpg-error                                 1.59, 1.61 x2 -> 1.61
+[C.]  #170  libgudev                                     238 x3 -> 238
+[C.]  #171  libical                                      3.0.20 x3 -> 3.0.20
+[C.]  #172  libice                                       1.1.2 x3 -> 1.1.2
+[C.]  #173  libidn2                                      2.3.8 x3 -> 2.3.8 x2
+[C.]  #174  libiec61883                                  1.2.0 x3 -> 1.2.0
+[C.]  #175  libjack2                                     1.9.22 x3 -> 1.9.22
+[C.]  #176  libjpeg-turbo                                3.1.4, 3.2.0 x2, 3.2.0-bin, 3.2.0-man -> 3.2.0
+[C.]  #177  liblc3                                       1.1.3 x3 -> 1.1.3
+[C.]  #178  libmad                                       0.15.1b, 0.16.5 x2 -> 0.16.5
+[C.]  #179  libmbim                                      1.34.0 x2 -> 1.34.0
+[C.]  #180  libmd                                        1.3.0 x2 -> 1.3.0
+[C.]  #181  libmicrohttpd                                1.0.10 x2 -> 1.0.10
+[C.]  #182  libmnl                                       1.0.5 x2 -> 1.0.5
+[C.]  #183  libmodplug                                   0.8.9.0 x3 -> 0.8.9.0
+[C.]  #184  libmpg123                                    1.33.7 x3, 1.33.7-man -> 1.33.7
+[C.]  #185  libmysofa                                    1.3.4, 1.3.5 x2 -> 1.3.5
+[C.]  #186  libndp                                       1.9 x2 -> 1.9
+[C.]  #187  libnetfilter_conntrack                       1.1.1 x2 -> 1.1.1
+[C.]  #188  libnfnetlink                                 1.0.2 x2 -> 1.0.2
+[C.]  #189  libnftnl                                     1.3.2 x2 -> 1.3.2
+[C.]  #190  libnice                                      0.1.22, 0.1.24 x2 -> 0.1.24
+[C.]  #191  libnl                                        3.12.0 x2 -> 3.12.0
+[C.]  #192  libogg                                       1.3.6 x3 -> 1.3.6
+[C.]  #193  libopenmpt                                   0.8.9 x3 -> 0.8.9
+[C.]  #194  libopus                                      1.6.1 x3 -> 1.6.1
+[C.]  #195  libpcap                                      1.10.7, 1.10.7-lib x2 -> 1.10.7-lib
+[C.]  #196  libpciaccess                                 0.19 x3 -> 0.19 x2
+[C.]  #197  libpng-apng                                  1.6.59 x3, 1.6.59-dev, 1.6.59-man -> 1.6.59 x2
+[C.]  #198  libpsl                                       0.21.5, 0.23.3 x2 -> 0.23.3 x2
+[C.]  #199  libpulseaudio                                17.0 x3 -> 17.0
+[C.]  #200  libpwquality                                 1.4.5-lib x2 -> 1.4.5-lib
+[C.]  #201  libqmi                                       1.38.0 x2 -> 1.38.0
+[C.]  #202  libqrtr-glib                                 1.4.0 x2 -> 1.4.0
+[C.]  #203  libraw1394                                   2.1.2 x3 -> 2.1.2
+[C.]  #204  librist                                      0.2.11 x3 -> 0.2.11
+[C.]  #205  librsvg                                      2.62.4, 2.63.0 x2 -> 2.63.0
+[C.]  #206  libsamplerate                                0.2.2 x3 -> 0.2.2
+[C.]  #207  libseccomp                                   2.6.1-lib x2 -> 2.6.1-lib
+[C.]  #208  libselinux                                   3.10, 3.11 x2, 3.11-bin, 3.11-man -> 3.11
+[C.]  #209  libsm                                        1.2.6 x3 -> 1.2.6
+[C.]  #210  libsndfile                                   1.2.2 x3, 1.2.2-bin, 1.2.2-man -> 1.2.2
+[C.]  #211  libsodium                                    1.0.22-unstable-2026-10-15 x2 -> 1.0.22-unstable-2026-10-15
+[C.]  #212  libsoup                                      3.8.0 x3 -> 3.8.0
+[C.]  #213  libsrtp                                      2.8.0, 2.8.1 x2 -> 2.8.1
+[C.]  #214  libssh                                       0.12.2 x3 -> 0.12.2
+[C.]  #215  libssh2                                      1.11.1 x3 -> 1.11.1 x2
+[C.]  #216  libtasn1                                     4.21.0 x3 -> 4.21.0
+[C.]  #217  libthai                                      0.1.30 x3 -> 0.1.30
+[C.]  #218  libtheora                                    1.2.0 x3 -> 1.2.0
+[C.]  #219  libtiff                                      4.7.2 x3, 4.7.2-bin, 4.7.2-man -> 4.7.2
+[C.]  #220  libtool                                      2.5.4-lib, 2.6.2-lib x2 -> 2.6.2-lib
+[C.]  #221  libtpms                                      0.10.2, 0.10.2-unstable-2026-05-06 -> 0.10.2-unstable-2026-05-06
+[C.]  #222  libunistring                                 1.4.2 x3 -> 1.4.2 x2
+[C.]  #223  libunwind                                    1.8.3 x3 -> 1.8.3
+[C.]  #224  libusb                                       1.0.29, 1.0.30 x2 -> 1.0.30
+[C.]  #225  libuv                                        1.52.1, 1.53.0 x2 -> 1.53.0
+[C.]  #226  libva                                        2.23.0, 2.24.1 x2 -> 2.24.1
+[C.]  #227  libva-minimal                                2.23.0, 2.24.1 x2 -> 2.24.1
+[C.]  #228  libvdpau                                     1.5 x2 -> 1.5
+[C.]  #229  libvmaf                                      3.0.0 x3 -> 3.0.0
+[C.]  #230  libvorbis                                    1.3.7 x3 -> 1.3.7
+[C.]  #231  libvpx                                       1.16.0, 1.17.0 x2, 1.17.0-bin -> 1.17.0
+[C.]  #232  libwebp                                      1.6.0 x6 -> 1.6.0 x2
+[C.]  #233  libx11                                       1.8.14 x3, 1.8.14-dev, 1.8.14-man -> 1.8.14 x2
+[C.]  #234  libxau                                       1.0.12 x3, 1.0.12-dev -> 1.0.12 x2
+[C.]  #235  libxcb                                       1.17.0 x3, 1.17.0-dev, 1.17.0-man -> 1.17.0 x2
+[C.]  #236  libxcb-keysyms                               0.4.1 x3 -> 0.4.1 x2
+[C.]  #237  libxcomposite                                0.4.7 x3 -> 0.4.7
+[C.]  #238  libxcrypt                                    4.5.2 x3, 4.5.2-man -> 4.5.2 x2
+[C.]  #239  libxcursor                                   1.2.3 x3 -> 1.2.3
+[C.]  #240  libxdamage                                   1.1.7 x3 -> 1.1.7
+[C.]  #241  libxdmcp                                     1.1.5 x3 -> 1.1.5 x2
+[C.]  #242  libxext                                      1.3.7 x3, 1.3.7-dev, 1.3.7-man -> 1.3.7 x2
+[C.]  #243  libxfixes                                    6.0.2 x3 -> 6.0.2
+[C.]  #244  libxft                                       2.3.9 x3, 2.3.9-dev -> 2.3.9
+[C.]  #245  libxi                                        1.8.4 x3, 1.8.4-man -> 1.8.4
+[C.]  #246  libxinerama                                  1.1.6 x3 -> 1.1.6
+[C.]  #247  libxkbcommon                                 1.13.1, 1.13.2 x2, 1.13.2-dev -> 1.13.2
+[C.]  #248  libxml2                                      2.15.4 x3, 2.15.4-bin -> 2.15.4 x2
+[C.]  #249  libxmu                                       1.3.1 x2 -> 1.3.1
+[C.]  #250  libxrandr                                    1.5.5 x3 -> 1.5.5 x2
+[C.]  #251  libxrender                                   0.9.13 x3, 0.9.13-dev -> 0.9.13 x2
+[C.]  #252  libxslt                                      1.1.45 x3, 1.1.45-bin -> 1.1.45
+[C.]  #253  libxt                                        1.3.1 x2 -> 1.3.1
+[C.]  #254  libxtst                                      1.2.6 x3 -> 1.2.6
+[C.]  #255  libxv                                        1.0.13 x3 -> 1.0.13 x2
+[C.]  #256  libyaml                                      0.2.5 x3 -> 0.2.5
+[C.]  #257  libyuv                                       1908 x2 -> 1908
+[C.]  #258  lilv                                         0.26.4, 0.28.0 x2 -> 0.28.0
+[C*]  #259  linux-pam                                    1.7.2 x3, 1.7.2-doc, 1.7.2-man -> 1.7.2, 1.7.2-doc, 1.7.2-man
+[C.]  #260  llvm                                         21.1.8, 21.1.8-lib x3 -> 21.1.8-lib x2
+[C.]  #261  lrdf                                         0.6.1 x3 -> 0.6.1
+[C.]  #262  lttng-ust                                    2.14.0, 2.15.1 x2 -> 2.15.1
+[C*]  #263  lvm2                                         2.03.39-lib, 2.03.41, 2.03.41-bin, 2.03.41-lib, 2.03.41-man, 2.03.41-scripts -> 2.03.41, 2.03.41-bin, 2.03.41-lib, 2.03.41-man, 2.03.41-scripts
+[C.]  #264  lz4                                          1.10.0-lib x3 -> 1.10.0-lib x2
+[C.]  #265  lzo                                          2.10 x3 -> 2.10
+[C.]  #266  mailcap                                      2.1.54 x3 -> 2.1.54 x2
+[C.]  #267  main.conf                                    <none> x2 -> <none>
+[C.]  #268  mbedtls                                      3.6.6, 3.6.7 x2 -> 3.6.7
+[C.]  #269  mesa-libgbm                                  26.0.3, 26.1.3 x2 -> 26.1.3 x2
+[C.]  #270  mjpegtools                                   2.2.1-lib x3 -> 2.2.1-lib
+[C.]  #271  mobile-broadband-provider-info               20240407 x2 -> 20240407
+[C-]  #272  modemmanager                                 1.24.2 x2 -> 1.24.2
+[C.]  #273  mounts.sh                                    <none> x2 -> <none>
+[C.]  #274  mpdecimal                                    4.0.1 x3 -> 4.0.1 x2
+[C.]  #275  mpg123                                       1.33.7 x3, 1.33.7-man -> 1.33.7
+[C*]  #276  ncurses                                      6.6 x3, 6.6-dev, 6.6-man -> 6.6 x2, 6.6-man
+[C.]  #277  neon                                         0.37.1 x3 -> 0.37.1
+[C.]  #278  nettle                                       3.10.2 x3 -> 3.10.2
+[C-]  #279  networkmanager                               1.58.1 x2, 1.58.1-doc, 1.58.1-man -> 1.58.1
+[C.]  #280  newt                                         0.52.24 x2 -> 0.52.24
+[C.]  #281  nftables                                     1.1.7 x2 -> 1.1.7
+[C.]  #282  nghttp2                                      1.69.0-lib, 1.70.0-lib x2 -> 1.70.0-lib x2
+[C.]  #283  nghttp3                                      1.15.0, 1.18.0 x2 -> 1.18.0 x2
+[C.]  #284  ngtcp2                                       1.22.1, 1.23.0 x2, 1.26.0 -> 1.23.0 x2
+[C*]  #285  nix                                          2.35.6 x2, 2.35.6-dev, 2.35.6-doc, 2.35.6-man -> 2.35.6 x2, 2.35.6-doc, 2.35.6-man
+[C.]  #286  nix-cmd                                      2.35.6, 2.35.6-dev, 2.36.0 -> 2.35.6
+[C.]  #287  nix-expr                                     2.35.6, 2.35.6-dev, 2.36.0 -> 2.35.6
+[C.]  #288  nix-fetchers                                 2.35.6, 2.35.6-dev, 2.36.0 -> 2.35.6
+[C.]  #289  nix-flake                                    2.35.6, 2.35.6-dev, 2.36.0 -> 2.35.6
+[C.]  #290  nix-main                                     2.34.9, 2.35.6, 2.35.6-dev, 2.36.0 -> 2.34.9, 2.35.6
+[C.]  #291  nix-store                                    2.34.9, 2.35.6, 2.35.6-dev, 2.36.0 -> 2.34.9, 2.35.6
+[C.]  #292  nix-util                                     2.34.9, 2.35.6, 2.35.6-dev, 2.36.0 -> 2.34.9, 2.35.6
+[C.]  #293  nixos-system-raysha                          26.11.20261121.2786a2a x2 -> 26.11.20261121.2786a2a
+[C.]  #294  nixos-tmpfiles.d                             <none> x2 -> <none>
+[C.]  #295  numactl                                      2.0.18 x3 -> 2.0.18
+[C.]  #296  ocl-icd                                      2.3.4, 2.3.5 x2 -> 2.3.5
+[C.]  #297  oniguruma                                    6.9.10-lib x2 -> 6.9.10-lib
+[C.]  #298  openal-soft                                  1.24.3 x3 -> 1.24.3
+[C.]  #299  openapv                                      0.2.1.3, 1.1.2.0 x2 -> 1.1.2.0
+[C.]  #300  openexr                                      3.4.15, 3.5.2 x2 -> 3.5.2
+[C.]  #301  openfec                                      1.4.2.12 x3 -> 1.4.2.12
+[C.]  #302  openh264                                     2.6.0 x3 -> 2.6.0
+[C.]  #303  openjpeg                                     2.5.4 x3 -> 2.5.4
+[C*]  #304  openresolv                                   3.17.4 x2 -> 3.17.4
+[C.]  #305  openssl                                      3.5.9 x2, 3.5.9-bin, 3.5.9-dev, 3.5.9-man, 3.6.5 -> 3.5.9 x2
+[C.]  #306  opusfile                                     0.12 x3 -> 0.12
+[C.]  #307  orc                                          0.4.41, 0.4.44 x2 -> 0.4.44
+[C.]  #308  p11-kit                                      0.26.2, 0.26.5 x2, 0.26.5-bin -> 0.26.5
+[C.]  #309  pam.d                                        <none> x2 -> <none>
+[C.]  #310  pango                                        1.57.1, 1.58.2 x2, 1.58.2-bin, 1.58.2-dev -> 1.58.2
+[C.]  #311  pcre2                                        10.49 x3, 10.49-bin, 10.49-man -> 10.49
+[C.]  #312  pcsclite                                     2.4.1-lib, 2.5.2-lib -> 2.5.2-lib
+[C*]  #313  perl                                         5.42.3 x2, 5.42.3-env x3, 5.42.3-man -> 5.42.3, 5.42.3-env x3, 5.42.3-man
+[C.]  #314  perl5.42.3-Clone                             0.46 x2 -> 0.46
+[C.]  #315  perl5.42.3-Compress-Raw-Bzip2                2.218 x2 -> 2.218
+[C.]  #316  perl5.42.3-Compress-Raw-Zlib                 2.222 x2 -> 2.222
+[C.]  #317  perl5.42.3-Encode-Locale                     1.05 x2 -> 1.05
+[C.]  #318  perl5.42.3-File-BaseDir                      0.09 x2 -> 0.09
+[C.]  #319  perl5.42.3-File-DesktopEntry                 0.22 x2 -> 0.22
+[C.]  #320  perl5.42.3-File-Listing                      6.16 x2 -> 6.16
+[C.]  #321  perl5.42.3-File-MimeInfo                     0.33 x2 -> 0.33
+[C.]  #322  perl5.42.3-HTML-Parser                       3.85 x2 -> 3.85
+[C.]  #323  perl5.42.3-HTML-Tagset                       3.20 x2 -> 3.20
+[C.]  #324  perl5.42.3-HTTP-CookieJar                    0.014 x2 -> 0.014
+[C.]  #325  perl5.42.3-HTTP-Cookies                      6.10 x2 -> 6.10
+[C.]  #326  perl5.42.3-HTTP-Daemon                       6.17 x2 -> 6.17
+[C.]  #327  perl5.42.3-HTTP-Date                         6.08 x2 -> 6.08
+[C.]  #328  perl5.42.3-HTTP-Message                      7.02 x2 -> 7.02
+[C.]  #329  perl5.42.3-HTTP-Negotiate                    6.01 x2 -> 6.01
+[C.]  #330  perl5.42.3-IO-Compress                       2.221 x2 -> 2.221
+[C.]  #331  perl5.42.3-IO-HTML                           1.004 x2 -> 1.004
+[C.]  #332  perl5.42.3-IPC-System-Simple                 1.30 x2 -> 1.30
+[C.]  #333  perl5.42.3-LWP-MediaTypes                    6.04 x2 -> 6.04
+[C.]  #334  perl5.42.3-MIME-Base32                       1.303 x2 -> 1.303
+[C.]  #335  perl5.42.3-Net-DBus                          1.2.0 x2 -> 1.2.0
+[C.]  #336  perl5.42.3-Net-HTTP                          6.23 x2 -> 6.23
+[C.]  #337  perl5.42.3-Test-Fatal                        0.017 x2 -> 0.017
+[C.]  #338  perl5.42.3-Test-Needs                        0.002010 x2 -> 0.002010
+[C.]  #339  perl5.42.3-Test-RequiresInternet             0.05 x2 -> 0.05
+[C.]  #340  perl5.42.3-TimeDate                          2.33 x2 -> 2.33
+[C.]  #341  perl5.42.3-Try-Tiny                          0.31 x2 -> 0.31
+[C.]  #342  perl5.42.3-URI                               5.36 x2 -> 5.36
+[C.]  #343  perl5.42.3-WWW-RobotRules                    6.02 x2 -> 6.02
+[C.]  #344  perl5.42.3-X11-Protocol                      0.56 x2 -> 0.56
+[C.]  #345  perl5.42.3-XML-Parser                        2.46 x2 -> 2.46
+[C.]  #346  perl5.42.3-XML-Twig                          3.54 x2 -> 3.54
+[C.]  #347  perl5.42.3-libwww-perl                       6.83 x2 -> 6.83
+[C.]  #348  pipewire                                     1.6.6, 1.6.11 x2, 1.6.11-doc, 1.6.11-jack, 1.6.11-man -> 1.6.11
+[C.]  #349  pixman                                       0.46.4 x3 -> 0.46.4
+[C-]  #350  polkit                                       127 x2, 127-bin -> 127
+[C.]  #351  popt                                         1.19 x3 -> 1.19
+[C.]  #352  ppp                                          2.5.2 x2 -> 2.5.2
+[C*]  #353  procps                                       4.0.7 x2, 4.0.7-doc, 4.0.7-man -> 4.0.7, 4.0.7-doc, 4.0.7-man
+[C.]  #354  publicsuffix-list                            0-unstable-2026-05-13, 0-unstable-2026-09-02 x2 -> 0-unstable-2026-09-02 x2
+[C.]  #355  python3                                      3.13.18, 3.14.10 x2, 3.14.10-env x7 -> 3.14.10 x2, 3.14.10-env x2
+[C.]  #356  python3.14-markdown                          3.11.0 x2 -> 3.11.0
+[C.]  #357  qrencode                                     4.1.1 x3 -> 4.1.1
+[C.]  #358  raptor2                                      2.0.16 x3 -> 2.0.16
+[C.]  #359  rdma-core                                    65.0 x2 -> 65.0
+[C.]  #360  readline                                     8.3p3 x3, 8.3p3-man -> 8.3p3 x2
+[C.]  #361  roc-toolkit                                  0.4.0 x3 -> 0.4.0
+[C.]  #362  rtmpdump                                     2.6 x3 -> 2.6
+[C.]  #363  sbc                                          2.2 x3 -> 2.2
+[C.]  #364  serd                                         0.32.8, 0.32.10 x2 -> 0.32.10
+[C.]  #365  set-environment                              <none> x2 -> <none>
+[C*]  #366  shared-mime-info                             2.5.1 x2 -> 2.5.1
+[C.]  #367  slang                                        2.3.3 x2 -> 2.3.3
+[C.]  #368  sord                                         0.16.20, 0.16.22 x2 -> 0.16.22
+[C.]  #369  soundtouch                                   2.4.1 x3 -> 2.4.1
+[C.]  #370  sox                                          14.4.2-unstable-2021-05-09-lib x2 -> 14.4.2-unstable-2021-05-09-lib
+[C.]  #371  soxr                                         0.1.3 x3 -> 0.1.3
+[C.]  #372  spandsp                                      0.0.6 x3 -> 0.0.6
+[C.]  #373  speex                                        1.2.1 x3 -> 1.2.1
+[C.]  #374  speexdsp                                     1.2.1 x3 -> 1.2.1
+[C.]  #375  sqlite                                       3.53.3, 3.54.0 x2, 3.54.0-bin, 3.54.0-man -> 3.54.0 x2
+[C.]  #376  sratom                                       0.6.22 x3 -> 0.6.22
+[C.]  #377  srt                                          1.5.4, 1.5.6 x2 -> 1.5.6
+[C.]  #378  svt-av1                                      3.1.2, 4.1.0 x2 -> 4.1.0
+[C.]  #379  system-generators                            <none> x2 -> <none>
+[C.]  #380  system-path                                  <none> x2 -> <none>
+[C.]  #381  system-shutdown                              <none> x2 -> <none>
+[C.]  #382  system-units                                 <none> x2 -> <none>
+[C*]  #383  systemd                                      <none>, 260.5, 262 x2, 262-man -> <none>, 262 x2, 262-man
+[C.]  #384  systemd-generator-environment.json           <none> x2 -> <none>
+[C.]  #385  systemd-minimal                              260.5, 262 x2 -> 262 x2
+[C.]  #386  systemd-minimal-libs                         260.5, 262 x2 -> 262 x2
+[C.]  #387  talloc                                       2.5.0 x2 -> 2.5.0
+[C.]  #388  tinysparql                                   3.11.1, 3.12.0 x2 -> 3.12.0
+[C.]  #389  tmpfiles.d                                   <none> x2 -> <none>
+[C.]  #390  tpm2-tss                                     4.2.1 x2 -> 4.2.1
+[C.]  #391  tzdata                                       2026f x3 -> 2026f x2
+[C.]  #392  unbound                                      1.26.2-lib x3 -> 1.26.2-lib
+[C.]  #393  unit-container-getty-.service                <none> x2 -> <none>
+[C.]  #394  unit-dbus-broker.service                     <none> x4 -> <none> x2
+[C.]  #395  unit-dbus.service                            <none> x2 -> <none>
+[C.]  #396  unit-firewall.service                        <none> x2 -> <none>
+[C.]  #397  unit-generate-shutdown-ramfs.service         <none> x2 -> <none>
+[C.]  #398  unit-getty-.service                          <none> x2 -> <none>
+[C.]  #399  unit-kmod-static-nodes.service               <none> x2 -> <none>
+[C.]  #400  unit-lastlog2-import.service                 <none> x2 -> <none>
+[C.]  #401  unit-linger-users.service                    <none> x2 -> <none>
+[C.]  #402  unit-logrotate-checkconf.service             <none> x2 -> <none>
+[C.]  #403  unit-logrotate.service                       <none> x2 -> <none>
+[C.]  #404  unit-modprobe-.service                       <none> x2 -> <none>
+[C.]  #405  unit-network-local-commands.service          <none> x2 -> <none>
+[C.]  #406  unit-nixos-activation.service                <none> x2 -> <none>
+[C.]  #407  unit-nscd.service                            <none> x2 -> <none>
+[C.]  #408  unit-prepare-kexec.service                   <none> x2 -> <none>
+[C.]  #409  unit-resolvconf.service                      <none> x2 -> <none>
+[C.]  #410  unit-script-linger-users-start               <none> x2 -> <none>
+[C.]  #411  unit-script-suid-sgid-wrappers-start         <none> x2 -> <none>
+[C.]  #412  unit-serial-getty-.service                   <none> x2 -> <none>
+[C.]  #413  unit-suid-sgid-wrappers.service              <none> x2 -> <none>
+[C.]  #414  unit-systemd-backlight-.service              <none> x2 -> <none>
+[C.]  #415  unit-systemd-bless-boot.service              <none> x2 -> <none>
+[C.]  #416  unit-systemd-boot-random-seed.service        <none> x2 -> <none>
+[C.]  #417  unit-systemd-fsck-.service                   <none> x2 -> <none>
+[C.]  #418  unit-systemd-hostnamed.service               <none> x2 -> <none>
+[C.]  #419  unit-systemd-importd.service                 <none> x2 -> <none>
+[C.]  #420  unit-systemd-journal-flush.service           <none> x2 -> <none>
+[C.]  #421  unit-systemd-journald-.service               <none> x2 -> <none>
+[C.]  #422  unit-systemd-journald.service                <none> x2 -> <none>
+[C.]  #423  unit-systemd-localed.service                 <none> x2 -> <none>
+[C.]  #424  unit-systemd-logind.service                  <none> x2 -> <none>
+[C.]  #425  unit-systemd-makefs-.service                 <none> x2 -> <none>
+[C.]  #426  unit-systemd-mkswap-.service                 <none> x2 -> <none>
+[C.]  #427  unit-systemd-nspawn-.service                 <none> x2 -> <none>
+[C.]  #428  unit-systemd-oomd.service                    <none> x2 -> <none>
+[C.]  #429  unit-systemd-pcrlogin-.service               <none> x2 -> <none>
+[C.]  #430  unit-systemd-pstore.service                  <none> x2 -> <none>
+[C.]  #431  unit-systemd-random-seed.service             <none> x2 -> <none>
+[C.]  #432  unit-systemd-remount-fs.service              <none> x2 -> <none>
+[C.]  #433  unit-systemd-sysctl.service                  <none> x2 -> <none>
+[C.]  #434  unit-systemd-timedated.service               <none> x2 -> <none>
+[C.]  #435  unit-systemd-tmpfiles-resetup.service        <none> x2 -> <none>
+[C.]  #436  unit-systemd-tmpfiles-setup.service          <none> x2 -> <none>
+[C.]  #437  unit-systemd-update-utmp.service             <none> x2 -> <none>
+[C.]  #438  unit-systemd-user-sessions.service           <none> x2 -> <none>
+[C.]  #439  unit-user-.service                           <none> x2 -> <none>
+[C.]  #440  unit-user-runtime-dir-.service               <none> x2 -> <none>
+[C.]  #441  user-generators                              <none> x2 -> <none>
+[C.]  #442  user-units                                   <none> x2 -> <none>
+[C.]  #443  users-groups.json                            <none> x2 -> <none>
+[C*]  #444  util-linux                                   2.42.4, 2.42.4-bin, 2.42.4-lastlog, 2.42.4-lib x2, 2.42.4-login, 2.42.4-man, 2.42.4-mount, 2.42.4-swap -> 2.42.4-bin, 2.42.4-lastlog, 2.42.4-lib, 2.42.4-login, 2.42.4-man, 2.42.4-mount, 2.42.4-swap
+[C.]  #445  util-linux-minimal                           2.42.4, 2.42.4-bin, 2.42.4-lib x3, 2.42.4-login x3, 2.42.4-man, 2.42.4-mount x3, 2.42.4-swap x3 -> 2.42.4-bin, 2.42.4-lib x2, 2.42.4-login x2, 2.42.4-mount x2, 2.42.4-swap x2
+[C.]  #446  v4l-utils                                    1.32.0 x3 -> 1.32.0
+[C.]  #447  vid.stab                                     1.1.1-unstable-2025-08-21, 1.1.2 x2 -> 1.1.2
+[C.]  #448  vo-aacenc                                    0.1.3 x3 -> 0.1.3
+[C.]  #449  vulkan-loader                                1.4.341.0, 1.4.363.0 x2 -> 1.4.363.0 x2
+[C.]  #450  wavpack                                      5.9.0 x3, 5.9.0-man -> 5.9.0
+[C.]  #451  wayland                                      1.25.0, 1.26.0 x2, 1.26.0-dev, 1.26.0-man -> 1.26.0 x2
+[C.]  #452  webrtc-audio-processing                      1.3 x3, 2.1 x3 -> 1.3, 2.1
+[C*]  #453  which                                        2.25 x2, 2.25-info, 2.25-man -> 2.25, 2.25-info, 2.25-man
+[C.]  #454  wildmidi                                     0.4.6, 0.5.0 x2 -> 0.5.0
+[C.]  #455  wildmidi.cfg                                 <none> x3 -> <none>
+[C.]  #456  x264                                         0-unstable-2025-01-03-lib, 0-unstable-2025-09-10-lib x2 -> 0-unstable-2025-09-10-lib
+[C.]  #457  x265                                         4.1, 4.2 x2 -> 4.2
+[C.]  #458  xdg-user-dirs                                0.20 x2, 0.20-lib x2, 0.20-man -> 0.20, 0.20-lib
+[C.]  #459  xdg-utils                                    1.2.1 x2 -> 1.2.1
+[C.]  #460  xgcc                                         15.3.0-libgcc, 16.2.0-libgcc x2 -> 16.2.0-libgcc x2
+[C.]  #461  xkeyboard-config                             2.47, 2.49 x2 -> 2.49
+[C.]  #462  xvidcore                                     1.3.7 x3 -> 1.3.7
+[C*]  #463  xz                                           5.8.4 x3, 5.8.4-bin, 5.8.4-doc, 5.8.4-man -> 5.8.4 x2, 5.8.4-bin, 5.8.4-doc, 5.8.4-man
+[C.]  #464  zimg                                         3.0.6 x3 -> 3.0.6
+[C.]  #465  zint                                         2.16.0-lib x2 -> 2.16.0-lib
+[C.]  #466  zix                                          0.6.2, 0.8.2 x2 -> 0.8.2
+[C.]  #467  zlib                                         1.3.2 x3, 1.3.2-dev, 1.3.2-static x2 -> 1.3.2 x2, 1.3.2-dev, 1.3.2-static
+[C*]  #468  zstd                                         1.5.7 x3, 1.5.7-bin, 1.5.7-man -> 1.5.7 x2, 1.5.7-bin, 1.5.7-man
+[C.]  #469  zvbi                                         0.2.46 x3 -> 0.2.46
+[C.]  #470  zxing-cpp                                    2.3.0, 3.1.1 x2 -> 3.1.1
+Removed packages:
+[R.]  #001  02overridedns                                           <none>
+[R.]  #002  Fluid                                                   3
+[R.]  #003  Hyprland                                                <none>
+[R.]  #004  NetworkManager.conf                                     <none>
+[R.]  #005  SDL2_image                                              2.8.12
+[R.]  #006  SDL2_mixer                                              2.8.2
+[R.]  #007  SDL2_ttf                                                2.24.0
+[R.]  #008  SDL_net                                                 1.2.8-unstable-2026-05-27
+[R.]  #009  SDL_sound                                               1.0.3
+[R.]  #010  X-Reload-Triggers-polkit                                <none> x2
+[R.]  #011  X-Restart-Triggers-NetworkManager                       <none>
+[R.]  #012  X-Restart-Triggers-NetworkManager-dispatcher            <none>
+[R.]  #013  X-Restart-Triggers-gamemoded                            <none>
+[R.]  #014  X-Restart-Triggers-iwd                                  <none>
+[R.]  #015  X-Restart-Triggers-polkit                               <none> x2
+[R.]  #016  a52dec                                                  0.8.0 x2
+[R.]  #017  aalib                                                   1.4rc5 x2
+[R.]  #018  aardvark-dns                                            2.1.0
+[R.]  #019  adwaita-icon-theme                                      51.0
+[R.]  #020  agg                                                     2.5
+[R.]  #021  allegro                                                 4.4.3.1
+[R.]  #022  alsa-plugins                                            1.2.12
+[R.]  #023  appimage-exec.sh                                        <none>
+[R.]  #024  appstream                                               1.1.2, 1.2.3
+[R.]  #025  aquamarine                                              0.16.0, 0.16.0-dev
+[R.]  #026  aspell                                                  0.60.8.2
+[R.]  #027  attica                                                  6.32.0
+[R.]  #028  awww                                                    0.12.1
+[R.]  #029  babl                                                    0.1.126
+[R.]  #030  baloo                                                   6.32.0
+[R.]  #031  baloo-widgets                                           26.08.3
+[R.]  #032  binutils                                                2.46, 2.46-lib
+[R.]  #033  binutils-wrapper                                        2.46 x2
+[R.]  #034  bison                                                   3.8.2
+[R.]  #035  blas                                                    3
+[R.]  #036  brave                                                   1.100.58
+[R.]  #037  breeze-icons                                            6.32.0
+[R.]  #038  brightnessctl                                           0.5.1
+[R.]  #039  bubblewrap                                              0.13.1
+[R.]  #040  cabextract                                              1.11
+[R.]  #041  calibre                                                 9.17.0
+[R.]  #042  catatonit                                               0.2.1
+[R.]  #043  cfitsio                                                 4.7.0
+[R.]  #044  cgif                                                    0.5.4
+[R.]  #045  chmlib                                                  0.40a
+[R.]  #046  conmon                                                  2.2.1
+[R.]  #047  container-init                                          <none>
+[R.]  #048  containers-shortnames                                   2025.03.19
+[R.]  #049  containers.conf                                         <none>
+[R.]  #050  crun                                                    1.31
+[R.]  #051  cubeb                                                   0-unstable-2026-05-06-lib
+[R.]  #052  cyrus-sasl                                              2.1.28 x2
+[R.]  #053  daemon.json                                             <none>
+[R.]  #054  dash                                                    0.5.13.5
+[R.]  #055  desktop-file-utils                                      0.28
+[R.]  #056  direnv                                                  2.38.2
+[R.]  #057  dmenu                                                   5.4
+[R.]  #058  docbook-xml                                             4.5
+[R.]  #059  docbook-xsl-nons                                        1.79.2
+[R.]  #060  docker                                                  29.9.3
+[R.]  #061  docker-buildx                                           0.38.1
+[R.]  #062  docker-compose                                          5.7.1
+[R.]  #063  docker-containerd                                       29.9.3
+[R.]  #064  docker-runc                                             29.9.3
+[R.]  #065  docker-tini                                             29.9.3
+[R.]  #066  dolphin                                                 26.08.3
+[R.]  #067  double-conversion                                       3.3.1, 3.4.0
+[R.]  #068  enchant                                                 2.6.9
+[R.]  #069  envsubst                                                1.4.3
+[R.]  #070  espeak-ng                                               1.52.0.1-unstable-2025-09-09
+[R.]  #071  etc-UPower-UPower.conf                                  <none>
+[R.]  #072  etc-alsa-conf.d                                         49-pipewire-modules.conf
+[R.]  #073  etc-direnv-direnvrc                                     <none>
+[R.]  #074  etc-direnv-lib-zz-user.sh                               <none>
+[R.]  #075  etc-fuse.conf                                           <none>
+[R.]  #076  etc-ipsec.secrets                                       <none>
+[R.]  #077  etc-polkit                                              1-rules.d-10-nixos.rules x2
+[R.]  #078  etc-xdg-xdg-desktop-portal-portals.conf                 <none>
+[R.]  #079  exiv2                                                   0.28.9, 0.28.9-lib
+[R.]  #080  expand-response-params                                  <none> x3
+[R.]  #081  faudio                                                  26.05
+[R.]  #082  feh                                                     3.13.1, 3.13.1-doc, 3.13.1-man
+[R.]  #083  ffmpeg                                                  6.1.6-bin, 6.1.6-data, 6.1.6-lib, 6.1.6-man, 8.1.3-data x2, 8.1.3-lib x2, 9.0.2-data, 9.0.2-lib
+[R.]  #084  fhsenv-ensure-gsettings-schemas-directory               <none>
+[R.]  #085  find-xml-catalogs-hook                                  <none>
+[R.]  #086  firefox                                                 160.0.1
+[R.]  #087  firefox-policies.json                                   <none>
+[R.]  #088  firefox-unwrapped                                       160.0.1
+[R.]  #089  flatpak                                                 1.18.4
+[R.]  #090  flex                                                    2.6.4
+[R.]  #091  fmt                                                     12.2.0 x2
+[R.]  #092  font-util                                               1.4.2
+[R.]  #093  freefont-ttf                                            20120503
+[R.]  #094  freeglut                                                3.8.0
+[R.]  #095  fuse                                                    3.18.2, 3.18.2-bin, 3.18.2-man
+[R.]  #096  fuse-overlayfs                                          1.18
+[R.]  #097  gamemode                                                1.8.2, 1.8.2-lib x2, 1.8.2-man
+[R.]  #098  gamemode.ini                                            <none>
+[R.]  #099  gamescope                                               <none>, 3.17.0
+[R.]  #100  gcc-wrapper                                             16.2.0, 16.2.0-man
+[R.]  #101  gd                                                      2.3.3 x2
+[R.]  #102  gegl                                                    0.4.70
+[R.]  #103  geoclue                                                 2.8.2
+[R.]  #104  getconf-glibc                                           2.44-57
+[R.]  #105  getopt                                                  1.1.6
+[R.]  #106  gexiv2                                                  0.14.6
+[R.]  #107  gflags                                                  2.2.2
+[R.]  #108  gfortran                                                15.3.0-lib, 15.3.0-libgcc, 16.2.0, 16.2.0-lib, 16.2.0-libgcc
+[R.]  #109  gfortran-wrapper                                        16.2.0
+[R.]  #110  ghostscript-with-X                                      10.08.0, 10.08.0-fonts
+[R.]  #111  gimp                                                    3.2.8, 3.2.8-man
+[R.]  #112  git-minimal                                             2.56.0
+[R.]  #113  gjs                                                     1.90.0
+[R.]  #114  glew                                                    1.10.0, 2.2.0, 2.3.1, 2.3.1-bin
+[R.]  #115  glfw                                                    3.4 x2
+[R.]  #116  glib-networking                                         2.90.0
+[R.]  #117  glibc-multi                                             2.44-57, 2.44-57-bin
+[R.]  #118  glibmm                                                  2.66.8
+[R.]  #119  glog                                                    0.7.1
+[R.]  #120  glslang                                                 16.2.0, 16.6.0
+[R.]  #121  glu                                                     9.0.3 x3
+[R.]  #122  gmp                                                     6.3.0
+[R.]  #123  gnome-desktop                                           51.0
+[R.]  #124  gnome-settings-daemon                                   51.1-gsettings-schemas
+[R.]  #125  gnum4                                                   1.4.21 x2
+[R.]  #126  gpgme                                                   2.2.0
+[R.]  #127  gpgmepp                                                 2.2.0
+[R.]  #128  graphviz                                                15.1.1
+[R.]  #129  grim                                                    1.5.0
+[R.]  #130  gst-libav                                               1.26.11, 1.28.8 x2
+[R.]  #131  gst-plugins-good                                        1.26.11, 1.28.8 x2
+[R.]  #132  gst-plugins-ugly                                        1.28.8 x2
+[R.]  #133  gstreamer-vaapi                                         1.26.11
+[R.]  #134  gtk4                                                    4.22.5, 4.24.0 x2
+[R.]  #135  gtk4-layer-shell                                        1.3.0
+[R.]  #136  gtksourceview                                           3.24.11, 5.22.0
+[R.]  #137  gts                                                     0.7.6
+[R.]  #138  harfbuzz-icu                                            14.5.1
+[R.]  #139  hdf5-cpp                                                1.14.6 x2
+[R.]  #140  hfst-ospell                                             0.5.4
+[R.]  #141  hidapi                                                  0.15.0 x2
+[R.]  #142  home-wifi                                               <none>
+[R.]  #143  hspell                                                  1.4
+[R.]  #144  hunspell                                                1.7.5
+[R.]  #145  hyphen                                                  2.8.9
+[R.]  #146  hypr.conf                                               <none>
+[R.]  #147  hyprcursor                                              0.1.13-lib
+[R.]  #148  hyprgraphics                                            0.6.0, 0.6.0-dev
+[R.]  #149  hyprland                                                0.57.2
+[R.]  #150  hyprland-custom                                         <none>
+[R.]  #151  hyprland-guiutils                                       0.2.2
+[R.]  #152  hyprland.lua                                            <none>
+[R.]  #153  hyprlang                                                0.6.8
+[R.]  #154  hyprtoolkit                                             0.6.0
+[R.]  #155  hyprutils                                               0.14.4, 0.14.4-dev
+[R.]  #156  hyprwire                                                0.3.1
+[R.]  #157  ijs                                                     10.08.0
+[R.]  #158  imlib2                                                  1.12.7 x2
+[R.]  #159  inih                                                    62
+[R.]  #160  iniparser                                               4.2.6
+[R.]  #161  isl                                                     0.20
+[R-]  #162  iw                                                      6.17, 6.17-man
+[R-]  #163  iwd                                                     3.12, 3.12-doc, 3.12-man
+[R.]  #164  jack-libs                                               <none>
+[R.]  #165  jack2                                                   1.9.22
+[R.]  #166  jbig2dec                                                0.20
+[R.]  #167  jpegexiforient                                          0-unstable-2002-02-17
+[R.]  #168  jxrlib                                                  1.2-git20170615.f752187-5.2
+[R.]  #169  kactivitymanagerd                                       6.8.3
+[R.]  #170  karchive                                                6.32.0
+[R.]  #171  kauth                                                   6.32.0
+[R.]  #172  kbookmarks                                              6.32.0
+[R.]  #173  kcalc                                                   26.08.3
+[R.]  #174  kcmutils                                                6.32.0
+[R.]  #175  kcodecs                                                 6.32.0
+[R.]  #176  kcolorscheme                                            6.32.0
+[R.]  #177  kcompletion                                             6.32.0
+[R.]  #178  kconfig                                                 6.32.0
+[R.]  #179  kconfigwidgets                                          6.32.0
+[R.]  #180  kcoreaddons                                             6.32.0
+[R.]  #181  kcrash                                                  6.32.0
+[R.]  #182  kdbusaddons                                             6.32.0
+[R.]  #183  kdegraphics-mobipocket                                  26.08.3
+[R.]  #184  kdnssd                                                  6.32.0
+[R.]  #185  kdoctools                                               6.32.0
+[R.]  #186  kdsoap                                                  2.2.0
+[R.]  #187  kdsoap-ws-discovery-client                              0.4.0
+[R.]  #188  kfilemetadata                                           6.32.0
+[R.]  #189  kglobalaccel                                            6.32.0
+[R.]  #190  kguiaddons                                              6.32.0
+[R.]  #191  ki18n                                                   6.32.0
+[R.]  #192  kiconthemes                                             6.32.0
+[R.]  #193  kidletime                                               6.32.0
+[R.]  #194  kio                                                     6.32.0
+[R.]  #195  kio-extras                                              26.08.3
+[R.]  #196  kirigami                                                6.32.0
+[R.]  #197  kitemviews                                              6.32.0
+[R.]  #198  kjobwidgets                                             6.32.0
+[R.]  #199  knewstuff                                               6.32.0
+[R.]  #200  knotifications                                          6.32.0
+[R.]  #201  kpackage                                                6.32.0
+[R.]  #202  kparts                                                  6.32.0
+[R.]  #203  kservice                                                6.32.0
+[R.]  #204  ktextwidgets                                            6.32.0
+[R.]  #205  kuserfeedback                                           6.32.0
+[R.]  #206  kwallet                                                 6.32.0
+[R.]  #207  kwidgetsaddons                                          6.32.0
+[R.]  #208  kwindowsystem                                           6.32.0
+[R.]  #209  kxmlgui                                                 6.32.0
+[R.]  #210  lapack                                                  3
+[R.]  #211  ld-library-path                                         <none>
+[R.]  #212  ldacBT                                                  2.0.2.3
+[R.]  #213  ldconfig                                                <none> x2
+[R.]  #214  level-zero                                              1.34.0
+[R.]  #215  libXNVCtrl                                              390.157, 595.112.07
+[R.]  #216  libaacs                                                 0.11.1
+[R.]  #217  libadwaita                                              1.9.4, 1.10.0 x2
+[R.]  #218  libaec                                                  1.1.7 x2
+[R.]  #219  libappimage                                             1.0.4-5
+[R.]  #220  libasyncns                                              0.8
+[R.]  #221  libavif                                                 1.4.2 x2
+[R.]  #222  libb2                                                   0.98.1 x2
+[R.]  #223  libbacktrace                                            0-unstable-2026-05-03
+[R.]  #224  libbdplus                                               0.2.0
+[R.]  #225  libcaca                                                 0.99.beta20 x3, 0.99.beta20-bin, 0.99.beta20-man
+[R.]  #226  libcddb                                                 1.3.2
+[R.]  #227  libcdio                                                 2.3.0, 2.3.0-lib x2, 2.3.0-man
+[R.]  #228  libdbusmenu-glib                                        16.04.0
+[R.]  #229  libdbusmenu-gtk3                                        16.04.0
+[R.]  #230  libdecor                                                0.2.5 x3
+[R.]  #231  libdicom                                                1.3.0
+[R.]  #232  libdovi                                                 3.3.1
+[R.]  #233  libdvbpsi                                               1.3.3
+[R.]  #234  libebml                                                 1.4.7
+[R.]  #235  libei                                                   1.6.0
+[R.]  #236  liberation-fonts                                        2.1.5
+[R.]  #237  libexif                                                 0.6.26 x2
+[R.]  #238  libfontenc                                              1.1.9
+[R.]  #239  libfyaml                                                0.9.6 x2
+[R.]  #240  libgnome-keyring                                        3.12.0
+[R.]  #241  libgphoto2                                              2.5.34 x2
+[R.]  #242  libid3tag                                               0.16.4
+[R.]  #243  libidn                                                  1.44, 1.44-bin
+[R.]  #244  libieee1284                                             0.2.11 x2
+[R.]  #245  libimagequant                                           4.4.1
+[R.]  #246  libimobiledevice                                        1.4.0
+[R.]  #247  libimobiledevice-glue                                   1.3.3
+[R.]  #248  libinput                                                1.31.3, 1.31.3-bin
+[R.]  #249  libkate                                                 0.4.3
+[R.]  #250  libkexiv2                                               26.08.3
+[R.]  #251  libkrun                                                 1.19.7
+[R.]  #252  libkrunfw                                               5.5.0
+[R.]  #253  libksba                                                 1.8.1
+[R.]  #254  libmanette                                              0.2.13
+[R.]  #255  libmatroska                                             1.7.2
+[R.]  #256  libmicrodns                                             0.2.0
+[R.]  #257  libmikmod                                               3.3.16, 3.3.16-man
+[R.]  #258  libmng                                                  2.0.3
+[R.]  #259  libmpc                                                  1.4.1 x2
+[R.]  #260  libmpeg2                                                0.5.1 x2
+[R.]  #261  libmtp                                                  1.1.23
+[R.]  #262  libmypaint                                              1.6.1
+[R.]  #263  libpaper                                                2.2.8 x2
+[R.]  #264  libpfm                                                  4.14.1
+[R.]  #265  libplacebo                                              5.264.1, 7.387.0
+[R.]  #266  libplist                                                2.7.0
+[R.]  #267  libpq                                                   18.6 x2
+[R.]  #268  libproxy                                                0.5.12 x2
+[R.]  #269  libpthread-stubs                                        0.5
+[R.]  #270  libsecret                                               0.21.8.2
+[R.]  #271  libsepol                                                3.11
+[R.]  #272  libshout                                                2.4.6 x3
+[R.]  #273  libsigc++                                               2.12.1
+[R.]  #274  libslirp                                                4.9.7
+[R.]  #275  libspectre                                              0.2.12
+[R.]  #276  libstartup-notification                                 0.12
+[R.]  #277  libstrangle                                             0.1.1-unstable-2022-02-22
+[R.]  #278  libtatsu                                                1.0.5
+[R.]  #279  libtiger                                                0.3.4
+[R.]  #280  libtirpc                                                1.3.7
+[R.]  #281  libudev0-shim                                           1 x2
+[R.]  #282  libupnp                                                 1.14.25
+[R.]  #283  liburing                                                2.14 x2
+[R.]  #284  libusbmuxd                                              2.1.1
+[R.]  #285  libvoikko                                               4.3.3
+[R.]  #286  libwacom                                                2.20.0
+[R.]  #287  libwmf                                                  0.2.16
+[R.]  #288  libxaw                                                  1.0.16 x2
+[R.]  #289  libxcb-cursor                                           0.1.6 x2
+[R.]  #290  libxcb-errors                                           1.0.1
+[R.]  #291  libxcb-image                                            0.4.1 x2
+[R.]  #292  libxcb-render-util                                      0.3.10 x2
+[R.]  #293  libxcb-util                                             0.4.1 x2
+[R.]  #294  libxcb-wm                                               0.4.2 x2
+[R.]  #295  libxcvt                                                 0.1.3
+[R.]  #296  libxfont_2                                              2.0.9
+[R.]  #297  libxkbfile                                              1.2.0
+[R.]  #298  libxml++                                                3.2.5
+[R.]  #299  libxmlb                                                 0.3.25-lib, 0.3.27-lib
+[R.]  #300  libxmp                                                  4.7.4
+[R.]  #301  libxpm                                                  3.5.20 x2
+[R.]  #302  libxres                                                 1.2.3
+[R.]  #303  libxscrnsaver                                           1.2.5 x3
+[R.]  #304  libxxf86dga                                             1.1.7
+[R.]  #305  libzip                                                  1.11.4 x2, 1.11.4-man
+[R.]  #306  limits.conf                                             <none>
+[R.]  #307  live555                                                 2026.01.12
+[R.]  #308  lmdb                                                    0.9.36
+[R.]  #309  lsb_release                                             <none>
+[R.]  #310  lua                                                     5.2.4, 5.4.9, 5.5.1
+[R.]  #311  luajit                                                  2.1.1791890110
+[R.]  #312  lutris                                                  0.5.22, 0.5.22-bwrap, 0.5.22-fhsenv-profile, 0.5.22-fhsenv-rootfs, 0.5.22-init
+[R.]  #313  lutris-unwrapped                                        0.5.22
+[R.]  #314  mako                                                    1.11.0
+[R.]  #315  malcontent                                              0.13.1-lib
+[R.]  #316  mangohud                                                0.8.4 x2, 0.8.4-doc, 0.8.4-man
+[R.]  #317  mariadb-connector-c                                     3.3.5 x2
+[R.]  #318  matio                                                   1.5.30
+[R.]  #319  mbrola                                                  3.3-unstable-2024-01-29
+[R.]  #320  mbrola-bin                                              3.3-unstable-2024-01-29
+[R.]  #321  mbrola-voices                                           0-unstable-2020-03-30
+[R.]  #322  md4c                                                    0.5.2-lib, 0.5.3-lib
+[R.]  #323  mesa-demos                                              9.0.0
+[R.]  #324  miniaudio                                               0.11.26
+[R.]  #325  ministream                                              0.99.1 x2
+[R.]  #326  miniupnpc                                               2.3.3 x2
+[R.]  #327  minizip                                                 1.3.2
+[R.]  #328  moby                                                    29.9.3
+[R.]  #329  moonlight-qt                                            6.2.0
+[R.]  #330  mpfr                                                    4.2.2 x2
+[R.]  #331  mtdev                                                   1.1.7 x2
+[R.]  #332  muparser                                                2.3.5
+[R.]  #333  mypaint-brushes                                         2.0.2
+[R.]  #334  nameservers                                             <none>
+[R.]  #335  nasm                                                    3.02
+[R.]  #336  ncompress                                               5.0 x2
+[R.]  #337  nerd-fonts-arimo                                        3.5.0+1.33
+[R.]  #338  net-snmp                                                5.9.5.2 x2, 5.9.5.2-lib x2
+[R.]  #339  netavark                                                2.1.0
+[R.]  #340  networkmanager.conf                                     <none>
+[R.]  #341  nix-direnv                                              3.2.0
+[R.]  #342  nix-expr-c                                              2.35.6, 2.35.6-dev
+[R.]  #343  nix-fetchers-c                                          2.35.6, 2.35.6-dev
+[R.]  #344  nix-flake-c                                             2.35.6, 2.35.6-dev
+[R.]  #345  nix-ld                                                  2.0.7
+[R.]  #346  nix-main-c                                              2.35.6, 2.35.6-dev
+[R.]  #347  nix-store-c                                             2.35.6, 2.35.6-dev
+[R.]  #348  nix-util-c                                              2.35.6, 2.35.6-dev
+[R.]  #349  nixd                                                    2.9.4
+[R.]  #350  nixf                                                    2.9.4
+[R.]  #351  nixfmt                                                  1.5.0
+[R.]  #352  nixfmt-tree                                             2.6.0
+[R.]  #353  nixt                                                    2.9.4
+[R.]  #354  nlohmann_json                                           3.12.0
+[R.]  #355  nspr                                                    4.40 x2
+[R.]  #356  nss                                                     3.125 x2, 3.125-man, 3.133
+[R.]  #357  nuspell                                                 5.1.9-lib
+[R.]  #358  onnxruntime                                             1.27.1
+[R.]  #359  openblas                                                0.3.33 x2
+[R.]  #360  opencl-headers                                          2026.05.29
+[R.]  #361  opencore-amr                                            0.1.6 x3
+[R.]  #362  opencv                                                  4.13.0
+[R.]  #363  openjdk-minimal-jre                                     21.0.13.0.2+1
+[R.]  #364  openldap                                                2.6.13 x2, 2.6.13-man
+[R.]  #365  openslide                                               4.0.1
+[R.]  #366  openvino                                                2026.4.0-lib
+[R.]  #367  optipng                                                 7.9.1
+[R.]  #368  ostree                                                  2026.2
+[R.]  #369  p7zip                                                   17.06, 17.06-lib, 17.06-man
+[R.]  #370  packagekit-qt                                           1.1.4
+[R.]  #371  passt                                                   2026_07_16.090d739
+[R.]  #372  pcaudiolib                                              1.3
+[R.]  #373  pciutils                                                3.15.0, 3.15.0-man
+[R.]  #374  pipewire-configs                                        <none>
+[R.]  #375  pipewire-ladspa-plugins                                 <none>
+[R.]  #376  pipewire-lv2-plugins                                    <none>
+[R.]  #377  pkexec                                                  <none>
+[R.]  #378  pkg-config                                              0.29.2 x3
+[R.]  #379  pkg-config-wrapper                                      0.29.2 x2
+[R.]  #380  pkgconf                                                 3.0.8, 3.0.8-lib
+[R.]  #381  pkgconf-wrapper                                         3.0.8
+[R.]  #382  plasma-activities                                       6.8.3
+[R.]  #383  plasma-activities-stats                                 6.8.3
+[R.]  #384  playerctl                                               2.4.1
+[R-]  #385  podman                                                  6.1.4 x2, 6.1.4-man
+[R.]  #386  podman-helper-binary-wrapper                            <none>
+[R.]  #387  podman-tmpfiles-nixos                                   <none>
+[R.]  #388  podofo                                                  1.1.3
+[R.]  #389  policy                                                  <none>
+[R.]  #390  polkit-qt                                               1-0.201.1
+[R.]  #391  polkitd.conf                                            <none>
+[R.]  #392  poly2tri-c                                              0.1.0
+[R.]  #393  poppler-data                                            0.4.12 x2
+[R.]  #394  poppler-glib                                            26.11.0 x2
+[R.]  #395  poppler-qt6                                             26.11.0
+[R.]  #396  poppler-utils                                           26.11.0
+[R.]  #397  portaudio                                               190700_20210406
+[R.]  #398  pre-start                                               <none>
+[R.]  #399  protobuf                                                33.6, 34.1, 36.2, 36.2-dev, 36.2-lib, 36.2-proto
+[R.]  #400  psmisc                                                  23.7
+[R.]  #401  pulseaudio                                              17.0
+[R.]  #402  pv                                                      1.12.7
+[R.]  #403  python3.13-dbus-python                                  1.4.0
+[R.]  #404  python3.14-aiodns                                       4.0.4
+[R.]  #405  python3.14-aiohappyeyeballs                             2.7.1
+[R.]  #406  python3.14-aiohttp                                      3.14.5
+[R.]  #407  python3.14-aiosignal                                    1.4.0
+[R.]  #408  python3.14-anyio                                        4.15.1
+[R.]  #409  python3.14-apsw                                         3.51.0.0
+[R.]  #410  python3.14-attrs                                        26.1.0
+[R.]  #411  python3.14-beautifulsoup4                               4.15.0
+[R.]  #412  python3.14-brotli                                       1.2.1
+[R.]  #413  python3.14-btrees                                       6.5
+[R.]  #414  python3.14-cbor2                                        6.1.4
+[R.]  #415  python3.14-certifi                                      2026.10.23
+[R.]  #416  python3.14-cffi                                         2.1.1
+[R.]  #417  python3.14-chardet                                      6.0.0.post1
+[R.]  #418  python3.14-charset-normalizer                           3.5.1
+[R.]  #419  python3.14-click                                        8.4.2
+[R.]  #420  python3.14-colorama                                     0.4.6
+[R.]  #421  python3.14-configparser                                 7.2.0
+[R.]  #422  python3.14-cryptography                                 50.0.2
+[R.]  #423  python3.14-css-parser                                   1.1.1
+[R.]  #424  python3.14-cssselect                                    1.5.0
+[R.]  #425  python3.14-dbus-python                                  1.4.0, 1.4.0-dev
+[R.]  #426  python3.14-defusedxml                                   0.8.0rc2
+[R.]  #427  python3.14-deprecated                                   1.3.1
+[R.]  #428  python3.14-distro                                       1.9.0
+[R.]  #429  python3.14-dnspython                                    2.9.0 x2
+[R.]  #430  python3.14-faust-cchardet                               2.2.1
+[R.]  #431  python3.14-feedparser                                   6.0.14
+[R.]  #432  python3.14-feedparser-sgmllib                           2.1.0
+[R.]  #433  python3.14-fonttools                                    4.63.0
+[R.]  #434  python3.14-frozenlist                                   1.8.0
+[R.]  #435  python3.14-h11                                          0.16.0
+[R.]  #436  python3.14-html2text                                    2025.4.15
+[R.]  #437  python3.14-html5-parser                                 0.5.0
+[R.]  #438  python3.14-html5lib                                     1.1-unstable-2024-02-21
+[R.]  #439  python3.14-httpcore                                     1.0.9
+[R.]  #440  python3.14-httpx                                        0.28.1
+[R.]  #441  python3.14-idna                                         3.20
+[R.]  #442  python3.14-ifaddr                                       0.2.0
+[R.]  #443  python3.14-jaconv                                       0.5.0
+[R.]  #444  python3.14-jeepney                                      0.9
+[R.]  #445  python3.14-libevdev                                     0.13.1
+[R.]  #446  python3.14-mechanize                                    0.4.10
+[R.]  #447  python3.14-moddb                                        0.12.0
+[R.]  #448  python3.14-msgpack                                      1.2.4
+[R.]  #449  python3.14-multidict                                    6.7.1
+[R.]  #450  python3.14-netifaces                                    0.11.0
+[R.]  #451  python3.14-odfpy                                        1.4.1
+[R.]  #452  python3.14-packaging                                    26.3
+[R.]  #453  python3.14-persistent                                   6.8
+[R.]  #454  python3.14-pillow                                       13.0.0
+[R.]  #455  python3.14-propcache                                    0.5.2
+[R.]  #456  python3.14-protobuf                                     7.36.2
+[R.]  #457  python3.14-protonup-ng                                  0.2.1
+[R.]  #458  python3.14-pycares                                      5.0.1
+[R.]  #459  python3.14-pychm                                        0.8.6
+[R.]  #460  python3.14-pycparser                                    3.00
+[R.]  #461  python3.14-pycryptodome                                 3.23.0
+[R.]  #462  python3.14-pydbus                                       0.6.0
+[R.]  #463  python3.14-pykakasi                                     2.3.0
+[R.]  #464  python3.14-pyopenssl                                    26.4.0, 26.4.0-dev
+[R.]  #465  python3.14-pypresence                                   4.6.1
+[R.]  #466  python3.14-pyqt-builder                                 1.19.1
+[R.]  #467  python3.14-pyqt6                                        6.11.0
+[R.]  #468  python3.14-pyqt6-sip                                    13.10.2
+[R.]  #469  python3.14-pyqt6-webengine                              6.11.0
+[R.]  #470  python3.14-pyrate-limiter                               4.5.1
+[R.]  #471  python3.14-pystache                                     0.6.8
+[R.]  #472  python3.14-python-dateutil                              2.9.0.post0
+[R.]  #473  python3.14-python-xlib                                  0.33
+[R.]  #474  python3.14-pyudev                                       0.24.4
+[R.]  #475  python3.14-pyxdg                                        0.28
+[R.]  #476  python3.14-pyyaml                                       6.0.3
+[R.]  #477  python3.14-pyzstd                                       0.19.1
+[R.]  #478  python3.14-regex                                        2026.9.29
+[R.]  #479  python3.14-requests                                     2.34.2
+[R.]  #480  python3.14-sip                                          6.16.1
+[R.]  #481  python3.14-six                                          1.17.0
+[R.]  #482  python3.14-soupsieve                                    2.10
+[R.]  #483  python3.14-toml                                         0.10.2
+[R.]  #484  python3.14-toolz                                        1.1.0
+[R.]  #485  python3.14-transaction                                  5.1
+[R.]  #486  python3.14-trustme                                      1.2.1
+[R.]  #487  python3.14-truststore                                   0.10.4
+[R.]  #488  python3.14-typing-extensions                            4.16.0
+[R.]  #489  python3.14-tzdata                                       2026.5
+[R.]  #490  python3.14-tzlocal                                      5.4.5
+[R.]  #491  python3.14-umu-launcher-unwrapped                       1.4.4
+[R.]  #492  python3.14-urllib3                                      2.7.0
+[R.]  #493  python3.14-webencodings                                 0.6.1
+[R.]  #494  python3.14-wrapt                                        2.2.2
+[R.]  #495  python3.14-xxhash                                       3.8.1
+[R.]  #496  python3.14-yarl                                         1.25.1
+[R.]  #497  python3.14-zc-lockfile                                  4.0
+[R.]  #498  python3.14-zconfig                                      4.3
+[R.]  #499  python3.14-zeroconf                                     0.153.0
+[R.]  #500  python3.14-zodb                                         6.3
+[R.]  #501  python3.14-zodbpickle                                   4.5
+[R.]  #502  python3.14-zope-deferredimport                          6.0
+[R.]  #503  python3.14-zope-exceptions                              6.0
+[R.]  #504  python3.14-zope-interface                               8.2
+[R.]  #505  python3.14-zope-proxy                                   7.1
+[R.]  #506  python3.14-zope-testrunner                              8.1
+[R.]  #507  qca                                                     2.3.12
+[R.]  #508  qqc2-desktop-style                                      6.32.0
+[R.]  #509  qt5compat                                               6.12.0
+[R.]  #510  qtbase                                                  5.15.19, 5.15.19-bin, 6.11.3, 6.11.3-only-plugins-qml, 6.12.0, 6.12.0-only-plugins-qml
+[R.]  #511  qtdeclarative                                           5.15.19, 5.15.19-bin, 6.11.3, 6.12.0
+[R.]  #512  qtimageformats                                          6.12.0
+[R.]  #513  qtmultimedia                                            5.15.19, 5.15.19-bin, 6.11.3, 6.12.0
+[R.]  #514  qtpositioning                                           6.12.0
+[R.]  #515  qtquick3d                                               6.11.3, 6.12.0
+[R.]  #516  qtquickcontrols                                         5.15.19
+[R.]  #517  qtserialport                                            6.12.0
+[R.]  #518  qtshadertools                                           6.11.3, 6.12.0
+[R.]  #519  qtspeech                                                6.12.0
+[R.]  #520  qtsvg                                                   5.15.19, 5.15.19-bin, 6.11.3, 6.12.0
+[R.]  #521  qttools                                                 6.12.0
+[R.]  #522  qttranslations                                          5.15.19, 6.11.3, 6.12.0
+[R.]  #523  qtwayland                                               5.15.19, 5.15.19-bin, 6.11.3, 6.12.0
+[R.]  #524  qtwebchannel                                            6.12.0
+[R.]  #525  qtwebengine                                             6.140.0
+[R.]  #526  qtwebsockets                                            6.12.0
+[R.]  #527  qtx11extras                                             5.15.19
+[R.]  #528  re2                                                     2025-11-05
+[R.]  #529  ripgrep                                                 15.2.0
+[R.]  #530  rofi                                                    2.1.1
+[R.]  #531  rofi-unwrapped                                          2.1.1
+[R.]  #532  rootlesskit                                             2.3.6
+[R.]  #533  rpcs3                                                   0.0.40-fixed
+[R.]  #534  rtkit                                                   0.14
+[R.]  #535  rtmidi                                                  6.0.0
+[R.]  #536  runc                                                    1.5.3
+[R.]  #537  samba                                                   4.25.1 x2, 4.25.1-man
+[R.]  #538  sane-backends                                           1.4.0 x2, 1.4.0-man
+[R.]  #539  sdl12-compat                                            1.2.78 x2
+[R.]  #540  sdl2-compat                                             2.32.74 x2
+[R.]  #541  sdl3                                                    3.4.10-lib, 3.4.18-lib x2
+[R.]  #542  seatd                                                   0.9.3
+[R.]  #543  security-wrapper-fusermount3-x86_64-unknown-linux-musl  <none>
+[R.]  #544  security-wrapper-gamemoded-x86_64-unknown-linux-musl    <none>
+[R.]  #545  security-wrapper-pkexec-x86_64-unknown-linux-musl       <none>
+[R.]  #546  setxkbmap                                               1.3.4
+[R.]  #547  sfml                                                    3.0.2
+[R.]  #548  shader-slang                                            2026.21
+[R.]  #549  shaderc                                                 2026.1-lib
+[R.]  #550  slirp4netns                                             1.3.7
+[R.]  #551  slurp                                                   1.5.0
+[R.]  #552  snappy                                                  1.2.2
+[R.]  #553  sndio                                                   1.10.0 x2
+[R.]  #554  solid                                                   6.32.0
+[R.]  #555  sonic-unstable                                          2020-12-27
+[R.]  #556  sonnet                                                  6.32.0
+[R.]  #557  sox-unstable                                            2021-05-09-lib
+[R.]  #558  spdlog                                                  1.17.0 x2
+[R.]  #559  speech-dispatcher                                       0.12.1
+[R.]  #560  spidermonkey                                            140.17.0
+[R.]  #561  squashfs-tools                                          4.7.5
+[R.]  #562  squashfuse                                              0.6.5
+[R.]  #563  steam                                                   1.0.0.87 x2, 1.0.0.87-bwrap x2, 1.0.0.87-fhsenv-profile, 1.0.0.87-fhsenv-rootfs x2, 1.0.0.87-init
+[R.]  #564  steam-gamescope                                         <none>
+[R.]  #565  steam-run                                               <none>, 1.0.0.87, 1.0.0.87-bwrap, 1.0.0.87-fhsenv-profile, 1.0.0.87-fhsenv-rootfs, 1.0.0.87-init
+[R.]  #566  steam-unwrapped                                         1.0.0.87
+[R.]  #567  steam-wrapped                                           <none>
+[R.]  #568  storage.conf                                            <none>
+[R.]  #569  stream                                                  <none> x2
+[R.]  #570  stream-streaming-raysha                                 <none>
+[R.]  #571  streaming-raysha-conf.json                              <none>
+[R.]  #572  streaming-raysha-customisation-layer                    <none>
+[R.]  #573  streaming-udev-relay.py                                 <none>
+[R.]  #574  strip.sh                                                <none> x2
+[R.]  #575  suitesparse                                             7.10.0
+[R.]  #576  swaylock                                                1.8.6
+[R.]  #577  syndication                                             6.32.0
+[R.]  #578  syntax-highlighting                                     6.32.0
+[R.]  #579  taglib                                                  1.13.1, 2.2.1 x3
+[R.]  #580  tdb                                                     1.4.15 x2
+[R.]  #581  tevent                                                  0.17.2 x2
+[R.]  #582  timidity                                                2.15.0
+[R.]  #583  tomlplusplus                                            3.4.0
+[R.]  #584  treefmt                                                 2.6.0
+[R.]  #585  treefmt.toml                                            <none>
+[R.]  #586  tremor-unstable                                         2018-03-16
+[R.]  #587  twolame                                                 2017-09-27 x3
+[R.]  #588  uchardet                                                0.0.8
+[R.]  #589  udis86                                                  1.7.2-unstable-2022-10-13-lib
+[R.]  #590  umockdev                                                0.19.3
+[R.]  #591  umu-launcher                                            1.4.4, 1.4.4-bwrap, 1.4.4-fhsenv-profile, 1.4.4-fhsenv-rootfs, 1.4.4-init
+[R.]  #592  unit                                                    80-iwd.link
+[R.]  #593  unit-ModemManager.service                               <none>
+[R.]  #594  unit-NetworkManager-dispatcher.service                  <none>
+[R.]  #595  unit-NetworkManager-ensure-profiles.service             <none>
+[R.]  #596  unit-NetworkManager.service                             <none>
+[R.]  #597  unit-console-getty.service                              <none>
+[R.]  #598  unit-docker-prune.service                               <none>
+[R.]  #599  unit-docker-start-async.service                         <none>
+[R.]  #600  unit-docker.service                                     <none>
+[R.]  #601  unit-docker.socket                                      <none>
+[R.]  #602  unit-filter-chain.service                               <none>
+[R.]  #603  unit-gamemoded.service                                  <none>
+[R.]  #604  unit-hyprland-session.service                           <none>
+[R.]  #605  unit-iwd.service                                        <none>
+[R.]  #606  unit-pipewire-pulse.service                             <none>
+[R.]  #607  unit-pipewire-pulse.socket                              <none>
+[R.]  #608  unit-pipewire.service                                   <none>
+[R.]  #609  unit-pipewire.socket                                    <none>
+[R.]  #610  unit-podman-prune.service                               <none>
+[R.]  #611  unit-podman-prune.timer                                 <none>
+[R.]  #612  unit-podman-streaming-raysha.service                    <none>
+[R.]  #613  unit-podman.service                                     <none>
+[R.]  #614  unit-podman.socket                                      <none> x2
+[R.]  #615  unit-polkit-agent-helper-.service                       <none> x2
+[R.]  #616  unit-polkit-agent-helper.socket                         <none>
+[R.]  #617  unit-polkit.service                                     <none> x2
+[R.]  #618  unit-rpcs3-savegames.service                            <none>
+[R.]  #619  unit-rtkit-daemon.service                               <none>
+[R.]  #620  unit-script-NetworkManager-ensure-profiles-start        <none>
+[R.]  #621  unit-script-podman-streaming-raysha-post-stop           <none>
+[R.]  #622  unit-script-podman-streaming-raysha-pre-start           <none>
+[R.]  #623  unit-script-podman-streaming-raysha-pre-stop            <none>
+[R.]  #624  unit-script-podman-streaming-raysha-start               <none>
+[R.]  #625  unit-script-rpcs3-savegames-start                       <none>
+[R.]  #626  unit-script-streaming-network-start                     <none>
+[R.]  #627  unit-streaming-network.service                          <none>
+[R.]  #628  unit-streaming-udev-relay.service                       <none>
+[R.]  #629  unit-wireplumber.service                                <none>
+[R.]  #630  unixodbc                                                2.3.14 x3
+[R.]  #631  unrar-free                                              0.4.0
+[R.]  #632  upower                                                  1.91.5
+[R.]  #633  usbutils                                                019, 019-man
+[R.]  #634  uwsm                                                    0.27.2
+[R.]  #635  via                                                     3.0.0, 3.0.0-bwrap, 3.0.0-extracted, 3.0.0-fhsenv-profile, 3.0.0-fhsenv-rootfs, 3.0.0-init
+[R.]  #636  vips                                                    8.18.7
+[R.]  #637  vlc                                                     3.0.24, 3.0.24-doc, 3.0.24-man
+[R.]  #638  vscode                                                  1.147.0
+[R.]  #639  vulkan-tools                                            1.4.363.0
+[R.]  #640  vulnix                                                  1.12.5, 1.12.5-doc, 1.12.5-man
+[R.]  #641  wayland-protocols                                       1.50
+[R.]  #642  wayland-scanner                                         1.26.0
+[R.]  #643  wayle                                                   0.7.1
+[R.]  #644  wayle-config                                            <none>
+[R.]  #645  webkitgtk                                               2.54.2+abi=4.1
+[R.]  #646  wifi-env                                                <none>
+[R.]  #647  wine-gecko                                              2.47.4-x86_64.msi
+[R.]  #648  wine-mono                                               10.4.1-x86.msi
+[R.]  #649  wine-wow64                                              11.0
+[R.]  #650  winetricks                                              20260125
+[R.]  #651  wireplumber                                             0.5.19, 0.5.19-doc
+[R.]  #652  wireplumber-configs                                     <none>
+[R.]  #653  wireplumber-extra-config                                <none>
+[R.]  #654  wireplumber-extra-scrips                                <none>
+[R.]  #655  wireplumber-lv2-plugins                                 <none>
+[R.]  #656  wl-clipboard                                            2.3.0
+[R.]  #657  xcb-imdkit                                              1.0.9
+[R.]  #658  xdg-dbus-proxy                                          0.1.9
+[R.]  #659  xdg-desktop-portal                                      1.22.1
+[R.]  #660  xdg-desktop-portal-gtk                                  1.15.3
+[R.]  #661  xfsprogs                                                7.2.1, 7.2.1-bin
+[R.]  #662  xgamma                                                  1.0.8
+[R.]  #663  xkbcomp                                                 1.5.0
+[R.]  #664  xorg-locale                                             <none>
+[R.]  #665  xorg-server                                             21.1.25
+[R.]  #666  xorgproto                                               2025.1 x3
+[R.]  #667  xprop                                                   1.2.8
+[R.]  #668  xrandr                                                  1.5.4
+[R.]  #669  xwayland                                                24.1.15
+[R.]  #670  xwininfo                                                1.1.6
+[R.]  #671  zenity                                                  4.2.2 x3
+[R.]  #672  zip                                                     3.0
+[R.]  #673  zziplib                                                 0.13.80 x2
+Closure size: 2840 -> 1101 (34 paths added, 1773 paths removed, delta -1739, disk usage -12.5GiB).
