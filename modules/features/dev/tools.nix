@@ -9,6 +9,7 @@
   in {
     options.dev = {
       enable = lib.mkEnableOption "development tools (nix tooling, direnv, container runtime)";
+      enableOnBoot = lib.mkEnableOption "Enables docker/podman on boot"
       ld = lib.mkEnableOption "Enable ld tooling";
       vscode = lib.mkOption {
         type = lib.types.bool;
@@ -52,6 +53,7 @@
       (lib.mkIf (!cfg.podman.enable) {
         virtualisation.docker = {
           enable = true;
+          enableOnBoot= enableOnBoot;
           daemon.settings = {
             features.cdi = true;
             registry-mirrors = ["http://aria.local:5001"];
@@ -61,23 +63,13 @@
 
         users.users.${config.username}.extraGroups = ["docker"];
         systemd.services.docker.wantedBy = lib.mkForce [];
-
-        # Kick Docker off at boot without waiting for it to finish starting
-        systemd.services.docker-start-async = {
-          description = "Start Docker without blocking boot";
-          wantedBy = ["multi-user.target"];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            ExecStart = "${config.systemd.package}/bin/systemctl start --no-block docker.service";
-          };
-        };
       })
 
       # ── Containers: Podman ──────────────────────────────────────────────
       (lib.mkIf cfg.podman.enable {
         virtualisation.podman = {
           enable = true;
+          enableOnBoot = true;
           dockerCompat = true;
           defaultNetwork.settings.dns_enabled = true;
         };

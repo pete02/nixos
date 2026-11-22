@@ -6,6 +6,7 @@
   username = "pete";
   dev = {
     enable = true;
+    enableOnBoot = true;
     ld = true;
   };
 
