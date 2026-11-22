@@ -36,6 +36,9 @@ jobs:
         experimental-features = nix-command flakes
         build-users-group =
     steps:
+      - name: Ensure CI tools are in the store
+        run: nix build /opt/ci-tools-flake#default --out-link /opt/ci-tools
+        
       - name: Checkout
         uses: actions/checkout@v4
         with:
