@@ -262,6 +262,7 @@
         "--systemd=always"
         "--device-cgroup-rule=c 13:* rmw"
         "--shm-size=1g"
+        "--pids-limit=0"
         # Keep tmpfs only for runtime paths, NOT /etc
         "--tmpfs=/run"
         "--tmpfs=/run/wrappers:rw,exec,suid,mode=755"
