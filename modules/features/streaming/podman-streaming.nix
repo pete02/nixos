@@ -150,10 +150,14 @@
     guests = lib.mapAttrs mkSystem cfg.containers;
 
     # Populate the container's dedicated /nix/store from the host's store.
-    copyStore = n: top: ''
+    copyStore = n: top: let
+      dir = storeDir n;
+      workDir = "${stateRoot}/${n}/nix-work";
+    in ''
+      install -d -m 0755 ${lib.escapeShellArg dir} ${lib.escapeShellArg workDir}
       ${pkgs.nix}/bin/nix copy \
         --from /nix/store \
-        --to ${lib.escapeShellArg "local?root=${storeDir n}"} \
+        --to ${lib.escapeShellArg "local?real=${dir}&state=${workDir}/state&log=${workDir}/log"} \
         --no-check-sigs \
         ${lib.escapeShellArg "${top}"}
     '';
