@@ -373,7 +373,7 @@
           default = {
             video = 26;
             input = 174;
-            uinput = 992;
+            uinput = config.users.groups.uinput.gid;
           };
           description = ''
             Host group ids the container user joins, so GPU and input device
@@ -464,6 +464,7 @@
 
       hardware.uinput.enable = true;
       boot.kernelModules = ["nvidia_uvm"];
+      users.groups.uinput.gid = lib.mkDefault 987;
 
       virtualisation.podman.enable = true;
       virtualisation.oci-containers.backend = lib.mkDefault "podman";
