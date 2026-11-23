@@ -41,11 +41,11 @@
   #
   # Needs `flake.lib.featureModules = featureModules;` in the hosts file.
   #
-  # Still unverified:
+  # Layer notes:
   #  1. Running a NixOS `toplevel/init` under `podman --systemd=always` with
-  #     the host store bind-mounted (may need extra capabilities/cgroup setup).
-  #  2. The image shares the host /nix/store and the host GL userspace:
-  #     containers are built from the SAME nixpkgs as the host.
+  #     a dedicated per-container `/nix/store` bind-mounted from the host.
+  #  2. Each container gets its own `/nix/store` populated from the host's
+  #     store so guest packages, fonts, and graphics stay isolated from the host.
   #  3. Input via the udev relay + /dev/input shared into every container
   #     (each container sees the others' Sunshine input devices).
   #
@@ -65,6 +65,9 @@
 
     # Container (and podman) name for a given key.
     cname = n: "streaming-${n}";
+
+    # Per-container store directory on the host.
+    storeDir = n: "${stateRoot}/${n}/nix-store";
 
     # Host GL userspace is mounted here instead of /run/opengl-driver, so it
     # never collides with the container's own graphics setup.
@@ -146,6 +149,15 @@
     # toplevel from here.
     guests = lib.mapAttrs mkSystem cfg.containers;
 
+    # Populate the container's dedicated /nix/store from the host's store.
+    copyStore = n: top: ''
+      ${pkgs.nix}/bin/nix copy \
+        --from /nix/store \
+        --to ${lib.escapeShellArg (storeDir n)} \
+        --no-check-sigs \
+        ${lib.escapeShellArg "${top}"}
+    '';
+
     # Host-side directory holding a container's decrypted secrets.
     secretsDir = n: "/run/streaming-secrets/${n}";
 
@@ -219,7 +231,7 @@
 
       volumes =
         [
-          "/nix/store:/nix/store:ro,nosuid,nodev"
+          "${storeDir name}:/nix/store"
           "/run/opengl-driver:${hostGl}:ro"
           "/dev/input:/dev/input"
           "/run/udev:/run/udev:ro"
@@ -475,6 +487,7 @@
         [
           "d ${stateRoot}/${n} 0755 root root -"
           "d ${stateRoot}/${n}/var-lib 0755 root root -"
+          "d ${storeDir n} 0755 root root -"
         ]
         ++ lib.optional c.persistentHome "d ${c.homePath} 0755 root root -")
       cfg.containers);
@@ -512,10 +525,26 @@
             '';
           };
         }
+        // lib.mapAttrs' (n: _: let
+          top = guests.${n}.config.system.build.toplevel;
+        in
+          lib.nameValuePair "streaming-populate-${n}" {
+            description = "Populate /nix/store for streaming container ${n}";
+            after = ["local-fs.target"];
+            before = ["podman-${cname n}.service"];
+            requiredBy = ["podman-${cname n}.service"];
+            path = [pkgs.nix];
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
+            };
+            script = copyStore n top;
+          })
+        cfg.containers
         // lib.mapAttrs' (n: _:
           lib.nameValuePair "podman-${cname n}" {
-            after = ["streaming-network.service"];
-            requires = ["streaming-network.service"];
+            after = ["streaming-network.service" "streaming-populate-${n}.service"];
+            requires = ["streaming-network.service" "streaming-populate-${n}.service"];
             # Runs on every (re)start, so rotated secrets are picked up.
             preStart = copySecrets n;
           })
