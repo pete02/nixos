@@ -108,6 +108,7 @@
       services.dbus.implementation = "dbus";
       services.nscd.enable = false;
       system.nssModules = lib.mkForce [];
+      security.rtkit.enable = lib.mkForce false;
 
       environment.etc = {
         "hosts".enable = lib.mkForce false;
