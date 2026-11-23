@@ -1,5 +1,4 @@
-<<< /nix/var/nix/profiles/system-23-link
->>> /nix/var/nix/profiles/system-24-link
-Added packages:
-[A+]  #1  cifs-utils  7.9-bin, 7.9-man
-Closure size: 1874 -> 1876 (25 paths added, 23 paths removed, delta +2, disk usage +309.9KiB).
+<<< /nix/var/nix/profiles/system-24-link
+>>> /nix/var/nix/profiles/system-25-link
+No version or selection state changes.
+Closure size: 1876 -> 1876 (3 paths added, 3 paths removed, delta +0, disk usage +79.5KiB).
