@@ -1,9 +1,4 @@
-<<< /nix/var/nix/profiles/system-36-link
->>> /nix/var/nix/profiles/system-37-link
-Version changes:
-[C.]  #1  X-Restart-Triggers-resolvconf        <none> x2 -> <none>
-[C.]  #2  unit-network-local-commands.service  <none> x2 -> <none>
-[C.]  #3  unit-resolvconf.service              <none> x2 -> <none>
-Added packages:
-[A.]  #1  unit-network-local-commands.service-disabled  <none>
-Closure size: 2812 -> 2810 (28 paths added, 30 paths removed, delta -2, disk usage -97.2KiB).
+<<< /nix/var/nix/profiles/system-37-link
+>>> /nix/var/nix/profiles/system-38-link
+No version or selection state changes.
+Closure size: 2810 -> 2810 (7 paths added, 7 paths removed, delta +0, disk usage +344B).
