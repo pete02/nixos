@@ -112,6 +112,8 @@
       services.nscd.enable = false;
       system.nssModules = lib.mkForce [];
       security.rtkit.enable = lib.mkForce false;
+      networking.resolvconf.enable = false;
+      environment.etc."resolv.conf".enable = lib.mkForce false;
 
       environment.etc = {
         "hosts".enable = lib.mkForce false;
