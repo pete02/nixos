@@ -84,7 +84,10 @@
     in {
       boot.isContainer = true;
       hostname = name;
-      streaming.sunshine.address = lib.mkDefault c.ip;
+      streaming.sunshine={
+        address = lib.mkDefault c.ip;
+        enable = true;
+      };
       # Host NVIDIA userspace for system services and for the user manager.
       systemd.globalEnvironment = env;
       systemd.user.settings.Manager = {
