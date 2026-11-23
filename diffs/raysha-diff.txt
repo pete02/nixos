@@ -1,9 +1,4 @@
-<<< /nix/var/nix/profiles/system-38-link
->>> /nix/var/nix/profiles/system-39-link
-Version changes:
-[C.]  #1  fc                    00-nixos-cache.conf x2, 10-nixos-rendering.conf, 52-nixos-default-fonts.conf, 53-nixos-reject-type1.conf, 53-no-bitmaps.conf, 53-user-aliases.conf -> 00-nixos-cache.conf x2, 10-nixos-rendering.conf, 52-nixos-default-fonts.conf x2, 53-nixos-reject-type1.conf, 53-no-bitmaps.conf, 53-user-aliases.conf
-[C.]  #2  graphics-driver.conf  <none> x2 -> <none>
-[C.]  #3  graphics-drivers      <none> x2, 32bit x2 -> <none>, 32bit
-Added packages:
-[A.]  #1  nerd-fonts-jetbrains-mono  3.5.0+2.304
-Closure size: 2810 -> 2809 (36 paths added, 37 paths removed, delta -1, disk usage +228.7MiB).
+<<< /nix/var/nix/profiles/system-39-link
+>>> /nix/var/nix/profiles/system-40-link
+No version or selection state changes.
+Closure size: 2809 -> 2809 (7 paths added, 7 paths removed, delta +0, disk usage +544B).
