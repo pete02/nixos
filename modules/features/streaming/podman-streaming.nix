@@ -84,7 +84,7 @@
     in {
       boot.isContainer = true;
       hostname = name;
-      streaming.sunshine={
+      streaming.sunshine = {
         address = lib.mkDefault c.ip;
         enable = true;
       };

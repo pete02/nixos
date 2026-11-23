@@ -27,6 +27,8 @@
   nixos-management.gitops.enable = true;
   common-tools.books = true;
   ssh.server.passwordlogin = true;
+  samba.clients.server.enable = true;
+  samba.clients.timelock.enable = true;
 
   desktop.desktop = "talia";
   desktop.monitors = [
