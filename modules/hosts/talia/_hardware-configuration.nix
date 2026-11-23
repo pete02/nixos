@@ -17,7 +17,6 @@
   boot.loader.timeout = 0;
   boot.kernelParams = [
     "8250.nr_uarts=0"
-    "i915.enable_psr=0"
   ];
 
   fileSystems."/" = {

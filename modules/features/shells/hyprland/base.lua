@@ -12,7 +12,7 @@ hl.config({
         direct_scanout = 0
         cm_enabled = 0
         send_content_type = 0
-    }
+    },
 
     decoration = {
         rounding = 10,
