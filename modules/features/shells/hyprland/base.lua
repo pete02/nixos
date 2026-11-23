@@ -9,9 +9,9 @@ hl.config({
         layout = "dwindle",
     },
     render {
-        direct_scanout = 0
-        cm_enabled = 0
-        send_content_type = 0
+        direct_scanout = 0,
+        cm_enabled = 0,
+        send_content_type = 0,
     },
 
     decoration = {
