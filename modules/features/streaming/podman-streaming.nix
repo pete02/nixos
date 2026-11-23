@@ -156,7 +156,7 @@
     in ''
       install -d -m 0755 ${lib.escapeShellArg dir} ${lib.escapeShellArg workDir}
       ${pkgs.nix}/bin/nix copy \
-        --from /nix/store \
+        --from / \
         --to ${lib.escapeShellArg "local?real=${dir}&state=${workDir}/state&log=${workDir}/log"} \
         --no-check-sigs \
         ${lib.escapeShellArg "${top}"}
