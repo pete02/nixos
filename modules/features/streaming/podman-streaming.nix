@@ -101,7 +101,6 @@
       # ids, so they must be known at eval time (an auto-allocated uid is not).
       # 1000 is what the first normal user already gets, so existing /home
       # and /var/lib state keep matching.
-      systemd.units."run-wrappers.mount".enable = lib.mkForce false;
       systemd.oomd.enable = false;
       services.dbus.implementation = "dbus";
       services.nscd.enable = false;
