@@ -53,7 +53,7 @@
       (lib.mkIf (!cfg.podman.enable) {
         virtualisation.docker = {
           enable = true;
-          enableOnBoot= config.dev.enableOnBoot;
+          enableOnBoot = config.dev.enableOnBoot;
           daemon.settings = {
             features.cdi = true;
             registry-mirrors = ["http://aria.local:5001"];

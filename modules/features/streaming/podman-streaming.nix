@@ -105,7 +105,6 @@
       systemd.oomd.enable = false;
       services.dbus.implementation = "dbus";
 
-
       environment.etc = {
         "hosts".enable = lib.mkForce false;
         "hostname".enable = lib.mkForce false;
@@ -435,18 +434,18 @@
         })
         cfg.containers
         ++ lib.flatten (lib.mapAttrsToList (n: _: let
-          g = guests.${n}.config.sops;
-        in [
-          {
-            assertion = g.templates == {};
-            message = "streaming.podman.containers.${n}: sops.templates are not supported in containers (host-decrypted secrets only).";
-          }
-          {
-            assertion = lib.all (s: !s.neededForUsers) (lib.attrValues g.secrets);
-            message = "streaming.podman.containers.${n}: neededForUsers secrets are not supported in containers.";
-          }
-        ])
-        cfg.containers);
+            g = guests.${n}.config.sops;
+          in [
+            {
+              assertion = g.templates == {};
+              message = "streaming.podman.containers.${n}: sops.templates are not supported in containers (host-decrypted secrets only).";
+            }
+            {
+              assertion = lib.all (s: !s.neededForUsers) (lib.attrValues g.secrets);
+              message = "streaming.podman.containers.${n}: neededForUsers secrets are not supported in containers.";
+            }
+          ])
+          cfg.containers);
 
       # The host decrypts exactly the secrets each guest declares (root-only
       # on the host); copySecrets hands them to the container.
