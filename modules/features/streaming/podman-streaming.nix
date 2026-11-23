@@ -161,7 +161,8 @@
         --from / \
         --to ${lib.escapeShellArg "local?real=${dir}&state=${workDir}/state&log=${workDir}/log"} \
         --no-check-sigs \
-        ${lib.escapeShellArg "${top}"}
+        ${lib.escapeShellArg "${top}"} \
+        "$(readlink -f /run/opengl-driver)"
     '';
     # Host-side directory holding a container's decrypted secrets.
     secretsDir = n: "/run/streaming-secrets/${n}";
