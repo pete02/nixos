@@ -8,7 +8,7 @@ hl.config({
         allow_tearing = false,
         layout = "dwindle",
     },
-    render {
+    render = {
         direct_scanout = 0,
         cm_enabled = 0,
         send_content_type = 0,
