@@ -104,6 +104,8 @@
       systemd.units."run-wrappers.mount".enable = lib.mkForce false;
       systemd.oomd.enable = false;
       services.dbus.implementation = "dbus";
+      services.nscd.enable = false;
+      system.nssModules = lib.mkForce [];
 
       environment.etc = {
         "hosts".enable = lib.mkForce false;

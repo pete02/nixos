@@ -55,6 +55,20 @@ in {
             hl.exec_cmd("hyprctl dispatch workspace 1")
           end)
         '';
+        extraWayleConfig = ''
+          [[bar.layout]]
+          monitor = "*"
+          right = [
+            "volume",
+            "netstat",
+            "clock",
+            "systray",
+            "notifications",
+            "network",
+            "bluetooth",
+            "battery",
+          ]
+        '';
       };
     };
 
