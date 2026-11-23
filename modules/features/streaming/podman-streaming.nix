@@ -59,7 +59,7 @@
   }: let
     cfg = config.streaming.podman;
     inherit (lib) mkOption mkEnableOption types;
-
+    hostConfig = config;
     stateRoot = "/var/lib/streaming";
     system = pkgs.stdenv.hostPlatform.system;
 
@@ -103,6 +103,15 @@
         extraGroups = lib.attrNames c.hostGroupIds;
         uid = lib.mkDefault 1000;
       };
+      hardware.graphics = {
+        enable = true;
+        enable32Bit = hostConfig.hardware.graphics.enable32Bit;
+        # includes nvidia_x11 (and its lib32) because the host's nvidia module adds them
+        extraPackages = hostConfig.hardware.graphics.extraPackages;
+        extraPackages32 = hostConfig.hardware.graphics.extraPackages32;
+      };
+      fonts.packages = [pkgs.nerd-fonts.jetbrains-mono];  # or whichever mono font you use on the host
+      fonts.fontconfig.defaultFonts.monospace = ["JetBrainsMono Nerd Font"];
       # Pin the desktop user's uid. The host copies secrets in with numeric
       # ids, so they must be known at eval time (an auto-allocated uid is not).
       # 1000 is what the first normal user already gets, so existing /home
