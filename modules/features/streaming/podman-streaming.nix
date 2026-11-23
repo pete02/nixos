@@ -153,11 +153,10 @@
     copyStore = n: top: ''
       ${pkgs.nix}/bin/nix copy \
         --from /nix/store \
-        --to ${lib.escapeShellArg "local?root=${stateRoot}/${n}"} \
+        --to ${lib.escapeShellArg "local?root=${storeDir n}"} \
         --no-check-sigs \
         ${lib.escapeShellArg "${top}"}
     '';
-
     # Host-side directory holding a container's decrypted secrets.
     secretsDir = n: "/run/streaming-secrets/${n}";
 
