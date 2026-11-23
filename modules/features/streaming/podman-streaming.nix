@@ -149,15 +149,14 @@
     # toplevel from here.
     guests = lib.mapAttrs mkSystem cfg.containers;
 
-    storeDir = n: "${stateRoot}/${n}/nix-store";
     # Populate the container's dedicated /nix/store from the host's store.
-copyStore = n: top: ''
-      ${pkgs.nix}/bin/nix copy \
-        --from /nix/store \
-        --to ${lib.escapeShellArg "local?root=${stateRoot}/${n}"} \
-        --no-check-sigs \
-        ${lib.escapeShellArg "${top}"}
-    '';
+    copyStore = n: top: ''
+          ${pkgs.nix}/bin/nix copy \
+            --from /nix/store \
+            --to ${lib.escapeShellArg "local?root=${stateRoot}/${n}"} \
+            --no-check-sigs \
+            ${lib.escapeShellArg "${top}"}
+        '';
 
     # Host-side directory holding a container's decrypted secrets.
     secretsDir = n: "/run/streaming-secrets/${n}";
