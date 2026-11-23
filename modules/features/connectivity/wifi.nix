@@ -46,6 +46,10 @@
       sops.templates."wifi-env".content = ''
         WIFI_PSK=${config.sops.placeholder."wifi/psk"}
       '';
+      hardware.wirelessRegulatoryDatabase = true;
+      boot.extraModprobeConfig = ''
+        options cfg80211 ieee80211_regdom="FI"
+      '';
 
       networking.networkmanager.wifi.powersave = false;
       networking.networkmanager.ensureProfiles = {
