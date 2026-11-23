@@ -110,7 +110,7 @@
         extraPackages = hostConfig.hardware.graphics.extraPackages;
         extraPackages32 = hostConfig.hardware.graphics.extraPackages32;
       };
-      fonts.packages = [pkgs.nerd-fonts.jetbrains-mono];  # or whichever mono font you use on the host
+      fonts.packages = [pkgs.nerd-fonts.jetbrains-mono]; # or whichever mono font you use on the host
       fonts.fontconfig.defaultFonts.monospace = ["JetBrainsMono Nerd Font"];
       # Pin the desktop user's uid. The host copies secrets in with numeric
       # ids, so they must be known at eval time (an auto-allocated uid is not).
