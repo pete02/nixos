@@ -17,9 +17,9 @@
   };
 
   nixbuilder.cache.client.enable = true;
-  dev={
+  dev = {
     enable = true;
-    ld=true;
+    ld = true;
   };
   connectivity = {
     bluetooth = true;
