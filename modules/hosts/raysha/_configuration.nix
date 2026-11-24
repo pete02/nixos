@@ -49,7 +49,7 @@
       };
     };
   };
-  networking.firewall.allowedTCPPorts = [ 8080 ];
+  networking.firewall.allowedTCPPorts = [8080];
 
   environment.systemPackages = with pkgs; [
     kitty.terminfo
