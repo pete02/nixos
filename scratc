@@ -1,9 +1,1 @@
-sed \
-  -e 's|@NTFY_SUCCESS_URL@|https://ntfy.lumilukko.com/upgrade-Eris|' \
-  -e 's|@NTFY_FAILURE_URL@|https://ntfy.lumilukko.com/failure-Eris|' \
-  -e 's|@REPO_URL@|ssh://git@git.lumilukko.com:2222/pete/nixos.git|' \
-  -e 's|@CACHE_URL@|http://192.168.88.241:8080/main|' \
-  gitops.sh > /tmp/gitops-test.sh
-chmod +x /tmp/gitops-test.sh
-sudo PATH="$PATH" /tmp/gitops-test.sh --check
-sudo /tmp/gitops-test.sh
+/run/current-system/sw/bin/hyprctl eval 'hl.monitor({ output = "desk-1", disabled = false })'

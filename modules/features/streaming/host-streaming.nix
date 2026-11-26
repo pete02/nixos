@@ -1,3 +1,4 @@
+
 {self, ...}: {
   # Sunshine streaming, in two modes:
   #
@@ -53,32 +54,84 @@
         wantedBy = ["default.target"];
         after = ["hyprland-session.service" "pipewire-pulse.service"];
         wants = ["pipewire-pulse.service"];
+
         # hyprctl, pactl and friends: the system profile plus jq/pactl.
         path = [config.system.path pkgs.jq pkgs.pulseaudio];
+
         environment.WAYLAND_DISPLAY = "wayland-1";
+
         serviceConfig = {
           Restart = "always";
           RestartSec = 2;
         };
+
         script = ''
-          export HYPRLAND_INSTANCE_SIGNATURE=$(ls "$XDG_RUNTIME_DIR/hypr" | head -n1)
+          set -eu
 
-          # wait for the compositor and for this output to exist
+          : "''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is not set}"
+
+          # Wait for the compositor's Wayland socket.
+          wayland_socket="$XDG_RUNTIME_DIR/wayland-1"
+
           for _ in $(seq 1 150); do
-            [ -S "$XDG_RUNTIME_DIR/wayland-1" ] && break
+            if [ -S "$wayland_socket" ]; then
+              break
+            fi
             sleep 0.2
           done
+
+          if [ ! -S "$wayland_socket" ]; then
+            echo "Hyprland Wayland socket did not appear: $wayland_socket" >&2
+            exit 1
+          fi
+
+          # Discover the running Hyprland instance.
           for _ in $(seq 1 150); do
-            hyprctl -j monitors all | jq -e --arg n ${lib.escapeShellArg i.output} 'any(.[]; .name == $n)' >/dev/null && break
+            for instance in "$XDG_RUNTIME_DIR"/hypr/*; do
+              if [ -d "$instance" ]; then
+                export HYPRLAND_INSTANCE_SIGNATURE="''${instance##*/}"
+                break 2
+              fi
+            done
             sleep 0.2
           done
 
+          if [ -z "''${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
+            echo "Hyprland instance not found in $XDG_RUNTIME_DIR/hypr" >&2
+            exit 1
+          fi
+
+          # Wait for this output to exist.
+          output_found=false
+
+          for _ in $(seq 1 150); do
+            if hyprctl -j monitors all |
+              jq -e --arg n ${lib.escapeShellArg i.output} \
+                'any(.[]; .name == $n)' >/dev/null; then
+              output_found=true
+              break
+            fi
+            sleep 0.2
+          done
+
+          if [ "$output_found" != true ]; then
+            echo "Hyprland output not found: ${i.output}" >&2
+            exit 1
+          fi
+
+          # Resolve the output index Sunshine expects.
           idx=$(${cfg.outputIndexCommand i.output})
+
+          if [ -z "$idx" ] || [ "$idx" = null ]; then
+            echo "Could not determine Sunshine output index for ${i.output}" >&2
+            exit 1
+          fi
 
           pactl load-module module-null-sink sink_name=sunshine-${i.n} >/dev/null || true
           ${lib.optionalString (i.n == "1") "pactl set-default-sink sunshine-1"}
 
           { cat ${staticConf i}; echo "output_name = $idx"; } > ${stateRoot}/${i.n}/sunshine.conf
+
           exec ${cfg.package}/bin/sunshine ${stateRoot}/${i.n}/sunshine.conf
         '';
       };
@@ -92,7 +145,7 @@
           if config.boot.isContainer
           then "headless"
           else "host";
-        description = "host: capture the real display. headless: one instance per headless output.";
+        description = "host: capture the real display. headless: one Sunshine instance per headless output.";
       };
 
       package = lib.mkOption {

@@ -34,8 +34,6 @@
         settings = {
           General = {
             Country = "FI";
-            Rank.BandModifier6GHz = 2.0;
-
           };
         };
       };
@@ -74,8 +72,7 @@
             ipv4.method = "auto";
             ipv6.method = "auto";
           };
-        };
-        home-wifi-6ghz = {
+            home-wifi-6ghz = {
             connection = {
               id = "home-wifi";
               type = "wifi";
@@ -93,6 +90,7 @@
             ipv4.method = "auto";
             ipv6.method = "auto";
           };
+        };
       };
     };
   };
