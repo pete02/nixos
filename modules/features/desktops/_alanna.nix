@@ -56,7 +56,7 @@ in {
 
     environment.systemPackages = [
       tv-ui-app
-      pkgs.moonlight-qt
+      self.inputs.nixos-raspberrypi.moonlight-qt
       vacuum-tube
       pkgs.blueman
     ];
