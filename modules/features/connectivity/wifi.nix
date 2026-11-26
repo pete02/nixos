@@ -34,6 +34,8 @@
         settings = {
           General = {
             Country = "FI";
+            Rank.BandModifier6GHz = 2.0;
+
           };
         };
       };
@@ -66,13 +68,31 @@
               ssid = config.connectivity.wifi.Ssid;
             };
             wifi-security = {
-              key-mgmt = "wpa-psk sae";
+              key-mgmt = "wpa-psk";
               psk = "$WIFI_PSK";
             };
             ipv4.method = "auto";
             ipv6.method = "auto";
           };
         };
+        home-wifi-6ghz = {
+            connection = {
+              id = "home-wifi";
+              type = "wifi";
+              autoconnect = true;
+            };
+            wifi = {
+              mode = "infrastructure";
+              ssid = config.connectivity.wifi.Ssid;
+            };
+            wifi-security = {
+              key-mgmt = "sae";
+              pmf = "required";
+              psk = "$WIFI_PSK";
+            };
+            ipv4.method = "auto";
+            ipv6.method = "auto";
+          };
       };
     };
   };
