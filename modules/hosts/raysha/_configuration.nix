@@ -48,6 +48,10 @@
             output = "desk-1";
             mode = "3440x1440@175";
           }
+          {
+            output = "tv-1";
+            mode = "3840x2160@60"; # or @120 if the TV and its Moonlight client support it
+          }
         ];
       };
     };
