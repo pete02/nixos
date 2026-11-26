@@ -29,6 +29,6 @@
   ssh.client.enable = true;
   environment.systemPackages = with pkgs; [
     kitty.terminfo
-    v4l2-ctl
+    v4l-utils
   ];
 }
