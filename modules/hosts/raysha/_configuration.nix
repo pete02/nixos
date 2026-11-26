@@ -51,6 +51,7 @@
           {
             output = "tv-1";
             mode = "3840x2160@60"; # or @120 if the TV and its Moonlight client support it
+            position = "3440x0";
           }
         ];
       };
