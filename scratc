@@ -1,1 +1,1 @@
-/run/current-system/sw/bin/hyprctl eval 'hl.monitor({ output = "desk-1", disabled = false })'
+sh -c 'export XDG_RUNTIME_DIR=/run/user/1000 PATH=/etc/profiles/per-user/pete/bin:/run/current-system/sw/bin; for d in /run/user/1000/hypr/*; do HYPRLAND_INSTANCE_SIGNATURE=${d##*/}; break; done; export HYPRLAND_INSTANCE_SIGNATURE; hyprctl eval "hl.monitor({ output = \"desk-1\", disabled = true })"'

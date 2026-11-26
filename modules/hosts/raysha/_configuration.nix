@@ -38,6 +38,7 @@
     containers.raysha = {
       ip = "192.168.88.3";
       persistentHome = true;
+      exclusiveOutputs = true;
       homePath = "/var/lib/pete";
       config = {
         system.stateVersion = "26.05";

@@ -32,7 +32,42 @@
       })
       cfg.outputs;
 
-    staticConf = i:
+    mkToggleMonitorScript = targetOutput: disabled: let
+      stateWord = if disabled then "off" else "on";
+      boolLiteral = if disabled then "true" else "false";
+    in
+      pkgs.writeShellScript "sunshine-monitor-${targetOutput}-${stateWord}" ''
+        set -eu
+
+        : "''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is not set}"
+        export PATH="/etc/profiles/per-user/${config.username}/bin:/run/current-system/sw/bin:$PATH"
+
+        sig=""
+        for d in "$XDG_RUNTIME_DIR"/hypr/*; do
+          [ -d "$d" ] || continue
+          sig="''${d##*/}"
+          break
+        done
+
+        [ -n "$sig" ] || exit 1
+        export HYPRLAND_INSTANCE_SIGNATURE="$sig"
+
+        hyprctl eval 'hl.monitor({ output = "${targetOutput}", disabled = ${boolLiteral} })'
+      '';
+
+    prepCmdsForInstance = i:
+      lib.optionals cfg.exclusiveOutputs (
+        map (otherOut: {
+          do = toString (mkToggleMonitorScript otherOut true);
+          undo = toString (mkToggleMonitorScript otherOut false);
+          elevated = false;
+        })
+        (lib.filter (out: out != i.output) cfg.outputs)
+      );
+
+    staticConf = i: let
+      prepCmds = prepCmdsForInstance i;
+    in
       pkgs.writeText "sunshine-${i.n}.conf" (toConf (cfg.settings
         // {
           sunshine_name = "${config.hostname}-${i.n}";
@@ -45,6 +80,9 @@
         }
         // lib.optionalAttrs (cfg.address != null) {
           csrf_allowed_origins = "https://${cfg.address}:${toString (i.port + 1)}";
+        }
+        // lib.optionalAttrs (prepCmds != []) {
+          global_prep_cmd = builtins.toJSON prepCmds;
         }));
 
     mkInstance = i:
@@ -181,6 +219,16 @@
         default = map (m: m.output) config.desktop.monitors;
         defaultText = lib.literalExpression "map (m: m.output) config.desktop.monitors";
         description = "Headless outputs to stream, one Sunshine instance each.";
+      };
+
+      exclusiveOutputs = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          When true, each per-output Sunshine instance disables all other
+          configured outputs in `outputs` on stream start and re-enables them
+          on undo.
+        '';
       };
 
       basePort = lib.mkOption {

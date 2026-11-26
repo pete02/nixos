@@ -30,11 +30,15 @@
   #       ip = "192.168.88.2";
   #       persistentHome = true;
   #       homePath = "/mnt/server/desktops/aria";   # optional
+  #       exclusiveOutputs = true;
   #       config = {
   #         system.stateVersion = "26.05";
   #         username = "pete";
   #         desktop.desktop = "raysha";
-  #         desktop.monitors = [{ output = "desk-1"; mode = "3440x1440@175"; }];
+  #         desktop.monitors = [
+  #           { output = "desk-1"; mode = "3440x1440@175"; }
+  #           { output = "tv-1"; mode = "3840x2160@60"; }
+  #         ];
   #       };
   #     };
   #   };
@@ -89,6 +93,7 @@
       hostname = name;
       streaming.sunshine = {
         address = lib.mkDefault c.ip;
+        exclusiveOutputs = lib.mkDefault c.exclusiveOutputs;
         enable = true;
       };
       # Host NVIDIA userspace for system services and for the user manager.
@@ -341,6 +346,16 @@
           type = types.str;
           example = "192.168.88.2";
           description = "macvlan LAN address of the container.";
+        };
+
+        exclusiveOutputs = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            When true, each per-output Sunshine instance in this container
+            disables all other configured outputs on stream start and
+            re-enables them on undo.
+          '';
         };
 
         modules = mkOption {
