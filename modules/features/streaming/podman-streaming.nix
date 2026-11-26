@@ -229,6 +229,7 @@
       image = pkgs.dockerTools.streamLayeredImage {
         name = cname name;
         tag = "latest";
+        includeStorePaths = false;
         config.Entrypoint = ["${top}/init"];
       };
     in {
