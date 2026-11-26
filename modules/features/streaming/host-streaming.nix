@@ -33,8 +33,14 @@
       cfg.outputs;
 
     mkToggleMonitorScript = targetOutput: disabled: let
-      stateWord = if disabled then "off" else "on";
-      boolLiteral = if disabled then "true" else "false";
+      stateWord =
+        if disabled
+        then "off"
+        else "on";
+      boolLiteral =
+        if disabled
+        then "true"
+        else "false";
     in
       pkgs.writeShellScript "sunshine-monitor-${targetOutput}-${stateWord}" ''
         set -eu
