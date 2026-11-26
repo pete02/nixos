@@ -375,7 +375,7 @@
 
         drmCard = mkOption {
           type = types.str;
-          default = "/dev/dri/card1";
+          default = "/dev/dri/card0";
           description = "DRM card node of the NVIDIA GPU (see /dev/dri/by-path).";
         };
 
