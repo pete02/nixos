@@ -1,4 +1,3 @@
-
 {self, ...}: {
   # Sunshine streaming, in two modes:
   #
