@@ -44,7 +44,7 @@
         ./_raysha.nix
         ./_talia.nix
         ./_alanna.nix
-        ./_alanna_test.nix
+        ./_alanna-test.nix
       ]
       ++ (with self.nixosModules; [
         desktops-hdmi-cec
