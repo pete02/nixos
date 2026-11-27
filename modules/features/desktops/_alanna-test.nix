@@ -8,8 +8,7 @@
 }: let
   inherit (pkgs.stdenv.hostPlatform) system;
   tv-ui-app = self.packages.${system}.tv-ui-app;
-  vacuum-tube = self.packages.${system}.vacuum-tube;
-  shanocast = inputs.shanocast.packages.${system}.shanocast;
+  vacuum-tube = self.packages.${system}.vacuum-tube
   user = config.users.users.${config.username};
   tmdbSecret = "${config.hostname}/tmdb_api_key";
 in {
@@ -24,7 +23,6 @@ in {
       pkgs.moonlight-qt
       vacuum-tube
       pkgs.blueman
-      shanocast
     ];
 
     # Read by systemd as root, so no owner is needed.
@@ -39,33 +37,13 @@ in {
     # tv-ui's pointer websocket creates a uinput device
     hardware.uinput.enable = true;
     users.users.${config.username}.extraGroups = ["uinput"];
-
+    networking.firewall.allowedTCPPorts = [ 49494 ];
+    networking.firewall.allowedUDPPorts = [ 1900 ];
     # Sound
     services.pipewire = {
       enable = lib.mkDefault true;
       alsa.enable = lib.mkDefault true;
       pulse.enable = lib.mkDefault true;
-    };
-
-    networking.firewall.allowedTCPPorts = [ 8008 8009 8010 ];
-    networking.firewall.allowedUDPPortRanges = [
-      { from = 32768; to = 65535; }
-    ];
-
-    systemd.user.services.shanocast = {
-      description = "Shanocast Google Cast Receiver";
-      after = [ "graphical-session.target" "network-online.target" ];
-      wants = [ "network-online.target" ];
-      wantedBy = [ "graphical-session.target" ];
-      environment = {
-        SDL_VIDEODRIVER = "wayland";
-      };
-      serviceConfig = {
-        WorkingDirectory = "%h";
-        ExecStart = "${lib.getExe shanocast} -p /home/pete/generated_root_cast_receiver.key -d /home/pete/generated_root_cast_receiver.crt wlan0";
-        Restart = "on-failure";
-        RestartSec = 3;
-      };
     };
   };
 }
