@@ -37,13 +37,28 @@ in {
     # tv-ui's pointer websocket creates a uinput device
     hardware.uinput.enable = true;
     users.users.${config.username}.extraGroups = ["uinput"];
-    networking.firewall.allowedTCPPorts = [ 49494 ];
-    networking.firewall.allowedUDPPorts = [ 1900 ];
     # Sound
     services.pipewire = {
       enable = lib.mkDefault true;
       alsa.enable = lib.mkDefault true;
       pulse.enable = lib.mkDefault true;
     };
+    programs.fcast-receiver = {
+      enable = true;
+      openFirewall = true; # opens TCP 46899
+    };
+
+    # mDNS, so the phone can discover the Pi
+    networking.firewall.allowedUDPPorts = [ 5353 ];
+
+    # Start the receiver with the Plasma session
+    environment.etc."xdg/autostart/fcast-receiver-kiosk.desktop".source = let
+      item = pkgs.makeDesktopItem {
+        name = "fcast-receiver-kiosk";
+        desktopName = "FCast Receiver";
+        exec = lib.getExe config.programs.fcast-receiver.package;
+      };
+    in "${item}/share/applications/fcast-receiver-kiosk.desktop";
+    
   };
 }
