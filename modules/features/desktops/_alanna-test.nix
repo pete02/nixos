@@ -46,5 +46,21 @@ in {
       alsa.enable = lib.mkDefault true;
       pulse.enable = lib.mkDefault true;
     };
+    systemd.services.shanocast = {
+      description = "Shanocast Google Cast Receiver";
+      after = [ "network-online.target" "graphical-session.target" ];
+      wants = [ "network-online.target" ];
+      wantedBy = [ "multi-user.target" ];
+      environment = {
+        XDG_RUNTIME_DIR = "/run/user/${toString user.uid}";
+        WAYLAND_DISPLAY = "wayland-0";
+      };
+      serviceConfig = {
+        User = config.username;
+        ExecStart = "${lib.getExe shanocast} end0";
+        Restart = "on-failure";
+        RestartSec = 3;
+      };
+    };
   };
 }
