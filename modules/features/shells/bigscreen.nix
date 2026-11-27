@@ -66,33 +66,20 @@ in {
     ...
   }: let
     cfg = config.shells.plasma-bigscreen;
-
-    plasmaBigscreenPkg = self.mkPlasmaBigscreenPkg {
-      inherit pkgs;
-    };
   in {
     options.shells.plasma-bigscreen = {
       enable = lib.mkEnableOption "Plasma Bigscreen desktop";
-    };
+    };  
+    imports = [../../../packages/bigscreen/module.nix];
 
     config = lib.mkIf cfg.enable {
-      nixpkgs.overlays = [
-        (final: _prev: {
-          kdePackages =
-            inputs.nixpkgs.legacyPackages.${final.stdenv.hostPlatform.system}.kdePackages;
-        })
-      ];
-      environment.systemPackages = [
-        plasmaBigscreenPkg
-      ];
-
-      services.desktopManager.plasma6.enable = true;
+      programs.plasma-bigscreen.enable = true;
 
       displayManager = {
         enable = true;
         backend = "sddm";
         autoLogin = true;
-        sessionPackage = plasmaBigscreenPkg;
+        sessionPackage = config.programs.plasma-bigscreen.package;
         sessionName = "plasma-bigscreen-wayland";
       };
     };
