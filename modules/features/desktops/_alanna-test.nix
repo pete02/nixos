@@ -53,11 +53,11 @@ in {
       wantedBy = [ "multi-user.target" ];
       environment = {
         XDG_RUNTIME_DIR = "/run/user/${toString user.uid}";
-        WAYLAND_DISPLAY = "wayland-0";
+        WAYLAND_DISPLAY = "wayland-0"; # match the socket name found in /run/user/1000/
       };
       serviceConfig = {
         User = config.username;
-        ExecStart = "${lib.getExe shanocast} end0";
+        ExecStart = "${lib.getExe shanocast} wlan0";
         Restart = "on-failure";
         RestartSec = 3;
       };
