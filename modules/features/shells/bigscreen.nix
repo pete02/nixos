@@ -69,12 +69,13 @@ in {
   in {
     options.shells.plasma-bigscreen = {
       enable = lib.mkEnableOption "Plasma Bigscreen desktop";
+      enableKdeConnect = lib.mkEnableOption "Enable KDE connect";
     };  
     imports = [../../../packages/bigscreen/module.nix];
 
     config = lib.mkIf cfg.enable {
       programs.plasma-bigscreen.enable = true;
-
+      programs.kdeconnect.enable = cfg.enableKdeConnect;
       displayManager = {
         enable = true;
         backend = "sddm";

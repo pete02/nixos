@@ -16,6 +16,7 @@ in {
   # VacuumTube and Blueman, driven by the TV remote over HDMI-CEC.
   config = lib.mkIf (config.desktop.desktop == "alanna-test") {
     shells.plasma-bigscreen.enable = true;
+    shells.plasma-bigscreen.enableKdeConnect = true;
 
     environment.systemPackages = [
       tv-ui-app
