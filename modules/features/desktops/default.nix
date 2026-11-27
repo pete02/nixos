@@ -2,7 +2,7 @@
   flake.nixosModules.desktops = {lib, ...}: {
     options.desktop = {
       desktop = lib.mkOption {
-        type = lib.types.enum ["none" "raysha" "talia" "alanna"];
+        type = lib.types.enum ["none" "raysha" "talia" "alanna" "alanna-test"];
         default = "none";
         description = "Select the desktop.";
       };

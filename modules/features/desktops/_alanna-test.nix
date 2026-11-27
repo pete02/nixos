@@ -11,33 +11,6 @@
 
   user = config.users.users.${config.username};
   tmdbSecret = "${config.hostname}/tmdb_api_key";
-
-  # Entries shown in Pegasus
-  metadataFile = pkgs.writeText "applications.metadata.pegasus.txt" ''
-    collection: Applications
-    shortname: apps
-    launch: "{file.path}"
-
-    game: Moonlight
-    file: ${lib.getExe pkgs.moonlight-qt}
-    developer: Moonlight Game Streaming Project
-    genre: Streaming
-
-    game: TV UI
-    file: ${lib.getExe tv-ui-app}
-    developer: Local TV UI
-    genre: Applications
-
-    game: VacuumTube
-    file: ${lib.getExe vacuum-tube}
-    developer: VacuumTube
-    genre: Video
-
-    game: Bluetooth
-    file: ${lib.getExe' pkgs.blueman "blueman-manager"}
-    developer: Blueman
-    genre: Settings
-  '';
 in {
   # Living-room TV kiosk: Pegasus frontend in cage, launching Moonlight, tv-ui,
   # VacuumTube and Blueman, driven by the TV remote over HDMI-CEC.
@@ -63,11 +36,6 @@ in {
     # tv-ui's pointer websocket creates a uinput device
     hardware.uinput.enable = true;
     users.users.${config.username}.extraGroups = ["uinput"];
-
-    systemd.tmpfiles.rules = [
-      "d ${user.home}/.config/pegasus-frontend/metafiles 0755 ${config.username} ${user.group} - -"
-      "L+ ${user.home}/.config/pegasus-frontend/metafiles/applications.metadata.pegasus.txt - - - - ${metadataFile}"
-    ];
 
     # Sound
     services.pipewire = {

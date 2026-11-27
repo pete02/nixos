@@ -45,6 +45,8 @@
         ++ [
           plasmaBigscreenLauncher
         ];
+        
+      passthru.providedSessions = ["plasma-bigscreen-wayland"];
 
       meta = {
         description = "KDE Plasma Bigscreen session";
