@@ -9,6 +9,7 @@
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi";
     sops-nix.url = "github:Mic92/sops-nix";
+    shanocast.url ="github:rgerganov/shanocast";
   };
   inputs.vacuum-tube-src = {
     url = "github:shy1132/VacuumTube";
