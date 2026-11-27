@@ -45,7 +45,26 @@ in {
     };
     programs.fcast-receiver = {
       enable = true;
-      openFirewall = true; # opens TCP 46899
+      openFirewall = true;
+      package = pkgs.fcast-receiver.overrideAttrs (old: {
+        nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.makeWrapper ];
+        postFixup = (old.postFixup or "") + ''
+          wrapProgram $out/bin/fcast-receiver \
+            --prefix PATH : ${pkgs.lib.makeBinPath [
+              pkgs.mpv
+              pkgs.yt-dlp
+              pkgs.ffmpeg
+            ]} \
+            --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${pkgs.lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
+              pkgs.gst_all_1.gstreamer
+              pkgs.gst_all_1.gst-plugins-base
+              pkgs.gst_all_1.gst-plugins-good
+              pkgs.gst_all_1.gst-plugins-bad
+              pkgs.gst_all_1.gst-plugins-ugly
+              pkgs.gst_all_1.gst-libav
+            ]}"
+        '';
+      });
     };
 
     # mDNS, so the phone can discover the Pi
