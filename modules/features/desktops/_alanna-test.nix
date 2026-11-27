@@ -46,11 +46,20 @@ in {
       alsa.enable = lib.mkDefault true;
       pulse.enable = lib.mkDefault true;
     };
+
+    networking.firewall.allowedTCPPorts = [ 8008 8009 8010 ];
+    networking.firewall.allowedUDPPortRanges = [
+      { from = 32768; to = 65535; }
+    ];
+
     systemd.user.services.shanocast = {
       description = "Shanocast Google Cast Receiver";
       after = [ "graphical-session.target" "network-online.target" ];
       wants = [ "network-online.target" ];
       wantedBy = [ "graphical-session.target" ];
+      environment = {
+        SDL_VIDEODRIVER = "wayland";
+      };
       serviceConfig = {
         WorkingDirectory = "%h";
         ExecStart = "${lib.getExe shanocast} wlan0";
