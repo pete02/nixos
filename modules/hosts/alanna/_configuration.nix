@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   system.stateVersion = "26.05";
   username = "pete";
-  desktop.desktop = "alanna";
+  desktop.desktop = "alanna-test";
 
   nixbuilder = {
     cache.client = {
