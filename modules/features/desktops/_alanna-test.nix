@@ -11,6 +11,60 @@
   vacuum-tube = self.packages.${system}.vacuum-tube;
   user = config.users.users.${config.username};
   tmdbSecret = "${config.hostname}/tmdb_api_key";
+  phoneMac = "ae:5b:21:48:c8:04";
+
+  screencastLaunch = pkgs.writeShellApplication {
+    name = "screencast-tv";
+    runtimeInputs = with pkgs; [
+      chromium
+      iproute2
+      iputils
+      gnugrep
+      gawk
+      libnotify
+    ];
+    text = ''
+      mac="${phoneMac}"
+
+      find_ip() {
+        ip neigh | awk -v m="$mac" 'tolower($5) == tolower(m) && $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ { print $1; exit }'
+      }
+
+      phone_ip="$(find_ip || true)"
+
+      # If not in neighbor table yet, send brief ARP/ping probes across 192.168.88.0/24
+      if [ -z "$phone_ip" ]; then
+        for i in $(seq 1 254); do
+          ping -c 1 -W 1 "192.168.88.$i" >/dev/null 2>&1 &
+        done
+        wait
+        phone_ip="$(find_ip || true)"
+      fi
+
+      if [ -z "$phone_ip" ]; then
+        notify-send "ScreenCast" "Could not find phone ($mac) on 192.168.88.x" || true
+        echo "Could not find IP for MAC $mac" >&2
+        exit 1
+      fi
+
+      exec chromium \
+        --kiosk \
+        --no-first-run \
+        --disable-session-crashed-bubble \
+        "http://$phone_ip:8080/"
+    '';
+  };
+
+  screencastDesktopItem = pkgs.makeDesktopItem {
+    name = "screencast-tv";
+    desktopName = "Phone ScreenCast";
+    genericName = "Screen Mirroring";
+    comment = "Find phone IP and open ScreenCast stream in kiosk mode";
+    exec = lib.getExe screencastLaunch;
+    icon = "video-display";
+    categories = ["AudioVideo" "Video" "Network"];
+    terminal = false;
+  };
 in {
   # Living-room TV kiosk: Pegasus frontend in cage, launching Moonlight, tv-ui,
   # VacuumTube and Blueman, driven by the TV remote over HDMI-CEC.
@@ -22,7 +76,10 @@ in {
       tv-ui-app
       pkgs.moonlight-qt
       vacuum-tube
+      pkgs.chromium
       pkgs.blueman
+      screencastLaunch
+      screencastDesktopItem
     ];
 
     # Read by systemd as root, so no owner is needed.
@@ -37,34 +94,12 @@ in {
     # tv-ui's pointer websocket creates a uinput device
     hardware.uinput.enable = true;
     users.users.${config.username}.extraGroups = ["uinput"];
+
     # Sound
     services.pipewire = {
       enable = lib.mkDefault true;
       alsa.enable = lib.mkDefault true;
       pulse.enable = lib.mkDefault true;
-    };
-    programs.fcast-receiver = {
-      enable = true;
-      openFirewall = true;
-      package = pkgs.fcast-receiver.overrideAttrs (old: {
-        nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.makeWrapper ];
-        postFixup = (old.postFixup or "") + ''
-          wrapProgram $out/bin/fcast-receiver \
-            --prefix PATH : ${pkgs.lib.makeBinPath [
-              pkgs.mpv
-              pkgs.yt-dlp
-              pkgs.ffmpeg
-            ]} \
-            --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${pkgs.lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
-              pkgs.gst_all_1.gstreamer
-              pkgs.gst_all_1.gst-plugins-base
-              pkgs.gst_all_1.gst-plugins-good
-              pkgs.gst_all_1.gst-plugins-bad
-              pkgs.gst_all_1.gst-plugins-ugly
-              pkgs.gst_all_1.gst-libav
-            ]}"
-        '';
-      });
     };
 
     # mDNS, so the phone can discover the Pi
@@ -78,6 +113,5 @@ in {
         exec = lib.getExe config.programs.fcast-receiver.package;
       };
     in "${item}/share/applications/fcast-receiver-kiosk.desktop";
-    
   };
 }
