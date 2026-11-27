@@ -62,7 +62,7 @@ in {
       };
       serviceConfig = {
         WorkingDirectory = "%h";
-        ExecStart = "${lib.getExe shanocast} wlan0";
+        ExecStart = "${lib.getExe shanocast} -p /home/pete/generated_root_cast_receiver.key -d /home/pete/generated_root_cast_receiver.crt wlan0";
         Restart = "on-failure";
         RestartSec = 3;
       };
