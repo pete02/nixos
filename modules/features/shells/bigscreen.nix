@@ -45,7 +45,7 @@
         ++ [
           plasmaBigscreenLauncher
         ];
-        
+
       passthru.providedSessions = ["plasma-bigscreen-wayland"];
 
       meta = {
@@ -76,6 +76,12 @@ in {
     };
 
     config = lib.mkIf cfg.enable {
+      nixpkgs.overlays = [
+        (final: _prev: {
+          kdePackages =
+            inputs.nixpkgs.legacyPackages.${final.stdenv.hostPlatform.system}.kdePackages;
+        })
+      ];
       environment.systemPackages = [
         plasmaBigscreenPkg
       ];
