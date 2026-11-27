@@ -178,6 +178,7 @@ jobs:
             --out-link /nix/var/nix/gcroots/ci-${HOST} \
             --accept-flake-config \
             --print-out-paths \
+            --show-trace \
             ".#nixosConfigurations.${HOST}.config.system.build.toplevel" \
             > /tmp/out-paths
 

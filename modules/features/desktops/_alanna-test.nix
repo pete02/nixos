@@ -9,8 +9,7 @@
   inherit (pkgs.stdenv.hostPlatform) system;
   tv-ui-app = self.packages.${system}.tv-ui-app;
   vacuum-tube = self.packages.${system}.vacuum-tube;
-  shanocast = self.packages.${system}.shanocast;
-
+  shanocast = inputs.shanocast.packages.${system}.shanocast;
   user = config.users.users.${config.username};
   tmdbSecret = "${config.hostname}/tmdb_api_key";
 in {
