@@ -16,7 +16,7 @@
     fsType = "ext4";
     options = ["noatime"];
   };
-
+  powerManagement.cpuFreqGovernor = "performance";
   fileSystems."/boot/firmware" = {
     device = "/dev/disk/by-label/FIRMWARE";
     fsType = "vfat";
