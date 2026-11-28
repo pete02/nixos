@@ -74,7 +74,7 @@ in {
 
     environment.systemPackages = [
       tv-ui-app
-      pkgs.moonlight-qt
+      inputs.nixos-raspberrypi.legacyPackages.${system}.moonlight-qt
       vacuum-tube
       pkgs.chromium
       pkgs.blueman
